@@ -1,0 +1,39 @@
+{
+  "name": "@woifes/binarytypes",
+  "version": "1.0.0",
+  "description": "Handling of binary datatypes",
+  "private": true,
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "jest",
+    "compile": "tsc -p tsconfig.build.json",
+    "prettier": "prettier -w ./src/**/*.ts ./test/**/*.ts ./index.ts",
+    "lint": "npx eslint ./src/ ./index.ts ./test/ --fix",
+    "lint:check": "npx eslint ./src/ ./index.ts ./test/",
+    "prepare": "npm run compile"
+  },
+  "keywords": [
+    "Binary",
+    "Integer",
+    "binary",
+    "INT8",
+    "UINT8",
+    "INT16",
+    "UINT16",
+    "INT32",
+    "UINT32",
+    "INT64",
+    "UINT64",
+    "FLOAT",
+    "DOUBLE"
+  ],
+  "author": "woifes",
+  "license": "MIT",
+  "dependencies": {
+    "runtypes": "^6.5.1"
+  }
+}

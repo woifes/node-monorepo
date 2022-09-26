@@ -1,0 +1,31 @@
+{
+    "folders": [
+        { "path": "../packages/binarytypes" },
+
+        { "path": "../", "name": "_root_" },
+    ],
+    "settings": {
+        "[typescript]": {
+            "editor.codeActionsOnSave": {
+                "source.organizeImports": true,
+            },
+            "editor.defaultFormatter": "esbenp.prettier-vscode",
+            "editor.formatOnSave": true
+        },
+        "[javascript]": {
+            "editor.codeActionsOnSave": {
+                "source.organizeImports": true
+            },
+            "editor.defaultFormatter": "esbenp.prettier-vscode",
+            "editor.formatOnSave": true
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "dbaeumer.vscode-eslint",
+            "esbenp.prettier-vscode",
+            "gruntfuggly.todo-tree",
+            "pkief.material-icon-theme"
+        ]
+    },
+}
