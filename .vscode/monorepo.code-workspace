@@ -1,6 +1,7 @@
 {
     "folders": [
         { "path": "../packages/binarytypes" },
+        { "path": "../packages/util" },
 
         { "path": "../", "name": "_root_" },
     ],

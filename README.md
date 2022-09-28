@@ -13,6 +13,7 @@ This is the monorepo is holding various packages and projects. It is the result 
 
 ## Packages
 * [binarytypes](/packages/binarytypes/) - Handles binary datatypes
+* [util](/packages/util/) - Collection of helper functions, types or classes
 
 ## Projects
 
@@ -20,17 +21,19 @@ This is the monorepo is holding various packages and projects. It is the result 
 
 # Roadmap
 
-## License
+# License
 
 The license of the different packages or projects are stated inside the corresponding subfolders:
 
-### Packages
+## Packages
 * [binarytypes](/packages/binarytypes/) - MIT
+* [util](/packages/util/) - UNLICENSED
 
-### Projects
+## Projects
 
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+# Acknowledgments
 
 * [runtypes](https://github.com/pelotom/runtypes) - A very powerfull package for validating types
 
