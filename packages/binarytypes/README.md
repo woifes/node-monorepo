@@ -1,12 +1,12 @@
 # @woife/binarytypes
 
-# Why?
+## Why?
 The idea of this package is to have a common way of handling binary datatypes in NodeJS. The main use case was for a package which reads and writes data to S7 PLCs. Please check the source code before using the package.
 
-# Installation
+## Installation
 Package not (yet) published
 
-# Quick start
+## Quick start
 
 The module supports the following datatypes:
 |Specifier|Description|
@@ -56,15 +56,15 @@ DataTypes["UINT16"].fromString("255") //255
 DataTypes["UINT16"].fromString("256") //throws
 
 ```
-## Transformation from `check` function
+### Transformation from `check` function
 
 The `check` function does not simply return the original value, it transforms it to the javascrip equivalent. This means for every datatype (except `INT64` and `UINT64`) it returns `number` (or an array of `number`) for the 64 bit integers it returns `bigint` (array)
 
-## Runtypes
+### Runtypes
 
 The module also supports [Runtypes](https://www.npmjs.com/package/runtypes). These are prefixed with "rt" e. q. `rtUINT8`
 
-## Helper functions
+### Helper functions
 
 Additionally there are some functions for the calculation of the size of integers and array of integers
 
@@ -75,7 +75,7 @@ checkIntSize(255) //1
 calcTypeOfArray([255, -255]) //"ARRAY_OF_INT16"
 ```
 
-# Running the build
+## Running the build
 
 The project is part of a monorepo. If the project is checked out in this environment use the following scripts:
 

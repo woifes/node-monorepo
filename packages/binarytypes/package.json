@@ -2,12 +2,12 @@
   "name": "@woifes/binarytypes",
   "version": "1.0.0",
   "description": "Handling of binary datatypes",
-  "private": true,
   "main": "dist/index",
   "types": "dist/index",
   "files": [
     "dist"
   ],
+  "private": true,
   "scripts": {
     "test": "jest",
     "compile": "tsc -p tsconfig.build.json",
