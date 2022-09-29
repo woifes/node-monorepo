@@ -1,0 +1,6 @@
+{
+    "numOfAlarms": 3, //not negative or 0
+    "traceFilePath": "path/to/trace", //path directly to file
+    "presentAlarmsFilePath": "path/to/pres", //path directly to file
+    "alarmDefsPath": "path/to/defs" //path directly to file, can be ommited, when PersistantRuntype is set on constructor
+}

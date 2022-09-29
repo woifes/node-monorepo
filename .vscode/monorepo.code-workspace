@@ -1,5 +1,6 @@
 {
     "folders": [
+        { "path": "../packages/alarmhandler" },
         { "path": "../packages/binarytypes" },
         { "path": "../packages/util" },
 
