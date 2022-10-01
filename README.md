@@ -12,7 +12,7 @@
 This is the monorepo is holding various packages and projects. It is the result of combining different projects which were originally managed by subversion and synchronized with the "externals" functionallity. During this combination the codebases were mostly rewritten. Most of the projects are intent to use with a mqtt broker.
 
 ## Packages
-* [alarmhandler](/packages/alarmhandler/) - Handles binary datatypes
+* [alarmhandler](/packages/alarmhandler/) - Simple alarm handler
 * [binarytypes](/packages/binarytypes/) - Handles binary datatypes
 * [util](/packages/util/) - Collection of helper functions, types or classes
 
