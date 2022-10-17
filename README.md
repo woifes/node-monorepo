@@ -9,7 +9,7 @@
 <h1 align="center">@woifes/node-monorepo</h3>
 
 # Overview
-This is the monorepo is holding various packages and projects. It is the result of combining different projects which were originally managed by subversion and synchronized with the "externals" functionallity. During this combination the codebases were mostly rewritten. Most of the projects are intent to use with a mqtt broker.
+This is the monorepo is holding various packages and projects. It is the result of combining different projects which were originally managed by subversion and synchronized with the "externals" feature. During this combination the code bases were mostly rewritten. Most of the projects are intent to use with a mqtt broker.
 
 ## Packages
 * [alarmhandler](/packages/alarmhandler/) - Simple alarm handler
@@ -25,6 +25,7 @@ This is the monorepo is holding various packages and projects. It is the result 
 # License
 
 The license of the different packages or projects are stated inside the corresponding subfolders:
+> Note: the most packages/projects are not (yet) licensed because I was not able to properly create a license compliance report
 
 ## Packages
 * [alarmhandler](/packages/alarmhandler/) - UNLICENSED
@@ -37,6 +38,6 @@ The license of the different packages or projects are stated inside the correspo
 
 # Acknowledgments
 
-* [runtypes](https://github.com/pelotom/runtypes) - A very powerfull package for validating types
+* [runtypes](https://github.com/pelotom/runtypes) - A very powerful package for validating types
 
 <p align="right">(<a href="#top">back to top</a>)</p>

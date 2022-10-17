@@ -60,11 +60,11 @@ The project is part of a monorepo. If the project is checked out in this environ
 TypeScript build:
 
 ```shell
-npm run compile
+pnpm run compile
 ```
 
 Run tests:
 
 ```shell
-npm test
+pnpm test
 ```
