@@ -1,7 +1,7 @@
 # @woife/node-yasdi
 
 ## Why?
-This package binds the yasdi library to a nodeJS package which may be used for other projects. The yasdi library is a open source library provided by SMA, which enables the connection to SMA products. 
+This package binds the yasdi library to a nodeJS package ~~which may be used for other projects~~ (**not yet licensed**). The yasdi library is a open source library provided by SMA, which enables the connection to SMA products. 
 This package was only used for/used with:
 * __Reading__ the data of inverters via __RS485__
 * A cheap __USB-RS485__ converter via a raspberry pi
