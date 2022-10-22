@@ -1,0 +1,42 @@
+{
+  "name": "@woifes/node-yasdi",
+  "version": "0.0.1",
+  "description": "Node bindings to yasdi library",
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist",
+    "bin",
+    "shell"
+  ],
+  "private": true,
+  "bin": {
+    "nodeYasdiShell": "./dist/shell/node-yasdi-shell.js",
+    "createYasdiIniFileContent": "./dist/shell/createYasdiIniFileContent.js"
+  },
+  "scripts": {
+    "shell": "node ./dist/shell/node-yasdi-shell.js",
+    "createIniContent": "node ./dist/shell/createYasdiIniFileContent.js",
+    "test": "jest",
+    "compile": "tsc -p tsconfig.build.json",
+    "prettier": "prettier -w ./src/**/*.ts ./test/**/*.ts ./shell/*.ts ./index.ts",
+    "lint": "npx eslint ./src/**/*.ts ./test/**/*.ts ./shell/*.ts ./index.ts --fix",
+    "lint:check": "npx eslint ./src/**/*.ts ./test/**/*.ts ./shell/*.ts ./index.ts",
+    "prepare": "npm run compile",
+    "node-gyp": "node-gyp",
+    "build": "node-gyp build",
+    "rebuild": "node-gyp rebuild"
+  },
+  "author": "woifes",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "bindings": "^1.5.0",
+    "debug": "^4.3.2",
+    "node-addon-api": "^4.2.0",
+    "node-gyp": "^8.3.0",
+    "runtypes": "^6.5.1"
+  },
+  "devDependencies": {
+    "@types/bindings": "^1.5.1"
+  }
+}

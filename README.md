@@ -14,6 +14,7 @@ This is the monorepo is holding various packages and projects. It is the result 
 ## Packages
 * [alarmhandler](/packages/alarmhandler/) - Simple alarm handler
 * [binarytypes](/packages/binarytypes/) - Handles binary datatypes
+* [node-yasdi](/packages/node-yasdi/) - Binding package for the yasdi library
 * [util](/packages/util/) - Collection of helper functions, types or classes
 
 ## Projects
@@ -30,6 +31,7 @@ The license of the different packages or projects are stated inside the correspo
 ## Packages
 * [alarmhandler](/packages/alarmhandler/) - UNLICENSED
 * [binarytypes](/packages/binarytypes/) - MIT
+* [node-yasdi](/packages/node-yasdi/) - UNLICENSED
 * [util](/packages/util/) - UNLICENSED
 
 ## Projects

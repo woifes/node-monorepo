@@ -6,6 +6,7 @@
     "paths": {
       "@woifes/alarmhandler": ["packages/alarmhandler/index.ts"],
       "@woifes/binarytypes": ["packages/binarytypes/index.ts"],
+      "@woifes/node-yasdi": ["packages/node-yasdi/index.ts"],
       "@woifes/util": ["packages/util/index.ts"],
     },
     "noEmit": true

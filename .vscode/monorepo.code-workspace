@@ -2,6 +2,7 @@
     "folders": [
         { "path": "../packages/alarmhandler" },
         { "path": "../packages/binarytypes" },
+        { "path": "../packages/node-yasdi" },
         { "path": "../packages/util" },
 
         { "path": "../", "name": "_root_" },
