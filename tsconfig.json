@@ -7,7 +7,10 @@
       "@woifes/alarmhandler": ["packages/alarmhandler/index.ts"],
       "@woifes/binarytypes": ["packages/binarytypes/index.ts"],
       "@woifes/node-yasdi": ["packages/node-yasdi/index.ts"],
+      "@woifes/s7endpoint": ["packages/s7endpoint/index.ts"],
       "@woifes/util": ["packages/util/index.ts"],
+
+      "@woifes/license-report": ["projects/license-report/index.ts"],
     },
     "noEmit": true
   }

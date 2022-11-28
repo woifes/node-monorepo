@@ -18,6 +18,7 @@ This is the monorepo is holding various packages and projects. It is the result 
 * [util](/packages/util/) - Collection of helper functions, types or classes
 
 ## Projects
+* [license-report](/projects/license-report/) - Generate a license report in the other packages and projects
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -35,11 +36,13 @@ The license of the different packages or projects are stated inside the correspo
 * [util](/packages/util/) - UNLICENSED
 
 ## Projects
+* [license-report](/projects/license-report/) - MIT
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Acknowledgments
 
+* [pnpm](https://pnpm.io/) - A very good package manager
 * [runtypes](https://github.com/pelotom/runtypes) - A very powerful package for validating types
 
 <p align="right">(<a href="#top">back to top</a>)</p>

@@ -5,6 +5,8 @@
         { "path": "../packages/node-yasdi" },
         { "path": "../packages/util" },
 
+        { "path": "../projects/license-report" },
+
         { "path": "../", "name": "_root_" },
     ],
     "settings": {

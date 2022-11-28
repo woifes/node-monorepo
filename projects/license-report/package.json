@@ -1,0 +1,27 @@
+{
+  "name": "@woifes/license-report",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index",
+  "types": "./dist/index",
+  "bin": {
+    "license-report": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "private": true,
+  "scripts": {
+    "compile": "tsc -p tsconfig.build.json",
+    "prettier": "prettier -w ./src/**/*.ts ./index.ts",
+    "lint": "npx eslint ./src/ ./index.ts --fix",
+    "lint:check": "npx eslint ./src/ ./index.ts",
+    "prepare": "npm run compile"
+  },
+  "keywords": [],
+  "author": "woifes",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^16.6.2"
+  }
+}
