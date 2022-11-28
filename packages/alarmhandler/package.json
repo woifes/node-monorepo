@@ -14,11 +14,12 @@
     "prettier": "prettier -w ./src/**/*.ts ./test/**/*.ts ./index.ts",
     "lint": "npx eslint ./src/ ./test/ ./index.ts --fix",
     "lint:check": "npx eslint ./src/ ./test/ ./index.ts",
-    "prepare": "npm run compile"
+    "prepare": "npm run compile",
+    "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "keywords": [],
   "author": "woifes",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "dependencies": {
     "@woifes/util": "workspace:0.0.1",
     "runtypes": "^6.5.1"

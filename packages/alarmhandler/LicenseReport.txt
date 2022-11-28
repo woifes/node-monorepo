@@ -1,0 +1,8 @@
+Dependency License Summary:
+
+MIT - 2
+
+Dependency License Tree:
+
+@woifes/util link:../util - MIT
+runtypes 6.6.0 - MIT
