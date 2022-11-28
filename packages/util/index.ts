@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 
 export { checkItemUniqueness } from "./src/checkItemUniqueness";
 export { CsvFileHandler, CsvFileHandlerOptions } from "./src/CsvFileHandler";

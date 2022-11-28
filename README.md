@@ -33,7 +33,7 @@ The license of the different packages or projects are stated inside the correspo
 * [alarmhandler](/packages/alarmhandler/) - UNLICENSED
 * [binarytypes](/packages/binarytypes/) - MIT
 * [node-yasdi](/packages/node-yasdi/) - UNLICENSED
-* [util](/packages/util/) - UNLICENSED
+* [util](/packages/util/) - MIT
 
 ## Projects
 * [license-report](/projects/license-report/) - MIT
