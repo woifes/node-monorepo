@@ -14,7 +14,8 @@
     "prettier": "prettier -w ./src/**/*.ts ./test/**/*.ts ./index.ts",
     "lint": "npx eslint ./src/ ./index.ts ./test/ --fix",
     "lint:check": "npx eslint ./src/ ./index.ts ./test/",
-    "prepare": "npm run compile"
+    "prepare": "npm run compile",
+    "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "keywords": [
     "Binary",
