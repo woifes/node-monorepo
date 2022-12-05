@@ -1,4 +1,4 @@
-# @woife/node-yasdi
+# @woifes/node-yasdi
 
 ## Why?
 This package binds the yasdi library to a nodeJS package ~~which may be used for other projects~~ (**not yet licensed**). The yasdi library is a open source library provided by SMA, which enables the connection to SMA products. 

@@ -1,4 +1,4 @@
-# @woife/alarmhandler
+# @woifes/alarmhandler
 
 ## Why?
 The idea of this package is to have a alarm representation like is commoly used in automation. This means to have a set of signal which indicate the presence of a certain alarm event. 

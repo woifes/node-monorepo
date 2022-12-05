@@ -1,4 +1,4 @@
-# @woife/binarytypes
+# @woifes/binarytypes
 
 ## Why?
 The idea of this package is to have a common way of handling binary datatypes in NodeJS. The main use case was for a package which reads and writes data to S7 PLCs. Please check the source code before using the package.
