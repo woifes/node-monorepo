@@ -3,6 +3,7 @@
         { "path": "../packages/alarmhandler" },
         { "path": "../packages/binarytypes" },
         { "path": "../packages/node-yasdi" },
+        { "path": "../packages/s7endpoint" },
         { "path": "../packages/util" },
 
         { "path": "../projects/license-report" },

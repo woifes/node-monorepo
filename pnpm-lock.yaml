@@ -74,6 +74,27 @@ importers:
     devDependencies:
       '@types/bindings': 1.5.1
 
+  packages/s7endpoint:
+    specifiers:
+      '@types/fs-extra': ^9.0.13
+      '@types/node-snap7': ^0.2.21
+      '@woifes/binarytypes': workspace:*
+      '@woifes/util': workspace:*
+      debug: ^4.3.2
+      fs-extra: ^10.0.1
+      node-snap7: ^1.0.6
+      runtypes: ^6.5.1
+    dependencies:
+      '@woifes/binarytypes': link:../binarytypes
+      '@woifes/util': link:../util
+      debug: 4.3.4
+      fs-extra: 10.1.0
+      node-snap7: 1.0.6
+      runtypes: 6.6.0
+    devDependencies:
+      '@types/fs-extra': 9.0.13
+      '@types/node-snap7': 0.2.21
+
   packages/util:
     specifiers:
       '@types/fs-extra': ^9.0.13
