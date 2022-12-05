@@ -23,7 +23,7 @@ import { createInterface } from "readline";
 export interface CsvFileHandlerOptions {
     maxFileSizeMB: number;
     header?: string[];
-    fileExtenstion?: string;
+    fileExtension?: string;
     csvSeparator?: string;
     addTimeStamp?: boolean;
 }
@@ -76,7 +76,7 @@ export class CsvFileHandler {
         dirPath: string,
         opts: CsvFileHandlerOptions
     ) {
-        this._fileExtension = opts.fileExtenstion ?? "";
+        this._fileExtension = opts.fileExtension ?? "";
         this._csvSeparator = opts.csvSeparator ?? ";";
         this._header = opts.header;
         this._addTimeStamp = opts.addTimeStamp ?? true;

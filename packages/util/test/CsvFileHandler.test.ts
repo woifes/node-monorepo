@@ -90,7 +90,7 @@ describe("write line sync test", () => {
     it("should append file when write file is called", () => {
         const lh = new CsvFileHandler("file11", TMP_DIR, {
             maxFileSizeMB: 1,
-            fileExtenstion: ".txt",
+            fileExtension: ".txt",
         });
 
         lh.writeLine("Hello World");
@@ -102,7 +102,7 @@ describe("write line sync test", () => {
     it("should append file without timestamp", () => {
         const lh = new CsvFileHandler("file12", TMP_DIR, {
             maxFileSizeMB: 1,
-            fileExtenstion: ".txt",
+            fileExtension: ".txt",
             addTimeStamp: false,
         });
 
@@ -128,7 +128,7 @@ describe("write line sync test", () => {
         const lh = new CsvFileHandler("file14", TMP_DIR, {
             maxFileSizeMB: 1,
             header: ["A", "B", "C"],
-            fileExtenstion: ".csv",
+            fileExtension: ".csv",
             csvSeparator: "#",
         });
 
@@ -149,7 +149,7 @@ describe("write line sync test", () => {
         const lh = new CsvFileHandler("file15", TMP_DIR, {
             maxFileSizeMB: 1,
             header: ["A", "B", "C"],
-            fileExtenstion: ".csv",
+            fileExtension: ".csv",
             addTimeStamp: false,
         });
 
@@ -168,7 +168,7 @@ describe("write line sync test", () => {
         const lh = new CsvFileHandler("file16", TMP_DIR, {
             maxFileSizeMB: 1,
             header: ["A", "B", "C"],
-            fileExtenstion: ".csv",
+            fileExtension: ".csv",
         });
         (lh as any)._actFileSize = 1000001;
 
@@ -191,7 +191,7 @@ describe("get content", () => {
         const lh = new CsvFileHandler("file21", TMP_DIR, {
             maxFileSizeMB: 1,
             header: ["A", "B", "C"],
-            fileExtenstion: ".csv",
+            fileExtension: ".csv",
         });
 
         expect(lh.getContentSync().toString()).toBe("created;A;B;C\n");
@@ -219,7 +219,7 @@ describe("unlink sync", () => {
         const lh = new CsvFileHandler("file32", TMP_DIR, {
             maxFileSizeMB: 1,
             header: ["A", "B", "C"],
-            fileExtenstion: ".csv",
+            fileExtension: ".csv",
         });
 
         lh.deleteFileSync();
@@ -236,7 +236,7 @@ describe("getLines tests", () => {
     beforeAll(() => {
         lh = new CsvFileHandler("file41", TMP_DIR, {
             maxFileSizeMB: 1,
-            fileExtenstion: ".csv",
+            fileExtension: ".csv",
             addTimeStamp: false,
         });
         for (let i = 0; i < 15; i++) {
@@ -298,7 +298,7 @@ describe("getAllLines tests", () => {
     beforeAll(() => {
         lh = new CsvFileHandler("file51", TMP_DIR, {
             maxFileSizeMB: 1,
-            fileExtenstion: ".csv",
+            fileExtension: ".csv",
             addTimeStamp: false,
         });
         for (let i = 0; i < 15; i++) {
