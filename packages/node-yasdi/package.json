@@ -25,7 +25,8 @@
     "prepare": "npm run compile",
     "node-gyp": "node-gyp",
     "build": "node-gyp build",
-    "rebuild": "node-gyp rebuild"
+    "rebuild": "node-gyp rebuild",
+    "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "author": "woifes",
   "license": "UNLICENSED",
