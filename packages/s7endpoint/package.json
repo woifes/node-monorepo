@@ -1,0 +1,36 @@
+{
+  "name": "@woifes/s7endpoint",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist"
+  ],
+  "private": true,
+  "scripts": {
+    "jest": "jest --runInBand",
+    "test": "jest test/const && jest --forceExit test/local && jest test/parseDbSourceFile && jest test/remote && jest --runInBand --forceExit test/request && jest test/types && jest test/util",
+    "compile": "tsc -p tsconfig.build.json",
+    "prettier": "prettier -w ./src/**/*.ts ./test/**/*.ts ./index.ts",
+    "lint": "npx eslint ./src/ ./test/ ./index.ts --fix",
+    "lint:check": "npx eslint ./src/ ./test/ ./index.ts",
+    "prepare": "npm run compile",
+    "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
+  },
+  "keywords": [],
+  "author": "woifes",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@woifes/binarytypes": "workspace:*",
+    "@woifes/util": "workspace:*",
+    "debug": "^4.3.2",
+    "fs-extra": "^10.0.1",
+    "node-snap7": "^1.0.6",
+    "runtypes": "^6.5.1"
+  },
+  "devDependencies": {
+    "@types/node-snap7": "^0.2.21",
+    "@types/fs-extra": "^9.0.13"
+  }
+}
