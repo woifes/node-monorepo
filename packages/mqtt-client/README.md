@@ -1,7 +1,7 @@
 # @woifes/mqtt-client
 
 ## Why?
-This package builds a facade over the (mqtt)[https://www.npmjs.com/package/mqtt] package. The main idea was to have a common package which can be used on the backend and the frontend. For the frontend part the message cache was introduced. With this it is possible to have components on a frontend created and destroyed and use the cache to display certain values faster.  
+This package builds a facade over the [mqtt](https://www.npmjs.com/package/mqtt) package. The main idea was to have a common package which can be used on the backend and the frontend. For the frontend part the message cache was introduced. With this it is possible to have components on a frontend created and destroyed and use the cache to display certain values faster.  
 In summary the following features are available:
 * Same package for backend and frontend (not yet tested)
 * rxjs interface for connection state and mqtt messages
