@@ -14,6 +14,7 @@ This is the monorepo is holding various packages and projects. It is the result 
 ## Packages
 * [alarmhandler](/packages/alarmhandler/) - Simple alarm handler
 * [binarytypes](/packages/binarytypes/) - Handles binary datatypes
+* [mqtt-client](/packages/mqtt-client/) - Facade for the mqtt package
 * [node-yasdi](/packages/node-yasdi/) - Binding package for the yasdi library
 * [s7endpoint](/packages/s7endpoint/) - Adapter package for connecting via S7 protocol (RFC1006)
 * [util](/packages/util/) - Collection of helper functions, types or classes
@@ -33,6 +34,7 @@ The license of the different packages or projects are stated inside the correspo
 ## Packages
 * [alarmhandler](/packages/alarmhandler/) - MIT
 * [binarytypes](/packages/binarytypes/) - MIT
+* [mqtt-client](/packages/mqtt-client/) - UNLICENSED
 * [node-yasdi](/packages/node-yasdi/) - UNLICENSED
 * [s7endpoint](/packages/s7endpoint/) - UNLICENSED
 * [util](/packages/util/) - MIT
@@ -46,5 +48,6 @@ The license of the different packages or projects are stated inside the correspo
 
 * [pnpm](https://pnpm.io/) - A very good package manager
 * [runtypes](https://github.com/pelotom/runtypes) - A very powerful package for validating types
+* [MQTT.js](https://www.npmjs.com/package/mqtt) - The one and only
 
 <p align="right">(<a href="#top">back to top</a>)</p>

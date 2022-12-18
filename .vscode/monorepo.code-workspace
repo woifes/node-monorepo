@@ -2,6 +2,7 @@
     "folders": [
         { "path": "../packages/alarmhandler" },
         { "path": "../packages/binarytypes" },
+        { "path": "../packages/mqtt-client" },
         { "path": "../packages/node-yasdi" },
         { "path": "../packages/s7endpoint" },
         { "path": "../packages/util" },

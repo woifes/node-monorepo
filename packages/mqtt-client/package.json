@@ -1,0 +1,52 @@
+{
+  "name": "@woifes/mqtt-client",
+  "version": "0.0.1",
+  "description": "",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    },
+    "./decorator": {
+      "types": "./dist/src/decorator/index.d.ts",
+      "import": "./dist/src/decorator/index.js",
+      "require": "./dist/src/decorator/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/index.d.ts"
+      ],
+      "decorator": [
+        "./dist/src/decorator/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "private": true,
+  "scripts": {
+    "test": "jest",
+    "compile": "tsc -p tsconfig.build.json",
+    "prettier": "prettier -w ./__mocks__/**/*.ts ./src/**/*.ts ./test/**/*.ts ./index.ts",
+    "lint": "npx eslint ./__mocks__/ ./src/ ./test/ ./index.ts --fix",
+    "lint:check": "npx eslint ./__mocks__/ ./src/ ./test/ ./index.ts",
+    "prepare": "npm run compile",
+    "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
+  },
+  "keywords": [],
+  "author": "woifes",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@woifes/binarytypes": "workspace:*",
+    "debug": "^4.3.2",
+    "json5": "^2.2.0",
+    "mqtt": "^4.0.0",
+    "mqtt-packet": "^7.0.0",
+    "runtypes": "^6.5.1",
+    "rxjs": "^7.5.2"
+  }
+}
