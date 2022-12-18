@@ -33,7 +33,7 @@ The module supports the following datatypes:
 |ARRAY_OF_DOUBLE|Array version of the corresponding type|
 
 ```javascript
-import { DataTypes } from "@woife/binarytypes"
+import { DataTypes } from "@woifes/binarytypes"
 
 DataTypes["UINT8"].check(255) //255
 DataTypes["UINT8"].check(256) //throws
