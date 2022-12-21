@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 
 import { tS7DataAreas } from "./const";
 import { ReadRequest, WriteRequest } from "./request";

@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 
 import { DataTypes, tJsVal } from "@woifes/binarytypes";
 import { tS7Variable } from "../../types/S7Variable";

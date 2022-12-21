@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 
 export function setBitInBuffer(bit: boolean, buf: Buffer, bitIndex: number) {
     const byteIndex = Math.floor(bitIndex / 8);

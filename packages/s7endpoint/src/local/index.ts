@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 
 export { createDbCsvWriter } from "./createDbCsvWriter";
 export { DbDefinition, tDbDefinition } from "./DbDefinition";

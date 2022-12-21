@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 
 import { tS7Address } from "../../src/types/S7Address";
 import { getS7AddrSize } from "../../src/util/getS7AddrSize";

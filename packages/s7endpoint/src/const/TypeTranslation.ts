@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 
 import { tNumber } from "@woifes/binarytypes";
 import { tDataTypeNames } from "../types/DataTypeNames";
