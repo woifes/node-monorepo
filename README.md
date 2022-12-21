@@ -29,14 +29,13 @@ This is the monorepo is holding various packages and projects. It is the result 
 # License
 
 The license of the different packages or projects are stated inside the corresponding subfolders:
-> Note: the most packages/projects are not (yet) licensed because I was not able to properly create a license compliance report
-
+> Note: If a package is "UNLICENSED" I did not decided which license to use yet
 ## Packages
 * [alarmhandler](/packages/alarmhandler/) - MIT
 * [binarytypes](/packages/binarytypes/) - MIT
-* [mqtt-client](/packages/mqtt-client/) - UNLICENSED
-* [node-yasdi](/packages/node-yasdi/) - UNLICENSED
-* [s7endpoint](/packages/s7endpoint/) - UNLICENSED
+* [mqtt-client](/packages/mqtt-client/) - AGPL-3.0-or-later
+* [node-yasdi](/packages/node-yasdi/) - MIT
+* [s7endpoint](/packages/s7endpoint/) - MIT
 * [util](/packages/util/) - MIT
 
 ## Projects
