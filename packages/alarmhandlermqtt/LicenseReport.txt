@@ -1,0 +1,12 @@
+Dependency License Summary:
+
+MIT - 4
+AGPL-3.0-or-later - 1
+
+Dependency License Tree:
+
+@woifes/alarmhandler link:../alarmhandler - MIT
+@woifes/mqtt-client link:../mqtt-client - AGPL-3.0-or-later
+@woifes/util link:../util - MIT
+commander 8.3.0 - MIT
+runtypes 6.6.0 - MIT

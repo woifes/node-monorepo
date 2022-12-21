@@ -5,9 +5,10 @@
     "baseUrl": "./",
     "paths": {
       "@woifes/alarmhandler": ["packages/alarmhandler/index.ts"],
+      "@woifes/alarmhandlermqtt": ["packages/alarmhandlermqtt/index.ts"],
       "@woifes/binarytypes": ["packages/binarytypes/index.ts"],
-      "@woifes/mqtt-client": ["packages/mqttclient/index.ts"],
-      "@woifes/mqtt-client/decorator": ["packages/mqttclient/decorator/index.ts"],
+      "@woifes/mqtt-client": ["packages/mqtt-client/index.ts"],
+      "@woifes/mqtt-client/decorator": ["packages/mqtt-client/src/decorator/index.ts"],
       "@woifes/node-yasdi": ["packages/node-yasdi/index.ts"],
       "@woifes/s7endpoint": ["packages/s7endpoint/index.ts"],
       "@woifes/util": ["packages/util/index.ts"],

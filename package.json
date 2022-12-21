@@ -25,6 +25,7 @@
     "@woifes/license-report": "*",
     "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.5.0",
+    "fs-extra": "^10.0.1",
     "jest": "^27.5.1",
     "prettier": "2.4.1",
     "require-json5": "^1.1.0",

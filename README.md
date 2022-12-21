@@ -13,6 +13,7 @@ This is the monorepo is holding various packages and projects. It is the result 
 
 ## Packages
 * [alarmhandler](/packages/alarmhandler/) - Simple alarm handler
+* [alarmhandlermqtt](/packages/alarmhandlermqtt/) - MQTT extension of the [alarmhandler](/packages/alarmhandler/) package
 * [binarytypes](/packages/binarytypes/) - Handles binary datatypes
 * [mqtt-client](/packages/mqtt-client/) - Facade for the mqtt package
 * [node-yasdi](/packages/node-yasdi/) - Binding package for the yasdi library
@@ -32,6 +33,7 @@ The license of the different packages or projects are stated inside the correspo
 > Note: If a package is "UNLICENSED" I did not decided which license to use yet
 ## Packages
 * [alarmhandler](/packages/alarmhandler/) - MIT
+* [alarmhandlermqtt](/packages/alarmhandlermqtt/) - AGPL-3.0-or-later
 * [binarytypes](/packages/binarytypes/) - MIT
 * [mqtt-client](/packages/mqtt-client/) - AGPL-3.0-or-later
 * [node-yasdi](/packages/node-yasdi/) - MIT

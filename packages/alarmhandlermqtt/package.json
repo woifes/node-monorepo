@@ -1,0 +1,33 @@
+{
+  "name": "@woifes/alarmhandlermqtt",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist"
+  ],
+  "private": true,
+  "scripts": {
+    "test": "jest",
+    "compile": "tsc -p tsconfig.build.json",
+    "prettier": "prettier -w ./src/**/*.ts ./test/**/*.ts ./index.ts",
+    "lint": "npx eslint ./src/ ./test/ ./index.ts --fix",
+    "lint:check": "npx eslint ./src/ ./test/ ./index.ts",
+    "prepare": "npm run compile",
+    "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
+  },
+  "author": "woifes",
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "@woifes/alarmhandler": "workspace:*",
+    "@woifes/mqtt-client": "workspace:*",
+    "@woifes/util": "workspace:*",
+    "commander": "^8.3.0",
+    "runtypes": "^6.5.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "fs-extra": "^10.0.1"
+  }
+}
