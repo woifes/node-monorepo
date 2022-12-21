@@ -1,6 +1,6 @@
 {
   "name": "@woifes/mqtt-client",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "exports": {
     ".": {
@@ -39,7 +39,7 @@
   },
   "keywords": [],
   "author": "woifes",
-  "license": "UNLICENSED",
+  "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@woifes/binarytypes": "workspace:*",
     "debug": "^4.3.2",

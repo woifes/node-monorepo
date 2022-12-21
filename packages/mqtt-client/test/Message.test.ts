@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { rtINT32, rtINT64, rtUINT8, TypeName } from "@woifes/binarytypes";
 import * as rt from "runtypes";

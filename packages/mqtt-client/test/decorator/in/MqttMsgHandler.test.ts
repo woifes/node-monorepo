@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { MSG_HANDLER_LIST_KEY } from "../../../src/decorator/constants";
 import { MqttMsgHandler } from "../../../src/decorator/in/MqttMsgHandler";
