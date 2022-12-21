@@ -1,5 +1,5 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 
 #ifndef _GET_CHANNEL_VALUE_WORKER
 #define _GET_CHANNEL_VALUE_WORKER

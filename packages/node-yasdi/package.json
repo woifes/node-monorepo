@@ -1,6 +1,6 @@
 {
   "name": "@woifes/node-yasdi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Node bindings to yasdi library",
   "main": "dist/index",
   "types": "dist/index",
@@ -29,7 +29,7 @@
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "author": "woifes",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "dependencies": {
     "bindings": "^1.5.0",
     "debug": "^4.3.2",
