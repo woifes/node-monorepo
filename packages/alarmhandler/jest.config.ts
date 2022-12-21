@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import type { Config } from "@jest/types";
-import { pathsToModuleNameMapper } from "ts-jest/utils";
+import { pathsToModuleNameMapper } from "ts-jest";
 // Load the config which holds the path aliases.
 const requireJSON5 = require("require-json5");
 const { compilerOptions } = requireJSON5("../../tsconfig.json");
