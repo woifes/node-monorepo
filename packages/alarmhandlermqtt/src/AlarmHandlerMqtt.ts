@@ -170,10 +170,10 @@ export class AlarmHandlerMqtt extends AlarmHandler {
             if (params.length >= 3) {
                 this._alarmTrace
                     .getAllLines((elements: string[]) => {
-                        //["alarmNum", "occured", "disappeared", "acknowledged", "autoAck", "category", "categoryNum", "text"]
+                        //["alarmNum", "occurred", "disappeared", "acknowledged", "autoAck", "category", "categoryNum", "text"]
                         const [
                             alarmNum,
-                            occured,
+                            occurred,
                             disappeared,
                             acknowledged,
                             autoAck,
@@ -181,9 +181,9 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                             categoryNum,
                             text,
                         ] = elements;
-                        const occuredTimeStamp = Date.parse(occured);
+                        const occurredTimeStamp = Date.parse(occurred);
                         return (
-                            occuredTimeStamp >= from && occuredTimeStamp <= to
+                            occurredTimeStamp >= from && occurredTimeStamp <= to
                         );
                     })
                     .then((lines: string[]) => {
@@ -331,12 +331,12 @@ export class AlarmHandlerMqtt extends AlarmHandler {
             response += "_".repeat(30) + "\n";
             for (const alNum of alNumbers) {
                 const alarmObj = present.alarms[alNum];
-                const occured = new Date(alarmObj.occured!);
+                const occurred = new Date(alarmObj.occurred!);
                 response += `${alNum
                     .toString()
                     .padStart(
                         5
-                    )} | ${occured.toLocaleDateString()} ${occured.toLocaleTimeString()}.${occured
+                    )} | ${occurred.toLocaleDateString()} ${occurred.toLocaleTimeString()}.${occurred
                     .getMilliseconds()
                     .toString()
                     .padStart(3, "0")}\n`;

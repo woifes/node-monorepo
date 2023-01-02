@@ -145,7 +145,7 @@ describe("creation test", () => {
             alarms: {},
         });
         expect(traceFileContent).toBe(
-            "alarmNum;occured;disappeared;acknowledged;autoAck;category;categoryNum;text\n"
+            "alarmNum;occurred;disappeared;acknowledged;autoAck;category;categoryNum;text\n"
         );
 
         expect(h.name).toBe(mqtt.clientId);
@@ -240,7 +240,7 @@ describe("Alarm signal tests", () => {
         expect(value).toEqual({
             category: "default",
             categoryNum: 0,
-            occured: d1.toJSON(),
+            occurred: d1.toJSON(),
             text: "A 10 30",
         });
         expect(type).toBe("JSON");
@@ -252,7 +252,7 @@ describe("Alarm signal tests", () => {
         expect(value).toEqual({
             category: "default",
             categoryNum: 0,
-            occured: d1.toJSON(),
+            occurred: d1.toJSON(),
             text: "A 10 30",
         });
         expect(type).toBe("JSON");
@@ -264,7 +264,7 @@ describe("Alarm signal tests", () => {
         expect(value).toEqual({
             category: "default",
             categoryNum: 0,
-            occured: d1.toJSON(),
+            occurred: d1.toJSON(),
             text: "A 10 30",
         });
         expect(type).toBe("JSON");
@@ -285,7 +285,7 @@ describe("Alarm signal tests", () => {
                 2: {
                     category: "default",
                     categoryNum: 0,
-                    occured: d1.toJSON(),
+                    occurred: d1.toJSON(),
                     text: "A 10 30",
                 },
             },
@@ -301,7 +301,7 @@ describe("Alarm signal tests", () => {
                 2: {
                     category: "default",
                     categoryNum: 0,
-                    occured: d1.toJSON(),
+                    occurred: d1.toJSON(),
                     text: "A 10 30",
                 },
             },
@@ -317,7 +317,7 @@ describe("Alarm signal tests", () => {
                 2: {
                     category: "default",
                     categoryNum: 0,
-                    occured: d1.toJSON(),
+                    occurred: d1.toJSON(),
                     text: "A 10 30",
                 },
             },
