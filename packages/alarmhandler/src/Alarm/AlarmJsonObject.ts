@@ -7,7 +7,7 @@ export const AlarmJsonObject = rt.Record({
     category: rt.String.optional(),
     categoryNum: rt.Number.optional(),
     text: rt.String.optional(),
-    occured: rt.String.optional(),
+    occurred: rt.String.optional(),
     ackTime: rt.String.optional(),
 });
 

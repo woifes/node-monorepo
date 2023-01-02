@@ -48,7 +48,7 @@ export class Alarm extends EventEmitter {
     private _text: string;
     private _nr: number;
 
-    private _occured?: Date;
+    private _occurred?: Date;
     private _ackTime?: Date;
     private _params: (number | string)[] = [];
 
@@ -113,7 +113,7 @@ export class Alarm extends EventEmitter {
         if (bit) {
             this._bitMask |= TRIGGERED_BIT_POS;
             if (!trgOld) {
-                this._occured = new Date();
+                this._occurred = new Date();
                 this.emit("new", this.toJSON());
             }
         } else {
@@ -171,9 +171,9 @@ export class Alarm extends EventEmitter {
     }
 
     private traceString() {
-        //["alarmNum", "occured", "disappeared", "acknowledged", "autoAck", "category", "categoryNum", "text"]
+        //["alarmNum", "occurred", "disappeared", "acknowledged", "autoAck", "category", "categoryNum", "text"]
         let str = `${this._nr};`; //alarmNum
-        str += `${this._occured!.toJSON()};`; //occured
+        str += `${this._occurred!.toJSON()};`; //occurred
         str += `${new Date().toJSON()};`; //disappeared
         str += `${this._ackTime != undefined ? this._ackTime.toJSON() : ""};`; //acknowledged
         str += `${this.autoAck ? 1 : 0};`; //autoAck
@@ -186,7 +186,7 @@ export class Alarm extends EventEmitter {
 
     private reset() {
         this._bitMask = 0;
-        delete this._occured;
+        delete this._occurred;
         delete this._ackTime;
         this._params = [];
     }
@@ -197,8 +197,8 @@ export class Alarm extends EventEmitter {
             categoryNum: this._categoryNum,
             text: this.text,
         };
-        if (this._occured != undefined) {
-            obj.occured = this._occured.toJSON();
+        if (this._occurred != undefined) {
+            obj.occurred = this._occurred.toJSON();
         }
         if (this._ackTime != undefined) {
             obj.ackTime = this._ackTime.toJSON();
@@ -209,14 +209,14 @@ export class Alarm extends EventEmitter {
     private fromJSON(obj: any) {
         try {
             obj = AlarmJsonObject.check(obj);
-            const isOccured =
-                obj.occured != undefined &&
-                Number.isFinite(Date.parse(obj.occured));
+            const isOccurred =
+                obj.occurred != undefined &&
+                Number.isFinite(Date.parse(obj.occurred));
             const isAck =
                 obj.ackTime != undefined &&
                 Number.isFinite(Date.parse(obj.ackTime));
-            if (isOccured) {
-                this._occured = new Date(obj.occured!);
+            if (isOccurred) {
+                this._occurred = new Date(obj.occurred!);
                 this._bitMask |= TRIGGERED_BIT_POS;
 
                 if (isAck) {

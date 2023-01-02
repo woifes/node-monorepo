@@ -56,7 +56,7 @@ export class AlarmHandler extends EventEmitter {
     static csvHeader(): string[] {
         return [
             "alarmNum",
-            "occured",
+            "occurred",
             "disappeared",
             "acknowledged",
             "autoAck",
@@ -259,7 +259,7 @@ export class AlarmHandler extends EventEmitter {
         };
         for (let i = 1; i < this.length; i++) {
             const alarmInfo = this[i].toJSON();
-            if (alarmInfo.occured != undefined) {
+            if (alarmInfo.occurred != undefined) {
                 presentAlarmsInfo.alarms[i] = alarmInfo;
             }
         }

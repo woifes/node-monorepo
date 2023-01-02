@@ -99,7 +99,7 @@ describe("creation test", () => {
             alarms: {},
         });
         expect(traceFileContent).toBe(
-            "alarmNum;occured;disappeared;acknowledged;autoAck;category;categoryNum;text\n"
+            "alarmNum;occurred;disappeared;acknowledged;autoAck;category;categoryNum;text\n"
         );
 
         expect(h.name).toBe(NAME);
@@ -207,7 +207,7 @@ describe("creation test", () => {
             alarms: {},
         });
         expect(traceFileContent).toBe(
-            "alarmNum;occured;disappeared;acknowledged;autoAck;category;categoryNum;text\n"
+            "alarmNum;occurred;disappeared;acknowledged;autoAck;category;categoryNum;text\n"
         );
 
         expect(h.name).toBe(NAME);
@@ -301,13 +301,13 @@ describe("creation test", () => {
                     category: "a",
                     categoryNum: 1,
                     text: "abc",
-                    occured: d1.toJSON(),
+                    occurred: d1.toJSON(),
                 },
                 3: {
                     category: "a",
                     categoryNum: 1,
                     text: "abc",
-                    occured: d2.toJSON(),
+                    occurred: d2.toJSON(),
                     ackTime: d3.toJSON(),
                 },
                 4: {
@@ -331,13 +331,13 @@ describe("creation test", () => {
             category: "cat02",
             categoryNum: 2,
             text: "bad thing02",
-            occured: d1.toJSON(),
+            occurred: d1.toJSON(),
         });
         expect(h[3].toJSON()).toEqual({
             category: "cat03",
             categoryNum: 3,
             text: "bad thing03",
-            occured: d2.toJSON(),
+            occurred: d2.toJSON(),
             ackTime: d3.toJSON(),
         });
         expect(h[4].toJSON()).toEqual({
@@ -401,7 +401,7 @@ describe("alarm signal test", () => {
                     category: "default",
                     categoryNum: 0,
                     text: "A 10 30",
-                    occured: d1.toJSON(),
+                    occurred: d1.toJSON(),
                 },
             },
         });
@@ -416,7 +416,7 @@ describe("alarm signal test", () => {
             category: "default",
             categoryNum: 0,
             text: "A 10 30",
-            occured: d1.toJSON(),
+            occurred: d1.toJSON(),
         });
         [obj] = cbPresAlarmChanged.mock.calls[0];
         expect(obj).toEqual({
@@ -426,7 +426,7 @@ describe("alarm signal test", () => {
                     category: "default",
                     categoryNum: 0,
                     text: "A 10 30",
-                    occured: d1.toJSON(),
+                    occurred: d1.toJSON(),
                 },
             },
         });
@@ -437,7 +437,7 @@ describe("alarm signal test", () => {
             category: "default",
             categoryNum: 0,
             text: "A 10 30",
-            occured: d1.toJSON(),
+            occurred: d1.toJSON(),
         });
         [obj] = cbPresAlarmChanged.mock.calls[1];
         expect(obj).toEqual({
@@ -447,7 +447,7 @@ describe("alarm signal test", () => {
                     category: "default",
                     categoryNum: 0,
                     text: "A 10 30",
-                    occured: d1.toJSON(),
+                    occurred: d1.toJSON(),
                 },
             },
         });
@@ -472,7 +472,7 @@ describe("alarm signal test", () => {
                     category: "default",
                     categoryNum: 0,
                     text: "No text",
-                    occured: d1.toJSON(),
+                    occurred: d1.toJSON(),
                     ackTime: d1.toJSON(),
                 },
             },
@@ -489,7 +489,7 @@ describe("alarm signal test", () => {
             category: "default",
             categoryNum: 0,
             text: "No text",
-            occured: d1.toJSON(),
+            occurred: d1.toJSON(),
             ackTime: d1.toJSON(),
         });
         [obj] = cbPresAlarmChanged.mock.calls[0];
@@ -500,7 +500,7 @@ describe("alarm signal test", () => {
                     category: "default",
                     categoryNum: 0,
                     text: "No text",
-                    occured: d1.toJSON(),
+                    occurred: d1.toJSON(),
                     ackTime: d1.toJSON(),
                 },
             },
@@ -553,7 +553,7 @@ describe("alarm signal test", () => {
         setTimeout(() => {
             const traceFileContent = getTraceFile(h.name);
             let expectedTraceFileContent =
-                "alarmNum;occured;disappeared;acknowledged;autoAck;category;categoryNum;text\n";
+                "alarmNum;occurred;disappeared;acknowledged;autoAck;category;categoryNum;text\n";
             expectedTraceFileContent += `2;${d1.toJSON()};${d1.toJSON()};${d1.toJSON()};0;default;0;No text\n`;
             expect(traceFileContent).toBe(expectedTraceFileContent);
             done();

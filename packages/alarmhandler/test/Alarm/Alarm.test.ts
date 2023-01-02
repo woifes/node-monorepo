@@ -103,12 +103,12 @@ describe("creation with existing alarm object", () => {
     it("should use existing alarmobject with triggered alarm", () => {
         const e = { ...existing };
         const d1 = new Date(2020, 11, 24, 7, 10, 123).toJSON();
-        e.occured = d1;
+        e.occurred = d1;
         const a = new Alarm(1, testAlarmDef, e);
         expect(a.toJSON()).toEqual({
             category: testAlarmDef.c,
             categoryNum: testAlarmDef.cn,
-            occured: d1,
+            occurred: d1,
             text: "bad thing happened",
         });
         expect((a as any)._bitMask).toBe(2);
@@ -118,13 +118,13 @@ describe("creation with existing alarm object", () => {
         const e = { ...existing };
         const d1 = new Date(2020, 11, 24, 7, 10, 123).toJSON();
         const d2 = new Date(2020, 11, 24, 7, 15, 123).toJSON();
-        e.occured = d1;
+        e.occurred = d1;
         e.ackTime = d2;
         const a = new Alarm(1, testAlarmDef, e);
         expect(a.toJSON()).toEqual({
             category: testAlarmDef.c,
             categoryNum: testAlarmDef.cn,
-            occured: d1,
+            occurred: d1,
             ackTime: d2,
             text: "bad thing happened",
         });
@@ -163,14 +163,14 @@ describe("trigger and ack alarm test", () => {
         expect(a.signal).toBe(true);
         expect(a.triggered).toBe(true);
         expect((a as any)._bitMask).toBe(3);
-        expect((a as any)._occured.getTime()).toBe(d1.getTime());
+        expect((a as any)._occurred.getTime()).toBe(d1.getTime());
         expect(cbNew).toBeCalledTimes(1);
         expect(cbGone).not.toBeCalled();
         expect(cbAck).not.toBeCalled();
         expect(cbNew.mock.calls[0][0]).toEqual({
             category: testAlarmDef.c,
             categoryNum: testAlarmDef.cn,
-            occured: d1.toJSON(),
+            occurred: d1.toJSON(),
             text: "bad thing happened",
         });
 
@@ -180,7 +180,7 @@ describe("trigger and ack alarm test", () => {
         expect(a.signal).toBe(false);
         expect(a.triggered).toBe(true);
         expect((a as any)._bitMask).toBe(2);
-        expect((a as any)._occured.getTime()).toBe(d1.getTime());
+        expect((a as any)._occurred.getTime()).toBe(d1.getTime());
         expect(cbNew).not.toBeCalled();
         expect(cbGone).not.toBeCalled();
         expect(cbAck).not.toBeCalled();
@@ -194,7 +194,7 @@ describe("trigger and ack alarm test", () => {
         expect(a.triggered).toBe(false);
         expect(a.ack).toBe(false); //will be reset immediately
         expect((a as any)._bitMask).toBe(0);
-        expect((a as any)._occured).toBeUndefined();
+        expect((a as any)._occurred).toBeUndefined();
         expect((a as any)._ackTime).toBeUndefined();
         expect(cbNew).not.toBeCalled();
         expect(cbGone).toBeCalledTimes(1);
@@ -207,7 +207,7 @@ describe("trigger and ack alarm test", () => {
         expect(cbAck.mock.calls[0][0]).toEqual({
             category: testAlarmDef.c,
             categoryNum: testAlarmDef.cn,
-            occured: d1.toJSON(),
+            occurred: d1.toJSON(),
             ackTime: d2.toJSON(),
             text: "bad thing happened",
         });
@@ -224,7 +224,7 @@ describe("trigger and ack alarm test", () => {
         a.setSignal(true);
 
         expect((a as any)._bitMask).toBe(3);
-        expect((a as any)._occured.getTime()).toBe(d1.getTime());
+        expect((a as any)._occurred.getTime()).toBe(d1.getTime());
         expect(cbNew).toBeCalledTimes(1);
         expect(cbGone).not.toBeCalled();
         expect(cbAck).not.toBeCalled();
@@ -235,7 +235,7 @@ describe("trigger and ack alarm test", () => {
 
         a.ack = true;
         expect((a as any)._bitMask).toBe(7);
-        expect((a as any)._occured.getTime()).toBe(d1.getTime());
+        expect((a as any)._occurred.getTime()).toBe(d1.getTime());
         expect((a as any)._ackTime.getTime()).toBe(d2.getTime());
         expect(cbNew).not.toBeCalled();
         expect(cbGone).not.toBeCalled();
@@ -243,7 +243,7 @@ describe("trigger and ack alarm test", () => {
         expect(cbAck.mock.calls[0][0]).toEqual({
             category: testAlarmDef.c,
             categoryNum: testAlarmDef.cn,
-            occured: d1.toJSON(),
+            occurred: d1.toJSON(),
             ackTime: d2.toJSON(),
             text: "bad thing happened",
         });
@@ -254,7 +254,7 @@ describe("trigger and ack alarm test", () => {
 
         a.setSignal(false);
         expect((a as any)._bitMask).toBe(0);
-        expect((a as any)._occured).toBeUndefined();
+        expect((a as any)._occurred).toBeUndefined();
         expect((a as any)._ackTime).toBeUndefined();
         expect(cbNew).not.toBeCalled();
         expect(cbGone).toBeCalledTimes(1);
@@ -286,7 +286,7 @@ describe("trigger and ack alarm test", () => {
         a.setSignal(false);
 
         expect((a as any)._bitMask).toBe(0);
-        expect((a as any)._occured).toBeUndefined();
+        expect((a as any)._occurred).toBeUndefined();
         expect((a as any)._ackTime).toBeUndefined();
         expect(cbNew).not.toBeCalled();
         expect(cbGone).toBeCalledTimes(1);
@@ -316,7 +316,7 @@ describe("trigger and ack alarm test", () => {
         expect(cbNew.mock.calls[0][0]).toEqual({
             category: def.c,
             categoryNum: def.cn,
-            occured: d1.toJSON(),
+            occurred: d1.toJSON(),
             text: "A 10 20",
         });
         a.setSignal(false, "c", -1, -3);

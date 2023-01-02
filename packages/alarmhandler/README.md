@@ -16,7 +16,7 @@ Package not (yet) published
         presentAlarmsFilePath: "path/to/presentalarmfile",
         alarmDefsPath: "path/to/alarmdefinitions",
     });
-    alarmHandler.updateSignal(1, true) //alarm occured
+    alarmHandler.updateSignal(1, true) //alarm occurred
     alarmHandler.updateSignal(1, true) //alarm gone
     alarmHandler.acknowledgeAlarm(1) //acknowledge the alarm
 ```
