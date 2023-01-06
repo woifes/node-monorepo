@@ -37,7 +37,7 @@ export class ReadRequest extends Request {
         }
 
         const result: tS7Variable[] = [];
-        //await every promise (if a promis is already done await will finish immediately)
+        //await every promise (if a promise is already done await will finish immediately)
         for (const [area, areaPromise] of promises.entries()) {
             const areaResult = await areaPromise;
             const areaVariableIndexes = this._indexesByArea.get(area)!;

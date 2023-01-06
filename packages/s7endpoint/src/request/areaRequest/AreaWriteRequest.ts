@@ -19,7 +19,7 @@ export class AreaWriteRequest extends AreaRequest {
         for (let i = 0; i < this._variables.length; i++) {
             if (variables[i].value == undefined) {
                 throw new Error(
-                    `Write request variable witout value at index: ${i}`
+                    `Write request variable without value at index: ${i}`
                 );
             }
         }

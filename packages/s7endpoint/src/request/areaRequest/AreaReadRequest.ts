@@ -15,8 +15,7 @@ export class AreaReadRequest extends AreaRequest {
     async execute(): Promise<tS7Variable[]> {
         const result: tS7Variable[] = [];
         if (this._variables.length == 0) {
-            //TODO logging
-            return result;
+            throw new Error("No variables specified in AreaReadRequest");
         }
         try {
             const data = await this._endpoint.readAreaBytes(
@@ -84,7 +83,7 @@ export class AreaReadRequest extends AreaRequest {
                 );
             }
         } catch (e) {
-            throw new Error(`Error occured during AreaReadRequest: ${e}`);
+            throw new Error(`Error occurred during AreaReadRequest: ${e}`);
         }
     }
 }

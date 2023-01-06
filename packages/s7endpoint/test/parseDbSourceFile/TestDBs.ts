@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { tS7Variable } from "packages/s7endpoint/src/types/S7Variable";
 import { DbObject } from "../../src/parseDbSourceFile";
+import { tS7Variable } from "../../src/types/S7Variable";
 
 type DbTarget = {
     source: string;

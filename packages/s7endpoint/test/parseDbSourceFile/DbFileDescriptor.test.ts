@@ -7,7 +7,7 @@ it("should validate correct type", () => {
     expect(() => {
         DBFileDescriptor.check({
             dbNr: 1,
-            filePath: "a/b/c",
+            filePathOrContent: "a/b/c",
         });
     }).not.toThrow();
 });
@@ -16,7 +16,7 @@ it("should not validate if dbIndex is 0 or lower", () => {
     expect(() => {
         DBFileDescriptor.check({
             dbNr: 0,
-            filePath: "a/b/c",
+            filePathOrContent: "a/b/c",
         });
     }).toThrow();
 });

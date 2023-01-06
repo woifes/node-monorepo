@@ -8,7 +8,7 @@ import * as rt from "runtypes";
  */
 export const DBFileDescriptor = rt.Record({
     dbNr: rt.Number.withConstraint((n) => n > 0),
-    filePath: rt.String.withConstraint((s) => s.length > 0),
+    filePathOrContent: rt.String.withConstraint((s) => s.length > 0),
 });
 
 /**

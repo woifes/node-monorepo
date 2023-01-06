@@ -25,3 +25,7 @@ export { DataTypeNames, tDataTypeNames } from "./src/types/DataTypeNames";
 export { S7Address, tS7Address } from "./src/types/S7Address";
 export { S7AddressString, tS7AddressString } from "./src/types/S7AddressString";
 export { S7Variable, tS7Variable } from "./src/types/S7Variable";
+export {
+    parseS7AddressString,
+    stringifyS7Address,
+} from "./src/util/parseS7AddressString";

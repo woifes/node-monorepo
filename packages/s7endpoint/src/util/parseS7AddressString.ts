@@ -1,6 +1,9 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
+import { tNumber } from "@woifes/binarytypes";
+import { tS7ShortTypeNames } from "../../src/const";
+import { tS7AddressString } from "../../src/types/S7AddressString";
 import {
     S7DataAreas,
     S7ShortTypeNames,
@@ -8,13 +11,19 @@ import {
     S7_SHORT_TYPE_TO_TYPE_NAME,
     S7_TYPE_TO_TYPE_NAME,
     tS7DataAreas,
+    TYPE_NAME_TO_S7_TYPE,
 } from "../const";
 import { tDataTypeNames } from "../types/DataTypeNames";
-import { tS7Address } from "../types/S7Address";
+import { S7Address, tS7Address } from "../types/S7Address";
 
 const ADDRESSREGEX =
     /^(?:DB([0-9]+),)?([a-zA-Z]+)([0-9]+)(?:\.([0-9]+))?(?:\.([0-9]+))?$/; //no "_" ensures that no array types can be matched
 
+/**
+ * Parses an String in the form e. g. M1.2 or DB9,X1.2.3 and creates a S7Address object out of it. Throws on error
+ * @param addressString the address string to parse
+ * @returns tS7Address object
+ */
 export function parseS7AddressString(addressString: string): tS7Address {
     //DB1,X14.0.8
     //Area,Type DBIndex
@@ -88,4 +97,46 @@ function checkTypeString(typeStr: string): tDataTypeNames {
     }
 
     throw new Error("unknown type");
+}
+
+/**
+ * Creates a s7AddressString from a given S7Address object
+ * @param address the object to stringify
+ * @returns addressString of the given S7Address object
+ */
+export function stringifyS7Address(address: tS7Address): tS7AddressString {
+    S7Address.check(address);
+    let str = "";
+    if (address.area === "DB") {
+        str += `DB${address.dbNr},`;
+    } else {
+        str += address.area;
+    }
+
+    if (address.type === "BIT" && address.area != "DB") {
+        str += `${address.byteIndex}`;
+    } else {
+        str += `${typeToS7Type(address.type as tNumber)}${address.byteIndex}`;
+    }
+
+    if (address.bitIndex != undefined) {
+        str += `.${address.bitIndex}`;
+    }
+
+    if (address.count != undefined) {
+        str += `.${address.count}`;
+    }
+
+    return str;
+}
+
+function typeToS7Type(type: tNumber): tDataTypeNames | tS7ShortTypeNames {
+    for (const key of Object.keys(S7_SHORT_TYPE_TO_TYPE_NAME)) {
+        const val = S7_SHORT_TYPE_TO_TYPE_NAME[key as tS7ShortTypeNames];
+        if (val === type) {
+            return key as tS7ShortTypeNames;
+        }
+    }
+
+    return TYPE_NAME_TO_S7_TYPE[type] as tDataTypeNames;
 }
