@@ -1,0 +1,6 @@
+trigger: DB1,W4 #trigger variable on which change the event is triggered
+params: #optional - params belonging to the event
+  - DB12,DW0
+  - DB12,W4.3
+  - DB20,SInt2
+pollIntervalMS: 500 #optional - interval on which the trigger variable is polled - default: 1s

@@ -1,0 +1,6 @@
+topicPrefix: plc01 #optional
+qos: 0 #optional - 0, 1 or 2 - default: 0
+retain: true #optional - default: false
+tags:
+    tag01: DB1,W1 #list of tags
+pollIntervalMS: 123 #optional - pollintervall - default: 1s

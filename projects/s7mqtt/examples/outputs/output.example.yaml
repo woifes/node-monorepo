@@ -1,0 +1,6 @@
+tags:
+  tag01: DB1,X1.1
+datablocks:
+  - dbNr: 1
+    filePathOrContent: abc
+pollInterval: 3

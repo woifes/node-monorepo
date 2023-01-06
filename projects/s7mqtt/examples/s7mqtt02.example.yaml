@@ -1,0 +1,91 @@
+endpoint:
+  name: ep01
+  datablockCsvDir: path/to/csv
+  allowArrayTypesInCsv: false
+  
+mqtt:
+  url: localhost
+  clientId: client01
+  notifyPresencePrefix: clients
+  messageCacheTimeS: 3
+
+alarms:
+    numOfAlarms: 3 #has to be same size like "alarms" array
+    traceFilePath: path/to/trace
+    presentAlarmsFilePath: path/to/present
+    alarmDefsPath: path/to/defs
+    alarms:
+      - signal: DB1,X0.1
+        ackOut: DB2,X0.2 #optional
+        ackIn: DB3,X0.3 #optional
+      - signal: DB4,X0.3
+        ackOut: DB5,X0.4
+        ackIn: DB6,X0.5
+      - signal: DB7,X0.5
+        ackOut: DB8,X0.6
+        ackIn: DB9,X0.7
+
+commands:
+    - name: cmd01
+      topicPrefix: test #optional - `${prefix}/${this._mqtt.clientId}/+/${this._config.name}` - default: "cmd"
+      cmdIdAddress: DB1,DW0 #optional - has to be UINT16, INT32 or UINT32
+      params: #optional - parameter to write down with the command
+        - DB1,DW0
+        - DB2,X2.2.3
+        - DB3,USInt4
+      requiredParamCount: 2 #optional - how many parameter are required
+      result: #configuration for sending a response
+        trigger: DB4,W0 #trigger when changing the result is sent only integer trigger are allowed
+        params:
+          - DB5,DW0
+          - DB6,X1.0.9
+          - DB7,SInt2
+        okFlagAddress: DB8,USInt2 #optional - address of an optional ok flag. Has to be UINT8
+        pollIntervalMS: 500 #interval for polling the trigger variable
+        topicPrefix: answer #topic prefix for the response - default: "cmdRes"
+        timeoutMS: 2500 #timeout for waiting for the response
+
+events:
+    - topic: a/b/c #the topic to send the event message to
+      message: Hello World #a hardcoded message to send on trigger
+      #from here check event config
+      trigger: DB1,W4
+      params:
+        - DB12,DW0
+        - DB12,W4.3
+        - DB20,SInt2
+      pollIntervalMS: 500
+
+inputs:
+    - topic: a/b/c #topic from where the input will be sent from
+      target: #target address to write the value of the input to
+      #the "value" is needed if an fallback is provided it is optional otherwise
+        - area: DB
+          dbNr: 1
+          byteIndex: 0
+          type: UINT8
+          value: 1
+        - area: DB
+          dbNr: 2
+          byteIndex: 0
+          type: UINT8
+          value: 1
+        - area: DB
+          dbNr: 3
+          byteIndex: 0
+          type: UINT8
+          value: 1
+      fallback: #optional - fallback definition
+        watchdogTimeMS: 123 #optional - time in which an value is expected the fallback value (set on "target") is used otherwise
+      minTargetCount: 2
+
+outputs:
+    - topicPrefix: plc01 #optional
+      qos: 0 #optional - 0, 1 or 2 - default: 0
+      retain: true #optional - default: false
+      tags:
+          tag01: DB1,W1 #list of tags
+      datablocks:
+          - dbNr: 1
+            filePathOrContent: "path/to/file" #either path to a db file or the content of the file
+      pollIntervalMS: 123 #optional - pollintervall - default: 1s

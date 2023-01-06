@@ -1,0 +1,18 @@
+name: cmd01
+topicPrefix: test #optional - `${prefix}/${this._mqtt.clientId}/+/${this._config.name}` - default: "cmd"
+cmdIdAddress: DB1,DW0 #optional - has to be UINT16, INT32 or UINT32
+params: #optional - parameter to write down with the command
+  - DB1,DW0
+  - DB2,X2.2.3
+  - DB3,USInt4
+requiredParamCount: 2 #optional - how many parameter are required
+result: #configuration for sending a response
+  trigger: DB4,W0 #trigger when changing the result is sent only integer trigger are allowed
+  params:
+    - DB5,DW0
+    - DB6,X1.0.9
+    - DB7,SInt2
+  okFlagAddress: DB8,USInt2 #optional - address of an optional ok flag. Has to be UINT8
+  pollIntervalMS: 500 #interval for polling the trigger variable
+  topicPrefix: answer #topic prefix for the response - default: "cmdRes"
+  timeoutMS: 2500 #timeout for waiting for the response

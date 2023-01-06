@@ -1,0 +1,42 @@
+{
+  "name": "@woifes/s7mqtt",
+  "version": "0.0.1",
+  "description": "",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index",
+  "private": true,
+  "scripts": {
+    "start": "node ./dist/index.js",
+    "jest": "jest --runInBand --forceExit",
+    "test": "jest --runInBand --forceExit --verbose test/alarms && jest --runInBand --forceExit test/commands && jest --runInBand --forceExit test/events && jest --runInBand --forceExit test/inputs && jest --runInBand --forceExit test/outputs && jest --runInBand --forceExit test/runtypes && jest --runInBand --forceExit test/S7Mqtt.test.ts",
+    "mt:remote": "jest --runInBand --forceExit mt/remote/remote.test.ts",
+    "mt:local": "jest --runInBand --forceExit mt/local/local.test.ts",
+    "compile": "tsc -p tsconfig.build.json",
+    "prettier": "prettier -w ./mt/**/*.ts ./src/**/*.ts ./test/**/*.ts ./index.ts ",
+    "lint": "npx eslint ./mt/ ./src/ ./test/ ./index.ts --fix",
+    "lint:check": "npx eslint ./mt/ ./src/ ./test/ ./index.ts",
+    "prepare": "npm run compile"
+  },
+  "author": "woifes",
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "@woifes/alarmhandler": "workspace:*",
+    "@woifes/alarmhandlermqtt": "workspace:*",
+    "@woifes/binarytypes": "workspace:*",
+    "@woifes/mqtt-client": "workspace:*",
+    "@woifes/s7endpoint": "workspace:*",
+    "@woifes/util": "workspace:*",
+    "debug": "^4.3.2",
+    "fs-extra": "^10.0.1",
+    "runtypes": "^6.5.1",
+    "yaml": "^2.2.1"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.7",
+    "@types/fs-extra": "^9.0.13",
+    "@types/node-snap7": "^0.2.21",
+    "node-snap7": "^1.0.6"
+  }
+}

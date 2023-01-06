@@ -1,0 +1,8 @@
+numOfAlarms: 10 #has to be same size like "alarms" array
+traceFilePath: path/to/trace
+presentAlarmsFilePath: path/to/present
+alarmDefsPath: path/to/defs
+alarms:
+  signal: DB1,X0.0
+  ackOut: DB3,X0.0 #optional
+  ackIn: DB3,X0.0 #optional

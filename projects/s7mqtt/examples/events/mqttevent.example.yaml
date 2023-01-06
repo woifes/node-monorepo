@@ -1,0 +1,9 @@
+topic: a/b/c #the topic to send the event message to
+message: Hello World #a hardcoded message to send on trigger
+#from here check event config
+trigger: DB1,W4
+params:
+  - DB12,DW0
+  - DB12,W4.3
+  - DB20,SInt2
+pollIntervalMS: 500

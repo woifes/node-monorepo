@@ -1,0 +1,21 @@
+topic: a/b/c #topic from where the input will be sent from
+target: #target address to write the value of the input to
+#the "value" is needed if an fallback is provided it is optional otherwise
+  - area: DB
+    dbNr: 1
+    byteIndex: 0
+    type: UINT8
+    value: 1
+  - area: DB
+    dbNr: 2
+    byteIndex: 0
+    type: UINT8
+    value: 1
+  - area: DB
+    dbNr: 3
+    byteIndex: 0
+    type: UINT8
+    value: 1
+fallback: #optional - fallback definition
+  watchdogTimeMS: 123 #optional - time in which an value is expected the fallback value (set on "target") is used otherwise
+minTargetCount: 2

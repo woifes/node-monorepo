@@ -9,6 +9,7 @@
         { "path": "../packages/util" },
 
         { "path": "../projects/license-report" },
+        { "path": "../projects/s7mqtt" },
 
         { "path": "../", "name": "_root_" },
     ],
@@ -26,7 +27,16 @@
             },
             "editor.defaultFormatter": "esbenp.prettier-vscode",
             "editor.formatOnSave": true
-        }
+        },
+        "cSpell.ignoreWords": [
+            "runtype",
+            "runtypes",
+            "woifes",
+            "alarmhandler",
+            "alarmhandlermqtt",
+            "binarytypes",
+            "yasdi"
+        ]
     },
     "extensions": {
         "recommendations": [

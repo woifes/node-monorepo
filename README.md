@@ -22,6 +22,7 @@ This is the monorepo is holding various packages and projects. It is the result 
 
 ## Projects
 * [license-report](/projects/license-report/) - Generate a license report in the other packages and projects
+* [s7mqtt](/projects/s7mqtt/) - Mqtt gateway for devices which use the S7 protocol (RFC1006)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -29,7 +30,7 @@ This is the monorepo is holding various packages and projects. It is the result 
 
 # License
 
-The license of the different packages or projects are stated inside the corresponding subfolders:
+The license of the different packages or projects are stated inside the corresponding sub folders:
 > Note: If a package is "UNLICENSED" I did not decided which license to use yet
 ## Packages
 * [alarmhandler](/packages/alarmhandler/) - MIT
@@ -42,6 +43,7 @@ The license of the different packages or projects are stated inside the correspo
 
 ## Projects
 * [license-report](/projects/license-report/) - MIT
+* [s7mqtt](/projects/s7mqtt/) - AGPL-3.0-or-later
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
