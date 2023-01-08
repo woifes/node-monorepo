@@ -21,7 +21,7 @@ it("should validate corrct runtype", () => {
             ],
             textCommand: {
                 commandTopicPrefix: "messenger/from/+",
-                commadResponseTopicPrefix: "messenger/to",
+                commandResponseTopicPrefix: "messenger/to",
             },
         });
     }).not.toThrow();

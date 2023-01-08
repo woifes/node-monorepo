@@ -15,7 +15,7 @@ import {
     tMqttCmdHandlerConfig,
     tMqttValueConfig,
 } from "@woifes/mqtt-client/decorator";
-import { PersistantRuntype } from "@woifes/util";
+import { PersistentRuntype } from "@woifes/util";
 import { Command } from "commander";
 import {
     AlarmHandlerMqttConfig,
@@ -71,7 +71,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                 topicTransform: (reqTopic: string[]) => {
                     const requester = reqTopic[reqTopic.length - 1];
                     return [
-                        ...this._config.textCommand!.commadResponseTopicPrefix.split(
+                        ...this._config.textCommand!.commandResponseTopicPrefix.split(
                             "/"
                         ),
                         requester,
@@ -88,7 +88,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
     ) {
         const requester = reqTopic[reqTopic.length - 1];
         return [
-            ...this._config.textCommand!.commadResponseTopicPrefix.split("/"),
+            ...this._config.textCommand!.commandResponseTopicPrefix.split("/"),
             requester,
         ];
     }
@@ -102,7 +102,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
     constructor(
         config: tAlarmHandlerMqttConfig,
         mqttClient: Client,
-        alarmDefs?: PersistantRuntype<tAlarmDefsInfo>
+        alarmDefs?: PersistentRuntype<tAlarmDefsInfo>
     ) {
         super(mqttClient.clientId, { ...config }, alarmDefs);
         this._config = AlarmHandlerMqttConfig.check(config);
@@ -232,17 +232,17 @@ export class AlarmHandlerMqtt extends AlarmHandler {
 
             cmd.command("ack")
                 .description(
-                    "Acknwoledges the given alarm. Acknowledges all if not given"
+                    "Acknowledges the given alarm. Acknowledges all if not given"
                 )
-                .argument("<alamSourceName>", "which alarm source to ack")
+                .argument("<alarmSourceName>", "which alarm source to ack")
                 .argument(
                     "[alarmNumber]",
                     "Which alarm number to acknowledge",
                     (arg: any) => parseInt(arg),
                     0
                 )
-                .action((alarmSouceName: string, alNum: any) => {
-                    if (alarmSouceName == this.name) {
+                .action((alarmSourceName: string, alNum: any) => {
+                    if (alarmSourceName == this.name) {
                         if (isFinite(alNum) && alNum >= 0) {
                             const res = this.acknowledgeAlarm(alNum);
                             if (res) {

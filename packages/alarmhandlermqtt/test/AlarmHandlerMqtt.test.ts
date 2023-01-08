@@ -70,7 +70,7 @@ function createConfig(name: string, alCount: number): tAlarmHandlerMqttConfig {
         additionalNewAlarmTopics: ["messenger/to/lara", "messenger/to/john"],
         textCommand: {
             commandTopicPrefix: "messenger/from",
-            commadResponseTopicPrefix: "messenger/to",
+            commandResponseTopicPrefix: "messenger/to",
         },
     };
 }
@@ -325,7 +325,7 @@ describe("Alarm signal tests", () => {
     });
 });
 
-describe("incoming mesage tests", () => {
+describe("incoming message tests", () => {
     const d1 = new Date(2020, 11, 24, 7, 10, 123);
     let h: AlarmHandlerMqtt;
     let prefixNr = 200;
@@ -564,7 +564,7 @@ describe("text command tests", () => {
         expected +=
             "  who                                 Prints the alarm source and the number of their alarms\n";
         expected +=
-            "  ack <alamSourceName> [alarmNumber]  Acknwoledges the given alarm. Acknowledges all if not given\n";
+            "  ack <alarmSourceName> [alarmNumber]  Acknowledges the given alarm. Acknowledges all if not given\n";
         expected +=
             "  act [alarmSourceName]               Prints the present alarms\n";
         expected +=
@@ -649,7 +649,7 @@ Options:
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(1);
             expect(publishMessageMock.mock.calls[0][0].body).toBe(
-                "error: missing required argument 'alamSourceName'\n"
+                "error: missing required argument 'alarmSourceName'\n"
             );
         });
 
@@ -658,16 +658,16 @@ Options:
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(1);
             expect(publishMessageMock.mock.calls[0][0].body)
-                .toBe(`Usage: !al ack [options] <alamSourceName> [alarmNumber]
+                .toBe(`Usage: !al ack [options] <alarmSourceName> [alarmNumber]
 
-Acknwoledges the given alarm. Acknowledges all if not given
+Acknowledges the given alarm. Acknowledges all if not given
 
 Arguments:
-  alamSourceName  which alarm source to ack
-  alarmNumber     Which alarm number to acknowledge (default: 0)
+  alarmSourceName  which alarm source to ack
+  alarmNumber      Which alarm number to acknowledge (default: 0)
 
 Options:
-  -h, --help      display help for command
+  -h, --help       display help for command
 `);
         });
     });
@@ -761,7 +761,7 @@ Options:
     });
 
     it("should do nothing when wrong start command", async () => {
-        simTxtCmd("Hellow World");
+        simTxtCmd("Hello World");
         await promiseTimeout(400);
         expect(publishMessageMock).not.toBeCalled();
     });
