@@ -293,7 +293,7 @@ export class Client {
             lastQos = subscriberList.maxQos;
         }
 
-        subscriberList.addSuscriber(cb, qos);
+        subscriberList.addSubscriber(cb, qos);
         if (lastQos == -1 || subscriberList.maxQos > lastQos) {
             this._debug(
                 `going to send send subscribe to the underlying mqtt client`
@@ -439,7 +439,7 @@ export class Client {
      * @returns boolean value depending if the message was distributed or not
      */
     private distributeMessage(msg: Message): number {
-        let foundSubsriber = 0;
+        let foundSubscriber = 0;
 
         for (const list of this._subscriberMap.findValues(msg.topic)) {
             this._debug(
@@ -451,14 +451,14 @@ export class Client {
                     `FIXME: no subscriber found in list in distribute message`
                 );
             }
-            foundSubsriber += num;
+            foundSubscriber += num;
         }
 
-        return foundSubsriber;
+        return foundSubscriber;
     }
 
     /**
-     * Removes the subcriber from the list and adjusts the active subscribes accordingly
+     * Removes the subscriber from the list and adjusts the active subscribes accordingly
      * @param topic the topic from which the subscriber has to be removed
      * @param s the subscriber to remove
      */

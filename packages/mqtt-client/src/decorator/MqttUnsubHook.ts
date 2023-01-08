@@ -18,7 +18,7 @@ export function MqttUnsubHook() {
                 target[UNSUBSCRIBE_HOOK_NAME] = propertyKey;
             } else {
                 throw new Error(
-                    `MqttConnectHandler set on something wich is not a method`
+                    `MqttConnectHandler set on something which is not a method`
                 );
             }
         } else {

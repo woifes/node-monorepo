@@ -4,7 +4,7 @@
 /**
  * Checks if the items in a given array are unique
  * @param array the array to test
- * @param compare a function which extracts a value from one item to use for the comparisson
+ * @param compare a function which extracts a value from one item to use for the comparison
  * @returns true if the items are unique, false if not
  */
 export function checkItemUniqueness<T>(array: T[], compare?: (item: T) => any) {

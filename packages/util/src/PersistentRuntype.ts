@@ -19,15 +19,15 @@ function deepEqualsObject<T>(actual: T, expected: T) {
 }
 
 /**
- * @param noMergeAtSet forbidds the merging of the existing value to a new value (so it overrides the existing value)
- * @param noMergeAtLoad forbidds the mergin at startup (default value with existing value on disc)
+ * @param noMergeAtSet forbids the merging of the existing value to a new value (so it overrides the existing value)
+ * @param noMergeAtLoad forbids the merging at startup (default value with existing value on disc)
  */
-export type PersistantRuntypeOpts = {
+export type PersistentRuntypeOpts = {
     noMergeAtSet?: boolean;
     noMergeAtLoad?: boolean;
 };
 
-export class PersistantRuntype<T> {
+export class PersistentRuntype<T> {
     private _value: T;
     private _filePath: string;
     private _runtype: rt.Runtype<T>;
@@ -35,7 +35,7 @@ export class PersistantRuntype<T> {
     private _noMergeAtLoad: boolean;
 
     /**
-     * Handles a object value which is hold persistant on the file system as a json file
+     * Handles a object value which is hold persistent on the file system as a json file
      * Supports merging of objects either from disc or at write.
      * * On Set means to merge an incoming value with the existing one. This is tolerated if the runtype still validates
      * * On Load mean to merge the existing (persisted) value on the disc with the default value
@@ -48,7 +48,7 @@ export class PersistantRuntype<T> {
         filePath: string,
         runtype: rt.Runtype<T>,
         def: T,
-        opts?: PersistantRuntypeOpts
+        opts?: PersistentRuntypeOpts
     ) {
         opts = opts ?? {};
         this._noMergeAtSet = opts.noMergeAtSet ?? false;
@@ -71,12 +71,12 @@ export class PersistantRuntype<T> {
 
     /**
      * Triggers the reading of the persistance file.
-     * @returns true on an successfull read, false if not. In the false case the default value is written to the file
+     * @returns true on an successfully read, false if not. In the false case the default value is written to the file
      */
     readFileFromDisk() {
         try {
-            const conent = readFileSync(this._filePath, "utf-8");
-            const parsedObj = parse(conent);
+            const content = readFileSync(this._filePath, "utf-8");
+            const parsedObj = parse(content);
             const isSubSet = !(<boolean>(
                 this._runtype.validate(parsedObj).success
             ));
@@ -101,7 +101,7 @@ export class PersistantRuntype<T> {
     /**
      * Setter for the value. Triggers a read on each set
      * @param v the value to set
-     * @returns true if successfull, false if either write error or incoming value does not validate to the runtype
+     * @returns true if successfully, false if either write error or incoming value does not validate to the runtype
      */
     setValue(v: T): boolean {
         try {

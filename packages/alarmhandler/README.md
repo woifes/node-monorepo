@@ -1,8 +1,8 @@
 # @woifes/alarmhandler
 
 ## Why?
-The idea of this package is to have a alarm representation like is commoly used in automation. This means to have a set of signal which indicate the presence of a certain alarm event. 
-In the same way the alarms can be acknowledged. The implementation was aimed to be as small as possible. The peristance is aimed to be minimal but also to be human readable (no sqlite).
+The idea of this package is to have a alarm representation like is commonly used in automation. This means to have a set of signal which indicate the presence of a certain alarm event. 
+In the same way the alarms can be acknowledged. The implementation was aimed to be as small as possible. The persistance is aimed to be minimal but also to be human readable (no sqlite).
 
 ## Installation
 Package not (yet) published

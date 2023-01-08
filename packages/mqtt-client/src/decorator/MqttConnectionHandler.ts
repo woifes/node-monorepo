@@ -27,7 +27,7 @@ export function MqttConnectionHandler() {
                 };
             } else {
                 throw new Error(
-                    `MqttConnectHandler set on something wich is not a method`
+                    `MqttConnectHandler set on something which is not a method`
                 );
             }
             target[CONNECTION_HANDLER_LIST_KEY].push(fn);

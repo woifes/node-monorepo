@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import { tS7Address } from "../../src/types/S7Address";
-import { sortDbAdresses, sortS7Adresses } from "../../src/util/sortDb";
+import { sortDbAddresses, sortS7Addresses } from "../../src/util/sortDb";
 
 describe("sort db tests", () => {
     it("should sort correctly", () => {
@@ -17,7 +17,7 @@ describe("sort db tests", () => {
             { area: "DB", dbNr: 2, byteIndex: 1, type: "INT16" },
             { area: "DB", dbNr: 1, byteIndex: 1, type: "INT16" },
         ];
-        expect(testArray.sort(sortDbAdresses)).toEqual([
+        expect(testArray.sort(sortDbAddresses)).toEqual([
             { area: "DB", dbNr: 1, byteIndex: 1, type: "INT16" },
             { area: "DB", dbNr: 2, byteIndex: 1, type: "INT16" },
             { area: "DB", dbNr: 3, byteIndex: 10, type: "INT16" },
@@ -40,7 +40,7 @@ describe("sort s7 adresses tests", () => {
             { area: "M", type: "UINT8", byteIndex: 3 },
             { area: "M", type: "UINT8", byteIndex: 1 },
         ];
-        expect(testArray.sort(sortS7Adresses)).toEqual([
+        expect(testArray.sort(sortS7Addresses)).toEqual([
             { area: "M", type: "UINT8", byteIndex: 1 },
             { area: "M", type: "UINT8", byteIndex: 3 },
             { area: "M", type: "UINT8", byteIndex: 3 },

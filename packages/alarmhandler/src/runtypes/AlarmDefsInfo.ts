@@ -10,6 +10,6 @@ export const AlarmDefsInfo = rt.Dictionary(
 );
 
 /**
- * Dictionary definiton for storing multiple alarm definiton
+ * Dictionary definition for storing multiple alarm definition
  */
 export type tAlarmDefsInfo = rt.Static<typeof AlarmDefsInfo>;

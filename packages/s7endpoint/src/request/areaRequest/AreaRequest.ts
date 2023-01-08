@@ -5,7 +5,7 @@ import { Array as rtArray } from "runtypes";
 import { tS7DataAreas } from "../../const";
 import { S7Endpoint } from "../../S7Endpoint";
 import { S7Variable, tS7Variable } from "../../types/S7Variable";
-import { sortS7Adresses } from "../../util/sortDb";
+import { sortS7Addresses } from "../../util/sortDb";
 import { getBoundsOfVarSet } from "../util/getBoundsOfVarSet";
 
 export class AreaRequest {
@@ -22,7 +22,7 @@ export class AreaRequest {
         this._area = variables[0].area;
         this._variablesUnsorted = variables;
         this._variables = [...rtArray(S7Variable).check(variables)].sort(
-            sortS7Adresses
+            sortS7Addresses
         );
 
         const [start, end] = getBoundsOfVarSet(this._variables);

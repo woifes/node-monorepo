@@ -6,7 +6,7 @@ import stringify from "json-stringify-pretty-compact";
 import { join } from "path";
 import * as rt from "runtypes";
 import { deepObjectMerge } from "../src/deepObjectMerge";
-import { PersistantRuntype } from "../src/PersistentRuntype";
+import { PersistentRuntype } from "../src/PersistentRuntype";
 jest.mock("fs");
 const readFileSyncMock = readFileSync as jest.Mock;
 const writeFileSyncMock = writeFileSync as jest.Mock;
@@ -68,7 +68,7 @@ describe("creation tests", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             throw new Error("file does not exist");
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         expect(pr.getValue()).toEqual(defaultValue);
         expect(readFileSyncMock).toBeCalledTimes(1);
         expect(readFileSyncMock.mock.calls[0][0]).toBe(filePath);
@@ -81,7 +81,7 @@ describe("creation tests", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             return strDefaultValue;
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         expect(pr.getValue()).toEqual(defaultValue);
         expect(readFileSyncMock).toBeCalledTimes(1);
         expect(readFileSyncMock.mock.calls[0][0]).toBe(filePath);
@@ -92,7 +92,7 @@ describe("creation tests", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             return strValueBad;
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         expect(pr.getValue()).toEqual(defaultValue);
         expect(readFileSyncMock).toBeCalledTimes(1);
         expect(readFileSyncMock.mock.calls[0][0]).toBe(filePath);
@@ -105,7 +105,7 @@ describe("creation tests", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             return strSubDefaultValue;
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         expect(pr.getValue()).toEqual(
             deepObjectMerge(defaultValue, subDefaultValue)
         );
@@ -122,7 +122,7 @@ describe("creation tests", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             return strSubDefaultValue;
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue, {
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue, {
             noMergeAtLoad: true,
         });
         expect(pr.getValue()).toEqual(defaultValue);
@@ -137,7 +137,7 @@ describe("creation tests", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             return strSuperDefaultValue;
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         expect(pr.getValue()).toEqual(superDefaultValue);
         expect(readFileSyncMock).toBeCalledTimes(1);
         expect(readFileSyncMock.mock.calls[0][0]).toBe(filePath);
@@ -148,7 +148,7 @@ describe("creation tests", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             throw new Error("file does not exist");
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         expect(pr.getValue() === pr.getValue()).toBe(false);
     });
 });
@@ -158,7 +158,7 @@ describe("reload file test", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             throw new Error("file does not exist");
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         expect(pr.getValue()).toEqual(defaultValue);
         expect(readFileSyncMock).toBeCalledTimes(1);
         expect(readFileSyncMock.mock.calls[0][0]).toBe(filePath);
@@ -187,7 +187,7 @@ describe("reload file test", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             throw new Error("file not found");
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         expect(pr.getValue()).toEqual(defaultValue);
         expect(readFileSyncMock).toBeCalledTimes(1);
         expect(readFileSyncMock.mock.calls[0][0]).toBe(filePath);
@@ -213,7 +213,7 @@ describe("reload file test", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             throw new Error("file does not exist");
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         expect(pr.getValue()).toEqual(defaultValue);
         expect(readFileSyncMock).toBeCalledTimes(1);
         expect(readFileSyncMock.mock.calls[0][0]).toBe(filePath);
@@ -241,7 +241,7 @@ describe("reload file test", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             throw new Error("file does not exist");
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         expect(pr.getValue()).toEqual(defaultValue);
         expect(readFileSyncMock).toBeCalledTimes(1);
         expect(readFileSyncMock.mock.calls[0][0]).toBe(filePath);
@@ -273,7 +273,7 @@ describe("reload file test", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             throw new Error("file does not exist -");
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue, {
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue, {
             noMergeAtLoad: true,
         });
         expect(pr.getValue()).toEqual(defaultValue);
@@ -297,7 +297,7 @@ describe("reload file test", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             throw new Error("file does not exist");
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         expect(pr.getValue()).toEqual(defaultValue);
         expect(readFileSyncMock).toBeCalledTimes(1);
         expect(readFileSyncMock.mock.calls[0][0]).toBe(filePath);
@@ -326,7 +326,7 @@ describe("set value test", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             throw new Error("file does not exist");
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         jest.clearAllMocks();
         expect(pr.setValue(testValue)).toBe(true);
         expect(writeFileSyncMock).toBeCalledTimes(1);
@@ -337,7 +337,7 @@ describe("set value test", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             throw new Error("file does not exist");
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         jest.clearAllMocks();
         expect(pr.setValue(valueBad as any)).toBe(false);
         expect(writeFileSyncMock).not.toBeCalled();
@@ -346,7 +346,7 @@ describe("set value test", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             throw new Error("file does not exist");
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         jest.clearAllMocks();
         expect(pr.setValue(subDefaultValue as any)).toBe(true);
         expect(writeFileSyncMock).toBeCalledTimes(1);
@@ -359,7 +359,7 @@ describe("set value test", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             throw new Error("file does not exist");
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue, {
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue, {
             noMergeAtSet: true,
         });
         jest.clearAllMocks();
@@ -370,7 +370,7 @@ describe("set value test", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             throw new Error("file does not exist");
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         jest.clearAllMocks();
         expect(pr.setValue(superDefaultValue)).toBe(true);
         expect(writeFileSyncMock).toBeCalledTimes(1);
@@ -381,7 +381,7 @@ describe("set value test", () => {
         readFileSyncMock.mockImplementationOnce(() => {
             throw new Error("file does not exist");
         });
-        const pr = new PersistantRuntype(filePath, testRuntype, defaultValue);
+        const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         jest.clearAllMocks();
         expect(pr.setValue(JSON.parse(JSON.stringify(defaultValue)))).toBe(
             true

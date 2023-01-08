@@ -14,7 +14,7 @@ export type tConnectionToUseInfo = string | number;
 /**
  * Marks the decorated class to use an mqtt client to subscribe decorated properties, setters and methods
  * The client object to use is searched in the following order:
- * 1. (AT)MqttConnection decorated constuctor parameter
+ * 1. (AT)MqttConnection decorated constructor parameter
  * 2. (AT)MqttConnection decorated property
  * 3. The first Client in arguments list of the constructor
  * 4. The first property which is a Client object
@@ -75,7 +75,7 @@ export function MqttClient() {
                 //
                 addConnectionHandler.call(self, client);
 
-                //set unsubribe method
+                //set unsubscribe method
                 overrideUnsubscribeHook.call(self);
             }
         };

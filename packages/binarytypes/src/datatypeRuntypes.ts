@@ -169,7 +169,7 @@ export const rtDOUBLE = rtBuffer
 export const rtString = rtBuffer.Or(rt.String);
 /**
  * Runtype which validates for an array of 1 byte signed integers
- * * Buffer whith length > 0
+ * * Buffer with length > 0
  * * String which can be parsed to an array of rtINT8
  * * Plain array of rtINT8
  */
@@ -187,7 +187,7 @@ export const rtARRAY_OF_INT8 = rtBuffer
     .Or(rt.Array(rtINT8));
 /**
  * Runtype which validates for an array of 1 byte unsigned integers
- * * Buffer whith length > 0
+ * * Buffer with length > 0
  * * String which can be parsed to an array of rtUINT8
  * * Plain array of rtUINT8
  */
@@ -205,7 +205,7 @@ export const rtARRAY_OF_UINT8 = rtBuffer
     .Or(rt.Array(rtUINT8));
 /**
  * Runtype which validates for an array of 2 byte signed integers
- * * Buffer whith length > 0 && length % 2 == 0
+ * * Buffer with length > 0 && length % 2 == 0
  * * String which can be parsed to an array of rtINT16
  * * Plain array of rtINT16
  */
@@ -225,7 +225,7 @@ export const rtARRAY_OF_INT16 = rtBuffer
     .Or(rt.Array(rtINT16));
 /**
  * Runtype which validates for an array of 2 byte unsigned integers
- * * Buffer whith length > 0 && length % 2 == 0
+ * * Buffer with length > 0 && length % 2 == 0
  * * String which can be parsed to an array of rtUINT16
  * * Plain array of rtUINT16
  */
@@ -245,7 +245,7 @@ export const rtARRAY_OF_UINT16 = rtBuffer
     .Or(rt.Array(rtUINT16));
 /**
  * Runtype which validates for an array of 4 byte signed integers
- * * Buffer whith length > 0 && length % 4 == 0
+ * * Buffer with length > 0 && length % 4 == 0
  * * String which can be parsed to an array of rtINT32
  * * Plain array of rtINT32
  */
@@ -265,7 +265,7 @@ export const rtARRAY_OF_INT32 = rtBuffer
     .Or(rt.Array(rtINT32));
 /**
  * Runtype which validates for an array of 4 byte unsigned integers
- * * Buffer whith length > 0 && length % 4 == 0
+ * * Buffer with length > 0 && length % 4 == 0
  * * String which can be parsed to an array of rtUINT32
  * * Plain array of rtUINT32
  */
@@ -285,7 +285,7 @@ export const rtARRAY_OF_UINT32 = rtBuffer
     .Or(rt.Array(rtUINT32));
 /**
  * Runtype which validates for an array of 8 byte signed integers
- * * Buffer whith length > 0 && length % 8 == 0
+ * * Buffer with length > 0 && length % 8 == 0
  * * String which can be parsed to an array of rtINT64
  * * Plain array of rtINT64
  */
@@ -305,7 +305,7 @@ export const rtARRAY_OF_INT64 = rtBuffer
     .Or(rt.Array(rtINT64));
 /**
  * Runtype which validates for an array of 8 byte unsigned integers
- * * Buffer whith length > 0 && length % 8 == 0
+ * * Buffer with length > 0 && length % 8 == 0
  * * String which can be parsed to an array of rtUINT64
  * * Plain array of rtUINT64
  */

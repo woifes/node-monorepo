@@ -9,7 +9,7 @@ import { tMqttValueConfig } from "../types/MqttValueConfig";
 import { MsgOperatorFactory } from "./MsgOperatorFactory";
 
 export type tValueOperator = (
-    soucre: Observable<Message>
+    source: Observable<Message>
 ) => Observable<tJsVal>;
 
 export function ValueOperatorFactory(

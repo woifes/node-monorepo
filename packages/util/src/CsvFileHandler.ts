@@ -17,7 +17,7 @@ import { createInterface } from "readline";
 /**
  * @property maxFileSizeMB the maximal file size
  * @property header the header for csv mode
- * @property fileExtenstion file extension to use for the file
+ * @property fileExtension file extension to use for the file
  * @property csvSeparator - default: ';'
  */
 export interface CsvFileHandlerOptions {
@@ -175,7 +175,7 @@ export class CsvFileHandler {
     }
 
     /**
-     * Writes the given items with the optional timestamp joine by the csv separator
+     * Writes the given items with the optional timestamp joined by the csv separator
      * @param entries array of entries
      * @returns true on success, false on failure
      */
@@ -208,9 +208,9 @@ export class CsvFileHandler {
 
     /**
      * Generates an EventEmitter which emits lines filtered by a given filter
-     * @param filter fiter function which gets called with an array of string elements. Shall return true if the line has to be returned.
+     * @param filter filter function which gets called with an array of string elements. Shall return true if the line has to be returned.
      * The header will also returned
-     * @param checkAll if set every line will be checked. If not set (default) it is assumed that a continous block will be selected.
+     * @param checkAll if set every line will be checked. If not set (default) it is assumed that a continuos block will be selected.
      * If the filter returns true the first time the block starts and ends when the filter returns false the next time
      * @returns EventEmitter with two events:
      * * 'line' for every line
@@ -270,9 +270,9 @@ export class CsvFileHandler {
     /**
      * Returns the lines of the underlying file, filtered by the provided filter
      * @param filter the filter function to use on each line. The header will also be checked
-     * @param checkAll if set every line will be checked. If not set (default) it is assumed that a continous block will be selected.
-     * If the filter returns true the first time the block starts and ends when the filter returns false the next time
-     * @returns Promis which resilves with an array of lines
+     * @param checkAll if set every line will be checked. If not set (default) it is assumed that a continuos block will be selected.
+     * If the filter returns true the first time the block starts and ends when the filter returns false afterwards
+     * @returns Promise which resolvers with an array of lines
      */
     async getAllLines(
         filter: (entries: string[]) => boolean,

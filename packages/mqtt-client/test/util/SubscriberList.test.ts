@@ -12,20 +12,20 @@ test("add handler function", () => {
 
     expect(list.topic).toEqual(["A", "B", "C"]);
 
-    list.addSuscriber(h1, 0);
+    list.addSubscriber(h1, 0);
     expect(list.size).toBe(1);
     expect(list.maxQos).toBe(0);
 
-    list.addSuscriber(h2, 1);
+    list.addSubscriber(h2, 1);
     expect(list.size).toBe(2);
     expect(list.maxQos).toBe(1);
 
-    list.addSuscriber(h3, 2);
+    list.addSubscriber(h3, 2);
     expect(list.size).toBe(3);
     expect(list.maxQos).toBe(2);
 
     list = new SubscriberList(["A", "B", "C"]);
-    list.addSuscriber(h1, 2);
+    list.addSubscriber(h1, 2);
     expect(list.size).toBe(1);
     expect(list.maxQos).toBe(2);
 });
@@ -36,9 +36,9 @@ test("remove handler function", () => {
     const h2 = jest.fn();
     const h3 = jest.fn();
 
-    list.addSuscriber(h1, 0);
-    list.addSuscriber(h2, 1);
-    list.addSuscriber(h3, 2);
+    list.addSubscriber(h1, 0);
+    list.addSubscriber(h2, 1);
+    list.addSubscriber(h3, 2);
     expect(list.size).toBe(3);
     expect(list.maxQos).toBe(2);
 
@@ -56,8 +56,8 @@ test("remove handler function", () => {
 
     //empty
 
-    list.addSuscriber(h1, 0);
-    list.addSuscriber(h2, 1);
+    list.addSubscriber(h1, 0);
+    list.addSubscriber(h2, 1);
     expect(list.size).toBe(2);
     expect(list.maxQos).toBe(1);
 
@@ -73,9 +73,9 @@ test("distribute message", () => {
     const h3 = jest.fn();
     const m = new Message("A/B/C", 0, false);
 
-    list.addSuscriber(h1, 0);
-    list.addSuscriber(h2, 1);
-    list.addSuscriber(h3, 2);
+    list.addSubscriber(h1, 0);
+    list.addSubscriber(h2, 1);
+    list.addSubscriber(h3, 2);
 
     expect(list.sendMessage(m)).toBe(3);
     expect(h1).toBeCalledTimes(1);
@@ -93,9 +93,9 @@ it("should be robust agains expections inside the handler", () => {
     const h3 = jest.fn();
     const m = new Message("A/B/C", 0, false);
 
-    list.addSuscriber(h1, 0);
-    list.addSuscriber(h2, 1);
-    list.addSuscriber(h3, 2);
+    list.addSubscriber(h1, 0);
+    list.addSubscriber(h2, 1);
+    list.addSubscriber(h3, 2);
 
     expect(list.sendMessage(m)).toBe(3);
     expect(h1).toBeCalledTimes(1);

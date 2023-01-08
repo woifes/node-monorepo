@@ -19,7 +19,7 @@ const MAX_UINT64 = 2n ** 64n - 1n;
 
 /**
  * Generates bigint from input. Checks number to be in safe integer bounds. If string given tries to convert it losslessly.
- * Throws if the conditons are not met
+ * Throws if the conditions are not met
  * @param val  the value to normalize. Strings will be parsed from an optional + or - sing up to the first non number character
  * @returns bigint
  */
@@ -93,7 +93,7 @@ export const calcIntegerSize = function (
  * Checks if a given value is an integer with a certain size
  * @param val the value to check
  * @param signed specifies if the value is(should be) signed
- * @param bytes the byte size which the integer sould have (1|2|4|8)
+ * @param bytes the byte size which the integer should have (1|2|4|8)
  * @returns returns the given size if it fit in the byte size given and -1 if something is wrong
  */
 export const checkIntSize = function (

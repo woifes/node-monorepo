@@ -13,9 +13,9 @@ export const AlarmHandlerConfig = rt.Record({
 /**
  * @param numOfAlarms number of alarms which should be used
  * @param traceFilePath file path to store the alarm trace file
- * @param presentAlarmsFilePath file path to store the persistant alarm object
- * @param alarmDefsPath optional the file path to store the alarm definitons
- * If not set a PersitantRuntypeObject with a type compatible to the alarm defs info has to be given.
- * (This can be used to include the alarm persistence into an already existing persistant runtype)
+ * @param presentAlarmsFilePath file path to store the persistent alarm object
+ * @param alarmDefsPath optional the file path to store the alarm definitions
+ * If not set a PersistentRuntypeObject with a type compatible to the alarm defs info has to be given.
+ * (This can be used to include the alarm persistence into an already existing persistent runtype)
  */
 export type tAlarmHandlerConfig = rt.Static<typeof AlarmHandlerConfig>;

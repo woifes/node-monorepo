@@ -148,7 +148,7 @@ export class Message {
 
     /**
      * Checks if the topic contains a valid command array
-     * @param expec Array of types expected
+     * @param expected Array of types expected
      * @returns Array of the values. The length of the array can be lower than the expected length.
      * It is only guaranteed that all existing values in the array match the types expected
      */
@@ -180,7 +180,7 @@ export class Message {
                 }
                 return res;
             } else {
-                throw new Error(`parseduest is not an array`);
+                throw new Error(`parsed set is not an array`);
             }
         } catch {
             return [];

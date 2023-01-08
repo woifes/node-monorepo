@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import { tS7Address } from "../../types/S7Address";
-import { sortDbAdresses } from "../../util/sortDb";
+import { sortDbAddresses } from "../../util/sortDb";
 import { getBoundsOfVarSet } from "./getBoundsOfVarSet";
 
 function checkOverlap(A: tS7Address[], B: tS7Address[]): boolean {
@@ -20,7 +20,7 @@ function checkOverlap(A: tS7Address[], B: tS7Address[]): boolean {
  * @returns an array of array where each sub array is continuos
  */
 export function combineContAddresses(variables: tS7Address[]): tS7Address[][] {
-    variables.sort(sortDbAdresses);
+    variables.sort(sortDbAddresses);
     const variableArr: tS7Address[][] = [];
     const result: tS7Address[][] = [];
     for (const variable of variables) {

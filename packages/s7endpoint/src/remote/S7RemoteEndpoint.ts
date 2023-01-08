@@ -59,7 +59,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
 
     private _config: tS7RemoteEndpointConfig;
     private _client: S7Client;
-    private _connnectedToEndpoint = false;
+    private _connectedToEndpoint = false;
     private _reconnectTimeout?: NodeJS.Timeout;
     private _debug: Debugger;
     private _debugRead: Debugger;
@@ -98,12 +98,12 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
      * Connection status of the endpoint
      */
     get connected(): boolean {
-        if (this._connnectedToEndpoint != this._client.Connected()) {
+        if (this._connectedToEndpoint != this._client.Connected()) {
             this._debug(
                 `Connection status between endpoint and client is not synchronous`
             );
         }
-        return this._connnectedToEndpoint && this._client.Connected();
+        return this._connectedToEndpoint && this._client.Connected();
     }
 
     /**
@@ -118,7 +118,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                 this.scheduleReconnect();
             } else {
                 delete this._reconnectTimeout;
-                this._connnectedToEndpoint = true;
+                this._connectedToEndpoint = true;
                 this._debug("Client successfully connected");
                 this.emit("connect");
             }
@@ -131,7 +131,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
     disconnect() {
         this._debug("Called disconnect()");
         this._client.Disconnect();
-        this._connnectedToEndpoint = false;
+        this._connectedToEndpoint = false;
         this.emit("disconnect");
         if (this._config.reconnectTimeMS != undefined) {
             this._debug(`Called schedule reconnect in disconnect()`);
@@ -220,7 +220,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                                 resolve(data);
                             } else {
                                 this._debugRead(
-                                    `Error at readBytes data length not equal to requestet length: ${data.length}/${length}`
+                                    `Error at readBytes data length not equal to requested length: ${data.length}/${length}`
                                 );
                                 reject(new Error("Data not expected length"));
                             }
@@ -235,7 +235,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
     }
 
     /**
-     * Reads multible variables at once (api level)
+     * Reads multiple variables at once (api level)
      * @param tags the tags to read
      * @returns
      */
@@ -321,7 +321,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                     (err: any, data: MultiVarsWriteResult[]) => {
                         if (err != undefined) {
                             this._debugWrite(
-                                `Error at writeMultiVarts: ${this._client.ErrorText(
+                                `Error at writeMultiVars: ${this._client.ErrorText(
                                     err
                                 )}`
                             );

@@ -5,7 +5,7 @@ export { checkItemUniqueness } from "./src/checkItemUniqueness";
 export { CsvFileHandler, CsvFileHandlerOptions } from "./src/CsvFileHandler";
 export { deepObjectMerge } from "./src/deepObjectMerge";
 export {
-    PersistantRuntype,
-    PersistantRuntypeOpts,
+    PersistentRuntype,
+    PersistentRuntypeOpts,
 } from "./src/PersistentRuntype";
 export { PickRequire } from "./src/PickRequire";

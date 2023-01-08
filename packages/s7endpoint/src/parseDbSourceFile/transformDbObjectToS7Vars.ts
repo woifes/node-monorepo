@@ -23,7 +23,7 @@ function parseDbLine(str: string): ParseLineResult {
     const comment = str.split("//")[1];
     if (type == undefined) {
         throw new Error(
-            `Error in parseLineToTagDesc, type is undefinded. str:${str}`
+            `Error in parseLineToTagDesc, type is undefined. str:${str}`
         );
     }
 
@@ -125,7 +125,7 @@ export function transformDbObjectToS7Vars(
                 } else {
                     if (
                         variableTmp.type == "BIT" &&
-                        variableTmp.count != undefined //is implied because of the condition above anways
+                        variableTmp.count != undefined //is implied because of the condition above anyways
                     ) {
                         variableTmp.bitIndex = 0;
                     }

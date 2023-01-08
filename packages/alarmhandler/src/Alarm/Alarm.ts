@@ -55,8 +55,8 @@ export class Alarm extends EventEmitter {
     /**
      * Represents a single alarm. Set the signal to true and the alarm will be considered as "triggered".
      * Setting the signal to false will only untrigger the alarm if "autoAck is set". If no autoAck is set,
-     * the alarm has to be acknowledged with the "ack" bit. The alarm saves the occurance and acknowledge time
-     * Generally the state of the alarm should be checked by the "toJSON()" method, which will return a standardised
+     * the alarm has to be acknowledged with the "ack" bit. The alarm saves the occurrence and acknowledge time
+     * Generally the state of the alarm should be checked by the "toJSON()" method, which will return a standardized
      * Alarm object.
      * There are multiple event to register to:
      * * ```new``` emitted one time when the alarm is triggered emits the json object
@@ -64,8 +64,8 @@ export class Alarm extends EventEmitter {
      * * ```ack``` emitted when the alarm is acknowledged emits the json object
      * * ```signalChanged``` emitted when the signal changes (both edges) emits the json object
      * @param nr the nr (id) of the alarm
-     * @param def the alarm definiton for the alarm
-     * @param presentAlarmInfo if the alarm stat was saved persistant it can be given here to restore the state
+     * @param def the alarm definition for the alarm
+     * @param presentAlarmInfo if the alarm stat was saved persistent it can be given here to restore the state
      */
     constructor(
         nr: number,

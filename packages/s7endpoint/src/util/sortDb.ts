@@ -8,7 +8,7 @@ import { tS7Address } from "../types/S7Address";
  * @param a
  * @param b
  */
-export const sortDbAdresses = function (a: tS7Address, b: tS7Address): number {
+export const sortDbAddresses = function (a: tS7Address, b: tS7Address): number {
     if (a.area != b.area && a.area != "DB") {
         throw new Error("Can only sort db addresses");
     }
@@ -17,7 +17,7 @@ export const sortDbAdresses = function (a: tS7Address, b: tS7Address): number {
     } else if (a.dbNr! > b.dbNr!) {
         return 1;
     } else {
-        return sortS7Adresses(a, b);
+        return sortS7Addresses(a, b);
     }
 };
 
@@ -27,7 +27,7 @@ export const sortDbAdresses = function (a: tS7Address, b: tS7Address): number {
  * @param b
  * @returns
  */
-export const sortS7Adresses = function (a: tS7Address, b: tS7Address) {
+export const sortS7Addresses = function (a: tS7Address, b: tS7Address) {
     if (a.byteIndex < b.byteIndex) {
         return -1;
     } else if (a.byteIndex > b.byteIndex) {

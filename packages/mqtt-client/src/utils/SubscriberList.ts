@@ -96,7 +96,7 @@ export class SubscriberList {
      * @param fn the subscribe handler
      * @param qos the qos for the given handler
      */
-    addSuscriber(fn: SubscribeHandler, qos: QoS) {
+    addSubscriber(fn: SubscribeHandler, qos: QoS) {
         this._subscriber.set(fn, qos);
     }
 

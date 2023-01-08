@@ -25,7 +25,7 @@ export class WriteRequest extends Request {
 
     /**
      * Executes the configured write operation
-     * @returns Promis.all of the underlying requests
+     * @returns Promise.all of the underlying requests
      */
     async execute() {
         const promises: Promise<unknown>[] = [];

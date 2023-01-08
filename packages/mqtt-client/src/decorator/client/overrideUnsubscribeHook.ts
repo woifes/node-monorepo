@@ -14,7 +14,7 @@ export function overrideUnsubscribeHook(this: any) {
         if (usm != undefined && typeof usm == "function") {
             this[this[UNSUBSCRIBE_HOOK_NAME]] = function (...args: any[]) {
                 for (let i = 0; i < this[SUBSCRIPTION_LIST_KEY].length; i++) {
-                    this[SUBSCRIPTION_LIST_KEY][i].unsubscribe(); //call the unsubsribe function
+                    this[SUBSCRIPTION_LIST_KEY][i].unsubscribe(); //call the unsubscribe function
                 }
                 for (
                     let i = 0;

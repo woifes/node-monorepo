@@ -18,7 +18,7 @@ describe("setter decorating test", () => {
                 }
             }
         }).toThrowError(
-            "MqttConnectHandler set on something wich is not a method"
+            "MqttConnectHandler set on something which is not a method"
         );
     });
 });

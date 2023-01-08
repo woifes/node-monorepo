@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { CsvFileHandler, PersistantRuntype } from "@woifes/util";
+import { CsvFileHandler, PersistentRuntype } from "@woifes/util";
 import { EventEmitter } from "events";
 import { basename, dirname } from "path";
 import { Alarm } from "./Alarm/Alarm";
@@ -30,7 +30,7 @@ export declare interface AlarmHandler {
      */
     on(event: "gone", listener: (alarmNr: number, trace: string) => void): this;
     /**
-     * emitted when one alarm is acknwoledged emits the alarm number and the json representation
+     * emitted when one alarm is acknowledged emits the alarm number and the json representation
      */
     on(
         event: "ack",
@@ -44,7 +44,7 @@ export declare interface AlarmHandler {
         listener: (alarmNr: number, alarm: tAlarmJsonObject) => void
     ): this;
     /**
-     * emitted when the overall present alarm info changes (comibnation of the other evenst). Emits the new alarm representation
+     * emitted when the overall present alarm info changes (combination of the other events). Emits the new alarm representation
      */
     on(
         event: "presentAlarmsChanged",
@@ -72,8 +72,8 @@ export class AlarmHandler extends EventEmitter {
     protected _config: tAlarmHandlerConfig;
     protected _name: string;
 
-    protected _alarmDefs: PersistantRuntype<tAlarmDefsInfo>;
-    protected _presentAlarms: PersistantRuntype<tPresentAlarmsInfo>;
+    protected _alarmDefs: PersistentRuntype<tAlarmDefsInfo>;
+    protected _presentAlarms: PersistentRuntype<tPresentAlarmsInfo>;
     protected _alarmTrace: CsvFileHandler;
 
     [key: number]: Alarm; //Arraylike
@@ -81,22 +81,22 @@ export class AlarmHandler extends EventEmitter {
 
     /**
      * The alarmhandler handles multiple alarm objects. It is array like which means that array functions can be called on it.
-     * The array like behavior is that at positon 0 there is no item the other positons are occupied by alarms with the corresponding number
+     * The array like behavior is that at position 0 there is no item the other positions are occupied by alarms with the corresponding number
      * There are also shorthand methods for the different alarm functions
      * Events:
      * * ```new``` emitted when one alarm occurs emits the alarm number and the alarm json representation
      * * ```gone``` emitted when one alarm is reset emits the alarm number and the tracestring
-     * * ```ack``` emitted when one alarm is acknwoledged emits the alarm number and the json representation
+     * * ```ack``` emitted when one alarm is acknowledged emits the alarm number and the json representation
      * * ```signalChanged``` emitted when one alarm changes its signal emit the alarm number and the json representation
-     * * ```presentAlarmsChanged``` emitted when the overall present alarm info changes (combination of the above evenst). Emits the new alarm representation
+     * * ```presentAlarmsChanged``` emitted when the overall present alarm info changes (combination of the above events). Emits the new alarm representation
      * @param name the name (id) of the alarm handler
-     * @param config config (see the type definiton doc)
-     * @param alarmDefs optional external alarm definitons
+     * @param config config (see the type definition doc)
+     * @param alarmDefs optional external alarm definitions
      */
     constructor(
         name: string,
         config: tAlarmHandlerConfig,
-        alarmDefs?: PersistantRuntype<tAlarmDefsInfo>
+        alarmDefs?: PersistentRuntype<tAlarmDefsInfo>
     ) {
         super();
         this._config = AlarmHandlerConfig.check(config);
@@ -110,7 +110,7 @@ export class AlarmHandler extends EventEmitter {
             this._alarmDefs.setValue(definitions);
         } else if (this._config.alarmDefsPath != undefined) {
             const defaultDefs = this.fillAlarmDefinitons();
-            this._alarmDefs = new PersistantRuntype(
+            this._alarmDefs = new PersistentRuntype(
                 this._config.alarmDefsPath,
                 AlarmDefsInfo,
                 defaultDefs
@@ -119,7 +119,7 @@ export class AlarmHandler extends EventEmitter {
             throw new Error(`No alarm definitions found`);
         }
 
-        this._presentAlarms = new PersistantRuntype(
+        this._presentAlarms = new PersistentRuntype(
             this._config.presentAlarmsFilePath,
             PresentAlarmsInfo,
             { time: new Date().toJSON(), alarms: [] },
@@ -131,11 +131,11 @@ export class AlarmHandler extends EventEmitter {
             presentAlarmsByNumber[alNr] = presentAlarmsObj[alNr];
         }
 
-        const alarmDefinitons = this._alarmDefs.getValue();
+        const alarmDefinitions = this._alarmDefs.getValue();
         for (let i = 1; i <= this._config.numOfAlarms; i++) {
             const alarm = new Alarm(
                 i,
-                alarmDefinitons[i],
+                alarmDefinitions[i],
                 presentAlarmsByNumber[i]
             );
             alarm.on("new", (obj: tAlarmJsonObject) => {
@@ -186,9 +186,9 @@ export class AlarmHandler extends EventEmitter {
     }
 
     /**
-     * Fills a existing set of alarm definitons, or creates one
+     * Fills a existing set of alarm definitions, or creates one
      * @param existingDef an (incomplete) existing alarm defintion info obj
-     * @returns the filled up (complete) alarm definiton info obj
+     * @returns the filled up (complete) alarm definition info obj
      */
     private fillAlarmDefinitons(
         existingDef: tAlarmDefsInfo = {}
@@ -217,7 +217,7 @@ export class AlarmHandler extends EventEmitter {
     }
 
     /**
-     * Trys to acknowledge a certain alarm
+     * Tries to acknowledge a certain alarm
      * @param nr the number of the alarm to acknowledge. If "0" is provided, all alarms will be acknowledged
      * @returns true if ack was set, false otherwise
      */

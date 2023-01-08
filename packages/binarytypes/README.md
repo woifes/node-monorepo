@@ -20,7 +20,7 @@ The module supports the following datatypes:
 |INT64|64 Bit signed integer|
 |UINT64|64 Bit unsigned integer|
 |FLOAT|32 Bit floating point number|
-|DOUBLE|64 Bit floating point nuzmber|
+|DOUBLE|64 Bit floating point number|
 |ARRAY_OF_INT8|Array version of the corresponding type|
 |ARRAY_OF_UINT8|Array version of the corresponding type|
 |ARRAY_OF_INT16|Array version of the corresponding type|

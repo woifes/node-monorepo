@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { PersistantRuntype } from "@woifes/util";
+import { PersistentRuntype } from "@woifes/util";
 import {
     emptyDirSync,
     mkdirSync,
@@ -170,7 +170,7 @@ describe("creation test", () => {
         writeFileSync(defFile(NAME), JSON.stringify(externalAlarmDefs), {
             encoding: "utf-8",
         });
-        const alarmDef = new PersistantRuntype(
+        const alarmDef = new PersistentRuntype(
             defFile(NAME),
             AlarmDefsInfo,
             externalAlarmDefs
