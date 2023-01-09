@@ -61,21 +61,21 @@ describe("creation tests", () => {
             .split("\n")
             .splice(1, 15); //only content rows
         expect(csv.sort().join("\n"))
-            .toBe(`var01;Standard-Variablentabelle;Con01;<No Value>;USInt;1;Binary;Absolute access;%DB1.DBB0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-var_10;Standard-Variablentabelle;Con01;<No Value>;UDInt;4;Binary;Absolute access;%DB2.DBD18;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+            .toBe(`var01;Standard-Variablentabelle;Con01;<No Value>;Byte;1;Binary;Absolute access;%DB1.DBB0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+var_10;Standard-Variablentabelle;Con01;<No Value>;DWord;4;Binary;Absolute access;%DB2.DBD18;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 var_11;Standard-Variablentabelle;Con01;<No Value>;Real;4;Binary;Absolute access;%DB2.DBD22;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 var_1_1;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB2.DBX0.0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 var_1_2;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB2.DBX0.1;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 var_1_3;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB2.DBX0.2;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 var_1_4;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB2.DBX0.3;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-var_2;Standard-Variablentabelle;Con01;<No Value>;USInt;1;Binary;Absolute access;%DB2.DBB1;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-var_3;Standard-Variablentabelle;Con01;<No Value>;UInt;2;Binary;Absolute access;%DB2.DBW2;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+var_2;Standard-Variablentabelle;Con01;<No Value>;Byte;1;Binary;Absolute access;%DB2.DBB1;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+var_3;Standard-Variablentabelle;Con01;<No Value>;Word;2;Binary;Absolute access;%DB2.DBW2;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 var_4;Standard-Variablentabelle;Con01;<No Value>;SInt;1;Binary;Absolute access;%DB2.DBB4;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-var_5;Standard-Variablentabelle;Con01;<No Value>;USInt;1;Binary;Absolute access;%DB2.DBB5;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+var_5;Standard-Variablentabelle;Con01;<No Value>;Byte;1;Binary;Absolute access;%DB2.DBB5;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 var_6;Standard-Variablentabelle;Con01;<No Value>;Int;2;Binary;Absolute access;%DB2.DBW6;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-var_7;Standard-Variablentabelle;Con01;<No Value>;UInt;2;Binary;Absolute access;%DB2.DBW8;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+var_7;Standard-Variablentabelle;Con01;<No Value>;Word;2;Binary;Absolute access;%DB2.DBW8;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 var_8;Standard-Variablentabelle;Con01;<No Value>;DInt;4;Binary;Absolute access;%DB2.DBD10;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-var_9;Standard-Variablentabelle;Con01;<No Value>;UDInt;4;Binary;Absolute access;%DB2.DBD14;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0`);
+var_9;Standard-Variablentabelle;Con01;<No Value>;DWord;4;Binary;Absolute access;%DB2.DBD14;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0`);
         s7ep.stop();
     });
 });

@@ -43,6 +43,14 @@ Package not (yet) published
 
     await writeRequest.execute();
 ```
+### Remarks using local endpoint (S7 Server)
+The local (server) endpoint generates a csv file which can be perpared in order to import it in WinCC. The following steps have to be done:
+
+* Create a S7 300 connection in WinCC (be aware that only the data types if a S7 300 PLC can be used)
+* Take the generated csv and open it in Excel/Libreoffice and save it as .xlsx file
+* Swap the placeholder name of the connection ("Con01") to the name of the connection in your WinCC project
+* Rename the table sheet to "Hmi tags"
+* Import it in WinCC
 
 ## Running the build
 

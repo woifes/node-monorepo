@@ -6,15 +6,30 @@ import { CsvFileHandler } from "@woifes/util";
 import { TYPE_NAME_TO_S7_TYPE } from "../const";
 import { tS7Variable } from "../types/S7Variable";
 
+function getS7300Type(type: tNumber | "BIT"): string {
+    switch (type) {
+        case "UINT8":
+            return "Byte";
+        case "UINT16":
+            return "Word";
+        case "UINT32":
+            return "DWord";
+        case "INT64":
+        case "UINT64":
+        case "DOUBLE":
+            throw new Error(`${type} is not supported for local endpoint`);
+        default:
+            return TYPE_NAME_TO_S7_TYPE[type];
+    }
+}
+
 function getTypeField(variable: tS7Variable): string {
     let type: string;
     if (variable.type.indexOf("ARRAY") != -1) {
         const rawType = variable.type.split("_OF_")[1] as tNumber | "BIT";
-        type = `Array[0..${variable.count! - 1}] of ${
-            TYPE_NAME_TO_S7_TYPE[rawType]
-        }`;
+        type = `Array[0..${variable.count! - 1}] of ${getS7300Type(rawType)}`;
     } else {
-        type = TYPE_NAME_TO_S7_TYPE[variable.type as tNumber | "BIT"];
+        type = getS7300Type(variable.type);
     }
     return type;
 }
