@@ -1,0 +1,24 @@
+Dependency License Summary:
+
+MIT - 10
+AGPL-3.0-or-later - 2
+ISC - 2
+
+Dependency License Tree:
+
+@woifes/alarmhandler link:../../packages/alarmhandler - MIT
+@woifes/alarmhandlermqtt link:../../packages/alarmhandlermqtt - AGPL-3.0-or-later
+@woifes/binarytypes link:../../packages/binarytypes - MIT
+@woifes/mqtt-client link:../../packages/mqtt-client - AGPL-3.0-or-later
+@woifes/s7endpoint link:../../packages/s7endpoint - MIT
+@woifes/util link:../../packages/util - MIT
+debug 4.3.4 - MIT
+└── ms 2.1.2 - MIT
+fs-extra 10.1.0 - MIT
+├── graceful-fs 4.2.10 - ISC
+├─┬ jsonfile 6.1.0 - MIT
+│ ├── graceful-fs 4.2.10 - ISC
+│ └── universalify 2.0.0 - MIT
+└── universalify 2.0.0 - MIT
+runtypes 6.6.0 - MIT
+yaml 2.2.1 - ISC

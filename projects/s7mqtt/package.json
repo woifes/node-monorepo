@@ -17,7 +17,8 @@
     "prettier": "prettier -w ./mt/**/*.ts ./src/**/*.ts ./test/**/*.ts ./index.ts ",
     "lint": "npx eslint ./mt/ ./src/ ./test/ ./index.ts --fix",
     "lint:check": "npx eslint ./mt/ ./src/ ./test/ ./index.ts",
-    "prepare": "npm run compile"
+    "prepare": "npm run compile",
+    "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "author": "woifes",
   "license": "AGPL-3.0-or-later",
