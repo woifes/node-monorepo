@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
+import { readFileSync } from "fs";
+import { join, resolve } from "path";
 import { Interface } from "readline";
 import { question } from "./question";
 
@@ -25,11 +27,22 @@ export async function fetchLicenseOfPackage(
             const packageJson = await res.json();
             license = (packageJson.license as string) ?? "UNKNOWN";
         } catch {
-            license = await question(
-                `Which license does the package ${packageStr} have?`,
-                "License",
-                interf
-            );
+            try {
+                const relativePath = packageStr.split("/link:")[1];
+                const packageJson = JSON.parse(
+                    readFileSync(
+                        join(resolve(relativePath), "package.json"),
+                        "utf-8"
+                    )
+                );
+                license = (packageJson.license as string) ?? "UNKNOWN";
+            } catch {
+                license = await question(
+                    `Which license does the package ${packageStr} have?`,
+                    "License",
+                    interf
+                );
+            }
         }
     } else {
         console.error(
