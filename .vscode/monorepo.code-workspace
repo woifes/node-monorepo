@@ -28,15 +28,15 @@
             "editor.defaultFormatter": "esbenp.prettier-vscode",
             "editor.formatOnSave": true
         },
+        "cSpell.allowCompoundWords": true,
         "cSpell.ignoreWords": [
             "runtype",
-            "runtypes",
             "woifes",
             "alarmhandler",
             "alarmhandlermqtt",
             "binarytypes",
             "yasdi"
-        ]
+        ],
     },
     "extensions": {
         "recommendations": [
