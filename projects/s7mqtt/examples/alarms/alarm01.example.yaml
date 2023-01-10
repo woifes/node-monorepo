@@ -1,4 +1,4 @@
-numOfAlarms: 10 #has to be same size like "alarms" array
+numOfAlarms: 10 #defines the length of the alarm/acknowledge bulk(s) under "alarms"
 traceFilePath: path/to/trace
 presentAlarmsFilePath: path/to/present
 alarmDefsPath: path/to/defs

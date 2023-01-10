@@ -6,6 +6,8 @@ alarms:
   - signal: DB1,X0.1
     ackOut: DB2,X0.2 #optional
     ackIn: DB3,X0.3 #optional
+    parameter:
+    - DB3,W10
   - signal: DB4,X0.3
     ackOut: DB5,X0.4
     ackIn: DB6,X0.5

@@ -41,7 +41,7 @@ importers:
   packages/alarmhandler:
     specifiers:
       '@types/fs-extra': ^9.0.13
-      '@woifes/util': workspace:0.0.1
+      '@woifes/util': workspace:*
       fs-extra: ^10.0.1
       json5: ^2.2.1
       runtypes: ^6.5.1
