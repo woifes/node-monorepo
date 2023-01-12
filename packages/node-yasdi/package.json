@@ -5,8 +5,9 @@
   "main": "dist/index",
   "types": "dist/index",
   "files": [
-    "dist",
     "bin",
+    "build",
+    "dist",
     "shell"
   ],
   "private": true,
@@ -20,9 +21,9 @@
     "test": "jest",
     "compile": "tsc -p tsconfig.build.json",
     "prettier": "prettier -w ./src/**/*.ts ./test/**/*.ts ./shell/*.ts ./index.ts",
-    "lint": "npx eslint ./src/**/*.ts ./test/**/*.ts ./shell/*.ts ./index.ts --fix",
-    "lint:check": "npx eslint ./src/**/*.ts ./test/**/*.ts ./shell/*.ts ./index.ts",
-    "prepare": "npm run compile",
+    "lint": "eslint ./src/**/*.ts ./test/**/*.ts ./shell/*.ts ./index.ts --fix",
+    "lint:check": "eslint ./src/**/*.ts ./test/**/*.ts ./shell/*.ts ./index.ts",
+    "prepare": "pnpm node-gyp configure && pnpm build && pnpm compile",
     "node-gyp": "node-gyp",
     "build": "node-gyp build",
     "rebuild": "node-gyp rebuild",

@@ -15,9 +15,9 @@
     "mt:local": "jest --runInBand --forceExit mt/local/local.test.ts",
     "compile": "tsc -p tsconfig.build.json",
     "prettier": "prettier -w ./mt/**/*.ts ./src/**/*.ts ./test/**/*.ts ./index.ts ",
-    "lint": "npx eslint ./mt/ ./src/ ./test/ ./index.ts --fix",
-    "lint:check": "npx eslint ./mt/ ./src/ ./test/ ./index.ts",
-    "prepare": "npm run compile",
+    "lint": "eslint ./mt/ ./src/ ./test/ ./index.ts --fix",
+    "lint:check": "eslint ./mt/ ./src/ ./test/ ./index.ts",
+    "prepare": "pnpm compile",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "author": "woifes",

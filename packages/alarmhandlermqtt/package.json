@@ -12,9 +12,9 @@
     "test": "jest",
     "compile": "tsc -p tsconfig.build.json",
     "prettier": "prettier -w ./src/**/*.ts ./test/**/*.ts ./index.ts",
-    "lint": "npx eslint ./src/ ./test/ ./index.ts --fix",
-    "lint:check": "npx eslint ./src/ ./test/ ./index.ts",
-    "prepare": "npm run compile",
+    "lint": "eslint ./src/ ./test/ ./index.ts --fix",
+    "lint:check": "eslint ./src/ ./test/ ./index.ts",
+    "prepare": "pnpm compile",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "author": "woifes",

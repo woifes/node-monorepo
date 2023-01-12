@@ -13,9 +13,9 @@
     "test": "jest test/const && jest --forceExit test/local && jest test/parseDbSourceFile && jest test/remote && jest --runInBand --forceExit test/request && jest test/types && jest test/util",
     "compile": "tsc -p tsconfig.build.json",
     "prettier": "prettier -w ./src/**/*.ts ./test/**/*.ts ./index.ts",
-    "lint": "npx eslint ./src/ ./test/ ./index.ts --fix",
-    "lint:check": "npx eslint ./src/ ./test/ ./index.ts",
-    "prepare": "npm run compile",
+    "lint": "eslint ./src/ ./test/ ./index.ts --fix",
+    "lint:check": "eslint ./src/ ./test/ ./index.ts",
+    "prepare": "pnpm compile",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "keywords": [],

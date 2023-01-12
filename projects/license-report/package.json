@@ -14,9 +14,9 @@
   "scripts": {
     "compile": "tsc -p tsconfig.build.json",
     "prettier": "prettier -w ./src/**/*.ts ./index.ts",
-    "lint": "npx eslint ./src/ ./index.ts --fix",
-    "lint:check": "npx eslint ./src/ ./index.ts",
-    "prepare": "npm run compile"
+    "lint": "eslint ./src/ ./index.ts --fix",
+    "lint:check": "eslint ./src/ ./index.ts",
+    "prepare": "pnpm compile"
   },
   "keywords": [],
   "author": "woifes",
