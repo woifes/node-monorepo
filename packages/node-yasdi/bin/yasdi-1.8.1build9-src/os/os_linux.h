@@ -24,7 +24,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <pthread.h>
-#include <termio.h>
+#include <termios.h> //#include <termio.h>
 #include <sys/time.h>
 #include <stdarg.h>
 

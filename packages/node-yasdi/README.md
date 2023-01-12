@@ -39,7 +39,7 @@ pnpm run createIni 2> my.ini #follow instructions to create a yasdi compatible i
 pnpm run shell <path/to/my.ini> #run the shell with a given ini file
 ```
 
-## Remarks regarding yasdi LGPL
+## Remarks regarding yasdi and its LGPL
 *Here are the instructions how one can build a custom version of the yasdi library into this package (according to LGPL v2.1 with statically linked libraries). (It is assumed that the nodeJS related development is known.)*
 
 First you need the TypeScript version of this package which is part of a [monorepo](https://github.com/woifes/node-monorepo). The following describes where you find the different parts involved in the build:
@@ -49,6 +49,9 @@ First you need the TypeScript version of this package which is part of a [monore
  *This file was created by investigating the [cmakefile](./bin/yasdi-1.8.1build9-src/projects/generic-cmake/CMakeLists.txt) delivered with yasdi, some time and trial and error*
 * The build is configured via the [bindings.gyp](binding.gyp) file
 * Additionally there is an interface of the bindings for TypeScript defined in [src](./src/bindings/yasdiBindings.ts)
+
+### Changes made to yasdi
+* in `bin/yasdi-1.8.1build9-src/os/os_linux.h`: changed include from `#include <termio.h>` to `#include <termios.h>` so that it compiles on alpine linux
 
 For running the build see the following section.
 
