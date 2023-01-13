@@ -41,7 +41,7 @@ importers:
   packages/alarmhandler:
     specifiers:
       '@types/fs-extra': ^9.0.13
-      '@woifes/util': workspace:*
+      '@woifes/util': workspace:0.1.0
       fs-extra: ^10.0.1
       json5: ^2.2.1
       runtypes: ^6.5.1
@@ -56,9 +56,9 @@ importers:
   packages/alarmhandlermqtt:
     specifiers:
       '@types/fs-extra': ^9.0.13
-      '@woifes/alarmhandler': workspace:*
-      '@woifes/mqtt-client': workspace:*
-      '@woifes/util': workspace:*
+      '@woifes/alarmhandler': workspace:0.1.0
+      '@woifes/mqtt-client': workspace:0.1.0
+      '@woifes/util': workspace:0.1.0
       commander: ^8.3.0
       fs-extra: ^10.0.1
       runtypes: ^6.5.1
@@ -80,7 +80,7 @@ importers:
 
   packages/mqtt-client:
     specifiers:
-      '@woifes/binarytypes': workspace:*
+      '@woifes/binarytypes': workspace:^1.0.0
       debug: ^4.3.2
       json5: ^2.2.0
       mqtt: ^4.0.0
@@ -117,8 +117,8 @@ importers:
     specifiers:
       '@types/fs-extra': ^9.0.13
       '@types/node-snap7': ^0.2.21
-      '@woifes/binarytypes': workspace:*
-      '@woifes/util': workspace:*
+      '@woifes/binarytypes': workspace:^1.0.0
+      '@woifes/util': workspace:0.1.0
       debug: ^4.3.2
       fs-extra: ^10.0.1
       node-snap7: ^1.0.6
@@ -162,12 +162,12 @@ importers:
       '@types/debug': ^4.1.7
       '@types/fs-extra': ^9.0.13
       '@types/node-snap7': ^0.2.21
-      '@woifes/alarmhandler': workspace:*
-      '@woifes/alarmhandlermqtt': workspace:*
-      '@woifes/binarytypes': workspace:*
-      '@woifes/mqtt-client': workspace:*
-      '@woifes/s7endpoint': workspace:*
-      '@woifes/util': workspace:*
+      '@woifes/alarmhandler': workspace:0.1.0
+      '@woifes/alarmhandlermqtt': workspace:0.1.0
+      '@woifes/binarytypes': workspace:^1.0.0
+      '@woifes/mqtt-client': workspace:0.1.0
+      '@woifes/s7endpoint': workspace:0.1.1
+      '@woifes/util': workspace:0.1.0
       debug: ^4.3.2
       fs-extra: ^10.0.1
       node-snap7: ^1.0.6

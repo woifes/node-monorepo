@@ -22,8 +22,8 @@
   "author": "woifes",
   "license": "MIT",
   "dependencies": {
-    "@woifes/binarytypes": "workspace:*",
-    "@woifes/util": "workspace:*",
+    "@woifes/binarytypes": "workspace:^1.0.0",
+    "@woifes/util": "workspace:0.1.0",
     "debug": "^4.3.2",
     "fs-extra": "^10.0.1",
     "node-snap7": "^1.0.6",
