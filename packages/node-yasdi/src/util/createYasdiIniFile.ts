@@ -22,7 +22,6 @@ export function createYasdiIniFileContent(
     for (let i = 0; i < serialPorts.length; i++) {
         let d = serialPorts[i];
         if (process.platform == "linux") {
-            //TODO no symlink, windows??
             if (d.split("/").length >= 2) {
                 d = execSync(`readlink -f ${d}`).toString().split("\n")[0];
             }

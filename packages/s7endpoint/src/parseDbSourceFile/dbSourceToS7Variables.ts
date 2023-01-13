@@ -23,7 +23,6 @@ export function dbSourceToS7Variables(
     const variables: tS7Variable[] = transformDbObjectToS7Vars(
         parseDBsourceFileString(source)
     );
-    //TODO dbNr needed?
     if (dbNr != undefined) {
         if (dbNr <= 0) {
             throw new Error("dbNr may not be zero or negative");
