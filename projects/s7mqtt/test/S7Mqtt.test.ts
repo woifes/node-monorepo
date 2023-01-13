@@ -226,33 +226,34 @@ describe("local endpoint tests", () => {
         expect(dbFileContent)
             .toBe(`Name;Path;Connection;PLC tag;DataType;Length;Coding;Access Method;Address;Indirect addressing;Index tag;Start value;ID tag;Acquisition mode;Acquisition cycle;Limit Upper 2 Type;Limit Upper 2;Limit Lower 2 Type;Limit Lower 2;Linear scaling;End value PLC;Start value PLC;End value HMI;Start value HMI
 alarm1_sig;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB1.DBX0.1;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-Cmd_cmd01_cmdId;Standard-Variablentabelle;Con01;<No Value>;UDInt;4;Binary;Absolute access;%DB1.DBD0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-Cmd_cmd01_param1;Standard-Variablentabelle;Con01;<No Value>;UDInt;4;Binary;Absolute access;%DB1.DBD0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-Evt_1_trigger;Standard-Variablentabelle;Con01;<No Value>;UInt;2;Binary;Absolute access;%DB1.DBW4;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-input_1_1;Standard-Variablentabelle;Con01;<No Value>;USInt;1;Binary;Absolute access;%DB1.DBB0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-tag01;Standard-Variablentabelle;Con01;<No Value>;UInt;2;Binary;Absolute access;%DB1.DBW1;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+Cmd_cmd01_cmdId;Standard-Variablentabelle;Con01;<No Value>;DWord;4;Binary;Absolute access;%DB1.DBD0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+Cmd_cmd01_param1;Standard-Variablentabelle;Con01;<No Value>;DWord;4;Binary;Absolute access;%DB1.DBD0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+Evt_1_trigger;Standard-Variablentabelle;Con01;<No Value>;Word;2;Binary;Absolute access;%DB1.DBW4;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+input_1_1;Standard-Variablentabelle;Con01;<No Value>;Byte;1;Binary;Absolute access;%DB1.DBB0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+tag01;Standard-Variablentabelle;Con01;<No Value>;Word;2;Binary;Absolute access;%DB1.DBW1;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 alarm1_ackOut;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB2.DBX0.2;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-input_1_2;Standard-Variablentabelle;Con01;<No Value>;USInt;1;Binary;Absolute access;%DB2.DBB0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+input_1_2;Standard-Variablentabelle;Con01;<No Value>;Byte;1;Binary;Absolute access;%DB2.DBB0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+al1_p1;Standard-Variablentabelle;Con01;<No Value>;Word;2;Binary;Absolute access;%DB3.DBW10;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 alarm1_ackIn;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB3.DBX0.3;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-Cmd_cmd01_param2;Standard-Variablentabelle;Con01;<No Value>;USInt;1;Binary;Absolute access;%DB3.DBB4;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-input_1_3;Standard-Variablentabelle;Con01;<No Value>;USInt;1;Binary;Absolute access;%DB3.DBB0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+Cmd_cmd01_param2;Standard-Variablentabelle;Con01;<No Value>;Byte;1;Binary;Absolute access;%DB3.DBB4;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+input_1_3;Standard-Variablentabelle;Con01;<No Value>;Byte;1;Binary;Absolute access;%DB3.DBB0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 alarm2_sig;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB4.DBX0.3;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-Cmd_cmd01_resTrigger;Standard-Variablentabelle;Con01;<No Value>;UInt;2;Binary;Absolute access;%DB4.DBW0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+Cmd_cmd01_resTrigger;Standard-Variablentabelle;Con01;<No Value>;Word;2;Binary;Absolute access;%DB4.DBW0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 alarm2_ackOut;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB5.DBX0.4;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-Cmd_cmd01_resParam1;Standard-Variablentabelle;Con01;<No Value>;UDInt;4;Binary;Absolute access;%DB5.DBD0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+Cmd_cmd01_resParam1;Standard-Variablentabelle;Con01;<No Value>;DWord;4;Binary;Absolute access;%DB5.DBD0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 alarm2_ackIn;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB6.DBX0.5;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 alarm3_sig;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB7.DBX0.5;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 Cmd_cmd01_resParam2;Standard-Variablentabelle;Con01;<No Value>;SInt;1;Binary;Absolute access;%DB7.DBB2;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 alarm3_ackOut;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB8.DBX0.6;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-Cmd_cmd01_okFlag;Standard-Variablentabelle;Con01;<No Value>;USInt;1;Binary;Absolute access;%DB8.DBB2;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+Cmd_cmd01_okFlag;Standard-Variablentabelle;Con01;<No Value>;Byte;1;Binary;Absolute access;%DB8.DBB2;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 alarm3_ackIn;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB9.DBX0.7;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
-Evt_1_param1;Standard-Variablentabelle;Con01;<No Value>;UDInt;4;Binary;Absolute access;%DB12.DBD0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+Evt_1_param1;Standard-Variablentabelle;Con01;<No Value>;DWord;4;Binary;Absolute access;%DB12.DBD0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 Evt_1_param2;Standard-Variablentabelle;Con01;<No Value>;SInt;1;Binary;Absolute access;%DB20.DBB2;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 `);
         const ep = (s7mqtt as any)._s7ep;
         expect(ep.getArea(1).length).toBe(6);
         expect(ep.getArea(2).length).toBe(1);
-        expect(ep.getArea(3).length).toBe(5);
+        expect(ep.getArea(3).length).toBe(12);
         expect(ep.getArea(4).length).toBe(2);
         expect(ep.getArea(5).length).toBe(4);
         expect(ep.getArea(6).length).toBe(1);

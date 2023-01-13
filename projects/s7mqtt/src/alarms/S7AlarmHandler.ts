@@ -12,6 +12,7 @@ import {
     tS7AddressString,
     tS7Variable,
 } from "@woifes/s7endpoint";
+import { Debugger } from "debug";
 import { once } from "events";
 import * as rt from "runtypes";
 import { S7Output } from "../outputs/S7Output";
@@ -80,6 +81,7 @@ export class S7AlarmHandler {
         return addrArr;
     }
 
+    private _debug: Debugger;
     private _config: tS7AlarmHandlerConfig;
     private _s7out: S7Output;
     private _s7ep: S7Endpoint;
@@ -92,9 +94,11 @@ export class S7AlarmHandler {
     constructor(
         config: tS7AlarmHandlerConfig,
         s7endpoint: S7Endpoint,
-        mqtt: Client
+        mqtt: Client,
+        parentDebugger: Debugger
     ) {
         this._config = S7AlarmHandlerConfig.check(config);
+        this._debug = parentDebugger?.extend("alarmHandler");
         this._s7ep = s7endpoint;
         this._mqtt = mqtt;
         let discreteAlarms: DiscreteAlarmAddresses[] = [];
@@ -138,7 +142,8 @@ export class S7AlarmHandler {
                 pollIntervalMS:
                     this._alarmHandlerMqtt.presentAlarmWatchdogTimeS * 500, //half of the time the watchdog needs
             },
-            this._s7ep
+            this._s7ep,
+            this._debug
         );
 
         this.initializeAllAckIn().finally(() => {
@@ -189,6 +194,7 @@ export class S7AlarmHandler {
             this._s7Alarms.set(alarmNr, s7Alarm);
             alarmNr++;
         }
+        this._debug("Finished setupAlarmTags()");
     }
 
     /**
@@ -208,6 +214,7 @@ export class S7AlarmHandler {
      * @param tags
      */
     private onOutput(tags: tS7Variable[]) {
+        this._debug(`onOutput`);
         for (let i = 1; i <= this._config.numOfAlarms; i++) {
             const s7Alarm = this._s7Alarms.get(i)!;
             const signalValue =
@@ -251,6 +258,7 @@ export class S7AlarmHandler {
             }
         }
         if (tags.length > 0) {
+            this._debug(`Set ${tags.length} ackIn`);
             if (!this._s7ep.connected) {
                 await once(this._s7ep, "connect");
             }
@@ -260,11 +268,15 @@ export class S7AlarmHandler {
     }
 
     private onAck(alarmNr: number, alarm: tAlarmJsonObject) {
-        this.setAckIn(alarmNr, true).catch(() => {});
+        this.setAckIn(alarmNr, true).catch(() => {
+            this._debug("Error in onAck()");
+        });
     }
 
     private onGone(alarmNr: number, alarm: tAlarmJsonObject) {
-        this.setAckIn(alarmNr, false).catch(() => {});
+        this.setAckIn(alarmNr, false).catch(() => {
+            this._debug("Error in onGone()");
+        });
     }
 
     private async setAckIn(alarmNr: number, value: boolean) {

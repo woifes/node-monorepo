@@ -6,6 +6,7 @@ import {
     S7Endpoint,
     tS7Variable,
 } from "@woifes/s7endpoint";
+import { Debugger } from "debug";
 import { EventEmitter } from "events";
 import { S7Output } from "../outputs/S7Output";
 import { S7EventConfig, tS7EventConfig } from "./S7EventConfig";
@@ -28,6 +29,7 @@ export declare interface S7Event {
 }
 
 export class S7Event extends EventEmitter {
+    private _debug: Debugger;
     private _config: tS7EventConfig;
     private _s7ep: S7Endpoint;
 
@@ -35,10 +37,15 @@ export class S7Event extends EventEmitter {
 
     private _lastTrigger?: tS7Variable;
 
-    constructor(config: tS7EventConfig, s7endpont: S7Endpoint) {
+    constructor(
+        config: tS7EventConfig,
+        s7endpoint: S7Endpoint,
+        parentDebugger: Debugger
+    ) {
         super();
         this._config = S7EventConfig.check(config);
-        this._s7ep = s7endpont;
+        this._debug = parentDebugger.extend(`event`);
+        this._s7ep = s7endpoint;
         const pollIntervalMS =
             this._config.pollIntervalMS ?? STD_POLL_INTERVAL_MS;
 
@@ -47,7 +54,8 @@ export class S7Event extends EventEmitter {
                 pollIntervalMS,
                 tags: { trigger: this._config.trigger },
             },
-            this._s7ep
+            this._s7ep,
+            this._debug
         );
         this._output.on("pollingStarted", () => {
             this.emit("pollingStarted");
@@ -63,28 +71,22 @@ export class S7Event extends EventEmitter {
     }
 
     private async fetchParams(): Promise<tS7Variable[]> {
-        let paramVars: tS7Variable[] = [];
-        let i = 1;
+        const paramVars: tS7Variable[] = [];
         if (this._config.params != undefined) {
             for (const param of this._config.params) {
                 paramVars.push({
-                    name: "" + i++,
                     ...parseS7AddressString(param),
                 });
             }
             const readRequest = this._s7ep.createReadRequest(paramVars);
-            //TODO request reuse?
             const result = await readRequest.execute();
-            paramVars = [];
-            //TODO params?
-            for (const key in result) {
-                paramVars.push({ ...result[key] });
-            }
-            if (this._config.params.length != paramVars.length) {
+            if (this._config.params.length != result.length) {
                 throw new Error(
                     "Fetched params count is not matching config param counts"
                 );
             }
+            this._debug(`Fetched ${result.length} parameters`);
+            return result;
         }
         return paramVars;
     }
@@ -96,6 +98,7 @@ export class S7Event extends EventEmitter {
                 this._lastTrigger != undefined &&
                 newTrigger.value != this._lastTrigger.value
             ) {
+                this._debug(`New trigger value: ${newTrigger.value}`);
                 this.onTrigger(newTrigger);
             }
             this._lastTrigger = newTrigger;
@@ -107,6 +110,8 @@ export class S7Event extends EventEmitter {
             .then((params) => {
                 this.emit("trigger", newTrigger, [...params]);
             })
-            .catch(() => {});
+            .catch((e) => {
+                this._debug(`Error at fetchParams: ${e}`);
+            });
     }
 }

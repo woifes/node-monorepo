@@ -6,6 +6,7 @@
 import { Client, Message } from "@woifes/mqtt-client";
 import { S7RemoteEndpoint } from "@woifes/s7endpoint";
 import { TestServer } from "@woifes/s7endpoint/test/TestServer";
+import debug from "debug";
 import { MqttInput } from "../../src/inputs/MqttInput";
 
 async function promiseTimeout(ms: number) {
@@ -14,6 +15,7 @@ async function promiseTimeout(ms: number) {
     });
 }
 
+const DEBUGGER = debug("test");
 const SERVER = new TestServer("127.0.0.1");
 const S7ENDP = new S7RemoteEndpoint({
     endpointIp: "127.0.0.1",
@@ -79,7 +81,8 @@ describe("Single target test", () => {
                 topic: "a/b/c",
             },
             S7ENDP,
-            mqtt
+            mqtt,
+            DEBUGGER
         );
         await promiseTimeout(1000);
         SERVER.setArea(1, Buffer.alloc(4));
@@ -111,7 +114,8 @@ describe("Single target test", () => {
                 },
             },
             S7ENDP,
-            mqtt
+            mqtt,
+            DEBUGGER
         );
         await promiseTimeout(1000);
         const m1 = new Message("a/b/c", 0, false, "456", mqtt);
@@ -138,7 +142,8 @@ describe("Single target test", () => {
                 },
             },
             S7ENDP,
-            mqtt
+            mqtt,
+            DEBUGGER
         );
         await promiseTimeout(1500);
         SERVER.setArea(2, Buffer.alloc(4));
@@ -159,7 +164,8 @@ describe("Multi target test", () => {
                 topic: "a/b/c",
             },
             S7ENDP,
-            mqtt
+            mqtt,
+            DEBUGGER
         );
         await promiseTimeout(300);
         SERVER.setArea(101, Buffer.alloc(4));
@@ -199,7 +205,8 @@ describe("Multi target test", () => {
                 minTargetCount: 2,
             },
             S7ENDP,
-            mqtt
+            mqtt,
+            DEBUGGER
         );
         await promiseTimeout(300);
         SERVER.setArea(111, Buffer.alloc(4));
@@ -259,7 +266,8 @@ describe("Multi target test", () => {
                 },
             },
             S7ENDP,
-            mqtt
+            mqtt,
+            DEBUGGER
         );
         await promiseTimeout(300);
         SERVER.setArea(201, Buffer.alloc(4));
@@ -310,7 +318,8 @@ describe("Multi target test", () => {
                 },
             },
             S7ENDP,
-            mqtt
+            mqtt,
+            DEBUGGER
         );
         await promiseTimeout(1500);
         SERVER.setArea(301, Buffer.alloc(4));

@@ -5,6 +5,7 @@ import { tPresentAlarmsInfo } from "@woifes/alarmhandler";
 import { Client } from "@woifes/mqtt-client";
 import { S7RemoteEndpoint } from "@woifes/s7endpoint";
 import { TestServer } from "@woifes/s7endpoint/test/TestServer";
+import debug from "debug";
 import { once } from "events";
 import {
     emptyDirSync,
@@ -62,6 +63,8 @@ const MQTT = new Client({
     url: "localhost",
     clientId: "client01",
 });
+
+const DEBUGGER = debug("test");
 
 const publishValueSyncSpy = jest.spyOn(MQTT, "publishValueSync");
 const publishedMessage = jest.spyOn(MQTT, "publishMessage");
@@ -135,7 +138,7 @@ describe("creation tests", () => {
             signal: `DB${ta.signalDbNr},X0.0`,
             ackOut: `DB${ta.ackOutDbNr},X0.0`,
         };
-        s7al = new S7AlarmHandler(config, S7ENDP, MQTT);
+        s7al = new S7AlarmHandler(config, S7ENDP, MQTT, DEBUGGER);
         await promiseTimeout(500);
         expect(ta.ackInDb.toString("hex")).toBe("ff");
     });
@@ -169,7 +172,7 @@ describe("creation tests", () => {
             ackOut: `DB${ta.ackOutDbNr},X0.0`,
             ackIn: `DB${ta.ackInDbNr},X0.0`,
         };
-        s7al = new S7AlarmHandler(config, S7ENDP, MQTT);
+        s7al = new S7AlarmHandler(config, S7ENDP, MQTT, DEBUGGER);
         await promiseTimeout(500);
         expect(ta.ackInDb.toString("hex")).toBe("86");
     });
@@ -215,7 +218,7 @@ describe("creation tests", () => {
                 ackIn: `DB${ta.ackInDbNr},X0.7`,
             },
         ];
-        s7al = new S7AlarmHandler(config, S7ENDP, MQTT);
+        s7al = new S7AlarmHandler(config, S7ENDP, MQTT, DEBUGGER);
         await promiseTimeout(500);
         expect(ta.ackInDb.toString("hex")).toBe("50");
     });
@@ -233,7 +236,7 @@ describe("signaling test (alarm bulk)", () => {
             signal: `DB${ta.signalDbNr},X0.0`,
             ackOut: `DB${ta.ackOutDbNr},X0.0`,
         };
-        s7al = new S7AlarmHandler(config, S7ENDP, MQTT);
+        s7al = new S7AlarmHandler(config, S7ENDP, MQTT, DEBUGGER);
         expect(s7al.alarmHandlerMqtt[1].triggered).toBe(false);
         expect(s7al.alarmHandlerMqtt[1].signal).toBe(false);
         await promiseTimeout(700);
@@ -261,7 +264,7 @@ describe("signaling test (alarm bulk)", () => {
             ackOut: `DB${ta.ackOutDbNr},X0.0`,
             ackIn: `DB${ta.ackInDbNr},X0.0`,
         };
-        s7al = new S7AlarmHandler(config, S7ENDP, MQTT);
+        s7al = new S7AlarmHandler(config, S7ENDP, MQTT, DEBUGGER);
         expect(s7al.alarmHandlerMqtt[1].triggered).toBe(false);
         expect(s7al.alarmHandlerMqtt[1].signal).toBe(false);
         expect(s7al.alarmHandlerMqtt[1].ack).toBe(false);
@@ -298,7 +301,7 @@ describe("signaling test (alarm bulk)", () => {
             ackOut: `DB${ta.ackOutDbNr},X0.0`,
             ackIn: `DB${ta.ackInDbNr},X0.0`,
         };
-        s7al = new S7AlarmHandler(config, S7ENDP, MQTT);
+        s7al = new S7AlarmHandler(config, S7ENDP, MQTT, DEBUGGER);
         expect(s7al.alarmHandlerMqtt[1].triggered).toBe(false);
         expect(s7al.alarmHandlerMqtt[1].signal).toBe(false);
         expect(s7al.alarmHandlerMqtt[1].ack).toBe(false);
@@ -358,7 +361,7 @@ describe("signaling test (discrete alarms)", () => {
                 ackOut: `DB${ta.ackOutDbNr},X0.6`,
             },
         ];
-        s7al = new S7AlarmHandler(config, S7ENDP, MQTT);
+        s7al = new S7AlarmHandler(config, S7ENDP, MQTT, DEBUGGER);
         s7al.alarmHandlerMqtt[1].text = "$1 $2 $3";
         expect(s7al.alarmHandlerMqtt[1].triggered).toBe(false);
         expect(s7al.alarmHandlerMqtt[1].signal).toBe(false);
@@ -411,7 +414,7 @@ describe("signaling test (discrete alarms)", () => {
                 ackIn: `DB${ta.ackInDbNr},X0.5`,
             },
         ];
-        s7al = new S7AlarmHandler(config, S7ENDP, MQTT);
+        s7al = new S7AlarmHandler(config, S7ENDP, MQTT, DEBUGGER);
         s7al.alarmHandlerMqtt[1].text = "$1 $2 $3";
         expect(s7al.alarmHandlerMqtt[1].triggered).toBe(false);
         expect(s7al.alarmHandlerMqtt[1].signal).toBe(false);
@@ -473,7 +476,7 @@ describe("signaling test (discrete alarms)", () => {
                 ackIn: `DB${ta.ackInDbNr},X0.5`,
             },
         ];
-        s7al = new S7AlarmHandler(config, S7ENDP, MQTT);
+        s7al = new S7AlarmHandler(config, S7ENDP, MQTT, DEBUGGER);
         s7al.alarmHandlerMqtt[1].text = "$1 $2 $3";
         expect(s7al.alarmHandlerMqtt[1].triggered).toBe(false);
         expect(s7al.alarmHandlerMqtt[1].signal).toBe(false);

@@ -9,6 +9,7 @@ import {
     tMqttMsgHandlerConfig,
 } from "@woifes/mqtt-client/decorator";
 import { S7Endpoint, tS7Variable } from "@woifes/s7endpoint";
+import { Debugger } from "debug";
 import { MqttInputConfig, tMqttInputConfig } from "./MqttInputConfig";
 
 @MqttClient()
@@ -20,6 +21,7 @@ export class MqttInput {
         };
     }
 
+    private _debug: Debugger;
     private _config: tMqttInputConfig;
     private _tags: tS7Variable[] = [];
     private _timeout?: NodeJS.Timeout;
@@ -30,9 +32,11 @@ export class MqttInput {
     constructor(
         config: tMqttInputConfig,
         s7endpoint: S7Endpoint,
-        @MqttConnection() mqtt: Client
+        @MqttConnection() mqtt: Client,
+        parentDebugger: Debugger
     ) {
         this._config = MqttInputConfig.check(config);
+        this._debug = parentDebugger.extend(`mqttInput:${this._config.topic}`);
         if (Array.isArray(this._config.target)) {
             for (const value of this._config.target) {
                 this._tags.push({
@@ -89,6 +93,7 @@ export class MqttInput {
 
     @MqttMsgHandler(MqttInput.mqttMsgConfig)
     onMessage(msg: Message) {
+        this._debug("Received mqtt message");
         let tags: tS7Variable[] = this.tags;
         if (Array.isArray(this._config.target)) {
             const payload = msg.readJSON();
@@ -97,7 +102,9 @@ export class MqttInput {
                     this._config.minTargetCount != undefined &&
                     payload.length < this._config.minTargetCount
                 ) {
-                    //TODO debug
+                    this._debug(
+                        `Did not receive minTargetCount ${payload.length}/${this._config.minTargetCount}`
+                    );
                     return;
                 }
                 const tagsWithValue: tS7Variable[] = [];
@@ -106,7 +113,7 @@ export class MqttInput {
                 }
                 tags = tagsWithValue;
             } else {
-                //TODO debug
+                this._debug(`Received payload ${payload} is no JSON array`);
                 return;
             }
         } else {
@@ -115,8 +122,8 @@ export class MqttInput {
             tags[0].value = msg.body;
         }
         this.executeWrite(tags)
-            .catch(() => {
-                //TODO debug
+            .catch((e) => {
+                this._debug(`Error at executeWrite in onMessage(): ${e}`);
             })
             .finally(() => {
                 this.startTimeout();

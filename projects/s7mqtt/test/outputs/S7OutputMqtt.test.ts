@@ -3,6 +3,7 @@
 
 import { Client, Message } from "@woifes/mqtt-client";
 import { S7RemoteEndpoint } from "@woifes/s7endpoint";
+import debug from "debug";
 import { EventEmitter } from "events";
 import { tS7OutputMqttConfig } from "projects/s7mqtt/src/outputs/S7OutputMqttConfig";
 import { S7Output } from "../../src/outputs/S7Output";
@@ -30,6 +31,7 @@ class MqttClientMock extends EventEmitter {
     });
 }
 
+const DEBUGGER = debug("test");
 const S7ENDP = new S7RemoteEndpoint({
     endpointIp: "127.0.0.1",
     name: "test01",
@@ -61,7 +63,8 @@ it("should send values on data", async () => {
     const s7outmqtt = new S7OutputMqtt(
         CONFIG,
         S7ENDP,
-        MQTT as unknown as Client
+        MQTT as unknown as Client,
+        DEBUGGER
     );
     const s7out = (s7outmqtt as any)._s7out;
     s7out.emit("data", {
@@ -107,7 +110,8 @@ it("should use standard config", async () => {
     const s7outmqtt = new S7OutputMqtt(
         config,
         S7ENDP,
-        MQTT as unknown as Client
+        MQTT as unknown as Client,
+        DEBUGGER
     );
     const s7out = (s7outmqtt as any)._s7out;
     s7out.emit("data", {

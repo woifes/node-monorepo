@@ -4,10 +4,12 @@
 import { tJsVal } from "@woifes/binarytypes";
 import { Client, Message } from "@woifes/mqtt-client";
 import { S7Endpoint, tS7Variable } from "@woifes/s7endpoint";
+import { Debugger } from "debug";
 import { S7Event } from "./S7Event";
 import { tS7EventMqttConfig } from "./S7EventMqttConfig";
 
 export class S7EventMqtt {
+    private _debug: Debugger;
     private _config: tS7EventMqttConfig;
     private _mqtt: Client;
     private _s7event: S7Event;
@@ -16,11 +18,17 @@ export class S7EventMqtt {
     constructor(
         config: tS7EventMqttConfig,
         s7endpoint: S7Endpoint,
-        mqtt: Client
+        mqtt: Client,
+        parentDebugger: Debugger
     ) {
         this._config = config;
+        this._debug = parentDebugger.extend(`mqttEvent:${this._config.topic}`);
         this._s7ep = s7endpoint;
-        this._s7event = new S7Event({ ...this._config }, this._s7ep);
+        this._s7event = new S7Event(
+            { ...this._config },
+            this._s7ep,
+            this._debug
+        );
         this._mqtt = mqtt;
         this._s7event.on("trigger", this.onNewTrigger.bind(this));
     }
@@ -48,7 +56,9 @@ export class S7EventMqtt {
             message,
             this._mqtt
         );
-        msg.send().catch(() => {});
+        msg.send().catch(() => {
+            this._debug("Error at msg.send() in onNewTrigger()");
+        });
     }
 
     private replacePlaceholder(

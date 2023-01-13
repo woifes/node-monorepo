@@ -8,11 +8,12 @@ import {
     S7Endpoint,
     tS7Variable,
 } from "@woifes/s7endpoint";
+import { Debugger } from "debug";
 import { EventEmitter } from "events";
 import { readFileSync } from "fs-extra";
 import { S7OutputConfig, tS7OutputConfig } from "./S7OutputConfig";
 
-const STD_POLL_INTERVAL_MS = 1000;
+export const STD_POLL_INTERVAL_MS = 1000;
 
 export declare interface S7Output {
     on(event: "data", listener: (tags: tS7Variable[]) => void): this;
@@ -33,16 +34,22 @@ export class S7Output extends EventEmitter {
     private _pollingActive = false;
     private _readReq: ReadRequest;
 
+    private _debug: Debugger;
     private _config: tS7OutputConfig;
     private _s7ep: S7Endpoint;
 
-    constructor(config: tS7OutputConfig, s7endpoint: S7Endpoint) {
+    constructor(
+        config: tS7OutputConfig,
+        s7endpoint: S7Endpoint,
+        parentDebugger: Debugger
+    ) {
         super();
         this._config = S7OutputConfig.check(config);
         this._s7ep = s7endpoint;
 
         this.POLL_INTERVAL_MS =
             this._config.pollIntervalMS ?? STD_POLL_INTERVAL_MS;
+        this._debug = parentDebugger.extend(`output:${this.POLL_INTERVAL_MS}`);
         let tags: tS7Variable[] = [];
         if (this._config.tags != undefined) {
             for (const [name, address] of Object.entries(this._config.tags)) {
@@ -108,9 +115,9 @@ export class S7Output extends EventEmitter {
             .then((tags: tS7Variable[]) => {
                 this.emit("data", tags);
             })
-            .catch(() => {
+            .catch((e) => {
                 pollIntervalMS = this.POLL_INTERVAL_MS * 2;
-                //TODO debug
+                this._debug(`Error in execute readRequest of poll(): ${e}`);
             })
             .finally(() => {
                 if (this._continuePolling) {

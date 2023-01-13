@@ -4,6 +4,7 @@
 import { Client, Message } from "@woifes/mqtt-client";
 import { S7RemoteEndpoint } from "@woifes/s7endpoint";
 import { TestServer } from "@woifes/s7endpoint/test/TestServer";
+import debug from "debug";
 import { once } from "events";
 import { S7Command } from "../../src/commands/S7Command";
 import { tS7CommandConfig } from "../../src/commands/S7CommandConfig";
@@ -16,6 +17,7 @@ async function promiseTimeout(ms: number) {
     });
 }
 
+const DEBUGGER = debug("test");
 const SERVER = new TestServer("127.0.0.1");
 const S7_ENDP = new S7RemoteEndpoint({
     endpointIp: "127.0.0.1",
@@ -93,7 +95,7 @@ describe("fire and forget commands", () => {
         SERVER.setArea(1, Buffer.alloc(4));
         SERVER.setArea(20, Buffer.alloc(3));
         SERVER.setArea(300, Buffer.alloc(5));
-        const cmd = new S7Command(CONFIG1, S7_ENDP, mqtt);
+        const cmd = new S7Command(CONFIG1, S7_ENDP, mqtt, DEBUGGER);
         const m1 = new Message(
             "cmd/client01/me/other",
             2,
@@ -150,7 +152,7 @@ describe("fire and forget commands", () => {
         SERVER.setArea(1, Buffer.alloc(6));
         SERVER.setArea(20, Buffer.alloc(3));
         SERVER.setArea(300, Buffer.alloc(5));
-        const cmd = new S7Command(CONFIG2, S7_ENDP, mqtt);
+        const cmd = new S7Command(CONFIG2, S7_ENDP, mqtt, DEBUGGER);
         const m1 = new Message(
             "cmd/client01/me/cmd02",
             2,
@@ -180,7 +182,7 @@ describe("fire and forget commands", () => {
         SERVER.setArea(1, Buffer.alloc(6));
         SERVER.setArea(20, Buffer.alloc(3));
         SERVER.setArea(300, Buffer.alloc(5));
-        const cmd = new S7Command(CONFIG3, S7_ENDP, mqtt);
+        const cmd = new S7Command(CONFIG3, S7_ENDP, mqtt, DEBUGGER);
         const m1 = new Message(
             "cmd/client01/me/cmd03",
             2,
@@ -210,7 +212,7 @@ describe("fire and forget commands", () => {
         SERVER.setArea(1, Buffer.alloc(6));
         SERVER.setArea(20, Buffer.alloc(3));
         SERVER.setArea(300, Buffer.alloc(5));
-        const cmd = new S7Command(CONFIG31, S7_ENDP, mqtt);
+        const cmd = new S7Command(CONFIG31, S7_ENDP, mqtt, DEBUGGER);
         const m1 = new Message(
             "cmd/client01/me/cmd031",
             2,
@@ -241,7 +243,7 @@ describe("fire and forget commands", () => {
         SERVER.setArea(1, Buffer.alloc(6));
         SERVER.setArea(20, Buffer.alloc(3));
         SERVER.setArea(300, Buffer.alloc(5));
-        const cmd = new S7Command(CONFIG4, S7_ENDP, mqtt);
+        const cmd = new S7Command(CONFIG4, S7_ENDP, mqtt, DEBUGGER);
         const m1 = new Message(
             "task/client01/me/cmd04",
             2,
@@ -266,7 +268,7 @@ describe("fire and forget commands", () => {
         SERVER.setArea(1, Buffer.alloc(6));
         SERVER.setArea(20, Buffer.alloc(3));
         SERVER.setArea(300, Buffer.alloc(5));
-        const cmd = new S7Command(CONFIG41, S7_ENDP, mqtt);
+        const cmd = new S7Command(CONFIG41, S7_ENDP, mqtt, DEBUGGER);
         const m1 = new Message(
             "cmd/client01/me/cmd041",
             2,
@@ -295,7 +297,7 @@ describe("fire and forget commands", () => {
         SERVER.setArea(1, Buffer.alloc(6));
         SERVER.setArea(20, Buffer.alloc(3));
         SERVER.setArea(300, Buffer.alloc(5));
-        const cmd = new S7Command(CONFIG5, S7_ENDP, mqtt);
+        const cmd = new S7Command(CONFIG5, S7_ENDP, mqtt, DEBUGGER);
         const m1 = new Message(
             "task/client01/me/cmd05",
             2,
@@ -336,7 +338,7 @@ describe("commands with response tests", () => {
         SERVER.setArea(20103, Buffer.alloc(3));
         SERVER.setArea(20104, Buffer.alloc(3));
         SERVER.setArea(20105, Buffer.alloc(3));
-        const cmd = new S7Command(CONFIG12, S7_ENDP, mqtt);
+        const cmd = new S7Command(CONFIG12, S7_ENDP, mqtt, DEBUGGER);
         const m1 = new Message(
             "cmd/client01/me/cmd01",
             2,
@@ -385,7 +387,7 @@ describe("commands with response tests", () => {
         SERVER.setArea(20203, Buffer.alloc(3));
         SERVER.setArea(20204, Buffer.alloc(3));
         SERVER.setArea(20205, Buffer.alloc(3));
-        const cmd = new S7Command(CONFIG22, S7_ENDP, mqtt);
+        const cmd = new S7Command(CONFIG22, S7_ENDP, mqtt, DEBUGGER);
         const m1 = new Message(
             "cmd/client01/me/cmd02",
             2,

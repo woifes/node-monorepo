@@ -16,6 +16,7 @@ import {
     tS7Variable,
     WriteRequest,
 } from "@woifes/s7endpoint";
+import { Debugger } from "debug";
 import { EventEmitter, once } from "events";
 import { S7Event } from "../events/S7Event";
 import { S7CommandConfig, tS7CommandConfig } from "./S7CommandConfig";
@@ -58,6 +59,7 @@ export class S7Command extends EventEmitter {
         return typeName;
     }
 
+    private _debug: Debugger;
     private _config: tS7CommandConfig;
     private _s7ep: S7Endpoint;
     private _mqtt: Client;
@@ -70,10 +72,12 @@ export class S7Command extends EventEmitter {
     constructor(
         config: tS7CommandConfig,
         s7endpoint: S7Endpoint,
-        @MqttConnection() mqtt: Client
+        @MqttConnection() mqtt: Client,
+        parentDebugger: Debugger
     ) {
         super();
         this._config = S7CommandConfig.check(config);
+        this._debug = parentDebugger.extend(`output:${this._config.name}`);
         this._s7ep = s7endpoint;
         this._mqtt = mqtt;
         this._cmdPattern.push("UINT16");
@@ -98,7 +102,11 @@ export class S7Command extends EventEmitter {
                 this._config.result.okFlagAddress,
                 ...this._config.result.params,
             ];
-            this._s7event = new S7Event(this._config.result, this._s7ep);
+            this._s7event = new S7Event(
+                this._config.result,
+                this._s7ep,
+                this._debug
+            );
             this._s7event.on("trigger", this.onEventTrigger.bind(this));
             this._responseTimeoutMS = this._config.result.timeoutMS;
         }
@@ -135,22 +143,24 @@ export class S7Command extends EventEmitter {
         if (msgParams.length >= this._requiredParamCount) {
             const [cmdId, ...params] = msgParams;
             this.processCmd(cmdId, params, res).catch((e) => {
-                //TODO debug
+                this._debug(`Error at processCmd(): ${e}`);
             });
         } else {
-            //TODO debug
+            this._debug(
+                `Message with to less params ${msgParams.length}/${this._requiredParamCount}`
+            );
         }
     }
 
     private async processCmd(cmdId: tJsVal, params: tJsVal[], res: Message) {
-        async function sendStdRes(okFlag: 1 | 0) {
+        const sendStdRes = async (okFlag: 1 | 0) => {
             res.writeJSON([cmdId, okFlag]);
             try {
                 await res.send();
             } catch (e) {
-                //TODO debug
+                this._debug(`Error at sending of response`);
             }
-        }
+        };
         try {
             const writeReq = this.createWriteRequest(cmdId, params);
             await writeReq.execute();
@@ -164,6 +174,7 @@ export class S7Command extends EventEmitter {
                 await sendStdRes(1);
             }
         } catch (e) {
+            this._debug(`Error in processCmd(): ${e}`);
             await sendStdRes(0);
         }
     }
@@ -171,6 +182,9 @@ export class S7Command extends EventEmitter {
     private async waitForCmdId(expectedCmdId: number): Promise<tJsVal[]> {
         return new Promise((resolve, reject) => {
             const timeOut = setTimeout(() => {
+                this._debug(
+                    `Timeout while waiting for commandId(${expectedCmdId})`
+                );
                 clear();
                 reject("Timeout occurred in command");
             }, this._responseTimeoutMS);
@@ -182,7 +196,8 @@ export class S7Command extends EventEmitter {
                     ) as tJsVal[];
                     resolve(paramVals);
                 })
-                .catch(() => {
+                .catch((e) => {
+                    this._debug(`Error in once of waitForCmdId: ${e}`);
                     reject();
                 })
                 .finally(() => {
@@ -196,6 +211,7 @@ export class S7Command extends EventEmitter {
     }
 
     private onEventTrigger(newTrigger: tS7Variable, params: tS7Variable[]) {
+        this._debug("onEventTrigger");
         this.emit(`${newTrigger.value}`, params);
     }
 }

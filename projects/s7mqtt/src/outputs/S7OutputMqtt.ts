@@ -4,7 +4,8 @@
 import { TypeName } from "@woifes/binarytypes";
 import { Client, Message } from "@woifes/mqtt-client";
 import { S7Endpoint, tS7Variable } from "@woifes/s7endpoint";
-import { S7Output } from "./S7Output";
+import { Debugger } from "debug";
+import { S7Output, STD_POLL_INTERVAL_MS } from "./S7Output";
 import { S7OutputMqttConfig, tS7OutputMqttConfig } from "./S7OutputMqttConfig";
 
 export class S7OutputMqtt {
@@ -29,17 +30,22 @@ export class S7OutputMqtt {
     private _mqtt: Client;
     private _s7ep: S7Endpoint;
     private _s7out: S7Output;
+    private _debug: Debugger;
     private _config: tS7OutputMqttConfig;
 
     constructor(
         config: tS7OutputMqttConfig,
         s7endpoint: S7Endpoint,
-        mqtt: Client
+        mqtt: Client,
+        parentDebugger: Debugger
     ) {
         this._config = S7OutputMqttConfig.check(config);
         this._s7ep = s7endpoint;
         this._mqtt = mqtt;
-        this._s7out = new S7Output(this._config, this._s7ep);
+        this._debug = parentDebugger.extend(
+            `mqttOutput:${this._config.pollIntervalMS ?? STD_POLL_INTERVAL_MS}`
+        );
+        this._s7out = new S7Output(this._config, this._s7ep, this._debug);
         this._s7out.on("data", this.onData.bind(this));
         this._topicPrefix = this._config.topicPrefix ?? "tags";
         this._qos = this._config.qos ?? 0;
@@ -47,6 +53,7 @@ export class S7OutputMqtt {
     }
 
     private onData(result: tS7Variable[]) {
+        this._debug("Received new data");
         for (const key in result) {
             const tag = result[key];
             this.sendValue(tag);

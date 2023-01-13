@@ -34,12 +34,12 @@ export const S7CommandConfig = rt
         requiredParamCount: rt.Number.optional(),
         result: S7EventConfig.And(
             rt.Record({
-                //result configuration if this is ommited no response will be send
+                //result configuration if this is omitted no response will be send
                 topicPrefix: rt.String.withConstraint(
                     (s) => s.length > 0
                 ).optional(), //standard is "cmdRes"
                 timeoutMS: rt.Number.withConstraint(
-                    (n) => n > 0 || `Timeout has to be creater than 0`
+                    (n) => n > 0 || `Timeout has to be greater than 0`
                 ), //timeout when a failure response has to be send //standard will be 3s
                 okFlagAddress: S7AddressString.withConstraint((variable) => {
                     const addressObject = parseS7AddressString(variable);

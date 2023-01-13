@@ -3,6 +3,7 @@
 
 import { S7RemoteEndpoint } from "@woifes/s7endpoint";
 import { TestServer } from "@woifes/s7endpoint/test/TestServer";
+import debug from "debug";
 import { once } from "events";
 import { S7Output } from "../../src/outputs/S7Output";
 
@@ -12,6 +13,7 @@ async function promiseTimeout(ms: number) {
     });
 }
 
+const DEBUGGER = debug("test");
 const SERVER = new TestServer("127.0.0.1");
 const S7ENDP = new S7RemoteEndpoint({
     endpointIp: "127.0.0.1",
@@ -56,7 +58,8 @@ it("should emit event on trigger", async () => {
             },
             pollIntervalMS: 500,
         },
-        S7ENDP
+        S7ENDP,
+        DEBUGGER
     );
     const dataCb = jest.fn();
 

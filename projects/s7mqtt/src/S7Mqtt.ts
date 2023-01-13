@@ -14,6 +14,7 @@ import {
     tS7Variable,
 } from "@woifes/s7endpoint";
 import { PickRequire } from "@woifes/util";
+import debug, { Debugger } from "debug";
 import { readFileSync } from "fs-extra";
 import { S7AlarmHandler, tS7AlarmHandlerConfig } from "./alarms";
 import { S7Command, tS7CommandConfig } from "./commands";
@@ -27,6 +28,7 @@ type tNamedS7Variable = PickRequire<tS7Variable, "name">;
 export class S7Mqtt {
     private _s7ep: S7Endpoint;
     private _mqtt: Client;
+    private _debug: Debugger;
 
     private _config: tS7MqttConfig;
 
@@ -46,6 +48,7 @@ export class S7Mqtt {
                 this._config
             );
         }
+        this._debug = debug(`${this._config.mqtt.clientId}`);
         this._s7ep.connect();
         this._mqtt = new Client(this._config.mqtt);
 
@@ -53,32 +56,39 @@ export class S7Mqtt {
             this._alarms = new S7AlarmHandler(
                 this._config.alarms,
                 this._s7ep,
-                this._mqtt
+                this._mqtt,
+                this._debug
             );
         }
 
         if (this._config.commands != undefined) {
             for (const cmd of this._config.commands) {
-                this._commands.push(new S7Command(cmd, this._s7ep, this._mqtt));
+                this._commands.push(
+                    new S7Command(cmd, this._s7ep, this._mqtt, this._debug)
+                );
             }
         }
 
         if (this._config.events != undefined) {
             for (const evt of this._config.events) {
-                this._events.push(new S7EventMqtt(evt, this._s7ep, this._mqtt));
+                this._events.push(
+                    new S7EventMqtt(evt, this._s7ep, this._mqtt, this._debug)
+                );
             }
         }
 
         if (this._config.inputs != undefined) {
             for (const inp of this._config.inputs) {
-                this._inputs.push(new MqttInput(inp, this._s7ep, this._mqtt));
+                this._inputs.push(
+                    new MqttInput(inp, this._s7ep, this._mqtt, this._debug)
+                );
             }
         }
 
         if (this._config.outputs != undefined) {
             for (const outp of this._config.outputs) {
                 this._outputs.push(
-                    new S7OutputMqtt(outp, this._s7ep, this._mqtt)
+                    new S7OutputMqtt(outp, this._s7ep, this._mqtt, this._debug)
                 );
             }
         }

@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 
 import { ReadRequest, S7RemoteEndpoint, tS7Variable } from "@woifes/s7endpoint";
+import debug from "debug";
 import { EventEmitter } from "events";
 import { S7Event } from "../../src/events/S7Event";
 import { S7Output } from "../../src/outputs/S7Output";
@@ -103,6 +104,7 @@ expect.extend({
     },
 });
 
+const DEBUGGER = debug("test");
 const S7ENDP = new S7RemoteEndpoint({
     endpointIp: "127.0.0.1",
     name: "test01",
@@ -124,7 +126,8 @@ it("should emit event on trigger", async () => {
             params: ["DB12,DW0", "DB12,W4.3", "DB20,SInt2"],
             pollIntervalMS: 500,
         },
-        S7ENDP
+        S7ENDP,
+        DEBUGGER
     );
     const OUT_MOCK: EventEmitter = (evt as any)._output;
     const TRG_KEY: symbol = (evt as any).TRIGGER_KEY;

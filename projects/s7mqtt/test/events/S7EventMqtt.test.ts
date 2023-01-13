@@ -3,6 +3,7 @@
 
 import { Client, Message } from "@woifes/mqtt-client";
 import { S7Endpoint } from "@woifes/s7endpoint";
+import debug from "debug";
 import { EventEmitter } from "events";
 import { S7Event } from "../../src/events/S7Event";
 import { S7EventMqtt } from "../../src/events/S7EventMqtt";
@@ -24,6 +25,7 @@ class MqttClientMock extends EventEmitter {
     });
 }
 
+const DEBUGGER = debug("test");
 const MQTT = new MqttClientMock();
 
 const CONFIG: tS7EventMqttConfig = {
@@ -41,7 +43,8 @@ it("should send message on trigger without message set", async () => {
     const evtMqtt = new S7EventMqtt(
         CONFIG,
         {} as S7Endpoint,
-        MQTT as unknown as Client
+        MQTT as unknown as Client,
+        DEBUGGER
     );
     const evt = (evtMqtt as any)._s7event;
     evt.emit(
@@ -75,7 +78,8 @@ it("should send message on trigger with message set and no placeholder", async (
             message: "Hello World",
         },
         {} as S7Endpoint,
-        MQTT as unknown as Client
+        MQTT as unknown as Client,
+        DEBUGGER
     );
     const evt = (evtMqtt as any)._s7event;
     evt.emit(
@@ -109,7 +113,8 @@ it("should send message on trigger with message set and placeholder", async () =
             message: "$2 $1 $0 $t $3",
         },
         {} as S7Endpoint,
-        MQTT as unknown as Client
+        MQTT as unknown as Client,
+        DEBUGGER
     );
     const evt = (evtMqtt as any)._s7event;
     evt.emit(

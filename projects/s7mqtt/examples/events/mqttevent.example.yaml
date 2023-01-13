@@ -1,5 +1,5 @@
 topic: a/b/c #the topic to send the event message to
-message: Hello World #a hardcoded message to send on trigger
+message: Hello World #a hardcoded message to send on trigger use $n for parameter replacement (0 based) and $t for replacing the trigger value
 #from here check event config
 trigger: DB1,W4
 params:
