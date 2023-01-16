@@ -1,6 +1,6 @@
 {
   "name": "@woifes/alarmhandlermqtt",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "main": "dist/index",
   "types": "dist/index",
@@ -20,9 +20,9 @@
   "author": "woifes",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "@woifes/alarmhandler": "workspace:0.1.0",
+    "@woifes/alarmhandler": "workspace:0.1.1",
     "@woifes/mqtt-client": "workspace:0.1.0",
-    "@woifes/util": "workspace:0.1.0",
+    "@woifes/util": "workspace:0.1.1",
     "commander": "^8.3.0",
     "runtypes": "^6.5.1"
   },
