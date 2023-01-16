@@ -116,9 +116,9 @@ export class PersistentRuntype<T> {
     }
 
     /**
-     * @returns the value (does not trigger a read from disc)
+     * @returns a deep copy of the value (does not trigger a read from disc)
      */
     getValue(): T {
-        return { ...this._value };
+        return JSON.parse(JSON.stringify(this._value));
     }
 }
