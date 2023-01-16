@@ -15,7 +15,7 @@ Package not published
         presentAlarmsFilePath: "path/to/presentalarmfile",
         alarmDefsPath: "path/to/alarmdefinitions",
         additionalNewAlarmTopics: [
-            "topic01/newAlarms", //send alarms which are triggered to additional topics
+            "topic01/newAlarms", //send alarms which are triggered to additional topics (in textual format)
             "topic02/newAlarms"
         ]
         presentAlarmWatchdogS: 3, //default 3s - max duration between the present alarm info (is triggered automatically after this time)

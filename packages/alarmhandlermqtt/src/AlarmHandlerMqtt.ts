@@ -51,7 +51,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
     }
 
     public static numOfAlarmsTopic(this: AlarmHandlerMqtt) {
-        return `alarms/${this._name}/numberOfAlarms`;
+        return `alarms/sources/${this._name}/numberOfAlarms`;
     }
     public static presentAlarmsTopic(this: AlarmHandlerMqtt) {
         return `alarms/present/${this._name}`;
@@ -121,6 +121,10 @@ export class AlarmHandlerMqtt extends AlarmHandler {
      */
     get presentAlarmWatchdogTimeS() {
         return this._presentAlarmWatchdogTimeS;
+    }
+
+    private newAlarmToText(alarmNr: number, alarmObj: tAlarmJsonObject) {
+        return `New Alarm from ${this._client.clientId}: #${alarmNr} - ${alarmObj.text}`;
     }
 
     @MqttConnectionHandler()
@@ -290,8 +294,8 @@ export class AlarmHandlerMqtt extends AlarmHandler {
         for (let i = 0; i < this._additionalNewAlarmTopics.length; i++) {
             this._client.publishValueSync(
                 this._additionalNewAlarmTopics[i],
-                obj,
-                "JSON",
+                this.newAlarmToText(nr, obj),
+                "STRING",
                 1,
                 true
             );

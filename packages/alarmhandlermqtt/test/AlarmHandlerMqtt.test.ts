@@ -205,7 +205,7 @@ describe("creation test", () => {
         expect(publishValueSyncMock).toBeCalledTimes(1);
         const [topic, value, type, QoS, retain] =
             publishValueSyncMock.mock.calls[0];
-        expect(topic).toBe(`alarms/${mqtt.clientId}/numberOfAlarms`);
+        expect(topic).toBe(`alarms/sources/${mqtt.clientId}/numberOfAlarms`);
         expect(value).toBe(10);
         expect(type).toBe("UINT32");
         expect(QoS).toBe(1);
@@ -249,25 +249,15 @@ describe("Alarm signal tests", () => {
 
         [topic, value, type, QoS, retain] = publishValueSyncMock.mock.calls[1];
         expect(topic).toBe(`messenger/to/lara`);
-        expect(value).toEqual({
-            category: "default",
-            categoryNum: 0,
-            occurred: d1.toJSON(),
-            text: "A 10 30",
-        });
-        expect(type).toBe("JSON");
+        expect(value).toEqual("New Alarm from test01: #2 - A 10 30");
+        expect(type).toBe("STRING");
         expect(QoS).toBe(1);
         expect(retain).toBe(true);
 
         [topic, value, type, QoS, retain] = publishValueSyncMock.mock.calls[2];
         expect(topic).toBe(`messenger/to/john`);
-        expect(value).toEqual({
-            category: "default",
-            categoryNum: 0,
-            occurred: d1.toJSON(),
-            text: "A 10 30",
-        });
-        expect(type).toBe("JSON");
+        expect(value).toEqual("New Alarm from test01: #2 - A 10 30");
+        expect(type).toBe("STRING");
         expect(QoS).toBe(1);
         expect(retain).toBe(true);
 
