@@ -1,6 +1,6 @@
 {
   "name": "@woifes/alarmhandler",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "dist/index",
   "types": "dist/index",
@@ -21,7 +21,7 @@
   "author": "woifes",
   "license": "MIT",
   "dependencies": {
-    "@woifes/util": "workspace:0.1.0",
+    "@woifes/util": "workspace:0.1.1",
     "runtypes": "^6.5.1"
   },
   "devDependencies": {

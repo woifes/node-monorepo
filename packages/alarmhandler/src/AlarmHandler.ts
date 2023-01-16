@@ -242,8 +242,13 @@ export class AlarmHandler extends EventEmitter {
      */
     setAlarmText(nr: number, text: string) {
         if (this[nr] != undefined) {
-            this[nr].text = text;
-            return true;
+            const definitions = this._alarmDefs.getValue();
+            definitions[nr].text = text;
+            if (this._alarmDefs.setValue(definitions)) {
+                this[nr].text = text;
+                return true;
+            }
+            return false;
         }
         return false;
     }

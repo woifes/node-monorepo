@@ -354,10 +354,35 @@ describe("creation test", () => {
         const d1 = new Date(2020, 11, 24, 7, 10, 123);
         jest.setSystemTime(d1);
         const h = new AlarmHandler(NAME, CONFIG);
+        expect(getDefFileObj(NAME)).toEqual({
+            1: { autoAck: false, c: "default", cn: 0, text: "No text" },
+            2: { autoAck: false, c: "default", cn: 0, text: "No text" },
+            3: { autoAck: false, c: "default", cn: 0, text: "No text" },
+        });
         expect(h.setAlarmText(1, "A")).toBe(true);
+        expect(getDefFileObj(NAME)).toEqual({
+            1: { autoAck: false, c: "default", cn: 0, text: "A" },
+            2: { autoAck: false, c: "default", cn: 0, text: "No text" },
+            3: { autoAck: false, c: "default", cn: 0, text: "No text" },
+        });
         expect(h.setAlarmText(2, "B")).toBe(true);
+        expect(getDefFileObj(NAME)).toEqual({
+            1: { autoAck: false, c: "default", cn: 0, text: "A" },
+            2: { autoAck: false, c: "default", cn: 0, text: "B" },
+            3: { autoAck: false, c: "default", cn: 0, text: "No text" },
+        });
         expect(h.setAlarmText(3, "C")).toBe(true);
+        expect(getDefFileObj(NAME)).toEqual({
+            1: { autoAck: false, c: "default", cn: 0, text: "A" },
+            2: { autoAck: false, c: "default", cn: 0, text: "B" },
+            3: { autoAck: false, c: "default", cn: 0, text: "C" },
+        });
         expect(h.setAlarmText(4, "D")).toBe(false);
+        expect(getDefFileObj(NAME)).toEqual({
+            1: { autoAck: false, c: "default", cn: 0, text: "A" },
+            2: { autoAck: false, c: "default", cn: 0, text: "B" },
+            3: { autoAck: false, c: "default", cn: 0, text: "C" },
+        });
         expect(h[1].text).toBe("A");
         expect(h[2].text).toBe("B");
         expect(h[3].text).toBe("C");
