@@ -20,23 +20,30 @@ export const ACKNOWLEDGED_BIT_POS = 0x4;
 
 export declare interface Alarm {
     /**
-     * emitted one time when the alarm is triggered emits the json object
+     * Emitted one time when the alarm is triggered emits the json object
      */
     on(event: "new", listener: (alarm: tAlarmJsonObject) => void): this;
     /**
-     * emitted when the alarm was untriggered (either by ack bit or by autoAck) emits a trace string in csv format
+     * Emitted when the alarm was untriggered (either by ack bit or by autoAck) emits a trace string in csv format
      */
     on(event: "gone", listener: (trace: string) => void): this;
     /**
-     * emitted when the alarm is acknowledged emits the json object
+     * Emitted when the alarm is acknowledged emits the json object
      */
     on(event: "ack", listener: (alarm: tAlarmJsonObject) => void): this;
     /**
-     * emitted when the signal changes (both edges) emits the json object
+     * Emitted when the signal changes (both edges) emits the json object
      */
     on(
         event: "signalChanged",
         listener: (alarm: tAlarmJsonObject) => void
+    ): this;
+    /**
+     * Emitted when the alarm text changes
+     */
+    on(
+        event: "alarmTextChanged",
+        listener: (oldText: string, newText: string) => void
     ): this;
 }
 
@@ -167,6 +174,7 @@ export class Alarm extends EventEmitter {
      * Use $n (1 - x) to include parameter from the signal
      */
     set text(newText: string) {
+        this.emit("alarmTextChanged", this._text, newText);
         this._text = newText;
     }
 

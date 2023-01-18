@@ -19,36 +19,43 @@ import {
 
 export declare interface AlarmHandler {
     /**
-     * emitted when one alarm occurs emits the alarm number and the alarm json representation
+     * Emitted when one alarm occurs emits the alarm number and the alarm json representation
      */
     on(
         event: "new",
         listener: (alarmNr: number, alarm: tAlarmJsonObject) => void
     ): this;
     /**
-     * emitted when one alarm is reset emits the alarm number and the tracestring
+     * Emitted when one alarm is reset emits the alarm number and the tracestring
      */
     on(event: "gone", listener: (alarmNr: number, trace: string) => void): this;
     /**
-     * emitted when one alarm is acknowledged emits the alarm number and the json representation
+     * Emitted when one alarm is acknowledged emits the alarm number and the json representation
      */
     on(
         event: "ack",
         listener: (alarmNr: number, alarm: tAlarmJsonObject) => void
     ): this;
     /**
-     * emitted when one alarm changes its signal emit the alarm number and the json representation
+     * Emitted when one alarm changes its signal emit the alarm number and the json representation
      */
     on(
         event: "signalChanged",
         listener: (alarmNr: number, alarm: tAlarmJsonObject) => void
     ): this;
     /**
-     * emitted when the overall present alarm info changes (combination of the other events). Emits the new alarm representation
+     * Emitted when the overall present alarm info changes (combination of the other events). Emits the new alarm representation
      */
     on(
         event: "presentAlarmsChanged",
         listener: (alarmInfo: tPresentAlarmsInfo) => void
+    ): this;
+    /**
+     * Emitted when one of the alarm texts did change
+     */
+    on(
+        event: "alarmTextChanged",
+        listener: (alarmNr: number, oldText: string, newText: string) => void
     ): this;
 }
 
@@ -155,6 +162,10 @@ export class AlarmHandler extends EventEmitter {
                 this.emit("signalChanged", i, obj);
                 this.getPresentAlarms();
             });
+            alarm.on("alarmTextChanged", (oldText: string, newText: string) => {
+                this.emit("alarmTextChanged", i, oldText, newText);
+                this.onAlarmTextChanged(i, oldText, newText);
+            });
             this[i] = alarm;
         }
 
@@ -242,13 +253,8 @@ export class AlarmHandler extends EventEmitter {
      */
     setAlarmText(nr: number, text: string) {
         if (this[nr] != undefined) {
-            const definitions = this._alarmDefs.getValue();
-            definitions[nr].text = text;
-            if (this._alarmDefs.setValue(definitions)) {
-                this[nr].text = text;
-                return true;
-            }
-            return false;
+            this[nr].text = text;
+            return true;
         }
         return false;
     }
@@ -271,5 +277,15 @@ export class AlarmHandler extends EventEmitter {
         this._presentAlarms.setValue(presentAlarmsInfo);
         this.emit("presentAlarmsChanged", { ...presentAlarmsInfo });
         return presentAlarmsInfo;
+    }
+
+    private onAlarmTextChanged(
+        alarmNr: number,
+        oldText: string,
+        newText: string
+    ) {
+        const definitions = this._alarmDefs.getValue();
+        definitions[alarmNr].text = newText;
+        this._alarmDefs.setValue(definitions);
     }
 }

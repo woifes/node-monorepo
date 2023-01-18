@@ -371,7 +371,7 @@ describe("creation test", () => {
             2: { autoAck: false, c: "default", cn: 0, text: "B" },
             3: { autoAck: false, c: "default", cn: 0, text: "No text" },
         });
-        expect(h.setAlarmText(3, "C")).toBe(true);
+        h[3].text = "C"; //other way of changing the text
         expect(getDefFileObj(NAME)).toEqual({
             1: { autoAck: false, c: "default", cn: 0, text: "A" },
             2: { autoAck: false, c: "default", cn: 0, text: "B" },
