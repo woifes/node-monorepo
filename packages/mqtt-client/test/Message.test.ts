@@ -86,6 +86,7 @@ test("copy", () => {
     const c = new Client(config);
 
     const m = new Message("A/B/C", 2, true, "Hello World", c);
+    m.properties = { responseTopic: "a/b" };
 
     const m2 = Message.copy(m);
 
@@ -97,6 +98,7 @@ test("copy", () => {
     expect((m2 as any)._body === (m as any)._body).toBe(true);
     expect(m.client === m2.client).toBe(true);
     expect(m.creation === m2.creation).toBe(true);
+    expect(m.properties === m2.properties).toBe(false);
 });
 
 test("read value", () => {

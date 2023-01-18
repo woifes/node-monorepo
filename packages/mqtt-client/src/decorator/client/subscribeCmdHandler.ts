@@ -44,10 +44,12 @@ export function subscribeCmdHandler(this: any, client: Client) {
                     });
                 unsubList.push(
                     obsr.subscribe((msg: Message) => {
-                        const resTopic = topicTransform(msg.topic).join("/");
+                        const resTopic =
+                            msg.properties?.responseTopic ?? //either use the MQTT v5 response topic
+                            topicTransform(msg.topic).join("/"); //or the given transform function
                         if (resTopic.length > 0) {
                             const res = new Message(
-                                topicTransform(msg.topic).join("/"),
+                                resTopic,
                                 msg.qos,
                                 msg.retain,
                                 undefined,

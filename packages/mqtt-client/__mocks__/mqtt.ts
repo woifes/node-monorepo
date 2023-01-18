@@ -30,11 +30,13 @@ export class MqttClientMock extends EventEmitter {
     }
 
     emitMessage(msg: Message) {
+        const packet: any = { ...msg.publishOpts };
+        packet.properties = msg.properties;
         this.emit(
             "message",
             msg.topic.join("/"),
             Buffer.from(msg.body, "utf-8"),
-            msg.publishOpts
+            packet
         );
     }
 

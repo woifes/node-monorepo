@@ -18,6 +18,19 @@ export declare interface Message {
     readJSON<T>(runtype?: Runtype<T>, fallBackVal?: T): T;
 }
 
+export type MqttPubPacketProperties = {
+    payloadFormatIndicator?: boolean;
+    messageExpiryInterval?: number;
+    topicAlias?: number;
+    responseTopic?: string;
+    correlationData?: Buffer;
+    userProperties?: {
+        [key: string]: string | string[];
+    };
+    subscriptionIdentifier?: number;
+    contentType?: string;
+};
+
 /**
  * This object represents a mqtt message. Either a received one with a message body, or to generate a message which can be send via the mqtt client.
  * @param topic the topic of the mqtt message
@@ -31,6 +44,7 @@ export class Message {
     private _qos: QoS = 0;
     private _retain = false;
     private _topic: string[];
+    private _properties?: MqttPubPacketProperties;
     private _client?: Client;
 
     private _creation: number;
@@ -48,6 +62,9 @@ export class Message {
             original._body,
             original.client
         );
+        if (original.properties != undefined) {
+            m.properties = JSON.parse(JSON.stringify(original.properties));
+        }
         m._creation = original._creation;
         return m;
     }
@@ -82,6 +99,14 @@ export class Message {
 
     get retain(): boolean {
         return this._retain;
+    }
+
+    set properties(p: MqttPubPacketProperties | undefined) {
+        this._properties = p;
+    }
+
+    get properties(): MqttPubPacketProperties | undefined {
+        return this._properties;
     }
 
     get publishOpts(): { qos: QoS; retain: boolean } {

@@ -428,6 +428,7 @@ export class Client {
             message.toString(),
             this
         );
+        m.properties = packet.properties;
         if (this.distributeMessage(m) > 0) {
             this.cacheMessage(m);
         }

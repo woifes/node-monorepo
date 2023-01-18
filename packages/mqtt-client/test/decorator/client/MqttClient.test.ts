@@ -499,6 +499,10 @@ describe("Message, Command and value handling test", () => {
         clientMock.emitMessage(new Message(topic, qos, false, content));
     }
 
+    function pubMsgObj(m: Message) {
+        clientMock.emitMessage(m);
+    }
+
     it("should handle message", async () => {
         @MqttClient()
         class TestClass {
@@ -650,7 +654,18 @@ describe("Message, Command and value handling test", () => {
         await promiseTimeout(150);
         pubMsg("cmd/me/john/cmd1", 2, "4");
         pubMsg("A/john/cmd2", 2, "4");
-        expect(t.test1).toBeCalledTimes(2);
+        await promiseTimeout(150);
+
+        //MQTT v5 response topic
+        const m1 = new Message("cmd/me/john/cmd1", 1, false, "1");
+        m1.properties = { responseTopic: "my/response" };
+        pubMsgObj(m1);
+
+        const m2 = new Message("A/john/cmd2", 1, false, "1");
+        m2.properties = { responseTopic: "another/response" };
+        pubMsgObj(m2);
+
+        expect(t.test1).toBeCalledTimes(3);
         let [req, res]: [Message, Message] = t.test1.mock.calls[0];
         expect(req.topic).toEqual(["cmd", "me", "john", "cmd1"]);
         expect(req.body).toEqual("2");
@@ -659,7 +674,10 @@ describe("Message, Command and value handling test", () => {
         expect(req.topic).toEqual(["cmd", "me", "john", "cmd1"]);
         expect(req.body).toEqual("4");
         expect(res.topic).toEqual(["cmdRes", "john", "me", "cmd1"]);
+        [req, res] = t.test1.mock.calls[2];
+        expect(res.topic).toEqual(["my", "response"]);
 
+        expect(t.test2).toBeCalledTimes(3);
         [req, res] = t.test2.mock.calls[0];
         expect(req.topic).toEqual(["A", "john", "cmd2"]);
         expect(req.body).toEqual("2");
@@ -668,6 +686,8 @@ describe("Message, Command and value handling test", () => {
         expect(req.topic).toEqual(["A", "john", "cmd2"]);
         expect(req.body).toEqual("4");
         expect(res.topic).toEqual(["B", "john", "cmd2"]);
+        [req, res] = t.test2.mock.calls[2];
+        expect(res.topic).toEqual(["another", "response"]);
     });
 });
 

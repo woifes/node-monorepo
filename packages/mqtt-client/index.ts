@@ -3,6 +3,6 @@
 
 export { Client } from "./src/Client";
 export { ClientConfig, tClientConfig } from "./src/ClientConfig";
-export { Message } from "./src/Message";
+export { Message, MqttPubPacketProperties } from "./src/Message";
 export { MinQos } from "./src/operator/MinQos";
 export { MqttStruct, tMqttStructConfig } from "./src/utils/MqttStruct";
