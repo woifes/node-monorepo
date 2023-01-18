@@ -32,7 +32,7 @@ Package not published
 * `cmd/<mqttClientId>/<requesterClientId>/setAlarmText`: Requests to change the alarm text of an alarm expects a JSON array in the form `[<commandId>, <alarmNumber>, <newAlarmText"]` sends a response to `cmdRes/<requesterId>/<mqttClientId>/setAlarmText` with a JSON array in the form `[<commandId>, <0/1>]` (1 success and 0 failure)
 * `cmd/<mqttClientId>/<requesterClientId>/getHistory`: Requests the alarm history expects a JSON array in the form `[<commandId>, <UNIX timestamp "from">, <UNIX timestamp "to">]` sends a response to `cmdRes/<requesterId>/<mqttClientId>/getHistory` with a JSON array in the form `[<commandId>, <0/1>, [...<log file entries>]]` (1 success and 0 failure)
 ### Information
-* `alarms/<mqttClientId>/numberOfAlarms`: Sends the total number of alarms of this alarm handler
+* `alarms/sources/<mqttClientId>/numberOfAlarms`: Sends the total number of alarms of this alarm handler
 * `alarms/present/<mqttClientId>`: Sends the present alarm information to this topic
 * `alarms/new/<mqttClientId>`: Sends the alarm info (JSON) of a new triggered alarm to this topic (see also `additionalNewAlarmTopics`)
 ### Text command api
