@@ -38,8 +38,9 @@ Package not published
 ### Text command api
 * `<commandTopicPrefix>/<requesterId>`: Provides an interface similar to a command line. The idea is that one can send the command to a topic and receives the result on a second topic. The second topic is `<commandResponseTopicPrefix>/<requesterId>`. The command starts with a string `!al` targeting all alarm handler which are subscribed on the given topic
 #### Text commands
-* `!al -h` prints help
-* `!al who` prints alarm handler name(id) and their number of alarms
+* `!al` is defaulted to `!al who`
+* `!al help <alarmHandlerId>` prints available commands for the given alarm source
+* `!al who` prints alarm handler name(id) and their number of alarms and hint for help
 * `!al ack <alarmHandlerId> [alarmIdToAck]` sends acknowledge if `alarmIdToAck` is "0" or omitted ack all alarms
 * `!al act [alarmHandlerId]` request present alarm information if `alarmHandlerId` is omitted every alarm handler will print its present alarms
 

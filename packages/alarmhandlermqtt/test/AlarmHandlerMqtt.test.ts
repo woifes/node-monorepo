@@ -539,31 +539,107 @@ describe("text command tests", () => {
         });
     }
 
-    it("should display overall help", async () => {
+    it("should display 'who' when nothing else is given", async () => {
+        simTxtCmd("!al   ");
+        await promiseTimeout(400);
+        expect(publishMessageMock).toBeCalledTimes(1);
+        expect(publishMessageMock.mock.calls[0][0].body).toBe(
+            `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
+        );
+    });
+
+    it("should not display overall help", async () => {
         simTxtCmd("!al -h");
         await promiseTimeout(400);
         expect(publishMessageMock).toBeCalledTimes(1);
-        let expected = "";
-        expected += "Usage: !al [options] [command]\n";
-        expected += "\n";
-        expected += "Options:\n";
-        expected +=
-            "  -h, --help                          display help for command\n";
-        expected += "\n";
-        expected += "Commands:\n";
-        expected +=
-            "  who                                 Prints the alarm source and the number of their alarms\n";
-        expected +=
-            "  ack <alarmSourceName> [alarmNumber]  Acknowledges the given alarm. Acknowledges all if not given\n";
-        expected +=
-            "  act [alarmSourceName]               Prints the present alarms\n";
-        expected +=
-            "  help [command]                      display help for command\n";
-        expect(
-            publishMessageMock.mock.calls[0][0].body
-                .replaceAll(" ", "")
-                .replaceAll("\n", "")
-        ).toBe(expected.replaceAll(" ", "").replaceAll("\n", ""));
+        expect(publishMessageMock.mock.calls[0][0].body).toBe(
+            `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
+        );
+    });
+
+    it("should not display help on error", async () => {
+        simTxtCmd("!al wrongcmd");
+        await promiseTimeout(400);
+        expect(publishMessageMock).toBeCalledTimes(1);
+        expect(publishMessageMock.mock.calls[0][0].body).toBe(
+            `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
+        );
+    });
+
+    it("should do nothing when wrong start command", async () => {
+        simTxtCmd("Hello World");
+        await promiseTimeout(400);
+        expect(publishMessageMock).not.toBeCalled();
+    });
+
+    it("should do nothing when not configured", async () => {
+        mqtt = new Client({
+            clientId: "test01",
+            url: "123",
+        });
+
+        publishValueSyncMock = jest.fn(
+            (
+                topic: string,
+                value: any,
+                type: string,
+                QoS: number,
+                retain: boolean
+            ) => {}
+        );
+        (mqtt as any).publishValueSync = publishValueSyncMock;
+        publishMessageMock = jest.fn((msg: Message) => {
+            return Promise.resolve();
+        });
+        (mqtt as any).publishMessage = publishMessageMock;
+
+        const name = `alSig_doNothing`;
+        const config = createConfig(name, 3);
+        delete config.textCommand;
+        jest.clearAllMocks();
+        const handler = new AlarmHandlerMqtt(config, mqtt);
+        simTxtCmd("!al");
+        await promiseTimeout(400);
+        expect(publishMessageMock).not.toBeCalled();
+    });
+
+    describe("command 'help'", () => {
+        it("should display help of a given source", async () => {
+            simTxtCmd("!al help test01");
+            await promiseTimeout(400);
+            expect(publishMessageMock).toBeCalledTimes(1);
+            expect(publishMessageMock.mock.calls[0][0].body).toBe(
+                `Usage: !al [command]
+
+Commands:
+  help <alarmHandlerId>               Displays help to the available commands
+  who                                 Prints the alarm source and the number of
+                                      their alarms
+  act [alarmHandlerId]                Prints the present alarms
+  ack <alarmHandlerId> [alarmNumber]  Acknowledges the given alarm.
+                                      Acknowledges all if not given
+`
+            );
+        });
+
+        it("should not display automatic generated help of help command", async () => {
+            simTxtCmd("!al help -h");
+            simTxtCmd("!al help help");
+            await promiseTimeout(400);
+            expect(publishMessageMock).toBeCalledTimes(1);
+            expect(publishMessageMock.mock.calls[0][0].body).toBe(
+                `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
+            );
+        });
+
+        it("should not display help on missing alarm source", async () => {
+            simTxtCmd("!al help");
+            await promiseTimeout(400);
+            expect(publishMessageMock).toBeCalledTimes(1);
+            expect(publishMessageMock.mock.calls[0][0].body).toBe(
+                `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
+            );
+        });
     });
 
     describe("command 'who'", () => {
@@ -572,22 +648,18 @@ describe("text command tests", () => {
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(1);
             expect(publishMessageMock.mock.calls[0][0].body).toBe(
-                "test01 with 3 Alarms"
+                `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
             );
         });
 
-        it("should display help of 'who'", async () => {
+        it("should not display help of 'who'", async () => {
+            simTxtCmd("!al who -h");
             simTxtCmd("!al help who");
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(1);
-            expect(publishMessageMock.mock.calls[0][0].body)
-                .toBe(`Usage: !al who [options]
-
-Prints the alarm source and the number of their alarms
-
-Options:
-  -h, --help  display help for command
-`);
+            expect(publishMessageMock.mock.calls[0][0].body).toBe(
+                `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
+            );
         });
     });
 
@@ -602,7 +674,7 @@ Options:
             simTxtCmd("!al ack test01");
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(3);
-            //console.log(publishMessageMock.mock.calls[0][0].body);
+            //console.log(publishMessageMock.mock.calls[0][0].body); messages from the alarm handler
             //console.log(publishMessageMock.mock.calls[1][0].body);
             expect(publishMessageMock.mock.calls[2][0].body).toBe(
                 "Alarm 0 was acknowledged"
@@ -634,31 +706,23 @@ Options:
             expect(h[2].triggered).toBe(false);
         });
 
-        it("should display help on missing alarm handler param", async () => {
+        it("should not display help on missing alarm handler param", async () => {
             simTxtCmd("!al ack");
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(1);
             expect(publishMessageMock.mock.calls[0][0].body).toBe(
-                "error: missing required argument 'alarmSourceName'\n"
+                `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
             );
         });
 
-        it("should display help on help command", async () => {
+        it("should not display help for ack command", async () => {
+            simTxtCmd("!al ack -h");
             simTxtCmd("!al help ack");
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(1);
-            expect(publishMessageMock.mock.calls[0][0].body)
-                .toBe(`Usage: !al ack [options] <alarmSourceName> [alarmNumber]
-
-Acknowledges the given alarm. Acknowledges all if not given
-
-Arguments:
-  alarmSourceName  which alarm source to ack
-  alarmNumber      Which alarm number to acknowledge (default: 0)
-
-Options:
-  -h, --help       display help for command
-`);
+            expect(publishMessageMock.mock.calls[0][0].body).toBe(
+                `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
+            );
         });
     });
 
@@ -717,73 +781,14 @@ ______________________________
             );
         });
 
-        it("should display nothing when wrong name", async () => {
-            simTxtCmd("!al act test02");
-            await promiseTimeout(400);
-            expect(publishMessageMock).not.toBeCalled();
-        });
-
-        it("should display help for act", async () => {
+        it("should not display help for act", async () => {
+            simTxtCmd("!al act -h");
             simTxtCmd("!al help act");
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(1);
-            expect(publishMessageMock.mock.calls[0][0].body)
-                .toBe(`Usage: !al act [options] [alarmSourceName]
-
-Prints the present alarms
-
-Arguments:
-  alarmSourceName  Filter only for this alarm source
-
-Options:
-  -h, --help       display help for command
-`);
+            expect(publishMessageMock.mock.calls[0][0].body).toBe(
+                `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
+            );
         });
-    });
-
-    it("should display help on error", async () => {
-        simTxtCmd("!al wrongcmd");
-        await promiseTimeout(400);
-        expect(publishMessageMock).toBeCalledTimes(1);
-        expect(publishMessageMock.mock.calls[0][0].body).toBe(
-            `error: unknown command 'wrongcmd'\n`
-        );
-    });
-
-    it("should do nothing when wrong start command", async () => {
-        simTxtCmd("Hello World");
-        await promiseTimeout(400);
-        expect(publishMessageMock).not.toBeCalled();
-    });
-
-    it("should do nothing when not configured", async () => {
-        mqtt = new Client({
-            clientId: "test01",
-            url: "123",
-        });
-
-        publishValueSyncMock = jest.fn(
-            (
-                topic: string,
-                value: any,
-                type: string,
-                QoS: number,
-                retain: boolean
-            ) => {}
-        );
-        (mqtt as any).publishValueSync = publishValueSyncMock;
-        publishMessageMock = jest.fn((msg: Message) => {
-            return Promise.resolve();
-        });
-        (mqtt as any).publishMessage = publishMessageMock;
-
-        const name = `alSig_doNothing`;
-        const config = createConfig(name, 3);
-        delete config.textCommand;
-        jest.clearAllMocks();
-        const handler = new AlarmHandlerMqtt(config, mqtt);
-        simTxtCmd("!al -h");
-        await promiseTimeout(400);
-        expect(publishMessageMock).not.toBeCalled();
     });
 });
