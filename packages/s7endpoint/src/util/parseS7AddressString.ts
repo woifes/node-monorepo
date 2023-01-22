@@ -38,7 +38,7 @@ export function parseS7AddressString(addressString: string): tS7Address {
     const match = addressString.match(ADDRESSREGEX);
     if (match == null || match.length < 3) {
         //only areaType and dbIndex are required
-        throw new Error("Could not parse address string");
+        throw new Error(`Could not parse address string: ${addressString}`);
     }
     const [_, dbNrStr, typeStr, dbIndexStr, quantifier1, quantifier2] = match;
 

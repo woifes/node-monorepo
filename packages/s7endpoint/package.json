@@ -1,6 +1,6 @@
 {
   "name": "@woifes/s7endpoint",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "",
   "main": "dist/index",
   "types": "dist/index",
