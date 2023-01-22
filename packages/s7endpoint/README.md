@@ -1,7 +1,7 @@
 # @woifes/s7endpoint
 
 ## Why?
-This package is an adapter package for connecting to S7 PLCs via the S7-Protocol (RFC1006) to use for further implementations. It is first based on [node-snap7](node-snap7) which itself is based on [snap7](snap7). It may be changed to [nodes7](nodes7). For this reason the tag addressing of [nodes7](nodes7) is used.<br>
+This package is an adapter package for connecting to S7 PLCs via the S7-Protocol (RFC1006) to use for further implementations. It is first based on [node-snap7](node-snap7) which itself is based on [snap7](snap7). It may be changed to [nodes7](nodes7). For this reason the tag addressing of [nodes7](nodes7) is used. _expect the replacer logic for Siemens LOGO! addresses (e. g. `LOGO:I1`)_<br>
 The package provides a *remote* and a *local* implementation. The *remote* implementation fetches and writes the data from a real PLC while the *local* implementation makes use of the [node-snap7](node-snap7) server implementation. Since the server implementation is flagged as unstable and it is not well documented (even no typescript types exist) it is at least as unstable as the underlying implementation.
 
 > I have only used the package with S7 1200 PLCs and the LOGO! logic controller

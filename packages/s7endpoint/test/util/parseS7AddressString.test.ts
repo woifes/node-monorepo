@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
+import { LOGO_ADDRESSES } from "../../src/const";
 import {
     parseS7AddressString,
     stringifyS7Address,
@@ -37,6 +38,20 @@ it("should parse correct string", () => {
     for (const str of Object.keys(samples)) {
         expect(parseS7AddressString(str)).toEqual(samples[str]);
     }
+});
+
+it("should parse LOGO identifier", () => {
+    for (const key of Object.keys(LOGO_ADDRESSES)) {
+        expect(parseS7AddressString(`LOGO:${key}`)).toEqual(
+            parseS7AddressString((LOGO_ADDRESSES as any)[key])
+        );
+    }
+});
+
+it("should throw if LOGO identifier not found", () => {
+    expect(() => {
+        parseS7AddressString("LOGO:Something");
+    }).toThrow();
 });
 
 it("should throw if byte variable has bit index", () => {

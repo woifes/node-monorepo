@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import { tNumber } from "@woifes/binarytypes";
-import { tS7ShortTypeNames } from "../../src/const";
+import { LOGO_ADDRESSES, tS7ShortTypeNames } from "../../src/const";
 import { tS7AddressString } from "../../src/types/S7AddressString";
 import {
     S7DataAreas,
@@ -19,12 +19,20 @@ import { S7Address, tS7Address } from "../types/S7Address";
 const ADDRESSREGEX =
     /^(?:DB([0-9]+),)?([a-zA-Z]+)([0-9]+)(?:\.([0-9]+))?(?:\.([0-9]+))?$/; //no "_" ensures that no array types can be matched
 
+const LOGO_PREFIX = "LOGO:";
+
 /**
  * Parses an String in the form e. g. M1.2 or DB9,X1.2.3 and creates a S7Address object out of it. Throws on error
  * @param addressString the address string to parse
  * @returns tS7Address object
  */
 export function parseS7AddressString(addressString: string): tS7Address {
+    //Replace Logo identifier
+    if (addressString.startsWith(LOGO_PREFIX)) {
+        addressString = replaceLogoConstant(
+            addressString.substring(LOGO_PREFIX.length)
+        );
+    }
     //DB1,X14.0.8
     //Area,Type DBIndex
     const match = addressString.match(ADDRESSREGEX);
@@ -139,4 +147,14 @@ function typeToS7Type(type: tNumber): tDataTypeNames | tS7ShortTypeNames {
     }
 
     return TYPE_NAME_TO_S7_TYPE[type] as tDataTypeNames;
+}
+
+function replaceLogoConstant(identifier: string): string {
+    if (identifier in LOGO_ADDRESSES) {
+        return (LOGO_ADDRESSES as any)[identifier] as string;
+    } else {
+        throw new Error(
+            `Could not find identifier ${identifier} in constants of ${LOGO_PREFIX}`
+        );
+    }
 }
