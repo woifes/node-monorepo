@@ -185,7 +185,7 @@ describe("creation and connection tests", () => {
         expect(clientConnectSpy).not.toBeCalled();
     });
 
-    it("should reconnect after manual disconnect if reconnect time is set", () => {
+    it("should reconnect after manual disconnect if reconnect (twice) time is set", () => {
         endPoint = new S7RemoteEndpoint({
             reconnectTimeMS: 1000,
             ...testConfig,
@@ -196,17 +196,26 @@ describe("creation and connection tests", () => {
             (endPoint as any)._client,
             "Connect"
         );
-        clientConnectSpy.mockImplementation((cb: any) => {
-            cb();
-        });
         const clientDisconnectSpy = jest.spyOn(
             (endPoint as any)._client,
             "Disconnect"
         );
+        clientConnectSpy.mockImplementation((cb: any) => {
+            cb();
+        });
         endPoint.connect();
         endPoint.disconnect();
+        clientConnectSpy.mockImplementation((cb: any) => {
+            cb(123); //first time fail
+        });
         expect(clientDisconnectSpy).toBeCalledTimes(1);
         expect(disconnectCb).toBeCalledTimes(1);
+        jest.clearAllMocks();
+        jest.runOnlyPendingTimers();
+        expect(clientConnectSpy).toBeCalledTimes(1);
+        clientConnectSpy.mockImplementation((cb: any) => {
+            cb(); //second time success
+        });
         jest.clearAllMocks();
         jest.runOnlyPendingTimers();
         expect(clientConnectSpy).toBeCalledTimes(1);

@@ -129,13 +129,15 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
      * disconnects the client from the s7 endpoint
      */
     disconnect() {
-        this._debug("Called disconnect()");
-        this._client.Disconnect();
-        this._connectedToEndpoint = false;
-        this.emit("disconnect");
-        if (this._config.reconnectTimeMS != undefined) {
-            this._debug(`Called schedule reconnect in disconnect()`);
-            this.scheduleReconnect();
+        if (this._connectedToEndpoint) {
+            this._debug("Called disconnect()");
+            this._client.Disconnect();
+            this._connectedToEndpoint = false;
+            this.emit("disconnect");
+            if (this._config.reconnectTimeMS != undefined) {
+                this._debug(`Called schedule reconnect in disconnect()`);
+                this.scheduleReconnect();
+            }
         }
     }
 
@@ -148,6 +150,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
         }
         if (this._reconnectTimeout != undefined) {
             clearTimeout(this._reconnectTimeout);
+            this._reconnectTimeout = undefined;
         }
     }
 
@@ -160,6 +163,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                 `Set timeout for reconnect in ${this._config.reconnectTimeMS}ms`
             );
             this._reconnectTimeout = setTimeout(() => {
+                this._reconnectTimeout = undefined;
                 this.connect();
             }, this._config.reconnectTimeMS);
         }
@@ -211,6 +215,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                                     err
                                 )}`
                             );
+                            this.disconnect();
                             reject(this._client.ErrorText(err));
                         } else {
                             if (
@@ -251,6 +256,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                                     err
                                 )}`
                             );
+                            this.disconnect();
                             reject(new Error(this._client.ErrorText(err)));
                         } else {
                             resolve(data);
@@ -295,6 +301,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                                     err
                                 )}`
                             );
+                            this.disconnect();
                             reject(new Error(this._client.ErrorText(err)));
                         } else {
                             resolve();
@@ -325,6 +332,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                                     err
                                 )}`
                             );
+                            this.disconnect();
                             reject(new Error(this._client.ErrorText(err)));
                         } else {
                             resolve(data);
