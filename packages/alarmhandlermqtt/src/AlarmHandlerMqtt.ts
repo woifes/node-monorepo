@@ -305,7 +305,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
     private onNew(nr: number, obj: tAlarmJsonObject) {
         this._client.publishValueSync(
             AlarmHandlerMqtt.newAlarmTopic.call(this),
-            obj,
+            { nr, ...obj },
             "JSON",
             1,
             true
@@ -349,6 +349,15 @@ export class AlarmHandlerMqtt extends AlarmHandler {
         const present = this.getPresentAlarms();
         let response = "";
         const alNumbers = Object.keys(present.alarms) as unknown as number[];
+        const options: Intl.DateTimeFormatOptions = {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            fractionalSecondDigits: 3,
+        };
         if (alNumbers.length > 0) {
             response = `Alarms of ${this.name}\n`;
             response += "_".repeat(30) + "\n";
@@ -357,18 +366,16 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                 const occurred = new Date(alarmObj.occurred!);
                 response += `${alNum
                     .toString()
-                    .padStart(
-                        5
-                    )} | ${occurred.toLocaleDateString()} ${occurred.toLocaleTimeString()}.${occurred
-                    .getMilliseconds()
-                    .toString()
-                    .padStart(3, "0")}\n`;
+                    .padStart(5)} | ${occurred.toLocaleString(
+                    undefined,
+                    options
+                )}\n`;
                 if (alarmObj.ackTime != undefined) {
                     const ackTime = new Date(alarmObj.ackTime);
-                    response += `    ✔ ${ackTime.toLocaleDateString()} ${ackTime.toLocaleTimeString()}.${ackTime
-                        .getMilliseconds()
-                        .toString()
-                        .padStart(3, "0")}\n`;
+                    response += `    ✔ ${ackTime.toLocaleString(
+                        undefined,
+                        options
+                    )}\n`;
                 }
                 response += `${alarmObj.text}\n`;
                 response += "_".repeat(30) + "\n";

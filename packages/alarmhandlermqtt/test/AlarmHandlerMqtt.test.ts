@@ -9,6 +9,9 @@ import { tAlarmHandlerMqttConfig } from "../src/runtypes/AlarmHandlerMqttConfig"
 
 /* eslint-disable no-empty */
 
+process.env.TZ = "Europe/Berlin";
+process.env.LANG = "de";
+
 async function promiseTimeout(ms: number): Promise<void> {
     return new Promise((resolve, reject) => {
         jest.useRealTimers();
@@ -238,6 +241,7 @@ describe("Alarm signal tests", () => {
             publishValueSyncMock.mock.calls[0];
         expect(topic).toBe(`alarms/new/${mqtt.clientId}`);
         expect(value).toEqual({
+            nr: 2,
             category: "default",
             categoryNum: 0,
             occurred: d1.toJSON(),
@@ -742,11 +746,11 @@ Commands:
             expect(publishMessageMock.mock.calls[1][0].body)
                 .toBe(`Alarms of test01
 ______________________________
-    2 | 24.12.2020 07:12:03.000
+    2 | 24.12.2020, 07:12:03,000
 No text
 ______________________________
-    3 | 24.12.2020 07:12:03.000
-    ✔ 24.12.2020 07:12:03.000
+    3 | 24.12.2020, 07:12:03,000
+    ✔ 24.12.2020, 07:12:03,000
 No text
 ______________________________
 `);
@@ -759,11 +763,11 @@ ______________________________
             expect(publishMessageMock.mock.calls[1][0].body)
                 .toBe(`Alarms of test01
 ______________________________
-    2 | 24.12.2020 07:12:03.000
+    2 | 24.12.2020, 07:12:03,000
 No text
 ______________________________
-    3 | 24.12.2020 07:12:03.000
-    ✔ 24.12.2020 07:12:03.000
+    3 | 24.12.2020, 07:12:03,000
+    ✔ 24.12.2020, 07:12:03,000
 No text
 ______________________________
 `);
