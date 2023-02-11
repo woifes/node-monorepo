@@ -12,6 +12,7 @@ mqtt:
   clientId: client01
   notifyPresencePrefix: clients
   messageCacheTimeS: 3
+  caCertificate: "path or cert" #can be either the path to a ca root cert or the cert itself
 
 alarms:
     numOfAlarms: 3 #has to be same size like "alarms" array
@@ -64,21 +65,12 @@ inputs:
     - topic: a/b/c #topic from where the input will be sent from
       target: #target address to write the value of the input to
       #the "value" is needed if an fallback is provided it is optional otherwise
-        - area: DB
-          dbNr: 1
-          byteIndex: 0
-          type: UINT8
-          value: 1
-        - area: DB
-          dbNr: 2
-          byteIndex: 0
-          type: UINT8
-          value: 1
-        - area: DB
-          dbNr: 3
-          byteIndex: 0
-          type: UINT8
-          value: 1
+        - address: DB1,B0
+          fallbackValue: 1
+        - address: DB2,B0
+          fallbackValue: 1
+        - address: DB3,B0
+          fallbackValue: 1
       fallback: #optional - fallback definition
         watchdogTimeMS: 123 #optional - time in which an value is expected the fallback value (set on "target") is used otherwise
       minTargetCount: 2

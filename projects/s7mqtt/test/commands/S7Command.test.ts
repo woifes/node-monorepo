@@ -26,6 +26,7 @@ const S7_ENDP = new S7RemoteEndpoint({
     slot: 1,
     selfRack: 20,
     selfSlot: 1,
+    reconnectTimeMS: 300,
 });
 S7_ENDP.connect();
 
@@ -64,17 +65,16 @@ expect.extend({
     },
 });
 
-beforeAll(async () => {
-    if (!S7_ENDP.connected) {
-        await once(S7_ENDP, "connect");
-    }
-});
-
 afterAll(() => {
     SERVER.stop();
 });
 
-beforeEach(() => {
+beforeEach(async () => {
+    if (!S7_ENDP.connected) {
+        //S7_ENDP.connect();
+        await once(S7_ENDP, "connect");
+    }
+
     mqtt = new Client({
         url: "localhost",
         clientId: "client01",

@@ -64,11 +64,7 @@ export const CONFIG: tS7MqttConfig = {
     inputs: [
         {
             topic: "inputs/first",
-            target: [
-                { area: "DB", dbNr: 3001, byteIndex: 0, type: "UINT8" },
-                { area: "DB", dbNr: 3001, byteIndex: 1, type: "UINT8" },
-                { area: "DB", dbNr: 3001, byteIndex: 2, type: "UINT8" },
-            ],
+            target: ["DB3001,B0", "DB3001,B1", "DB3001,B2"],
         },
     ],
     outputs: [

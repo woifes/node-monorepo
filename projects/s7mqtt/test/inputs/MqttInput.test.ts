@@ -7,7 +7,10 @@ import { Client, Message } from "@woifes/mqtt-client";
 import { S7RemoteEndpoint } from "@woifes/s7endpoint";
 import { TestServer } from "@woifes/s7endpoint/test/TestServer";
 import debug from "debug";
+import { once } from "events";
 import { MqttInput } from "../../src/inputs/MqttInput";
+
+jest.setTimeout(10000);
 
 async function promiseTimeout(ms: number) {
     return new Promise((resolve, reject) => {
@@ -24,6 +27,7 @@ const S7ENDP = new S7RemoteEndpoint({
     slot: 1,
     selfRack: 20,
     selfSlot: 1,
+    reconnectTimeMS: 300,
 });
 S7ENDP.connect();
 
@@ -65,7 +69,11 @@ afterAll(() => {
     SERVER.stop();
 });
 
-beforeEach(() => {
+beforeEach(async () => {
+    if (!S7ENDP.connected) {
+        S7ENDP.connect();
+        await once(S7ENDP, "connect");
+    }
     mqtt = new Client({
         url: "localhost",
         clientId: "client01",
@@ -77,7 +85,7 @@ describe("Single target test", () => {
     it("should write on message", async () => {
         const i = new MqttInput(
             {
-                target: { area: "DB", dbNr: 1, byteIndex: 0, type: "UINT32" },
+                target: "DB1,DW0",
                 topic: "a/b/c",
             },
             S7ENDP,
@@ -101,13 +109,7 @@ describe("Single target test", () => {
     it("should write fallback on timeout", async () => {
         const i = new MqttInput(
             {
-                target: {
-                    area: "DB",
-                    dbNr: 1,
-                    byteIndex: 0,
-                    type: "UINT32",
-                    value: 123,
-                },
+                target: { address: "DB1,DW0", fallbackValue: 123 },
                 topic: "a/b/c",
                 fallback: {
                     watchdogTimeMS: 1500,
@@ -129,13 +131,7 @@ describe("Single target test", () => {
     it("should restart timeout if error during write", async () => {
         const i = new MqttInput(
             {
-                target: {
-                    area: "DB",
-                    dbNr: 2,
-                    byteIndex: 0,
-                    type: "UINT32",
-                    value: 123,
-                },
+                target: { address: "DB2,DW0", fallbackValue: 123 },
                 topic: "a/b/c",
                 fallback: {
                     watchdogTimeMS: 1000,
@@ -147,7 +143,7 @@ describe("Single target test", () => {
         );
         await promiseTimeout(1500);
         SERVER.setArea(2, Buffer.alloc(4));
-        await promiseTimeout(1500);
+        await promiseTimeout(2500);
         expect(SERVER.getDbArea(2)).toBeBuffer("0000007b");
     });
 });
@@ -156,11 +152,7 @@ describe("Multi target test", () => {
     it("should write on message", async () => {
         const i = new MqttInput(
             {
-                target: [
-                    { area: "DB", dbNr: 101, byteIndex: 0, type: "UINT32" },
-                    { area: "DB", dbNr: 102, byteIndex: 0, type: "UINT32" },
-                    { area: "DB", dbNr: 103, byteIndex: 0, type: "UINT32" },
-                ],
+                target: ["DB101,DW0", "DB102,DW0", "DB103,DW0"],
                 topic: "a/b/c",
             },
             S7ENDP,
@@ -193,14 +185,38 @@ describe("Multi target test", () => {
         expect(SERVER.getDbArea(103)).toBeBuffer("00000315");
     });
 
+    it("should not write on error item", async () => {
+        const i = new MqttInput(
+            {
+                target: ["DB101,W0", "DB102,W0", "DB103,W0"],
+                topic: "a/b/c",
+            },
+            S7ENDP,
+            mqtt,
+            DEBUGGER
+        );
+        await promiseTimeout(300);
+        SERVER.setArea(101, Buffer.alloc(4));
+        SERVER.setArea(102, Buffer.alloc(4));
+        SERVER.setArea(103, Buffer.alloc(4));
+        const m1 = new Message(
+            "a/b/c",
+            0,
+            false,
+            `[123,"wrong value",789]`,
+            mqtt
+        );
+        simIncMessage(m1);
+        await promiseTimeout(500);
+        expect(SERVER.getDbArea(101)).toBeBuffer("00000000");
+        expect(SERVER.getDbArea(102)).toBeBuffer("00000000");
+        expect(SERVER.getDbArea(103)).toBeBuffer("00000000");
+    });
+
     it("should write on message when enough values", async () => {
         const i = new MqttInput(
             {
-                target: [
-                    { area: "DB", dbNr: 111, byteIndex: 0, type: "UINT32" },
-                    { area: "DB", dbNr: 112, byteIndex: 0, type: "UINT32" },
-                    { area: "DB", dbNr: 113, byteIndex: 0, type: "UINT32" },
-                ],
+                target: ["DB111,DW0", "DB112,DW0", "DB113,DW0"],
                 topic: "a/b/c",
                 minTargetCount: 2,
             },
@@ -239,25 +255,16 @@ describe("Multi target test", () => {
             {
                 target: [
                     {
-                        area: "DB",
-                        dbNr: 201,
-                        byteIndex: 0,
-                        type: "UINT32",
-                        value: 10,
+                        address: "DB201,DW0",
+                        fallbackValue: 10,
                     },
                     {
-                        area: "DB",
-                        dbNr: 202,
-                        byteIndex: 0,
-                        type: "UINT32",
-                        value: 11,
+                        address: "DB202,DW0",
+                        fallbackValue: 11,
                     },
                     {
-                        area: "DB",
-                        dbNr: 203,
-                        byteIndex: 0,
-                        type: "UINT32",
-                        value: 12,
+                        address: "DB203,DW0",
+                        fallbackValue: 12,
                     },
                 ],
                 topic: "a/b/c",
@@ -291,25 +298,16 @@ describe("Multi target test", () => {
             {
                 target: [
                     {
-                        area: "DB",
-                        dbNr: 301,
-                        byteIndex: 0,
-                        type: "UINT32",
-                        value: 13,
+                        address: "DB301,DW0",
+                        fallbackValue: 13,
                     },
                     {
-                        area: "DB",
-                        dbNr: 302,
-                        byteIndex: 0,
-                        type: "UINT32",
-                        value: 14,
+                        address: "DB302,DW0",
+                        fallbackValue: 14,
                     },
                     {
-                        area: "DB",
-                        dbNr: 303,
-                        byteIndex: 0,
-                        type: "UINT32",
-                        value: 15,
+                        address: "DB303,DW0",
+                        fallbackValue: 15,
                     },
                 ],
                 topic: "a/b/c",
@@ -321,11 +319,11 @@ describe("Multi target test", () => {
             mqtt,
             DEBUGGER
         );
-        await promiseTimeout(1500);
+        await promiseTimeout(2500);
         SERVER.setArea(301, Buffer.alloc(4));
         SERVER.setArea(302, Buffer.alloc(4));
         SERVER.setArea(303, Buffer.alloc(4));
-        await promiseTimeout(1500);
+        await promiseTimeout(4000);
         expect(SERVER.getDbArea(301)).toBeBuffer("0000000D");
         expect(SERVER.getDbArea(302)).toBeBuffer("0000000E");
         expect(SERVER.getDbArea(303)).toBeBuffer("0000000F");

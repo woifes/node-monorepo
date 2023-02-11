@@ -8,9 +8,18 @@ import {
     MqttMsgHandler,
     tMqttMsgHandlerConfig,
 } from "@woifes/mqtt-client/decorator";
-import { S7Endpoint, tS7Variable } from "@woifes/s7endpoint";
+import {
+    parseS7AddressString,
+    S7Endpoint,
+    tS7Variable,
+} from "@woifes/s7endpoint";
 import { Debugger } from "debug";
-import { MqttInputConfig, tMqttInputConfig } from "./MqttInputConfig";
+import * as rt from "runtypes";
+import {
+    MqttInputConfig,
+    tMqttInputConfig,
+    tMqttInputTarget,
+} from "./MqttInputConfig";
 
 @MqttClient()
 export class MqttInput {
@@ -38,15 +47,9 @@ export class MqttInput {
         this._config = MqttInputConfig.check(config);
         this._debug = parentDebugger.extend(`mqttInput:${this._config.topic}`);
         if (Array.isArray(this._config.target)) {
-            for (const value of this._config.target) {
-                this._tags.push({
-                    ...value,
-                });
-            }
+            this.setupArrayTags(this._config.target);
         } else {
-            this._tags.push({
-                ...this._config.target,
-            });
+            this.setupSingleTag(this._config.target);
         }
         this._s7ep = s7endpoint;
         this._mqtt = mqtt;
@@ -66,6 +69,23 @@ export class MqttInput {
             });
         }
         return variables;
+    }
+
+    private setupArrayTags(tags: tMqttInputTarget[]) {
+        for (const tag of tags) {
+            this.setupSingleTag(tag);
+        }
+    }
+
+    private setupSingleTag(tag: tMqttInputTarget) {
+        if (rt.String.guard(tag)) {
+            this._tags.push(parseS7AddressString(tag));
+        } else {
+            this._tags.push({
+                ...parseS7AddressString(tag.address),
+                value: tag.fallbackValue,
+            });
+        }
     }
 
     private startTimeout() {

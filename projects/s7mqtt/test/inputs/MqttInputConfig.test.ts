@@ -35,17 +35,13 @@ it("should validate correct runtype", () => {
     expect(() => {
         MqttInputConfig.check({
             topic: "a/b/c",
-            target: { area: "DB", dbNr: 1, byteIndex: 0, type: "UINT8" },
+            target: "DB1,B0",
         });
     }).not.toThrow();
     expect(() => {
         MqttInputConfig.check({
             topic: "a/b/c",
-            target: [
-                { area: "DB", dbNr: 1, byteIndex: 0, type: "UINT8" },
-                { area: "DB", dbNr: 2, byteIndex: 0, type: "UINT8" },
-                { area: "DB", dbNr: 3, byteIndex: 0, type: "UINT8" },
-            ],
+            target: ["DB1,B0", "DB2,B0", "DB3,B0"],
         });
     }).not.toThrow();
 
@@ -53,11 +49,8 @@ it("should validate correct runtype", () => {
         MqttInputConfig.check({
             topic: "a/b/c",
             target: {
-                area: "DB",
-                dbNr: 1,
-                byteIndex: 0,
-                type: "UINT8",
-                value: 1,
+                address: "DB1,B0",
+                fallbackValue: 1,
             },
             fallback: {
                 watchdogTimeMS: 123,
@@ -68,9 +61,9 @@ it("should validate correct runtype", () => {
         MqttInputConfig.check({
             topic: "a/b/c",
             target: [
-                { area: "DB", dbNr: 1, byteIndex: 0, type: "UINT8", value: 1 },
-                { area: "DB", dbNr: 2, byteIndex: 0, type: "UINT8", value: 1 },
-                { area: "DB", dbNr: 3, byteIndex: 0, type: "UINT8", value: 1 },
+                { address: "DB1,B0", fallbackValue: 1 },
+                { address: "DB2,B0", fallbackValue: 1 },
+                { address: "DB3,B0", fallbackValue: 1 },
             ],
             minTargetCount: 2,
             fallback: {
@@ -84,7 +77,7 @@ it("should not allow emtpy string as topic", () => {
     expect(() => {
         MqttInputConfig.check({
             topic: "",
-            target: { area: "DB", dbNr: 1, byteIndex: 0, type: "UINT8" },
+            target: "DB1,B0",
         });
     }).toThrow();
 });
@@ -94,11 +87,8 @@ it("should not allow negative watchdogTime", () => {
         MqttInputConfig.check({
             topic: "a/b/c",
             target: {
-                area: "DB",
-                dbNr: 1,
-                byteIndex: 0,
-                type: "UINT8",
-                value: 1,
+                address: "DB1,B0",
+                fallbackValue: 1,
             },
             fallback: {
                 watchdogTimeMS: -1,
@@ -111,7 +101,7 @@ it("should not allow fallback without value set on target", () => {
     expect(() => {
         MqttInputConfig.check({
             topic: "a/b/c",
-            target: { area: "DB", dbNr: 1, byteIndex: 0, type: "UINT8" },
+            target: "DB1,B0",
             fallback: {
                 watchdogTimeMS: 123,
             },
@@ -122,9 +112,9 @@ it("should not allow fallback without value set on target", () => {
         MqttInputConfig.check({
             topic: "a/b/c",
             target: [
-                { area: "DB", dbNr: 1, byteIndex: 0, type: "UINT8", value: 1 },
-                { area: "DB", dbNr: 2, byteIndex: 0, type: "UINT8" },
-                { area: "DB", dbNr: 3, byteIndex: 0, type: "UINT8", value: 1 },
+                { address: "DB1,B0", fallbackValue: 1 },
+                "DB2,B0",
+                { address: "DB3,B0", fallbackValue: 1 },
             ],
             minTargetCount: 2,
             fallback: {
@@ -138,11 +128,7 @@ it("should not allow minTargetCount bigger than target count", () => {
     expect(() => {
         MqttInputConfig.check({
             topic: "a/b/c",
-            target: [
-                { area: "DB", dbNr: 1, byteIndex: 0, type: "UINT8" },
-                { area: "DB", dbNr: 2, byteIndex: 0, type: "UINT8" },
-                { area: "DB", dbNr: 3, byteIndex: 0, type: "UINT8" },
-            ],
+            target: ["DB1,B0", "DB2,B0", "DB3,B0"],
             minTargetCount: 4,
         });
     }).toThrow();

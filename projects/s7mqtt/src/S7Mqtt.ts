@@ -5,6 +5,7 @@ import { Client } from "@woifes/mqtt-client";
 import {
     dbSourceToS7Variables,
     parseS7AddressString,
+    S7AddressString,
     S7Endpoint,
     S7LocalEndpoint,
     S7RemoteEndpoint,
@@ -15,11 +16,12 @@ import {
 } from "@woifes/s7endpoint";
 import { PickRequire } from "@woifes/util";
 import debug, { Debugger } from "debug";
-import { readFileSync } from "fs-extra";
+import { existsSync, readFileSync } from "fs-extra";
 import { S7AlarmHandler, tS7AlarmHandlerConfig } from "./alarms";
 import { S7Command, tS7CommandConfig } from "./commands";
 import { S7EventMqtt, tS7EventMqttConfig } from "./events";
 import { MqttInput, tMqttInputConfig } from "./inputs";
+import { tMqttInputTarget } from "./inputs/MqttInputConfig";
 import { S7OutputMqtt, tS7OutputConfig } from "./outputs";
 import { S7MqttConfig, tS7MqttConfig } from "./runtypes/S7MqttConfig";
 
@@ -40,6 +42,15 @@ export class S7Mqtt {
 
     constructor(config: tS7MqttConfig) {
         this._config = S7MqttConfig.check(config);
+        if (
+            this._config.mqtt.caCertificate != undefined &&
+            existsSync(this._config.mqtt.caCertificate)
+        ) {
+            this._config.mqtt.caCertificate = readFileSync(
+                this._config.mqtt.caCertificate,
+                "utf-8"
+            );
+        }
         if (S7RemoteEndpointConfig.guard(this._config.endpoint)) {
             this._s7ep = new S7RemoteEndpoint(this._config.endpoint);
         } else {
@@ -271,13 +282,24 @@ export class S7Mqtt {
         config: tMqttInputConfig
     ): tNamedS7Variable[] {
         const addresses: tNamedS7Variable[] = [];
+        const pushAddress = (name: string, tag: tMqttInputTarget) => {
+            if (S7AddressString.guard(tag)) {
+                addresses.push({
+                    name,
+                    ...parseS7AddressString(tag),
+                });
+                return;
+            }
+
+            addresses.push({ name, ...parseS7AddressString(tag.address) });
+        };
         if (Array.isArray(config.target)) {
             let i = 1;
             for (const t of config.target) {
-                addresses.push({ name: `input_${id}_${i++}`, ...t });
+                pushAddress(`input_${id}_${i++}`, t);
             }
         } else {
-            addresses.push({ name: `input_${id}`, ...config.target });
+            pushAddress(`input_${id}`, config.target);
         }
         return addresses;
     }
