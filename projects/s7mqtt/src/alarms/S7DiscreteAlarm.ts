@@ -7,6 +7,7 @@ import { S7AlarmAddress } from "./S7AlarmAddress";
 
 export const S7DiscreteAlarm = S7AlarmAddress.And(
     rt.Record({
+        invertSignal: rt.Boolean.optional(),
         parameter: rt
             .Array(S7AddressString)
             .withConstraint((a) => a.length > 0)

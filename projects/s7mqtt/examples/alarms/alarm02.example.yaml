@@ -11,6 +11,7 @@ alarms:
   - signal: DB4,X0.3
     ackOut: DB5,X0.4
     ackIn: DB6,X0.5
+    invertSignal: true #signal false = triggered, signal true = not triggered
   - signal: DB7,X0.5
     ackOut: DB8,X0.6
     ackIn: DB9,X0.7

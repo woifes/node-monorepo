@@ -379,6 +379,49 @@ describe("signaling test (discrete alarms)", () => {
         expect(s7al.alarmHandlerMqtt[1].triggered).toBe(false);
     });
 
+    it("should trigger with inverted signal", async () => {
+        const ta = new TestAlarmSource(7, 2010, SERVER);
+        ta.signalsDb = Buffer.from("FF", "hex");
+        ta.ackOutDb = Buffer.from("00", "hex");
+        const config = createConfig("test311", 3);
+        config.presentAlarmWatchdogS = 0.5;
+        config.alarms = [
+            {
+                signal: `DB${ta.signalDbNr},X0.1`,
+                ackOut: `DB${ta.ackOutDbNr},X0.0`,
+                invertSignal: true,
+            },
+            {
+                signal: `DB${ta.signalDbNr},X0.3`,
+                ackOut: `DB${ta.ackOutDbNr},X0.4`,
+                invertSignal: true,
+            },
+            {
+                signal: `DB${ta.signalDbNr},X0.5`,
+                ackOut: `DB${ta.ackOutDbNr},X0.6`,
+                invertSignal: true,
+            },
+        ];
+        s7al = new S7AlarmHandler(config, S7ENDP, MQTT, DEBUGGER);
+        expect(s7al.alarmHandlerMqtt[1].triggered).toBe(false);
+        expect(s7al.alarmHandlerMqtt[1].signal).toBe(false);
+        await promiseTimeout(700);
+        ta.signalsDb = Buffer.from("FD", "hex"); //signal alarm 2
+        await promiseTimeout(700);
+        expect(s7al.alarmHandlerMqtt[1].triggered).toBe(true);
+        expect(s7al.alarmHandlerMqtt[1].signal).toBe(true);
+        expect(s7al.alarmHandlerMqtt[2].triggered).toBe(false);
+        expect(s7al.alarmHandlerMqtt[2].signal).toBe(false);
+        expect(s7al.alarmHandlerMqtt[3].triggered).toBe(false);
+        expect(s7al.alarmHandlerMqtt[3].signal).toBe(false);
+        ta.signalsDb = Buffer.from("FF", "hex"); //no signal alarm 2
+        await promiseTimeout(700);
+        expect(s7al.alarmHandlerMqtt[1].signal).toBe(false);
+        ta.ackOutDb = Buffer.from("01", "hex");
+        await promiseTimeout(700);
+        expect(s7al.alarmHandlerMqtt[1].triggered).toBe(false);
+    });
+
     it("should trigger and ack and set ackIn for single alarm from plc", async () => {
         const ta = new TestAlarmSource(7, 2100, SERVER);
         ta.signalsDb = Buffer.from("00", "hex");

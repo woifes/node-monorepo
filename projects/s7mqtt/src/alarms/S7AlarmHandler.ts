@@ -27,6 +27,7 @@ type S7Alarm = {
     ackIn?: tS7Address;
     ackOut?: number;
     params?: number[];
+    invertSignal: boolean;
 };
 
 type DiscreteAlarmAddresses = {
@@ -34,6 +35,7 @@ type DiscreteAlarmAddresses = {
     ackIn?: tS7Address;
     ackOut?: tS7Address;
     params?: tS7Address[];
+    invertSignal?: boolean;
 };
 
 export class S7AlarmHandler {
@@ -106,6 +108,7 @@ export class S7AlarmHandler {
             for (const alarmAddress of this._config.alarms) {
                 const discreteAlarm: DiscreteAlarmAddresses = {
                     signal: parseS7AddressString(alarmAddress.signal),
+                    invertSignal: alarmAddress.invertSignal,
                 };
                 if (alarmAddress.ackIn != undefined) {
                     discreteAlarm.ackIn = parseS7AddressString(
@@ -173,6 +176,7 @@ export class S7AlarmHandler {
                 signalIndex: pushTagToList(
                     stringifyS7Address(discreteAlarm.signal)
                 ),
+                invertSignal: discreteAlarm.invertSignal ?? false,
             };
             if (discreteAlarm.params != undefined) {
                 s7Alarm.params = [];
@@ -217,8 +221,11 @@ export class S7AlarmHandler {
         this._debug(`onOutput`);
         for (let i = 1; i <= this._config.numOfAlarms; i++) {
             const s7Alarm = this._s7Alarms.get(i)!;
-            const signalValue =
+            let signalValue =
                 (tags[s7Alarm.signalIndex].value as number) > 0 ? true : false;
+            if (s7Alarm.invertSignal) {
+                signalValue = !signalValue;
+            }
             const paramValues: any[] = [];
             if (s7Alarm.params != undefined) {
                 for (const paramIndex of s7Alarm.params) {
