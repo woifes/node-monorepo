@@ -1,0 +1,18 @@
+mqtt:
+  url: localhost
+  clientId: client01
+  notifyPresencePrefix: clients
+  messageCacheTimeS: 3
+  caCertificate: "path or cert" #can be either the path to a ca root cert or the cert itself
+
+matrix:
+  url: matrix.homeserver.com #"https://" will be added during connect
+  userName: user01
+  accessToken: abcdefg
+
+bridge:
+  mqttTopicPrefix: "myPrefix" #optional - default "matrix"
+  rooms:
+    - roomId: myRoom01
+      federate: true #optional - default false
+      public: false #optional - default true

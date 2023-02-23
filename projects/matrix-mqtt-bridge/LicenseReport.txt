@@ -1,0 +1,33 @@
+Dependency License Summary:
+
+AGPL-3.0-or-later - 1
+MIT - 17
+Apache-2.0 - 5
+ISC - 1
+
+Dependency License Tree:
+
+@woifes/mqtt-client link:../../packages/mqtt-client - AGPL-3.0-or-later
+debug 4.3.4 - MIT
+└── ms 2.1.2 - MIT
+matrix-js-sdk 23.3.0 - Apache-2.0
+├─┬ @babel/runtime 7.20.13 - MIT
+│ └── regenerator-runtime 0.13.11 - MIT
+├── @matrix-org/matrix-sdk-crypto-js 0.1.0-alpha.4 - Apache-2.0
+├── another-json 0.2.0 - Apache-2.0
+├─┬ bs58 5.0.0 - MIT
+│ └── base-x 4.0.0 - MIT
+├── content-type 1.0.5 - MIT
+├── loglevel 1.8.1 - MIT
+├── matrix-events-sdk 0.0.1 - Apache-2.0
+├─┬ matrix-widget-api 1.1.1 - Apache-2.0
+│ ├── @types/events 3.0.0 - MIT
+│ └── events 3.3.0 - MIT
+├─┬ p-retry 4.6.2 - MIT
+│ ├── @types/retry 0.12.0 - MIT
+│ └── retry 0.13.1 - MIT
+├── sdp-transform 2.14.1 - MIT
+├── unhomoglyph 1.0.6 - MIT
+└── uuid 9.0.0 - MIT
+runtypes 6.6.0 - MIT
+yaml 2.2.1 - ISC

@@ -22,6 +22,7 @@ This is the monorepo is holding various packages and projects. It is the result 
 
 ## Projects
 * [license-report](/projects/license-report/) - Generate a license report in the other packages and projects
+* [matrix-mqtt-bridge](/projects/matrix-mqtt-bridge/) - Generate a list of rooms and send an receive messages from that room via mqtt
 * [s7mqtt](/projects/s7mqtt/) - Mqtt gateway for devices which use the S7 protocol (RFC1006)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -43,6 +44,7 @@ The license of the different packages or projects are stated inside the correspo
 
 ## Projects
 * [license-report](/projects/license-report/) - MIT
+* [matrix-mqtt-bridge](/projects/matrix-mqtt-bridge/) - AGPL-3.0-or-later
 * [s7mqtt](/projects/s7mqtt/) - AGPL-3.0-or-later
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -52,5 +54,6 @@ The license of the different packages or projects are stated inside the correspo
 * [pnpm](https://pnpm.io/) - A very good package manager
 * [runtypes](https://github.com/pelotom/runtypes) - A very powerful package for validating types
 * [MQTT.js](https://www.npmjs.com/package/mqtt) - The one and only
+* [matrix](https://matrix.org/) - The future of communication
 
 <p align="right">(<a href="#top">back to top</a>)</p>
