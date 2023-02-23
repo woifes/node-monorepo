@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: © 2023 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { readFileSync } from "fs-extra";
+import { readFileSync } from "fs";
 import { join } from "path";
 import { parse } from "yaml";
 import { MatrixMqttBridgeConfig } from "../src/MatrixMqttBridgeConfig";

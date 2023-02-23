@@ -160,10 +160,8 @@ importers:
   projects/matrix-mqtt-bridge:
     specifiers:
       '@types/debug': ^4.1.7
-      '@types/fs-extra': ^9.0.13
       '@woifes/mqtt-client': workspace:0.2.0
       debug: ^4.3.2
-      fs-extra: ^10.0.1
       matrix-js-sdk: ^23.3.0
       runtypes: ^6.5.1
       yaml: ^2.2.1
@@ -175,8 +173,6 @@ importers:
       yaml: 2.2.1
     devDependencies:
       '@types/debug': 4.1.7
-      '@types/fs-extra': 9.0.13
-      fs-extra: 10.1.0
 
   projects/s7mqtt:
     specifiers:
