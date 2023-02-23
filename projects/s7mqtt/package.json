@@ -18,7 +18,7 @@
     "lint": "eslint ./mt/ ./src/ ./test/ ./index.ts --fix",
     "lint:check": "eslint ./mt/ ./src/ ./test/ ./index.ts",
     "prepare": "pnpm compile",
-    "docker:build": "docker build -t monorepo ../../ && ver && docker build -t s7mqtt:%npm_package_version% . || docker build -t s7mqtt:${npm_package_version} .",
+    "docker:build": "docker build -t monorepo ../../ && ver && docker build -t s7mqtt:%npm_package_version% . || docker build -t s7mqtt:$npm_package_version .",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "author": "woifes",

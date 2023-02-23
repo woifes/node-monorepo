@@ -15,7 +15,7 @@
     "lint": "eslint ./src/ ./test/ ./index.ts --fix",
     "lint:check": "eslint ./src/ ./test/ ./index.ts",
     "prepare": "pnpm compile",
-    "docker:build": "docker build -t monorepo ../../ && ver && docker build -t matrix-mqtt-bridge:%npm_package_version% . || docker build -t matrix-mqtt-bridge:${npm_package_version} .",
+    "docker:build": "docker build -t monorepo ../../ && ver && docker build -t matrix-mqtt-bridge:%npm_package_version% . || docker build -t matrix-mqtt-bridge:$npm_package_version .",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "author": "woifes",
