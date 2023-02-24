@@ -115,7 +115,7 @@ export class Client {
         this._mqttClient.on("offline", () => {
             this.onOfflineCallback();
         });
-        this._mqttClient.reconnect;
+
         if (this._useCache && this._config.messageCacheTimeS! > 0) {
             this._mqttClient.once("message", () => {
                 this._debugCache(
