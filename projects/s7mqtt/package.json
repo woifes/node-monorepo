@@ -25,9 +25,9 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@woifes/alarmhandler": "workspace:0.1.1",
-    "@woifes/alarmhandlermqtt": "workspace:0.2.3",
+    "@woifes/alarmhandlermqtt": "workspace:0.2.4",
     "@woifes/binarytypes": "workspace:^1.0.0",
-    "@woifes/mqtt-client": "workspace:0.2.0",
+    "@woifes/mqtt-client": "workspace:0.2.1",
     "@woifes/s7endpoint": "workspace:0.2.2",
     "@woifes/util": "workspace:0.1.1",
     "debug": "^4.3.2",
