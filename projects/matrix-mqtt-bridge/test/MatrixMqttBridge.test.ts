@@ -50,7 +50,7 @@ function createBridgeConfig(): tMatrixMqttBridgeConfig {
 
         matrix: {
             url: "localhost",
-            userName: "user01",
+            username: "user01",
             password: "abc",
         },
 

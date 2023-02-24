@@ -8,7 +8,7 @@ export const MatrixMqttBridgeConfig = rt.Record({
     mqtt: ClientConfig,
     matrix: rt.Record({
         url: rt.String,
-        userName: rt.String,
+        username: rt.String,
         password: rt.String,
     }),
     bridge: rt.Record({

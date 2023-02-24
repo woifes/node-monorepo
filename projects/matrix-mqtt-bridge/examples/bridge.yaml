@@ -7,7 +7,7 @@ mqtt:
 
 matrix:
   url: matrix.homeserver.com #"https://" will be added during connect
-  userName: user01
+  username: user01
   password: abcdefg
 
 bridge:

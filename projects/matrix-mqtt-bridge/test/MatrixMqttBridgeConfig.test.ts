@@ -24,7 +24,7 @@ it("should validate correct runtype", () => {
 
             matrix: {
                 url: "localhost",
-                userName: "user01",
+                username: "user01",
                 password: "abc",
             },
 
@@ -47,7 +47,7 @@ it("should not allow special MQTT characters in mqttTopicPrefix", () => {
 
             matrix: {
                 url: "localhost",
-                userName: "user01",
+                username: "user01",
                 password: "abc",
             },
 
@@ -67,7 +67,7 @@ it("should not allow special MQTT characters in mqttTopicPrefix", () => {
 
             matrix: {
                 url: "localhost",
-                userName: "user01",
+                username: "user01",
                 password: "abc",
             },
 
@@ -89,7 +89,7 @@ it("should not allow special MQTT characters in roomId", () => {
 
             matrix: {
                 url: "localhost",
-                userName: "user01",
+                username: "user01",
                 password: "abc",
             },
 
@@ -108,7 +108,7 @@ it("should not allow special MQTT characters in roomId", () => {
 
             matrix: {
                 url: "localhost",
-                userName: "user01",
+                username: "user01",
                 password: "abc",
             },
 
@@ -127,7 +127,7 @@ it("should not allow special MQTT characters in roomId", () => {
 
             matrix: {
                 url: "localhost",
-                userName: "user01",
+                username: "user01",
                 password: "abc",
             },
 

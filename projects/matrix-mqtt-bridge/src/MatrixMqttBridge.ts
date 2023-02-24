@@ -54,7 +54,7 @@ export class MatrixMqttBridge {
      */
     constructor(config: tMatrixMqttBridgeConfig) {
         this._config = MatrixMqttBridgeConfig.check(config);
-        this._userId = this.getMatrixUserId(this._config.matrix.userName);
+        this._userId = this.getMatrixUserId(this._config.matrix.username);
         this._mqttTopicPrefix = this._config.bridge.mqttTopicPrefix ?? "matrix";
         this._matrixClient = matrixCreateClient({
             baseUrl: `https://${this._config.matrix.url}`,
