@@ -25,12 +25,115 @@ it("should validate correct runtype", () => {
             matrix: {
                 url: "localhost",
                 userName: "user01",
-                accessToken: "abc",
+                password: "abc",
             },
 
             bridge: {
-                rooms: [],
+                mqttTopicPrefix: "cde",
+                matrixMaxMessageAgeS: 1,
+                rooms: [{ roomId: "room01", federate: false, public: true }],
             },
         });
     }).not.toThrow();
+});
+
+it("should not allow special MQTT characters in mqttTopicPrefix", () => {
+    expect(() => {
+        MatrixMqttBridgeConfig.check({
+            mqtt: {
+                url: "localhost",
+                clientId: "client01", //without auth the client will not connect
+            },
+
+            matrix: {
+                url: "localhost",
+                userName: "user01",
+                password: "abc",
+            },
+
+            bridge: {
+                mqttTopicPrefix: "ab#c",
+                rooms: [{ roomId: "room01", federate: false, public: true }],
+            },
+        });
+    }).toThrow();
+
+    expect(() => {
+        MatrixMqttBridgeConfig.check({
+            mqtt: {
+                url: "localhost",
+                clientId: "client01", //without auth the client will not connect
+            },
+
+            matrix: {
+                url: "localhost",
+                userName: "user01",
+                password: "abc",
+            },
+
+            bridge: {
+                mqttTopicPrefix: "ab+c",
+                rooms: [{ roomId: "room01", federate: false, public: true }],
+            },
+        });
+    }).toThrow();
+});
+
+it("should not allow special MQTT characters in roomId", () => {
+    expect(() => {
+        MatrixMqttBridgeConfig.check({
+            mqtt: {
+                url: "localhost",
+                clientId: "client01", //without auth the client will not connect
+            },
+
+            matrix: {
+                url: "localhost",
+                userName: "user01",
+                password: "abc",
+            },
+
+            bridge: {
+                rooms: [{ roomId: "room+01", federate: false, public: true }],
+            },
+        });
+    }).toThrow();
+
+    expect(() => {
+        MatrixMqttBridgeConfig.check({
+            mqtt: {
+                url: "localhost",
+                clientId: "client01", //without auth the client will not connect
+            },
+
+            matrix: {
+                url: "localhost",
+                userName: "user01",
+                password: "abc",
+            },
+
+            bridge: {
+                rooms: [{ roomId: "room#01", federate: false, public: true }],
+            },
+        });
+    }).toThrow();
+
+    expect(() => {
+        MatrixMqttBridgeConfig.check({
+            mqtt: {
+                url: "localhost",
+                clientId: "client01", //without auth the client will not connect
+            },
+
+            matrix: {
+                url: "localhost",
+                userName: "user01",
+                password: "abc",
+            },
+
+            bridge: {
+                rooms: [{ roomId: "room/01", federate: false, public: true }],
+            },
+        });
+    }).toThrow();
 });

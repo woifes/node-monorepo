@@ -8,10 +8,11 @@ mqtt:
 matrix:
   url: matrix.homeserver.com #"https://" will be added during connect
   userName: user01
-  accessToken: abcdefg
+  password: abcdefg
 
 bridge:
   mqttTopicPrefix: "myPrefix" #optional - default "matrix"
+  matrixMaxMessageAgeS: 1 #optional - does not care about age when not set
   rooms:
     - roomId: myRoom01
       federate: true #optional - default false

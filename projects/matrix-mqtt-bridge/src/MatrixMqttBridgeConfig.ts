@@ -9,15 +9,28 @@ export const MatrixMqttBridgeConfig = rt.Record({
     matrix: rt.Record({
         url: rt.String,
         userName: rt.String,
-        accessToken: rt.String,
+        password: rt.String,
     }),
     bridge: rt.Record({
         mqttTopicPrefix: rt.String.withConstraint((s) => {
+            if (s.indexOf("#") !== -1 || s.indexOf("+") !== -1) {
+                return "Special MQTT characters are not allowed in mqttTopicPrefix";
+            }
             return s.length > 0 || "mqttTopicPrefix may no empty string";
+        }).optional(),
+        matrixMaxMessageAgeS: rt.Number.withConstraint((n) => {
+            return n > 0 || `matrixMaxMessageAge as to be greater than 0`;
         }).optional(),
         rooms: rt.Array(
             rt.Record({
                 roomId: rt.String.withConstraint((s) => {
+                    if (
+                        s.indexOf("#") !== -1 ||
+                        s.indexOf("+") !== -1 ||
+                        s.indexOf("/") !== -1
+                    ) {
+                        return "Special MQTT characters are not allowed in roomId";
+                    }
                     return s.length > 0 || "roomId may no empty string";
                 }),
                 federate: rt.Boolean.optional(),

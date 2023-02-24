@@ -57,7 +57,7 @@ importers:
     specifiers:
       '@types/fs-extra': ^9.0.13
       '@woifes/alarmhandler': workspace:0.1.1
-      '@woifes/mqtt-client': workspace:0.2.0
+      '@woifes/mqtt-client': workspace:0.2.1
       '@woifes/util': workspace:0.1.1
       commander: ^8.3.0
       fs-extra: ^10.0.1
@@ -160,13 +160,15 @@ importers:
   projects/matrix-mqtt-bridge:
     specifiers:
       '@types/debug': ^4.1.7
-      '@woifes/mqtt-client': workspace:0.2.0
+      '@woifes/mqtt-client': workspace:0.2.1
+      commander: ^8.3.0
       debug: ^4.3.2
       matrix-js-sdk: ^23.3.0
       runtypes: ^6.5.1
       yaml: ^2.2.1
     dependencies:
       '@woifes/mqtt-client': link:../../packages/mqtt-client
+      commander: 8.3.0
       debug: 4.3.4
       matrix-js-sdk: 23.3.0
       runtypes: 6.6.0
@@ -180,9 +182,9 @@ importers:
       '@types/fs-extra': ^9.0.13
       '@types/node-snap7': ^0.2.21
       '@woifes/alarmhandler': workspace:0.1.1
-      '@woifes/alarmhandlermqtt': workspace:0.2.3
+      '@woifes/alarmhandlermqtt': workspace:0.2.4
       '@woifes/binarytypes': workspace:^1.0.0
-      '@woifes/mqtt-client': workspace:0.2.0
+      '@woifes/mqtt-client': workspace:0.2.1
       '@woifes/s7endpoint': workspace:0.2.2
       '@woifes/util': workspace:0.1.1
       debug: ^4.3.2

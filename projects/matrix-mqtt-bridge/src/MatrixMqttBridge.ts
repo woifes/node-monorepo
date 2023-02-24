@@ -12,6 +12,7 @@ import {
     MqttMsgHandler,
     tMqttMsgHandlerConfig,
 } from "@woifes/mqtt-client/decorator";
+import { Command } from "commander";
 import { debug } from "debug";
 import {
     createClient as matrixCreateClient,
@@ -26,6 +27,8 @@ import {
 
 @MqttClient()
 export class MatrixMqttBridge {
+    static commandStartSequence = "bridge";
+
     static mqttMsgConfig(this: MatrixMqttBridge): tMqttMsgHandlerConfig {
         return {
             topic: `${this._mqttTopicPrefix}/rooms/+/to`,
@@ -55,11 +58,9 @@ export class MatrixMqttBridge {
         this._mqttTopicPrefix = this._config.bridge.mqttTopicPrefix ?? "matrix";
         this._matrixClient = matrixCreateClient({
             baseUrl: `https://${this._config.matrix.url}`,
-            userId: this._userId,
-            accessToken: this._config.matrix.accessToken,
         });
         this._mqttClient = new MqttChannel(this._config.mqtt);
-        this.setup();
+        this.setup(this._userId, this._config.matrix.password);
     }
 
     /**
@@ -97,7 +98,8 @@ export class MatrixMqttBridge {
     /**
      * Starts the matrix client and join the required rooms
      */
-    private async setup() {
+    private async setup(user: string, password: string) {
+        await this._matrixClient.login("m.login.password", { user, password });
         await this._matrixClient.startClient();
         await this.matrixJoinRequiredRooms();
         this._matrixClient.on("Room.timeline" as any, (event: MatrixEvent) => {
@@ -158,18 +160,19 @@ export class MatrixMqttBridge {
      * @param msg the message to send
      */
     private async matrixSendMsgToRoom(bridgeRoomId: string, msg: string) {
-        const content = {
-            body: msg,
-            msgtype: "m.text",
-        };
         const matrixRoomId = this._roomIds.get(bridgeRoomId);
         if (matrixRoomId !== undefined) {
             this._debug(`Send message to matrix: ${bridgeRoomId} ${msg}`);
-            const res = await this._matrixClient.sendEvent(
-                matrixRoomId,
-                "m.room.message",
-                content,
-                ""
+            try {
+                const res = await this._matrixClient.sendTextMessage(
+                    matrixRoomId,
+                    msg
+                );
+            } catch (e) {
+                this._debug(`Error at sendTextMessage ${e}`);
+            }
+            this._debug(
+                `Send message to matrix finished: ${bridgeRoomId} ${msg}`
             );
         }
     }
@@ -186,7 +189,11 @@ export class MatrixMqttBridge {
         if (event.getContent().msgtype !== "m.text") {
             return; //only text events
         }
-        if (Date.now() - event.localTimestamp > 1000) {
+        if (
+            this._config.bridge.matrixMaxMessageAgeS !== undefined &&
+            Date.now() - event.localTimestamp >
+                this._config.bridge.matrixMaxMessageAgeS * 1000
+        ) {
             return; //only recent events
         }
         if (event.sender!.userId === this._userId) {
@@ -199,7 +206,49 @@ export class MatrixMqttBridge {
             return; //only known rooms
         }
 
-        this.mqttSendRoomMessage(bridgeRoomId, event.getContent().body);
+        const content = event.getContent().body as string;
+        if (content.startsWith(MatrixMqttBridge.commandStartSequence)) {
+            this._debug(`Detected start sequence of text commands`);
+            this.onTextCommand(bridgeRoomId, content);
+            return;
+        }
+
+        this.mqttSendRoomMessage(bridgeRoomId, content);
+    }
+
+    /**
+     * Handles an incoming text command
+     * @param bridgeRoomId the bridge roomId where the command came from
+     * @param content the content of the text command
+     */
+    private onTextCommand(bridgeRoomId: string, content: string) {
+        const textArgs = ["", ...content.trim().split(" ")];
+
+        const cmd = new Command(MatrixMqttBridge.commandStartSequence)
+            .exitOverride()
+            .configureOutput({
+                writeErr: (message: string) => {
+                    this.matrixSendMsgToRoom(bridgeRoomId, message);
+                },
+                writeOut: (message: string) => {
+                    this.matrixSendMsgToRoom(bridgeRoomId, message);
+                },
+            });
+
+        cmd.command("ping")
+            .description("Sends a MQTT ping")
+            .action(() => {
+                this._mqttClient.publishValue(
+                    `${this._mqttTopicPrefix}/rooms/${bridgeRoomId}/to`,
+                    "pong!"
+                );
+            });
+
+        try {
+            cmd.parse(textArgs);
+        } catch (e) {
+            this._debug(`Error during parsing of text command: ${e}`);
+        }
     }
 
     /**

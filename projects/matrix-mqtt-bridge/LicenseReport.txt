@@ -1,13 +1,14 @@
 Dependency License Summary:
 
 AGPL-3.0-or-later - 1
-MIT - 17
+MIT - 18
 Apache-2.0 - 5
 ISC - 1
 
 Dependency License Tree:
 
 @woifes/mqtt-client link:../../packages/mqtt-client - AGPL-3.0-or-later
+commander 8.3.0 - MIT
 debug 4.3.4 - MIT
 └── ms 2.1.2 - MIT
 matrix-js-sdk 23.3.0 - Apache-2.0

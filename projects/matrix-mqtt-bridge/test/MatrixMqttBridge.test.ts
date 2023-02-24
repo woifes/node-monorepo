@@ -28,13 +28,16 @@ function generateMatrixRoomId(roomId: string): string {
 const matrixCreateClientMock = matrixCreateClient as jest.Mock;
 const matrixClientMock = {
     startClient: jest.fn(),
+    login: jest.fn().mockImplementation(() => {
+        return Promise.resolve();
+    }),
     on: jest.fn(),
     getRoomIdForAlias: jest.fn(),
     createRoom: jest.fn().mockImplementation((options: any) => {
         return Promise.resolve({ room_id: generateMatrixRoomId(options.name) });
     }),
     joinRoom: jest.fn().mockImplementation(() => Promise.resolve()),
-    sendEvent: jest.fn(),
+    sendTextMessage: jest.fn(),
 };
 const MqttClientMock = MqttClient as jest.Mock;
 
@@ -48,7 +51,7 @@ function createBridgeConfig(): tMatrixMqttBridgeConfig {
         matrix: {
             url: "localhost",
             userName: "user01",
-            accessToken: "abc",
+            password: "abc",
         },
 
         bridge: {
@@ -94,9 +97,15 @@ describe("creation tests", () => {
         expect(matrixCreateClientMock).toBeCalledTimes(1);
         let calls = matrixCreateClientMock.mock.calls;
         expect(calls[0][0]).toEqual({
-            accessToken: "abc",
             baseUrl: "https://localhost",
-            userId: "@user01:localhost",
+        });
+
+        expect(matrixClientMock.login).toBeCalledTimes(1);
+        const [loginType, loginContent] = matrixClientMock.login.mock.calls[0];
+        expect(loginType).toBe("m.login.password");
+        expect(loginContent).toEqual({
+            user: "@user01:localhost",
+            password: "abc",
         });
 
         expect(matrixClientMock.getRoomIdForAlias).toBeCalledTimes(6);
@@ -169,112 +178,176 @@ describe("Incoming matrix message tests", () => {
     let c: MatrixMqttBridge;
     const publishValueMock = jest.fn();
     let onMatrixMessageHandler: any;
+    let generateMatrixEvent: any;
     beforeEach(async () => {
+        await createBridge();
+    });
+
+    function generateStdConfig(): tMatrixMqttBridgeConfig {
         const config = createBridgeConfig();
         config.bridge.rooms = [{ roomId: "room01" }];
         config.bridge.mqttTopicPrefix = "mtx";
+        return config;
+    }
+
+    async function createBridge(config = generateStdConfig()) {
         c = new MatrixMqttBridge(config);
         await wait(100);
         (c as any)._mqttClient.publishValue = publishValueMock;
         onMatrixMessageHandler = matrixClientMock.on.mock.calls[0][1];
-    });
-
-    function generateMatrixEvent(
-        type: string,
-        msgtype: string,
-        body: string,
-        roomId: string,
-        userId: string,
-        localTimestamp: number
-    ) {
-        const event = {
-            getType: () => type,
-            getContent: () => {
-                return { msgtype, body };
-            },
-            getRoomId: () => roomId,
-            localTimestamp,
-            sender: {
-                userId,
-            },
+        generateMatrixEvent = (
+            type: string,
+            msgtype: string,
+            body: string,
+            roomId: string,
+            userId: string,
+            localTimestamp: number
+        ) => {
+            const event = {
+                getType: () => type,
+                getContent: () => {
+                    return { msgtype, body };
+                },
+                getRoomId: () => roomId,
+                localTimestamp,
+                sender: {
+                    userId,
+                },
+            };
+            const fn = onMatrixMessageHandler;
+            fn(event);
         };
-        const fn = onMatrixMessageHandler;
-        fn(event);
     }
 
-    it("should distribute room message to mqtt", () => {
-        generateMatrixEvent(
-            "m.room.message",
-            "m.text",
-            "Hello World!",
-            "#room01:matrix",
-            "someoneelse",
-            Date.now() + 1000 //give it 1s time to execute
-        );
-        expect(publishValueMock).toBeCalledTimes(1);
-        const [topic, message] = publishValueMock.mock.calls[0];
-        expect(topic).toBe("mtx/rooms/room01/from");
-        expect(message).toBe("Hello World!");
+    describe("Text command test", () => {
+        function sendTextMessage(message: string) {
+            generateMatrixEvent(
+                "m.room.message",
+                "m.text",
+                message,
+                "#room01:matrix",
+                "someoneelse",
+                Date.now() + 1000 //give it 1s time to execute
+            );
+        }
+
+        it("should display help", async () => {
+            sendTextMessage("bridge help");
+            await wait(100);
+            expect(matrixClientMock.sendTextMessage).toBeCalledTimes(1);
+            const [roomId, content] =
+                matrixClientMock.sendTextMessage.mock.calls[0];
+            expect(roomId).toBe("#room01:matrix");
+            expect(content).toBe(`Usage: bridge [options] [command]
+
+Options:
+  -h, --help      display help for command
+
+Commands:
+  ping            Sends a MQTT ping
+  help [command]  display help for command
+`);
+        });
+
+        it("should display send pong on ping command", async () => {
+            sendTextMessage("bridge ping");
+            await wait(100);
+            expect(publishValueMock).toBeCalledTimes(1);
+            const [topic, message] = publishValueMock.mock.calls[0];
+            expect(topic).toBe("mtx/rooms/room01/to");
+            expect(message).toBe("pong!");
+        });
     });
 
-    it("should sort out non message event", () => {
-        generateMatrixEvent(
-            "m.room.other",
-            "m.text",
-            "Hello World!",
-            "#room01:matrix",
-            "someoneelse",
-            Date.now() + 1000 //give it 1s time to execute
-        );
-        expect(publishValueMock).not.toBeCalled();
-    });
+    describe("Text messages test", () => {
+        it("should distribute room message to mqtt", () => {
+            generateMatrixEvent(
+                "m.room.message",
+                "m.text",
+                "Hello World!",
+                "#room01:matrix",
+                "someoneelse",
+                Date.now() + 1000 //give it 1s time to execute
+            );
+            expect(publishValueMock).toBeCalledTimes(1);
+            const [topic, message] = publishValueMock.mock.calls[0];
+            expect(topic).toBe("mtx/rooms/room01/from");
+            expect(message).toBe("Hello World!");
+        });
 
-    it("should sort out non text message event", () => {
-        generateMatrixEvent(
-            "m.room.message",
-            "m.bla",
-            "Hello World!",
-            "#room01:matrix",
-            "someoneelse",
-            Date.now() + 1000 //give it 1s time to execute
-        );
-        expect(publishValueMock).not.toBeCalled();
-    });
+        it("should sort out non message event", () => {
+            generateMatrixEvent(
+                "m.room.other",
+                "m.text",
+                "Hello World!",
+                "#room01:matrix",
+                "someoneelse",
+                Date.now() + 1000 //give it 1s time to execute
+            );
+            expect(publishValueMock).not.toBeCalled();
+        });
 
-    it("should sort out non to old message event", () => {
-        generateMatrixEvent(
-            "m.room.message",
-            "m.text",
-            "Hello World!",
-            "#room01:matrix",
-            "someoneelse",
-            Date.now() - 10000
-        );
-        expect(publishValueMock).not.toBeCalled();
-    });
+        it("should sort out non text message event", () => {
+            generateMatrixEvent(
+                "m.room.message",
+                "m.bla",
+                "Hello World!",
+                "#room01:matrix",
+                "someoneelse",
+                Date.now() + 1000 //give it 1s time to execute
+            );
+            expect(publishValueMock).not.toBeCalled();
+        });
 
-    it("should sort out events from own user", () => {
-        generateMatrixEvent(
-            "m.room.message",
-            "m.text",
-            "Hello World!",
-            "#room01:matrix",
-            "@user01:localhost",
-            Date.now() + 1000 //give it 1s time to execute
-        );
-        expect(publishValueMock).not.toBeCalled();
-    });
+        it("should sort out to old message event, when configured", async () => {
+            generateMatrixEvent(
+                "m.room.message",
+                "m.text",
+                "Hello World!",
+                "#room01:matrix",
+                "someoneelse",
+                Date.now() - 10000
+            );
+            expect(publishValueMock).toBeCalledTimes(1);
 
-    it("should sort out events from not known room", () => {
-        generateMatrixEvent(
-            "m.room.message",
-            "m.text",
-            "Hello World!",
-            "#room99:matrix",
-            "someoneelse",
-            Date.now() + 1000 //give it 1s time to execute
-        );
-        expect(publishValueMock).not.toBeCalled();
+            jest.clearAllMocks();
+            const config = generateStdConfig();
+            config.bridge.matrixMaxMessageAgeS = 1;
+            await createBridge(config);
+            generateMatrixEvent(
+                "m.room.message",
+                "m.text",
+                "Hello World!",
+                "#room01:matrix",
+                "someoneelse",
+                Date.now() - 10000
+            );
+            expect(publishValueMock).not.toBeCalled();
+        });
+
+        it("should sort out events from own user", () => {
+            generateMatrixEvent(
+                "m.room.message",
+                "m.text",
+                "Hello World!",
+                "#room01:matrix",
+                "@user01:localhost",
+                Date.now() + 1000 //give it 1s time to execute
+            );
+            expect(publishValueMock).not.toBeCalled();
+        });
+
+        it("should sort out events from not known room", () => {
+            generateMatrixEvent(
+                "m.room.message",
+                "m.text",
+                "Hello World!",
+                "#room99:matrix",
+                "someoneelse",
+                Date.now() + 1000 //give it 1s time to execute
+            );
+            expect(publishValueMock).not.toBeCalled();
+        });
     });
 });
 
@@ -298,16 +371,15 @@ describe("Incoming mqtt message tests", () => {
 
     it("should send mqtt message to room", () => {
         generateMqttMessage("mtx/rooms/room01/to", "Hello World!");
-        expect(matrixClientMock.sendEvent).toBeCalledTimes(1);
-        const [roomId, type, content] =
-            matrixClientMock.sendEvent.mock.calls[0];
+        expect(matrixClientMock.sendTextMessage).toBeCalledTimes(1);
+        const [roomId, content] =
+            matrixClientMock.sendTextMessage.mock.calls[0];
         expect(roomId).toBe("#room01:matrix");
-        expect(type).toBe("m.room.message");
-        expect(content).toEqual({ body: "Hello World!", msgtype: "m.text" });
+        expect(content).toBe("Hello World!");
     });
 
     it("should not send mqtt message to unknown room", () => {
         generateMqttMessage("mtx/rooms/unknonwroom/to", "Hello World!");
-        expect(matrixClientMock.sendEvent).not.toBeCalled();
+        expect(matrixClientMock.sendTextMessage).not.toBeCalled();
     });
 });
