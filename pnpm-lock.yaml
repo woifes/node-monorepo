@@ -182,7 +182,7 @@ importers:
       '@types/fs-extra': ^9.0.13
       '@types/node-snap7': ^0.2.21
       '@woifes/alarmhandler': workspace:0.1.1
-      '@woifes/alarmhandlermqtt': workspace:0.2.4
+      '@woifes/alarmhandlermqtt': workspace:0.3.0
       '@woifes/binarytypes': workspace:^1.0.0
       '@woifes/mqtt-client': workspace:0.2.1
       '@woifes/s7endpoint': workspace:0.2.2
