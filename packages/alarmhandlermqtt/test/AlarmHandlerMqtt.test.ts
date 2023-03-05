@@ -70,10 +70,13 @@ function createConfig(name: string, alCount: number): tAlarmHandlerMqttConfig {
         traceFilePath: traceFile(name),
         presentAlarmsFilePath: presFile(name),
         alarmDefsPath: defFile(name),
-        additionalNewAlarmTopics: ["messenger/to/lara", "messenger/to/john"],
+        additionalNewAlarmTopics: [
+            "messenger/room01/to",
+            "messenger/room02/to",
+        ],
         textCommand: {
-            commandTopicPrefix: "messenger/from",
-            commandResponseTopicPrefix: "messenger/to",
+            commandInTopic: "messenger/from",
+            commandOutTopic: "messenger/to",
         },
     };
 }
@@ -252,14 +255,14 @@ describe("Alarm signal tests", () => {
         expect(retain).toBe(true);
 
         [topic, value, type, QoS, retain] = publishValueSyncMock.mock.calls[1];
-        expect(topic).toBe(`messenger/to/lara`);
+        expect(topic).toBe(`messenger/room01/to`);
         expect(value).toEqual("New Alarm from test01: #2 - A 10 30");
         expect(type).toBe("STRING");
         expect(QoS).toBe(1);
         expect(retain).toBe(true);
 
         [topic, value, type, QoS, retain] = publishValueSyncMock.mock.calls[2];
-        expect(topic).toBe(`messenger/to/john`);
+        expect(topic).toBe(`messenger/room02/to`);
         expect(value).toEqual("New Alarm from test01: #2 - A 10 30");
         expect(type).toBe("STRING");
         expect(QoS).toBe(1);
@@ -537,36 +540,45 @@ describe("text command tests", () => {
     });
 
     function simTxtCmd(cmd: string) {
-        (mqtt as any).onMessageCallback(`messenger/from/me`, Buffer.from(cmd), {
+        (mqtt as any).onMessageCallback(`messenger/from`, Buffer.from(cmd), {
             qos: 2,
             retain: false,
         });
     }
 
-    it("should display 'who' when nothing else is given", async () => {
-        simTxtCmd("!al   ");
+    it("should display 'act' when nothing else is given", async () => {
+        simTxtCmd("alarms   ");
         await promiseTimeout(400);
-        expect(publishMessageMock).toBeCalledTimes(1);
-        expect(publishMessageMock.mock.calls[0][0].body).toBe(
-            `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
+        expect(publishMessageMock).toBeCalledTimes(2);
+        expect(publishMessageMock.mock.calls[1][0].body).toBe(
+            `No alarms for test01`
         );
     });
 
-    it("should not display overall help", async () => {
-        simTxtCmd("!al -h");
+    it("should display overall help", async () => {
+        simTxtCmd("alarms -h");
         await promiseTimeout(400);
         expect(publishMessageMock).toBeCalledTimes(1);
-        expect(publishMessageMock.mock.calls[0][0].body).toBe(
-            `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
-        );
+        expect(publishMessageMock.mock.calls[0][0].body)
+            .toBe(`Usage: alarms [options] [command]
+
+Options:
+  -h, --help         display help for command
+
+Commands:
+  act                Prints the present alarms
+  ack [alarmNumber]  Acknowledges the given alarm. Acknowledges all if not
+                     given
+  help [command]     display help for command
+`);
     });
 
-    it("should not display help on error", async () => {
-        simTxtCmd("!al wrongcmd");
+    it("should display act on unknown command", async () => {
+        simTxtCmd("alarms wrongcmd");
         await promiseTimeout(400);
-        expect(publishMessageMock).toBeCalledTimes(1);
-        expect(publishMessageMock.mock.calls[0][0].body).toBe(
-            `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
+        expect(publishMessageMock).toBeCalledTimes(2);
+        expect(publishMessageMock.mock.calls[1][0].body).toBe(
+            `No alarms for test01`
         );
     });
 
@@ -602,69 +614,9 @@ describe("text command tests", () => {
         delete config.textCommand;
         jest.clearAllMocks();
         const handler = new AlarmHandlerMqtt(config, mqtt);
-        simTxtCmd("!al");
+        simTxtCmd("alarms");
         await promiseTimeout(400);
         expect(publishMessageMock).not.toBeCalled();
-    });
-
-    describe("command 'help'", () => {
-        it("should display help of a given source", async () => {
-            simTxtCmd("!al help test01");
-            await promiseTimeout(400);
-            expect(publishMessageMock).toBeCalledTimes(1);
-            expect(publishMessageMock.mock.calls[0][0].body).toBe(
-                `Usage: !al [command]
-
-Commands:
-  help <alarmHandlerId>               Displays help to the available commands
-  who                                 Prints the alarm source and the number of
-                                      their alarms
-  act [alarmHandlerId]                Prints the present alarms
-  ack <alarmHandlerId> [alarmNumber]  Acknowledges the given alarm.
-                                      Acknowledges all if not given
-`
-            );
-        });
-
-        it("should not display automatic generated help of help command", async () => {
-            simTxtCmd("!al help -h");
-            simTxtCmd("!al help help");
-            await promiseTimeout(400);
-            expect(publishMessageMock).toBeCalledTimes(1);
-            expect(publishMessageMock.mock.calls[0][0].body).toBe(
-                `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
-            );
-        });
-
-        it("should not display help on missing alarm source", async () => {
-            simTxtCmd("!al help");
-            await promiseTimeout(400);
-            expect(publishMessageMock).toBeCalledTimes(1);
-            expect(publishMessageMock.mock.calls[0][0].body).toBe(
-                `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
-            );
-        });
-    });
-
-    describe("command 'who'", () => {
-        it("should display own name and alarm number on 'who'", async () => {
-            simTxtCmd("!al who");
-            await promiseTimeout(400);
-            expect(publishMessageMock).toBeCalledTimes(1);
-            expect(publishMessageMock.mock.calls[0][0].body).toBe(
-                `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
-            );
-        });
-
-        it("should not display help of 'who'", async () => {
-            simTxtCmd("!al who -h");
-            simTxtCmd("!al help who");
-            await promiseTimeout(400);
-            expect(publishMessageMock).toBeCalledTimes(1);
-            expect(publishMessageMock.mock.calls[0][0].body).toBe(
-                `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
-            );
-        });
     });
 
     describe("command 'ack'", () => {
@@ -675,7 +627,7 @@ Commands:
         });
 
         it("should ack single alarm without nr param", async () => {
-            simTxtCmd("!al ack test01");
+            simTxtCmd("alarms ack");
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(3);
             //console.log(publishMessageMock.mock.calls[0][0].body); messages from the alarm handler
@@ -687,7 +639,7 @@ Commands:
         });
 
         it("should ack single alarm with nr param", async () => {
-            simTxtCmd("!al ack test01 2");
+            simTxtCmd("alarms ack 2");
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(3);
             expect(publishMessageMock.mock.calls[2][0].body).toBe(
@@ -700,7 +652,7 @@ Commands:
             h.updateSignal(1, true);
             h.updateSignal(1, false);
             jest.clearAllMocks();
-            simTxtCmd("!al ack test01 0");
+            simTxtCmd("alarms ack 0");
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(5);
             expect(publishMessageMock.mock.calls[4][0].body).toBe(
@@ -710,23 +662,33 @@ Commands:
             expect(h[2].triggered).toBe(false);
         });
 
-        it("should not display help on missing alarm handler param", async () => {
-            simTxtCmd("!al ack");
-            await promiseTimeout(400);
-            expect(publishMessageMock).toBeCalledTimes(1);
-            expect(publishMessageMock.mock.calls[0][0].body).toBe(
-                `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
-            );
-        });
-
         it("should not display help for ack command", async () => {
-            simTxtCmd("!al ack -h");
-            simTxtCmd("!al help ack");
+            simTxtCmd("alarms ack -h");
+            simTxtCmd("alarms help ack");
             await promiseTimeout(400);
-            expect(publishMessageMock).toBeCalledTimes(1);
-            expect(publishMessageMock.mock.calls[0][0].body).toBe(
-                `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
-            );
+            expect(publishMessageMock).toBeCalledTimes(2);
+            expect(publishMessageMock.mock.calls[0][0].body)
+                .toBe(`Usage: alarms ack [options] [alarmNumber]
+
+Acknowledges the given alarm. Acknowledges all if not given
+
+Arguments:
+  alarmNumber  Which alarm number to acknowledge (default: 0)
+
+Options:
+  -h, --help   display help for command
+`);
+            expect(publishMessageMock.mock.calls[1][0].body)
+                .toBe(`Usage: alarms ack [options] [alarmNumber]
+
+Acknowledges the given alarm. Acknowledges all if not given
+
+Arguments:
+  alarmNumber  Which alarm number to acknowledge (default: 0)
+
+Options:
+  -h, --help   display help for command
+`);
         });
     });
 
@@ -740,24 +702,7 @@ Commands:
         });
 
         it("should display act alarms", async () => {
-            simTxtCmd("!al act");
-            await promiseTimeout(400);
-            expect(publishMessageMock).toBeCalledTimes(2);
-            expect(publishMessageMock.mock.calls[1][0].body)
-                .toBe(`Alarms of test01
-______________________________
-    2 | 24.12.2020, 07:12:03,000
-No text
-______________________________
-    3 | 24.12.2020, 07:12:03,000
-    ✔ 24.12.2020, 07:12:03,000
-No text
-______________________________
-`);
-        });
-
-        it("should display act alarms with name param", async () => {
-            simTxtCmd("!al act test01");
+            simTxtCmd("alarms act");
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(2);
             expect(publishMessageMock.mock.calls[1][0].body)
@@ -777,22 +722,27 @@ ______________________________
             h.updateSignal(3, false);
             h.acknowledgeAlarm(0);
             jest.clearAllMocks();
-            simTxtCmd("!al act test01");
+            simTxtCmd("alarms act");
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(2);
             expect(publishMessageMock.mock.calls[1][0].body).toBe(
-                `No Alarms for test01`
+                `No alarms for test01`
             );
         });
 
         it("should not display help for act", async () => {
-            simTxtCmd("!al act -h");
-            simTxtCmd("!al help act");
+            simTxtCmd("alarms act -h");
+            simTxtCmd("alarms help act");
             await promiseTimeout(400);
-            expect(publishMessageMock).toBeCalledTimes(1);
-            expect(publishMessageMock.mock.calls[0][0].body).toBe(
-                `Alarm source test01 with 3 Alarms - use "!al help <alarmSource>" for help`
-            );
+            expect(publishMessageMock).toBeCalledTimes(2);
+            expect(publishMessageMock.mock.calls[0][0].body)
+                .toBe(`Usage: alarms act [options]
+
+Prints the present alarms
+
+Options:
+  -h, --help  display help for command
+`);
         });
     });
 });

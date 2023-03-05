@@ -60,37 +60,23 @@ export class AlarmHandlerMqtt extends AlarmHandler {
         return `alarms/new/${this._name}`;
     }
 
-    public static textCommand = "!al";
+    public static textCommand = "alarms";
     public static cmdTextCommandConfig(
         this: AlarmHandlerMqtt
     ): tMqttCmdHandlerConfig {
         if (this._config.textCommand != undefined) {
             return {
-                topic: this._config.textCommand.commandTopicPrefix + "/+",
+                topic: this._config.textCommand.commandInTopic,
                 qos: 2,
                 topicTransform: (reqTopic: string[]) => {
-                    const requester = reqTopic[reqTopic.length - 1];
                     return [
-                        ...this._config.textCommand!.commandResponseTopicPrefix.split(
-                            "/"
-                        ),
-                        requester,
+                        ...this._config.textCommand!.commandOutTopic.split("/"),
                     ];
                 },
             };
         } else {
             return { topic: "" };
         }
-    }
-    public static transformTextCmdTopic(
-        this: AlarmHandlerMqtt,
-        reqTopic: string[]
-    ) {
-        const requester = reqTopic[reqTopic.length - 1];
-        return [
-            ...this._config.textCommand!.commandResponseTopicPrefix.split("/"),
-            requester,
-        ];
     }
 
     protected _config: tAlarmHandlerMqttConfig;
@@ -212,84 +198,48 @@ export class AlarmHandlerMqtt extends AlarmHandler {
     private onTextCommand(req: Message, res: Message) {
         let textArgs = req.body.trim().split(" ");
         if (textArgs[0] === AlarmHandlerMqtt.textCommand) {
-            const simpleErrorText = `Alarm source ${this.name} with ${this.numOfAlarms} Alarms - use "${AlarmHandlerMqtt.textCommand} help <alarmSource>" for help`;
             textArgs = ["", ...textArgs];
             const sendResponse = (message: string) => {
                 res.writeValue(message, "STRING");
                 res.sendSync();
             };
-            const cmd = new Command(AlarmHandlerMqtt.textCommand).helpOption(
-                false
-            );
+            const cmd = new Command(AlarmHandlerMqtt.textCommand);
 
             cmd.configureOutput({
                 writeErr: (str) => {
-                    sendResponse(simpleErrorText);
+                    sendResponse(str);
                 },
                 writeOut: (str) => {
                     sendResponse(str);
                 },
-            })
-                .showSuggestionAfterError(false)
-                .exitOverride();
+            }).exitOverride();
 
-            cmd.command("help")
-                .argument(
-                    "<alarmHandlerId>",
-                    "The alarm source for which the commands shall be displayed"
-                )
-                .description("Displays help to the available commands")
-                .action((alarmSourceName: string) => {
-                    if (alarmSourceName === this.name) {
-                        cmd.help();
-                    }
-                });
-
-            cmd.command("who", { isDefault: true })
-                .description(
-                    "Prints the alarm source and the number of their alarms"
-                )
-                .action(() => {
-                    sendResponse(simpleErrorText);
-                });
-
-            cmd.command("act")
-                .argument(
-                    "[alarmHandlerId]",
-                    "Filter only for this alarm source"
-                )
+            cmd.command("act", { isDefault: true })
                 .description("Prints the present alarms")
-                .action((alarmSourceName: string) => {
-                    if (
-                        alarmSourceName == undefined ||
-                        alarmSourceName == this.name
-                    ) {
-                        sendResponse(this.getTextActAlarms());
-                    }
+                .action(() => {
+                    sendResponse(this.getTextActAlarms());
                 });
 
             cmd.command("ack")
                 .description(
                     "Acknowledges the given alarm. Acknowledges all if not given"
                 )
-                .argument("<alarmHandlerId>", "which alarm source to ack")
                 .argument(
                     "[alarmNumber]",
                     "Which alarm number to acknowledge",
                     (arg: any) => parseInt(arg),
                     0
                 )
-                .action((alarmSourceName: string, alNum: any) => {
-                    if (alarmSourceName == this.name) {
-                        if (isFinite(alNum) && alNum >= 0) {
-                            const res = this.acknowledgeAlarm(alNum);
-                            if (res) {
-                                sendResponse(`Alarm ${alNum} was acknowledged`);
-                            } else {
-                                sendResponse(
-                                    `Alarm ${alNum} was not acknowledged`
-                                );
-                            }
+                .action((alNum?: any) => {
+                    const ackNum = alNum ?? 0;
+                    if (isFinite(ackNum) && ackNum >= 0) {
+                        const res = this.acknowledgeAlarm(ackNum);
+                        if (res) {
+                            sendResponse(`Alarm ${ackNum} was acknowledged`);
+                        } else {
+                            sendResponse(
+                                `Alarm ${ackNum} was not acknowledged`
+                            );
                         }
                     }
                 });
@@ -382,7 +332,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
             }
             return response;
         } else {
-            response = `No Alarms for ${this.name}`;
+            response = `No alarms for ${this.name}`;
         }
         return response;
     }

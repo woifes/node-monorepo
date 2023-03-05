@@ -15,8 +15,8 @@ export const AlarmHandlerMqttConfig = AlarmHandlerConfig.And(
         ).optional(),
         textCommand: rt
             .Record({
-                commandTopicPrefix: rt.String,
-                commandResponseTopicPrefix: rt.String,
+                commandInTopic: rt.String,
+                commandOutTopic: rt.String,
             })
             .optional(),
     })

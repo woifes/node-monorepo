@@ -16,12 +16,12 @@ it("should validate corrct runtype", () => {
         AlarmHandlerMqttConfig.check({
             ...ALARM_HANDLER_CONFIG_BASE,
             additionalNewAlarmTopics: [
-                "messenger/to/john",
-                "messenger/to/lara",
+                "messenger/to/room01",
+                "messenger/to/room02",
             ],
             textCommand: {
-                commandTopicPrefix: "messenger/from/+",
-                commandResponseTopicPrefix: "messenger/to",
+                commandInTopic: "messenger/from",
+                commandOutTopic: "messenger/to",
             },
         });
     }).not.toThrow();
