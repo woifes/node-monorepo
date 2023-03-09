@@ -1,7 +1,7 @@
 # @woifes/matrix-mqtt-bridge
 
 ## Why?
-This is a simple Matrix-MQTT Bridge. The idea is to have a set of Matrix rooms where messages are transferred from and to a MQTT message. Only simple text messages are used and also the sender are not important. The main goal is to have a set of alerting rooms to which users can join to receive certain events. This alerts are sent via MQTT messages. The transfer from messages from the matrix rooms to MQTT messages can be used for controlling (for example acknowledging alarms).
+This is a simple Matrix-MQTT [Bridgebot-based bridge](https://matrix.org/blog/2017/03/11/how-do-i-bridge-thee-let-me-count-the-ways#bridgebot-based-bridges). The idea is to have a set of Matrix rooms where messages are transferred from and to a MQTT message. Only simple text messages are used and also the sender are not important. The main goal is to have a set of alerting rooms to which users can join to receive certain events. This alerts are sent via MQTT messages. The transfer from messages from the matrix rooms to MQTT messages can be used for controlling (for example acknowledging alarms).
 
 **Please check the source code before using this package**
 
