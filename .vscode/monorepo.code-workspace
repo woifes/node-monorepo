@@ -10,6 +10,7 @@
 
         { "path": "../projects/license-report" },
         { "path": "../projects/matrix-mqtt-bridge" },
+        { "path": "../projects/mqtt-influxdb-agent" },
         { "path": "../projects/s7mqtt" },
 
         { "path": "../", "name": "_root_" },

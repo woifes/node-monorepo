@@ -1,0 +1,14 @@
+Dependency License Summary:
+
+MIT - 4
+AGPL-3.0-or-later - 1
+ISC - 1
+
+Dependency License Tree:
+
+@influxdata/influxdb-client 1.33.2 - MIT
+@woifes/mqtt-client link:../../packages/mqtt-client - AGPL-3.0-or-later
+debug 4.3.4 - MIT
+└── ms 2.1.2 - MIT
+runtypes 6.6.0 - MIT
+yaml 2.2.1 - ISC

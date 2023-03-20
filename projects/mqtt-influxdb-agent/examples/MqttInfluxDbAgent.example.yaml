@@ -1,0 +1,29 @@
+mqtt:
+  url: localhost
+  clientId: client01
+  notifyPresencePrefix: clients
+  messageCacheTimeS: 3
+  caCertificate: "path or cert" #can be either the path to a ca root cert or the cert itself
+
+influx:
+  url: localhost
+  token: token123
+  organization: myOrg
+
+items:
+  - topic: A/+/C/+ #topic from where the values come
+    bucket: myBucket #the bucket to use
+    measurement: myMeasurement #the measurement to use
+    datatype: int #int, uint, float, boolean
+    valueName: myValueName #different value name (for the field)
+    precision: s #ns, us, ms, s to use
+    topicTags: _/tag01/_/tag02 #give names to the parts of the topic, which then are added as tags to the point ("_" is ignored)
+    qos: 0 #qos to subscribe with (mqtt)
+    minTimeDiffMS: 100 #min time diff between values (messages in between are dropped)
+    searchPath: #search path (the value is assumed to be a json array)
+    - my
+    - path
+  - topic: E/F/G/H
+    bucket: myBucket02
+    measurement: myMeasurement02
+  

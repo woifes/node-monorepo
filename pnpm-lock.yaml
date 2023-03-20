@@ -176,6 +176,23 @@ importers:
     devDependencies:
       '@types/debug': 4.1.7
 
+  projects/mqtt-influxdb-agent:
+    specifiers:
+      '@influxdata/influxdb-client': ^1.33.2
+      '@types/debug': ^4.1.7
+      '@woifes/mqtt-client': workspace:0.2.1
+      debug: ^4.3.2
+      runtypes: ^6.5.1
+      yaml: ^2.2.1
+    dependencies:
+      '@influxdata/influxdb-client': 1.33.2
+      '@woifes/mqtt-client': link:../../packages/mqtt-client
+      debug: 4.3.4
+      runtypes: 6.6.0
+      yaml: 2.2.1
+    devDependencies:
+      '@types/debug': 4.1.7
+
   projects/s7mqtt:
     specifiers:
       '@types/debug': ^4.1.7
@@ -598,6 +615,10 @@ packages:
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
+
+  /@influxdata/influxdb-client/1.33.2:
+    resolution: {integrity: sha512-RT5SxH+grHAazo/YK3UTuWK/frPWRM0N7vkrCUyqVprDgQzlLP+bSK4ak2Jv3QVF/pazTnsxWjvtKZdwskV5Xw==}
+    dev: false
 
   /@istanbuljs/load-nyc-config/1.1.0:
     resolution: {integrity: sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ==}
