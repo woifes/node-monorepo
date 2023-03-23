@@ -67,19 +67,19 @@ it("should send values on data", async () => {
         DEBUGGER
     );
     const s7out = (s7outmqtt as any)._s7out;
-    s7out.emit("data", {
-        a: { name: "a", dbNr: 1, byteIndex: 4, type: "UINT16", value: 1 },
-        b: { name: "b", dbNr: 12, byteIndex: 0, type: "UINT32", value: 2 },
-        c: {
+    s7out.emit("data", [
+        { name: "a", dbNr: 1, byteIndex: 4, type: "UINT16", value: 1 },
+        { name: "b", dbNr: 12, byteIndex: 0, type: "UINT32", value: 2 },
+        {
             name: "c",
             dbNr: 12,
             byteIndex: 4,
             count: 3,
-            type: "ARRAY_OF_INT16",
+            type: "INT16",
             value: [3, 4, 5],
         },
-        d: { name: "d", dbNr: 20, byteIndex: 2, type: "INT8", value: 6 },
-    });
+        { name: "d", dbNr: 20, byteIndex: 2, type: "INT8", value: 6 },
+    ]);
     await promiseTimeout(100);
     expect(MQTT.publishMessageSync).toBeCalledTimes(4);
     let msg = MQTT.publishMessageSync.mock.calls[0][0];

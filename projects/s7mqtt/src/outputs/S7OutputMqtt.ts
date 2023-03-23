@@ -19,7 +19,11 @@ export class S7OutputMqtt {
                 return "UINT8";
             }
         } else {
-            return variable.type;
+            if (variable.count != undefined && variable.count > 1) {
+                return `ARRAY_OF_${variable.type}`;
+            } else {
+                return variable.type;
+            }
         }
     }
 
@@ -63,7 +67,12 @@ export class S7OutputMqtt {
     private sendValue(tag: tS7Variable) {
         const topic = this._topicPrefix + "/" + (tag.name as string);
         const msg = new Message(topic, this._qos, this._retain);
-        msg.writeValue(tag.value as any, S7OutputMqtt.normalizeType(tag));
-        this._mqtt.publishMessageSync(msg);
+        if (msg.writeValue(tag.value as any, S7OutputMqtt.normalizeType(tag))) {
+            this._mqtt.publishMessageSync(msg);
+            return;
+        }
+        this._debug(
+            `Tag at index ${tag.byteIndex} does not confirm to datatype ${tag.type}`
+        );
     }
 }
