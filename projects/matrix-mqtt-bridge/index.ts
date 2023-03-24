@@ -8,6 +8,6 @@ import { MatrixMqttBridge } from "./src/MatrixMqttBridge";
 
 const CONFIG_FILE_PATH = process.argv[2] ?? join(__dirname, "config.yaml");
 
-const CONFIG = parse(readFileSync(CONFIG_FILE_PATH, "utf-8"));
+const CONFIG = parse(readFileSync(CONFIG_FILE_PATH, "utf-8"), { merge: true });
 
 const S7MQTT = new MatrixMqttBridge(CONFIG);
