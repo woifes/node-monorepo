@@ -9,6 +9,7 @@ import {
     MqttMsgHandler,
     tMqttMsgHandlerConfig,
 } from "@woifes/mqtt-client/decorator";
+import { Debugger } from "debug";
 import { tInfluxDbDatatype } from "../types/InfluxDatatype";
 import { ItemConfig, tItemConfig } from "./ItemConfig";
 
@@ -29,16 +30,19 @@ export class Item {
     private valueName: string;
     private datatype: tInfluxDbDatatype;
     private mqtt: Client;
+    private debug: Debugger;
 
     constructor(
         config: tItemConfig,
         organization: string,
         influx: InfluxDB,
-        @MqttConnection() mqtt: Client
+        @MqttConnection() mqtt: Client,
+        parentDebug: Debugger
     ) {
         this.config = ItemConfig.check(config);
         this.organization = organization;
         this.mqtt = mqtt;
+        this.debug = parentDebug.extend(`Item: ${this.config.topic}`);
         this.writeApi = influx.getWriteApi(
             this.organization,
             this.config.bucket,
@@ -54,13 +58,15 @@ export class Item {
     @MqttMsgHandler(Item.msgConfig)
     private onMsg(msg: Message) {
         const rawJson = msg.readJSON();
+        const now = Date.now();
         try {
             const point = new Point(this.config.measurement);
+            point.timestamp(now);
             this.searchAndAddValueToPoint(rawJson, point);
             this.addTopicTagsToPoint(msg.topic, point);
             this.writeApi.writePoint(point);
-        } catch {
-            //TODO debug
+        } catch (e) {
+            this.debug(`Error in onMsg(): ${JSON.stringify(e)}`);
         }
     }
 

@@ -16,6 +16,7 @@ const CONFIG: tAgentConfig = {
         url: "http://localhost",
         token: "token123",
         organization: "myOrg",
+        flushIntervalMS: 1500,
     },
     items: [
         {

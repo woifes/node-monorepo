@@ -9,6 +9,7 @@ influx:
   url: localhost
   token: token123
   organization: myOrg
+  flushIntervalMS: 1500
 
 items:
   - topic: A/+/C/+ #topic from where the values come

@@ -11,6 +11,7 @@ export const AgentConfig = rt.Record({
         url: rt.String,
         token: rt.String,
         organization: rt.String,
+        flushIntervalMS: rt.Number.withConstraint((n) => n > 0),
     }),
     items: rt.Array(ItemConfig),
 });

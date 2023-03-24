@@ -8,6 +8,6 @@ import { MqttInfluxDbAgent } from "./src/MqttInfluxDbAgent";
 
 const CONFIG_FILE_PATH = process.argv[2] ?? join(__dirname, "config.yaml");
 
-const CONFIG = parse(readFileSync(CONFIG_FILE_PATH, "utf-8"));
+const CONFIG = parse(readFileSync(CONFIG_FILE_PATH, "utf-8"), { merge: true });
 
 const AGENT = new MqttInfluxDbAgent(CONFIG);

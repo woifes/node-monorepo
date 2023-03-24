@@ -3,8 +3,9 @@
 
 import { InfluxDB, Point } from "@influxdata/influxdb-client";
 import { Client } from "@woifes/mqtt-client";
-import { tItemConfig } from "projects/mqtt-influxdb-agent/src/item/ItemConfig";
+import debug from "debug";
 import { Item } from "../../src/item/Item";
+import { tItemConfig } from "../../src/item/ItemConfig";
 
 let MQTT: Client;
 const INFLUX = {
@@ -14,6 +15,8 @@ const INFLUX = {
         };
     }),
 };
+
+const DEBUGGER = debug("testDebugger");
 
 function createConfig(): tItemConfig {
     return {
@@ -49,7 +52,8 @@ describe("Creation test", () => {
             CONFIG,
             "myOrg",
             INFLUX as unknown as InfluxDB,
-            MQTT
+            MQTT,
+            DEBUGGER
         );
 
         expect(INFLUX.getWriteApi).toBeCalledTimes(1);
@@ -69,7 +73,8 @@ describe("Write value test", () => {
             config,
             "myOrg",
             INFLUX as unknown as InfluxDB,
-            MQTT
+            MQTT,
+            DEBUGGER
         );
 
         const writeApi = (item as any).writeApi;
@@ -88,7 +93,8 @@ describe("Write value test", () => {
             config,
             "myOrg",
             INFLUX as unknown as InfluxDB,
-            MQTT
+            MQTT,
+            DEBUGGER
         );
 
         const writeApi = (item as any).writeApi;
@@ -113,7 +119,8 @@ describe("Write value test", () => {
             config,
             "myOrg",
             INFLUX as unknown as InfluxDB,
-            MQTT
+            MQTT,
+            DEBUGGER
         );
 
         const writeApi = (item as any).writeApi;
@@ -142,7 +149,8 @@ describe("Write value test", () => {
             config,
             "myOrg",
             INFLUX as unknown as InfluxDB,
-            MQTT
+            MQTT,
+            DEBUGGER
         );
 
         const writeApi = (item as any).writeApi;
