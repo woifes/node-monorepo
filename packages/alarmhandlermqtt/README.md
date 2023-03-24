@@ -36,13 +36,11 @@ Package not published
 * `alarms/present/<mqttClientId>`: Sends the present alarm information to this topic
 * `alarms/new/<mqttClientId>`: Sends the alarm info (JSON) of a new triggered alarm to this topic (see also `additionalNewAlarmTopics`)
 ### Text command api
-* `<commandTopicPrefix>/<requesterId>`: Provides an interface similar to a command line. The idea is that one can send the command to a topic and receives the result on a second topic. The second topic is `<commandResponseTopicPrefix>/<requesterId>`. The command starts with a string `!al` targeting all alarm handler which are subscribed on the given topic
+* `<commandInTopic>`: Provides an interface similar to a command line. The idea is that one can send the command to a topic and receives the result on a second topic. The second topic is `<commandOutTopic>`. The command starts with a string `alarms` targeting all alarm handler which are subscribed on the given topic. It is recommended to use only one alarm handler for one topic pair
 #### Text commands
-* `!al` is defaulted to `!al who`
-* `!al help <alarmHandlerId>` prints available commands for the given alarm source
-* `!al who` prints alarm handler name(id) and their number of alarms and hint for help
-* `!al ack <alarmHandlerId> [alarmIdToAck]` sends acknowledge if `alarmIdToAck` is "0" or omitted ack all alarms
-* `!al act [alarmHandlerId]` request present alarm information if `alarmHandlerId` is omitted every alarm handler will print its present alarms
+* `alarms` is defaulted to `alarms act`
+* `alarms ack [alarmIdToAck]` sends acknowledge if `alarmIdToAck` is "0" or omitted ack all alarms
+* `alarms act` request present alarm information
 
 ## Running the build
 
