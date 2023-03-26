@@ -1,6 +1,6 @@
 {
   "name": "@woifes/s7mqtt",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "",
   "files": [
     "dist"
@@ -25,7 +25,7 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@woifes/alarmhandler": "workspace:0.1.1",
-    "@woifes/alarmhandlermqtt": "workspace:0.3.0",
+    "@woifes/alarmhandlermqtt": "workspace:0.4.0",
     "@woifes/binarytypes": "workspace:^1.0.0",
     "@woifes/mqtt-client": "workspace:0.2.1",
     "@woifes/s7endpoint": "workspace:0.2.2",
