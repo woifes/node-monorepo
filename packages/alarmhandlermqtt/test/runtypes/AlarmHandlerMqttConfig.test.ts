@@ -11,7 +11,7 @@ const ALARM_HANDLER_CONFIG_BASE: tAlarmHandlerConfig = {
     alarmDefsPath: "path/to/defs",
 };
 
-it("should validate corrct runtype", () => {
+it("should validate correct runtype", () => {
     expect(() => {
         AlarmHandlerMqttConfig.check({
             ...ALARM_HANDLER_CONFIG_BASE,

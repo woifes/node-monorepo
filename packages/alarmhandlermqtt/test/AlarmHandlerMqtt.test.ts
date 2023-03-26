@@ -239,7 +239,7 @@ describe("Alarm signal tests", () => {
         expect(h.updateSignal(2, true, "A", 10, 30)).toBe(true);
         expect(h.updateSignal(3, false)).toBe(true);
 
-        expect(publishValueSyncMock).toBeCalledTimes(3);
+        expect(publishValueSyncMock).toBeCalledTimes(5);
         let [topic, value, type, QoS, retain] =
             publishValueSyncMock.mock.calls[0];
         expect(topic).toBe(`alarms/new/${mqtt.clientId}`);
@@ -250,18 +250,22 @@ describe("Alarm signal tests", () => {
             occurred: d1.toJSON(),
             text: "A 10 30",
         });
+        [topic] = publishValueSyncMock.mock.calls[1];
+        expect(topic).toBe(`alarms/new/${mqtt.clientId}/byNr/2`);
+        [topic] = publishValueSyncMock.mock.calls[2];
+        expect(topic).toBe(`alarms/new/${mqtt.clientId}/byCategory/default/0`);
         expect(type).toBe("JSON");
         expect(QoS).toBe(1);
         expect(retain).toBe(true);
 
-        [topic, value, type, QoS, retain] = publishValueSyncMock.mock.calls[1];
+        [topic, value, type, QoS, retain] = publishValueSyncMock.mock.calls[3];
         expect(topic).toBe(`messenger/room01/to`);
         expect(value).toEqual("New Alarm from test01: #2 - A 10 30");
         expect(type).toBe("STRING");
         expect(QoS).toBe(1);
         expect(retain).toBe(true);
 
-        [topic, value, type, QoS, retain] = publishValueSyncMock.mock.calls[2];
+        [topic, value, type, QoS, retain] = publishValueSyncMock.mock.calls[4];
         expect(topic).toBe(`messenger/room02/to`);
         expect(value).toEqual("New Alarm from test01: #2 - A 10 30");
         expect(type).toBe("STRING");
@@ -708,11 +712,11 @@ Options:
             expect(publishMessageMock.mock.calls[1][0].body)
                 .toBe(`Alarms of test01
 ______________________________
-    2 | 24.12.2020, 07:12:03,000
+    #2 | 24.12.2020, 07:12:03,000
 No text
 ______________________________
-    3 | 24.12.2020, 07:12:03,000
-    ✔ 24.12.2020, 07:12:03,000
+    #3 | 24.12.2020, 07:12:03,000
+    ✅ 24.12.2020, 07:12:03,000
 No text
 ______________________________
 `);

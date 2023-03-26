@@ -50,16 +50,6 @@ export class AlarmHandlerMqtt extends AlarmHandler {
         };
     }
 
-    public static numOfAlarmsTopic(this: AlarmHandlerMqtt) {
-        return `alarms/sources/${this._name}/numberOfAlarms`;
-    }
-    public static presentAlarmsTopic(this: AlarmHandlerMqtt) {
-        return `alarms/present/${this._name}`;
-    }
-    public static newAlarmTopic(this: AlarmHandlerMqtt) {
-        return `alarms/new/${this._name}`;
-    }
-
     public static textCommand = "alarms";
     public static cmdTextCommandConfig(
         this: AlarmHandlerMqtt
@@ -109,6 +99,16 @@ export class AlarmHandlerMqtt extends AlarmHandler {
         return this._presentAlarmWatchdogTimeS;
     }
 
+    public get numOfAlarmsTopic() {
+        return `alarms/sources/${this._name}/numberOfAlarms`;
+    }
+    public get presentAlarmsTopic() {
+        return `alarms/present/${this._name}`;
+    }
+    public get newAlarmTopicBase() {
+        return `alarms/new/${this._name}`;
+    }
+
     private newAlarmToText(alarmNr: number, alarmObj: tAlarmJsonObject) {
         return `New Alarm from ${this._client.clientId}: #${alarmNr} - ${alarmObj.text}`;
     }
@@ -117,7 +117,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
     private mqttConnect(isOnline: boolean) {
         if (isOnline) {
             this._client.publishValueSync(
-                AlarmHandlerMqtt.numOfAlarmsTopic.call(this),
+                this.numOfAlarmsTopic,
                 this._config.numOfAlarms,
                 "UINT32",
                 1,
@@ -254,12 +254,32 @@ export class AlarmHandlerMqtt extends AlarmHandler {
 
     private onNew(nr: number, obj: tAlarmJsonObject) {
         this._client.publishValueSync(
-            AlarmHandlerMqtt.newAlarmTopic.call(this),
+            this.newAlarmTopicBase,
             { nr, ...obj },
             "JSON",
             1,
             true
         );
+        this._client.publishValueSync(
+            `${this.newAlarmTopicBase}/byNr/${nr}`,
+            { nr, ...obj },
+            "JSON",
+            1,
+            true
+        );
+        if (
+            obj.category !== undefined &&
+            obj.category.length > 0 &&
+            obj.categoryNum !== undefined
+        ) {
+            this._client.publishValueSync(
+                `${this.newAlarmTopicBase}/byCategory/${obj.category}/${obj.categoryNum}`,
+                { nr, ...obj },
+                "JSON",
+                1,
+                true
+            );
+        }
         for (let i = 0; i < this._additionalNewAlarmTopics.length; i++) {
             this._client.publishValueSync(
                 this._additionalNewAlarmTopics[i],
@@ -281,11 +301,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
             delete this._presentAlarmsWatchdog;
         }
 
-        const m = new Message(
-            AlarmHandlerMqtt.presentAlarmsTopic.call(this),
-            1,
-            true
-        );
+        const m = new Message(this.presentAlarmsTopic, 1, true);
         m.writeJSON(presentAlarmsInfo);
         this._client.publishMessage(m).catch(() => {}); //debug
 
@@ -314,15 +330,14 @@ export class AlarmHandlerMqtt extends AlarmHandler {
             for (const alNum of alNumbers) {
                 const alarmObj = present.alarms[alNum];
                 const occurred = new Date(alarmObj.occurred!);
-                response += `${alNum
-                    .toString()
-                    .padStart(5)} | ${occurred.toLocaleString(
+                const alNumStr = `    #${alNum.toString()}`.padStart(6);
+                response += `${alNumStr} | ${occurred.toLocaleString(
                     undefined,
                     options
                 )}\n`;
                 if (alarmObj.ackTime != undefined) {
                     const ackTime = new Date(alarmObj.ackTime);
-                    response += `    ✔ ${ackTime.toLocaleString(
+                    response += `    ✅ ${ackTime.toLocaleString(
                         undefined,
                         options
                     )}\n`;
