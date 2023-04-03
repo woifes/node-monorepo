@@ -257,15 +257,13 @@ export class AlarmHandlerMqtt extends AlarmHandler {
             this.newAlarmTopicBase,
             { nr, ...obj },
             "JSON",
-            1,
-            true
+            1
         );
         this._client.publishValueSync(
             `${this.newAlarmTopicBase}/byNr/${nr}`,
             { nr, ...obj },
             "JSON",
-            1,
-            true
+            1
         );
         if (
             obj.category !== undefined &&
@@ -276,8 +274,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                 `${this.newAlarmTopicBase}/byCategory/${obj.category}/${obj.categoryNum}`,
                 { nr, ...obj },
                 "JSON",
-                1,
-                true
+                1
             );
         }
         for (let i = 0; i < this._additionalNewAlarmTopics.length; i++) {
@@ -285,8 +282,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                 this._additionalNewAlarmTopics[i],
                 this.newAlarmToText(nr, obj),
                 "STRING",
-                1,
-                true
+                1
             );
         }
     }
