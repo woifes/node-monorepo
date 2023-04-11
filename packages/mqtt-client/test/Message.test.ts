@@ -344,15 +344,15 @@ test("readJSON test", () => {
 });
 
 test("readCommand test", () => {
-    const m = new Message("A/B/C", 1, true, `[1,2,3,4]`);
+    const m = new Message("A/B/C", 1, true, "[1,2,3,4]");
     expect(m.readCommand(["UINT16", "UINT8", "UINT8", "INT32"])).toEqual([
         1, 2, 3, 4,
     ]);
-    (m as any)._body = `[1,2,-1,4]`;
+    (m as any)._body = "[1,2,-1,4]";
     expect(m.readCommand(["UINT16", "UINT8", "UINT8", "INT32"])).toEqual([
         1, 2,
     ]);
-    (m as any)._body = `[-1,2,1,4]`;
+    (m as any)._body = "[-1,2,1,4]";
     expect(m.readCommand(["UINT16", "UINT8", "UINT8", "INT32"])).toEqual([]);
     (m as any)._body = `[1,2,1.3,"Hallo Welt"]`;
     expect(m.readCommand(["UINT16", "UINT8", "UINT8", "STRING"])).toEqual([
@@ -499,7 +499,7 @@ test("writeValue Arrays test", () => {
     let t: TypeName = "ARRAY_OF_INT8";
     //#region ARRAY_OF_INT8
     expect(m.writeValue([127, -128, 10], t)).toBe(true);
-    expect(m.body).toEqual(`[127,-128,10]`);
+    expect(m.body).toEqual("[127,-128,10]");
     (m as any)._body = "";
     expect(m.writeValue([128, -128, 10], t)).toBe(false);
     expect(m.body).toEqual("");
@@ -509,7 +509,7 @@ test("writeValue Arrays test", () => {
     //#region ARRAY_OF_UINT8
     t = "ARRAY_OF_UINT8";
     expect(m.writeValue([255, 0, 10], t)).toBe(true);
-    expect(m.body).toEqual(`[255,0,10]`);
+    expect(m.body).toEqual("[255,0,10]");
     (m as any)._body = "";
     expect(m.writeValue([256, 0, 10], t)).toBe(false);
     expect(m.body).toEqual("");
@@ -519,7 +519,7 @@ test("writeValue Arrays test", () => {
     //#region ARRAY_OF_INT16
     t = "ARRAY_OF_INT16";
     expect(m.writeValue([32767, -32768, 10], t)).toBe(true);
-    expect(m.body).toEqual(`[32767,-32768,10]`);
+    expect(m.body).toEqual("[32767,-32768,10]");
     (m as any)._body = "";
     expect(m.writeValue([32768, -32768, 10], t)).toBe(false);
     expect(m.body).toEqual("");
@@ -529,7 +529,7 @@ test("writeValue Arrays test", () => {
     //#region ARRAY_OF_UINT16
     t = "ARRAY_OF_UINT16";
     expect(m.writeValue([65535, 0, 10], t)).toBe(true);
-    expect(m.body).toEqual(`[65535,0,10]`);
+    expect(m.body).toEqual("[65535,0,10]");
     (m as any)._body = "";
     expect(m.writeValue([65536, 0, 10], t)).toBe(false);
     expect(m.body).toEqual("");
@@ -539,7 +539,7 @@ test("writeValue Arrays test", () => {
     //#region ARRAY_OF_INT32
     t = "ARRAY_OF_INT32";
     expect(m.writeValue([2147483647, -2147483648, 10], t)).toBe(true);
-    expect(m.body).toEqual(`[2147483647,-2147483648,10]`);
+    expect(m.body).toEqual("[2147483647,-2147483648,10]");
     (m as any)._body = "";
     expect(m.writeValue([2147483648, -2147483648, 10], t)).toBe(false);
     expect(m.body).toEqual("");
@@ -549,7 +549,7 @@ test("writeValue Arrays test", () => {
     //#region ARRAY_OF_UINT32
     t = "ARRAY_OF_UINT32";
     expect(m.writeValue([4294967295, 0, 10], t)).toBe(true);
-    expect(m.body).toEqual(`[4294967295,0,10]`);
+    expect(m.body).toEqual("[4294967295,0,10]");
     (m as any)._body = "";
     expect(m.writeValue([4294967296, 0, 10], t)).toBe(false);
     expect(m.body).toEqual("");
@@ -559,18 +559,18 @@ test("writeValue Arrays test", () => {
     //#region ARRAY_OF_INT64
     t = "ARRAY_OF_INT64";
     expect(
-        m.writeValue([9223372036854775807n, -9223372036854775808n, 10n], t)
+        m.writeValue([9223372036854775807n, -9223372036854775808n, 10n], t),
     ).toBe(true);
     expect(m.body).toEqual(
-        `["9223372036854775807","-9223372036854775808","10"]`
+        `["9223372036854775807","-9223372036854775808","10"]`,
     );
     (m as any)._body = "";
     expect(
-        m.writeValue([9223372036854775808n, -9223372036854775808n, 10n], t)
+        m.writeValue([9223372036854775808n, -9223372036854775808n, 10n], t),
     ).toBe(false);
     expect(m.body).toEqual("");
     expect(
-        m.writeValue([9223372036854775807n, -9223372036854775809n, 10n], t)
+        m.writeValue([9223372036854775807n, -9223372036854775809n, 10n], t),
     ).toBe(false);
     expect(m.body).toEqual("");
     //#endregion
@@ -587,7 +587,7 @@ test("writeValue Arrays test", () => {
     //#region ARRAY_OF_FLOAT
     t = "ARRAY_OF_FLOAT";
     expect(m.writeValue([12.3, -12.3, 0.0], t)).toBe(true);
-    expect(m.body).toEqual(`[12.3,-12.3,0]`);
+    expect(m.body).toEqual("[12.3,-12.3,0]");
     (m as any)._body = "";
     expect(m.writeValue([NaN, -12.3, 0.0], t)).toBe(false);
     expect(m.body).toEqual("");
@@ -599,7 +599,7 @@ test("writeValue Arrays test", () => {
     //#region ARRAY_OF_DOUBLE
     t = "ARRAY_OF_DOUBLE";
     expect(m.writeValue([12.3, -12.3, 0.0], t)).toBe(true);
-    expect(m.body).toEqual(`[12.3,-12.3,0]`);
+    expect(m.body).toEqual("[12.3,-12.3,0]");
     (m as any)._body = "";
     expect(m.writeValue([NaN, -12.3, 0.0], t)).toBe(false);
     expect(m.body).toEqual("");
@@ -637,7 +637,7 @@ describe("send to internal client", () => {
         const [topic, payload, publishOpts, cb] =
             mqttClient.publish.mock.calls[0];
         expect(topic).toBe("A/B/C");
-        expect(payload).toBe(`123`);
+        expect(payload).toBe("123");
         expect(publishOpts.qos).toBe(0);
         expect(publishOpts.retain).toBe(false);
     });
@@ -655,7 +655,7 @@ describe("send to internal client", () => {
             const [topic, payload, publishOpts, cb] =
                 mqttClient.publish.mock.calls[0];
             expect(topic).toBe("A/B/C");
-            expect(payload).toBe(`123`);
+            expect(payload).toBe("123");
             expect(publishOpts.qos).toBe(0);
             expect(publishOpts.retain).toBe(false);
             done();

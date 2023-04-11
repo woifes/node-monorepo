@@ -16,7 +16,7 @@ import { S7OutputMqttConfig } from "../outputs/S7OutputMqttConfig";
 export const S7MqttConfig = rt.Record({
     mqtt: ClientConfig,
     endpoint: S7RemoteEndpointConfig.Or(
-        S7LocalEndpointConfig.omit("datablocks")
+        S7LocalEndpointConfig.omit("datablocks"),
     ),
     alarms: S7AlarmHandlerConfig.optional(),
     inputs: rt
@@ -34,7 +34,7 @@ export const S7MqttConfig = rt.Record({
     commands: rt
         .Array(S7CommandConfig)
         .withConstraint(
-            (a) => a.length > 0 || "Commands array must not be zero"
+            (a) => a.length > 0 || "Commands array must not be zero",
         )
         .optional(),
 });

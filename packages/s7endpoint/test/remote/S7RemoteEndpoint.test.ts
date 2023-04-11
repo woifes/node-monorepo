@@ -5,8 +5,6 @@ import { once } from "events";
 import { S7RemoteEndpoint } from "../../src/remote";
 import { TestServer } from "../TestServer";
 
-/* eslint-disable no-empty */
-
 async function wait(ms: number) {
     return new Promise((resolve, reject) => {
         setTimeout(resolve, ms);
@@ -27,7 +25,6 @@ afterAll(() => {
     SERVER.stop();
 });
 
-/* eslint-disable @typescript-eslint/no-namespace */
 declare global {
     namespace jest {
         interface Matchers<R> {
@@ -43,7 +40,7 @@ expect.extend({
             pass
                 ? ""
                 : `Received Buffer (${received.toString(
-                      "hex"
+                      "hex",
                   )}) is not the same as expected (${expected})`;
 
         return {
@@ -95,7 +92,7 @@ describe("creation and connection tests", () => {
         endPoint.on("disconnect", disconnectCb);
         const clientConnectSpy = jest.spyOn(
             (endPoint as any)._client,
-            "Connect"
+            "Connect",
         );
         clientConnectSpy.mockImplementation((cb: any) => {
             cb(123);
@@ -118,7 +115,7 @@ describe("creation and connection tests", () => {
         endPoint.on("disconnect", disconnectCb);
         const clientConnectSpy = jest.spyOn(
             (endPoint as any)._client,
-            "Connect"
+            "Connect",
         );
         clientConnectSpy.mockImplementation((cb: any) => {
             cb(123);
@@ -144,7 +141,7 @@ describe("creation and connection tests", () => {
         endPoint.on("disconnect", disconnectCb);
         const clientConnectSpy = jest.spyOn(
             (endPoint as any)._client,
-            "Connect"
+            "Connect",
         );
         clientConnectSpy.mockImplementation((cb: any) => {
             cb(123);
@@ -166,11 +163,11 @@ describe("creation and connection tests", () => {
         endPoint.on("disconnect", disconnectCb);
         const clientConnectSpy = jest.spyOn(
             (endPoint as any)._client,
-            "Connect"
+            "Connect",
         );
         const clientDisconnectSpy = jest.spyOn(
             (endPoint as any)._client,
-            "Disconnect"
+            "Disconnect",
         );
         endPoint.connect();
         if (!endPoint.connected) {
@@ -194,11 +191,11 @@ describe("creation and connection tests", () => {
         endPoint.on("disconnect", disconnectCb);
         const clientConnectSpy = jest.spyOn(
             (endPoint as any)._client,
-            "Connect"
+            "Connect",
         );
         const clientDisconnectSpy = jest.spyOn(
             (endPoint as any)._client,
-            "Disconnect"
+            "Disconnect",
         );
         clientConnectSpy.mockImplementation((cb: any) => {
             cb();
@@ -230,18 +227,18 @@ describe("creation and connection tests", () => {
         endPoint.on("disconnect", disconnectCb);
         const clientConnectSpy = jest.spyOn(
             (endPoint as any)._client,
-            "Connect"
+            "Connect",
         );
         clientConnectSpy.mockImplementation((cb: any) => {
             cb();
         });
         const clientDisconnectSpy = jest.spyOn(
             (endPoint as any)._client,
-            "Disconnect"
+            "Disconnect",
         );
         const clientConnectedSpy = jest.spyOn(
             (endPoint as any)._client,
-            "Connected"
+            "Connected",
         );
         clientConnectedSpy.mockImplementation(() => true);
         endPoint.connect();
@@ -271,7 +268,7 @@ describe("client operations", () => {
                 }
                 SERVER.setArea(101, Buffer.from("0102030405", "hex"));
                 expect(
-                    await endPoint.readAreaBytes("DB", 101, 2, 3)
+                    await endPoint.readAreaBytes("DB", 101, 2, 3),
                 ).toBeBuffer("030405");
             });
 
@@ -294,7 +291,7 @@ describe("client operations", () => {
             it("should reject if byte count of response is not correct", async () => {
                 const dbReadSpy = jest.spyOn(
                     (endPoint as any)._client,
-                    "DBRead"
+                    "DBRead",
                 );
                 dbReadSpy.mockImplementation((cb: any) => {
                     cb(undefined, Buffer.alloc(4));
@@ -312,22 +309,22 @@ describe("client operations", () => {
                     1,
                     Buffer.from(
                         "01020A0B0C0D0708090A0102030405060708090A",
-                        "hex"
-                    )
+                        "hex",
+                    ),
                 );
                 SERVER.setArea(
                     4,
                     Buffer.from(
                         "0102030A05060708090A0F02030405060708090A",
-                        "hex"
-                    )
+                        "hex",
+                    ),
                 );
                 SERVER.setArea(
                     7,
                     Buffer.from(
                         "010203047A060708090A01020304057B0708090A",
-                        "hex"
-                    )
+                        "hex",
+                    ),
                 );
 
                 const result = await endPoint.readMultiVars([
@@ -377,22 +374,22 @@ describe("client operations", () => {
                     1,
                     Buffer.from(
                         "0102030405060708090A0102030405060708090A",
-                        "hex"
-                    )
+                        "hex",
+                    ),
                 );
                 SERVER.setArea(
                     4,
                     Buffer.from(
                         "0102030405060708090A0102030405060708090A",
-                        "hex"
-                    )
+                        "hex",
+                    ),
                 );
                 SERVER.setArea(
                     7,
                     Buffer.from(
                         "0102030405060708090A0102030405060708090A",
-                        "hex"
-                    )
+                        "hex",
+                    ),
                 );
 
                 endPoint.stop();
@@ -443,7 +440,7 @@ describe("client operations", () => {
                         "DB",
                         1001,
                         2,
-                        Buffer.alloc(3)
+                        Buffer.alloc(3),
                     );
                     fail("should throw");
                 } catch {}
@@ -456,7 +453,7 @@ describe("client operations", () => {
                         "DB",
                         1000,
                         2,
-                        Buffer.alloc(3)
+                        Buffer.alloc(3),
                     );
                     fail("should throw");
                 } catch {}
@@ -467,15 +464,15 @@ describe("client operations", () => {
             it("should delegate the call correctly", async () => {
                 SERVER.setArea(
                     1101,
-                    Buffer.from("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "hex")
+                    Buffer.from("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "hex"),
                 );
                 SERVER.setArea(
                     1102,
-                    Buffer.from("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "hex")
+                    Buffer.from("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "hex"),
                 );
                 SERVER.setArea(
                     1103,
-                    Buffer.from("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "hex")
+                    Buffer.from("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", "hex"),
                 );
 
                 const result = await endPoint.writeMultiVars([
@@ -509,13 +506,13 @@ describe("client operations", () => {
                 expect(result[2].Result).toBe(0);
 
                 expect(SERVER.getDbArea(1101)).toBeBuffer(
-                    "00000000FFFFFFFFFFFFFFFFFFFFFF"
+                    "00000000FFFFFFFFFFFFFFFFFFFFFF",
                 );
                 expect(SERVER.getDbArea(1102)).toBeBuffer(
-                    "FF0000000000000000FFFFFFFFFFFF"
+                    "FF0000000000000000FFFFFFFFFFFF",
                 );
                 expect(SERVER.getDbArea(1103)).toBeBuffer(
-                    "FFFF000000000000000000000000FF"
+                    "FFFF000000000000000000000000FF",
                 );
             });
 

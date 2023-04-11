@@ -15,7 +15,7 @@ const BANNER = `_)--  ______
 
 `;
 
-if (INI_FILE_PATH == undefined) {
+if (INI_FILE_PATH === undefined) {
     console.log("No ini file path provided");
     process.exit(1);
 }
@@ -47,8 +47,8 @@ function emptyLine() {
             await question(
                 "How many devices shall be searched?",
                 "Number of Devices",
-                rl
-            )
+                rl,
+            ),
         );
     } while (isNaN(nrOfDevices));
 
@@ -62,10 +62,10 @@ function emptyLine() {
     const ny = new NodeYasdi("shell", config, INI_FILE_PATH);
 
     function printDevice(inverter: Inverter) {
-        console.log("Inverter: " + inverter.name);
-        console.log("Handle: " + inverter.handle);
-        console.log("Serial: " + inverter.serial);
-        console.log("Type: " + inverter.type);
+        console.log(`Inverter: ${inverter.name}`);
+        console.log(`Handle: ${inverter.handle}`);
+        console.log(`Serial: ${inverter.serial}`);
+        console.log(`Type: ${inverter.type}`);
         hr();
     }
 
@@ -81,14 +81,13 @@ function emptyLine() {
     console.log(`found all ${nrOfDevices} devices`);
     br();
     let handle = NaN;
-    /* eslint-disable-next-line no-constant-condition */
     while (true) {
         const printDeviceValues = async function (inverter: Inverter) {
             const values = await inverter.getData(5);
 
             const printKeyValue = function (key: string, value: string) {
-                const keyPart = "| " + key.padStart(15, " ") + "    ";
-                const valPart = "    " + value.padEnd(18, " ") + "|";
+                const keyPart = `| ${key.padStart(15, " ")}    `;
+                const valPart = `    ${value.padEnd(18, " ")}|`;
                 console.log(`${keyPart}|${valPart}`);
             };
 
@@ -97,15 +96,14 @@ function emptyLine() {
                 const space = Math.floor((43 - value.length) / 2);
                 const left = space;
                 const right = space + rest;
-                value =
-                    "|" + " ".repeat(left) + value + " ".repeat(right) + "|";
+                value = `|${" ".repeat(left)}${value}${" ".repeat(right)}|`;
                 console.log(value);
             };
 
             hr();
 
             const timeStr = new Date(
-                values.get(YASDI_COM_STATUS_NAME)!.timeStamp
+                values.get(YASDI_COM_STATUS_NAME)!.timeStamp,
             ).toLocaleString();
             printValue(timeStr);
             printValue(inverter.name);
@@ -122,7 +120,7 @@ function emptyLine() {
 
             for (const [valueName, value] of values) {
                 const valStr =
-                    value.unit.length == 0 && value.statusText.length != 0
+                    value.unit.length === 0 && value.statusText.length !== 0
                         ? value.statusText
                         : `${value.value.toFixed(2)} (${value.unit})`;
                 printKeyValue(valueName, valStr);
@@ -136,21 +134,21 @@ function emptyLine() {
         const handleRaw = await question(
             "For which handle or serial should the data be fetched? (enter 'exit' to exit shell)",
             "handle/serial (or 'exit' to exit)",
-            rl
+            rl,
         );
         handle = parseInt(handleRaw);
         if (!isNaN(handle)) {
             const inverterByHandle = ny.getInverterByHandle(handle);
             const inverterBySerial = ny.getInverterBySerial(handle);
-            if (inverterByHandle != undefined) {
+            if (inverterByHandle !== undefined) {
                 console.log(
-                    `Fetching data from serial ${inverterByHandle.serial}...`
+                    `Fetching data from serial ${inverterByHandle.serial}...`,
                 );
                 await printDeviceValues(inverterByHandle);
                 br();
-            } else if (inverterBySerial != undefined) {
+            } else if (inverterBySerial !== undefined) {
                 console.log(
-                    `Fetching data from serial ${inverterBySerial.serial}...`
+                    `Fetching data from serial ${inverterBySerial.serial}...`,
                 );
                 await printDeviceValues(inverterBySerial);
                 br();
@@ -165,7 +163,7 @@ function emptyLine() {
                 }
                 br();
             }
-        } else if (handleRaw == "exit") {
+        } else if (handleRaw === "exit") {
             process.exit(0);
         } else {
             console.log("No inverter with this handle was found");

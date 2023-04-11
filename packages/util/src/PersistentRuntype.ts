@@ -8,7 +8,6 @@ import { parse } from "json5";
 import * as rt from "runtypes";
 import { deepObjectMerge } from "./deepObjectMerge";
 
-/* eslint-disable-next-line @typescript-eslint/ban-types */
 function deepEqualsObject<T>(actual: T, expected: T) {
     try {
         deepStrictEqual(actual, expected);
@@ -48,7 +47,7 @@ export class PersistentRuntype<T> {
         filePath: string,
         runtype: rt.Runtype<T>,
         def: T,
-        opts?: PersistentRuntypeOpts
+        opts?: PersistentRuntypeOpts,
     ) {
         opts = opts ?? {};
         this._noMergeAtSet = opts.noMergeAtSet ?? false;

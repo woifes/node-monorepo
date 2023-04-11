@@ -11,14 +11,14 @@ export const S7OutputConfig = rt.Record({
         .withConstraint((dict) => {
             return (
                 Object.keys(dict).length > 0 ||
-                `list of address strings may not be empty`
+                "list of address strings may not be empty"
             );
         })
         .optional(),
     datablocks: rt
         .Array(DBFileDescriptor)
         .withConstraint((a) => {
-            return a.length > 0 || `Array of datablocks may no be empty`;
+            return a.length > 0 || "Array of datablocks may no be empty";
         })
         .optional(),
     pollIntervalMS: rt.Number.withConstraint((n) => n > 0).optional(),

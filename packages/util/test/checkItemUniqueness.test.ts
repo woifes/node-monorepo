@@ -17,14 +17,14 @@ describe("primitive types", () => {
         expect(
             checkItemUniqueness(a, (n) => {
                 return n % 3;
-            })
+            }),
         ).toBe(true);
 
         a = [1, 2, 3, 2, 5, 6];
         expect(
             checkItemUniqueness(a, (n) => {
                 return n % 3;
-            })
+            }),
         ).toBe(false);
     });
 });
@@ -50,14 +50,14 @@ describe("object types", () => {
         expect(
             checkItemUniqueness(a, (o) => {
                 return o.prop;
-            })
+            }),
         ).toBe(true);
 
         o3.prop = 1;
         expect(
             checkItemUniqueness(a, (o) => {
                 return o.prop;
-            })
+            }),
         ).toBe(false);
     });
 });

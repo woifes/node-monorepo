@@ -23,7 +23,7 @@ export class Request {
 
     private pushVariableToMap(variable: tS7Variable, index: number) {
         let key: string;
-        if (variable.area == "DB") {
+        if (variable.area === "DB") {
             key = `DB${variable.dbNr}`;
         } else {
             key = `${variable.area}`;

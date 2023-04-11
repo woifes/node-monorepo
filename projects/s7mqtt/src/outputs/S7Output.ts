@@ -41,7 +41,7 @@ export class S7Output extends EventEmitter {
     constructor(
         config: tS7OutputConfig,
         s7endpoint: S7Endpoint,
-        parentDebugger: Debugger
+        parentDebugger: Debugger,
     ) {
         super();
         this._config = S7OutputConfig.check(config);
@@ -51,13 +51,13 @@ export class S7Output extends EventEmitter {
             this._config.pollIntervalMS ?? STD_POLL_INTERVAL_MS;
         this._debug = parentDebugger.extend(`output:${this.POLL_INTERVAL_MS}`);
         let tags: tS7Variable[] = [];
-        if (this._config.tags != undefined) {
+        if (this._config.tags !== undefined) {
             for (const [name, address] of Object.entries(this._config.tags)) {
                 const addressObject = parseS7AddressString(address);
                 tags.push({ name, ...addressObject });
             }
         }
-        if (this._config.datablocks != undefined) {
+        if (this._config.datablocks !== undefined) {
             for (const datablock of this._config.datablocks) {
                 try {
                     //first try to parse the string
@@ -65,17 +65,16 @@ export class S7Output extends EventEmitter {
                         ...tags,
                         ...dbSourceToS7Variables(
                             datablock.filePathOrContent,
-                            datablock.dbNr
+                            datablock.dbNr,
                         ),
                     ];
-                    continue;
                 } catch {
                     //second try to find the file
                     const fileContent = readFileSync(
                         datablock.filePathOrContent,
                         {
                             encoding: "utf-8",
-                        }
+                        },
                     );
                     tags = [
                         ...tags,

@@ -19,7 +19,7 @@ export const MatrixMqttBridgeConfig = rt.Record({
             return s.length > 0 || "mqttTopicPrefix may no empty string";
         }).optional(),
         matrixMaxMessageAgeS: rt.Number.withConstraint((n) => {
-            return n > 0 || `matrixMaxMessageAge as to be greater than 0`;
+            return n > 0 || "matrixMaxMessageAge as to be greater than 0";
         }).optional(),
         rooms: rt.Array(
             rt.Record({
@@ -35,7 +35,7 @@ export const MatrixMqttBridgeConfig = rt.Record({
                 }),
                 federate: rt.Boolean.optional(),
                 public: rt.Boolean.optional(),
-            })
+            }),
         ),
     }),
 });

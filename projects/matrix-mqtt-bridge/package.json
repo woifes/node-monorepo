@@ -1,6 +1,6 @@
 {
   "name": "@woifes/matrix-mqtt-bridge",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "files": [
     "dist"
@@ -11,9 +11,8 @@
     "start": "node ./dist/index.js",
     "test": "jest",
     "compile": "tsc -p tsconfig.build.json",
-    "prettier": "prettier -w ./src/**/*.ts ./test/**/*.ts ./index.ts",
-    "lint": "eslint ./src/ ./test/ ./index.ts --fix",
-    "lint:check": "eslint ./src/ ./test/ ./index.ts",
+    "format": "rome format --write .",
+    "lint": "rome check --apply-unsafe .",
     "prepare": "pnpm compile",
     "docker:build": "docker build -t monorepo ../../ && ver && docker build -t matrix-mqtt-bridge:%npm_package_version% . || docker build -t matrix-mqtt-bridge:$npm_package_version .",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
@@ -21,7 +20,7 @@
   "author": "woifes",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "@woifes/mqtt-client": "workspace:0.2.1",
+    "@woifes/mqtt-client": "workspace:0.2.2",
     "commander": "^8.3.0",
     "debug": "^4.3.2",
     "matrix-js-sdk": "^24.0.0",

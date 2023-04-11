@@ -5,7 +5,7 @@ import { parseLine } from "../pnpm/parseLine";
 
 export function renderLicenseTree(
     lines: string[],
-    licenseMap: Map<string, string>
+    licenseMap: Map<string, string>,
 ): string {
     let content = "";
 
@@ -24,8 +24,8 @@ export function renderLicenseTree(
             }
             print(
                 `${line} - ${licenseMap.get(
-                    `${packageName}/${packageVersion}`
-                )}`
+                    `${packageName}/${packageVersion}`,
+                )}`,
             );
         } catch {
             print(line);

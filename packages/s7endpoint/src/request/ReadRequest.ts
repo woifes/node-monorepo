@@ -19,7 +19,7 @@ export class ReadRequest extends Request {
         for (const [area, variableSet] of this._varsByArea.entries()) {
             this._areaRequests.set(
                 area,
-                new AreaReadRequest(variableSet, this._endpoint)
+                new AreaReadRequest(variableSet, this._endpoint),
             );
         }
     }

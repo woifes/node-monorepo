@@ -21,9 +21,8 @@ export type tConnectionToUseInfo = string | number;
  * @returns
  */
 export function MqttClient() {
-    /* eslint-disable-next-line @typescript-eslint/ban-types */
     return function <T extends { new (...args: any[]): {} }>(
-        originalConstructor: T
+        originalConstructor: T,
     ) {
         const info: tConnectionToUseInfo = (originalConstructor as any)[
             CONNECTION_TO_USE_INFO
@@ -36,9 +35,9 @@ export function MqttClient() {
                 const self = this as any;
 
                 //find the mqtt client object to use
-                if (info != undefined) {
+                if (info !== undefined) {
                     client = args[info as number];
-                } else if (self[CONNECTION_TO_USE_INFO] != undefined) {
+                } else if (self[CONNECTION_TO_USE_INFO] !== undefined) {
                     client = self[self[CONNECTION_TO_USE_INFO]];
                 } else {
                     for (let i = 0; i < args.length; i++) {
@@ -47,7 +46,7 @@ export function MqttClient() {
                             break;
                         }
                     }
-                    if (client == undefined) {
+                    if (client === undefined) {
                         //go on
                         for (const key in this) {
                             if (
@@ -63,9 +62,9 @@ export function MqttClient() {
                     }
                 }
 
-                if (client == undefined || !(client instanceof Client)) {
+                if (client === undefined || !(client instanceof Client)) {
                     throw new Error(
-                        `MqttClient decorator did not find mqtt client to use`
+                        "MqttClient decorator did not find mqtt client to use",
                     );
                 }
 

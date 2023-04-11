@@ -9,13 +9,13 @@ import { MsgOperatorFactory } from "../util/MsgOperatorFactory";
 
 export function subscribeMsgHandler(this: any, client: Client) {
     //subscribe to the topics on the client object
-    if (this[SUBSCRIPTION_LIST_KEY] == undefined) {
+    if (this[SUBSCRIPTION_LIST_KEY] === undefined) {
         this[SUBSCRIPTION_LIST_KEY] = [];
     }
 
     if (
-        this[MSG_HANDLER_LIST_KEY] == undefined ||
-        this[MSG_HANDLER_LIST_KEY].size == 0
+        this[MSG_HANDLER_LIST_KEY] === undefined ||
+        this[MSG_HANDLER_LIST_KEY].size === 0
     ) {
         return;
     } else {

@@ -9,11 +9,11 @@ import { setBitInBuffer } from "./setBitInBuffer";
 export function genVariableBuffer(variable: tS7Variable): Buffer {
     let variableBuf: Buffer;
 
-    if (variable.type == "BIT") {
-        if (variable.count == undefined) {
+    if (variable.type === "BIT") {
+        if (variable.count === undefined) {
             //single bit
             variableBuf = Buffer.alloc(getS7AddrSize(variable));
-            const bitValue = variable.value! == 0 ? false : true;
+            const bitValue = variable.value! === 0 ? false : true;
             setBitInBuffer(bitValue, variableBuf, variable.bitIndex!);
         } else {
             //array of bit
@@ -25,20 +25,20 @@ export function genVariableBuffer(variable: tS7Variable): Buffer {
                 i++
             ) {
                 const bitValue =
-                    arrayValue[i - variable.bitIndex!] == 0 ? false : true;
+                    arrayValue[i - variable.bitIndex!] === 0 ? false : true;
                 setBitInBuffer(bitValue, variableBuf, i);
             }
         }
     } else {
-        if (variable.count == undefined) {
+        if (variable.count === undefined) {
             variableBuf = DataTypes[variable.type].toBuffer(
                 variable.value as tJsVal,
-                false
+                false,
             );
         } else {
             variableBuf = DataTypes[`ARRAY_OF_${variable.type}`].toBuffer(
                 variable.value as tJsVal,
-                false
+                false,
             );
         }
     }

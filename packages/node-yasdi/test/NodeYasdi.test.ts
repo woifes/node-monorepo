@@ -33,7 +33,7 @@ const createYasdiIniFileMock = (
 const YasdiInitMock = (yasdiInit as unknown as jest.Mock).mockImplementation(
     () => {
         return Promise.resolve();
-    }
+    },
 );
 const SearchDevicesAsyncMock = searchDevicesAsync as unknown as jest.Mock;
 const InverterMock = (Inverter as unknown as jest.Mock).mockImplementation(
@@ -43,7 +43,7 @@ const InverterMock = (Inverter as unknown as jest.Mock).mockImplementation(
             serial: handle * 2,
             onDownloadChannels: jest.fn(),
         };
-    }
+    },
 );
 
 afterEach(() => {
@@ -150,7 +150,7 @@ describe("device search tests", () => {
             (_iniFilePath, deviceSearchCb, _newValueCb) => {
                 devSearchCb = deviceSearchCb;
                 return Promise.resolve();
-            }
+            },
         );
 
         const deviceSearchEndCb = jest.fn();
@@ -173,13 +173,13 @@ describe("device search tests", () => {
             expect(ny.handles).toEqual([1, 11, 111]);
             expect(ny.serials).toEqual([2, 22, 222]);
             expect(
-                ny.getInverterByHandle(1) === ny.getInverterBySerial(2)
+                ny.getInverterByHandle(1) === ny.getInverterBySerial(2),
             ).toBe(true);
             expect(
-                ny.getInverterByHandle(11) === ny.getInverterBySerial(22)
+                ny.getInverterByHandle(11) === ny.getInverterBySerial(22),
             ).toBe(true);
             expect(
-                ny.getInverterByHandle(111) === ny.getInverterBySerial(222)
+                ny.getInverterByHandle(111) === ny.getInverterBySerial(222),
             ).toBe(true);
             done();
         });
@@ -191,7 +191,7 @@ describe("device search tests", () => {
             (_iniFilePath, deviceSearchCb, _newValueCb) => {
                 devSearchCb = deviceSearchCb;
                 return Promise.resolve();
-            }
+            },
         );
         const ny = new NodeYasdi(TEST_ID, {
             expectedDeviceCount: 7,
@@ -214,7 +214,7 @@ describe("device search tests", () => {
             (_iniFilePath, deviceSearchCb, _newValueCb) => {
                 devSearchCb = deviceSearchCb;
                 return Promise.resolve();
-            }
+            },
         );
         const onDownloadChannelsCb = jest.fn();
         const ny = new NodeYasdi(TEST_ID, CONFIG);
@@ -230,7 +230,7 @@ describe("device search tests", () => {
             expect(onDownloadChannelsCb.mock.calls[0]).toEqual([1, 33]);
             expect(
                 (ny.getInverterByHandle(1) as any).onDownloadChannels.mock
-                    .calls[0][0]
+                    .calls[0][0],
             ).toBe(33);
         });
     });

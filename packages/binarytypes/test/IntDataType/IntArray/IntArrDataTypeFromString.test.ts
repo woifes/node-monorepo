@@ -18,7 +18,7 @@ function testDt(
     hexMax: string,
     hexMin: string,
     hexMaxBE: string,
-    hexMinBE: string
+    hexMinBE: string,
 ) {
     //#region defines
     const MAX = max < Number.MAX_SAFE_INTEGER ? Number(max) : max;
@@ -38,7 +38,7 @@ function testDt(
     //#endregion
 
     expect(
-        dt.fromString(`[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`)
+        dt.fromString(`[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`),
     ).toEqual([MAX, MIN, MAX, MIN]);
     expect(() => {
         dt.check(`[ "${BI_MAX + 1n}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`);
@@ -49,21 +49,21 @@ function testDt(
     //from string with float
     expect(
         dt.fromString(
-            `[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}.3", "${BI_MIN}.3" ]`
-        )
+            `[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}.3", "${BI_MIN}.3" ]`,
+        ),
     ).toEqual([MAX, MIN, MAX, MIN]);
     expect(() => {
         dt.check(
-            `[ "${BI_MAX + 1n}.3", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`
+            `[ "${BI_MAX + 1n}.3", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
         );
     }).toThrow();
     expect(() => {
         dt.check(
-            `[ "${BI_MAX}", "${BI_MIN - 1n}.3", "${BI_MAX}", "${BI_MIN}" ]`
+            `[ "${BI_MAX}", "${BI_MIN - 1n}.3", "${BI_MAX}", "${BI_MIN}" ]`,
         );
     }).toThrow();
     expect(() => {
-        dt.check(`no number, nor array`);
+        dt.check("no number, nor array");
     }).toThrow();
 }
 
@@ -86,7 +86,7 @@ test("Test ARRAY_OF_INT32", () => {
         "FFFFFF7F",
         "00000080",
         "7FFFFFFF",
-        "80000000"
+        "80000000",
     );
 });
 
@@ -99,7 +99,7 @@ test("Test ARRAY_OF_INT64", () => {
         "FFFFFFFFFFFFFF7F",
         "0000000000000080",
         "7FFFFFFFFFFFFFFF",
-        "8000000000000000"
+        "8000000000000000",
     );
 });
 
@@ -127,6 +127,6 @@ test("Test ARRAY_OF_UINT64", () => {
         "FFFFFFFFFFFFFFFF",
         "0000000000000000",
         "FFFFFFFFFFFFFFFF",
-        "0000000000000000"
+        "0000000000000000",
     );
 });

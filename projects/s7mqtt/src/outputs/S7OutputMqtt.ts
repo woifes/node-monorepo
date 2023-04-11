@@ -10,16 +10,16 @@ import { S7OutputMqttConfig, tS7OutputMqttConfig } from "./S7OutputMqttConfig";
 
 export class S7OutputMqtt {
     private static normalizeType(
-        variable: tS7Variable //type: TypeName | "BIT" | "ARRAY_OF_BIT"
+        variable: tS7Variable, //type: TypeName | "BIT" | "ARRAY_OF_BIT"
     ): TypeName {
-        if (variable.type == "BIT") {
-            if (variable.count != undefined && variable.count > 1)
+        if (variable.type === "BIT") {
+            if (variable.count !== undefined && variable.count > 1)
                 return "ARRAY_OF_UINT8";
             else {
                 return "UINT8";
             }
         } else {
-            if (variable.count != undefined && variable.count > 1) {
+            if (variable.count !== undefined && variable.count > 1) {
                 return `ARRAY_OF_${variable.type}`;
             } else {
                 return variable.type;
@@ -41,13 +41,13 @@ export class S7OutputMqtt {
         config: tS7OutputMqttConfig,
         s7endpoint: S7Endpoint,
         mqtt: Client,
-        parentDebugger: Debugger
+        parentDebugger: Debugger,
     ) {
         this._config = S7OutputMqttConfig.check(config);
         this._s7ep = s7endpoint;
         this._mqtt = mqtt;
         this._debug = parentDebugger.extend(
-            `mqttOutput:${this._config.pollIntervalMS ?? STD_POLL_INTERVAL_MS}`
+            `mqttOutput:${this._config.pollIntervalMS ?? STD_POLL_INTERVAL_MS}`,
         );
         this._s7out = new S7Output(this._config, this._s7ep, this._debug);
         this._s7out.on("data", this.onData.bind(this));
@@ -65,14 +65,14 @@ export class S7OutputMqtt {
     }
 
     private sendValue(tag: tS7Variable) {
-        const topic = this._topicPrefix + "/" + (tag.name as string);
+        const topic = `${this._topicPrefix}/${(tag.name as string)}`;
         const msg = new Message(topic, this._qos, this._retain);
         if (msg.writeValue(tag.value as any, S7OutputMqtt.normalizeType(tag))) {
             this._mqtt.publishMessageSync(msg);
             return;
         }
         this._debug(
-            `Tag at index ${tag.byteIndex} does not confirm to datatype ${tag.type}`
+            `Tag at index ${tag.byteIndex} does not confirm to datatype ${tag.type}`,
         );
     }
 }

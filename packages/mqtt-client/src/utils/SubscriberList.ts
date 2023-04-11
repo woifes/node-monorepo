@@ -24,7 +24,7 @@ export class SubscriberList {
     private _isStatic: boolean;
 
     constructor(topic: string[], isStatic = false, debug?: Debugger) {
-        if (debug != undefined) {
+        if (debug !== undefined) {
             this._debug = debug.extend(`SL[${topic.join("/")}]`);
         }
         this._topic = topic;
@@ -40,7 +40,7 @@ export class SubscriberList {
             if (qos > max) {
                 max = qos;
             }
-            if (max == 2) {
+            if (max === 2) {
                 break;
             }
         }
@@ -79,9 +79,9 @@ export class SubscriberList {
             try {
                 sub(Message.copy(msg));
             } catch (e) {
-                if (this._debug != undefined) {
+                if (this._debug !== undefined) {
                     this._debug(
-                        `in sendMessage one subscriber threw an exception: ${e}`
+                        `in sendMessage one subscriber threw an exception: ${e}`,
                     );
                 }
             } finally {

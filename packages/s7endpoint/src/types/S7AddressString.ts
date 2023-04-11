@@ -9,7 +9,7 @@ export const S7AddressString = rt.String.withConstraint((s) => {
     try {
         const result = parseS7AddressString(s);
         return (
-            S7Address.validate(result).success == true ||
+            S7Address.validate(result).success === true ||
             "Could not validate result of parsed string"
         );
     } catch (e) {

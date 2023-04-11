@@ -13,11 +13,11 @@ const rtBuffer = rt.Record({}).withConstraint((b) => Buffer.isBuffer(b));
  * * String which can be parsed to number in certain bounds
  */
 export const rtINT8 = rtBuffer
-    .withConstraint((b) => (b as Buffer).length == 1)
+    .withConstraint((b) => (b as Buffer).length === 1)
     .Or(
         rt.Number.Or(rt.BigInt)
             .Or(rt.String)
-            .withConstraint((n) => checkIntSize(n, true, 1))
+            .withConstraint((n) => checkIntSize(n, true, 1)),
     );
 /**
  * Runtype which validates for a 1 byte unsigned integer:
@@ -27,11 +27,11 @@ export const rtINT8 = rtBuffer
  * * String which can be parsed to number in certain bounds
  */
 export const rtUINT8 = rtBuffer
-    .withConstraint((b) => (b as Buffer).length == 1)
+    .withConstraint((b) => (b as Buffer).length === 1)
     .Or(
         rt.Number.Or(rt.BigInt)
             .Or(rt.String)
-            .withConstraint((n) => checkIntSize(n, false, 1))
+            .withConstraint((n) => checkIntSize(n, false, 1)),
     );
 /**
  * Runtype which validates for a 2 byte signed integer:
@@ -41,11 +41,11 @@ export const rtUINT8 = rtBuffer
  * * String which can be parsed to number in certain bounds
  */
 export const rtINT16 = rtBuffer
-    .withConstraint((b) => (b as Buffer).length == 2)
+    .withConstraint((b) => (b as Buffer).length === 2)
     .Or(
         rt.Number.Or(rt.BigInt)
             .Or(rt.String)
-            .withConstraint((n) => checkIntSize(n, true, 2))
+            .withConstraint((n) => checkIntSize(n, true, 2)),
     );
 /**
  * Runtype which validates for a 2 byte unsigned integer:
@@ -55,11 +55,11 @@ export const rtINT16 = rtBuffer
  * * String which can be parsed to number in certain bounds
  */
 export const rtUINT16 = rtBuffer
-    .withConstraint((b) => (b as Buffer).length == 2)
+    .withConstraint((b) => (b as Buffer).length === 2)
     .Or(
         rt.Number.Or(rt.BigInt)
             .Or(rt.String)
-            .withConstraint((n) => checkIntSize(n, false, 2))
+            .withConstraint((n) => checkIntSize(n, false, 2)),
     );
 /**
  * Runtype which validates for a 4 byte signed integer:
@@ -69,11 +69,11 @@ export const rtUINT16 = rtBuffer
  * * String which can be parsed to number in certain bounds
  */
 export const rtINT32 = rtBuffer
-    .withConstraint((b) => (b as Buffer).length == 4)
+    .withConstraint((b) => (b as Buffer).length === 4)
     .Or(
         rt.Number.Or(rt.BigInt)
             .Or(rt.String)
-            .withConstraint((n) => checkIntSize(n, true, 4))
+            .withConstraint((n) => checkIntSize(n, true, 4)),
     );
 /**
  * Runtype which validates for a 4 byte unsigned integer:
@@ -83,11 +83,11 @@ export const rtINT32 = rtBuffer
  * * String which can be parsed to number in certain bounds
  */
 export const rtUINT32 = rtBuffer
-    .withConstraint((b) => (b as Buffer).length == 4)
+    .withConstraint((b) => (b as Buffer).length === 4)
     .Or(
         rt.Number.Or(rt.BigInt)
             .Or(rt.String)
-            .withConstraint((n) => checkIntSize(n, false, 4))
+            .withConstraint((n) => checkIntSize(n, false, 4)),
     );
 /**
  * Runtype which validates for a 8 byte signed integer:
@@ -97,11 +97,11 @@ export const rtUINT32 = rtBuffer
  * * String which can be parsed to number in certain bounds
  */
 export const rtINT64 = rtBuffer
-    .withConstraint((b) => (b as Buffer).length == 8)
+    .withConstraint((b) => (b as Buffer).length === 8)
     .Or(
         rt.Number.Or(rt.BigInt)
             .Or(rt.String)
-            .withConstraint((n) => checkIntSize(n, true, 8))
+            .withConstraint((n) => checkIntSize(n, true, 8)),
     );
 /**
  * Runtype which validates for a 8 byte unsigned integer:
@@ -111,11 +111,11 @@ export const rtINT64 = rtBuffer
  * * String which can be parsed to number in certain bounds
  */
 export const rtUINT64 = rtBuffer
-    .withConstraint((b) => (b as Buffer).length == 8)
+    .withConstraint((b) => (b as Buffer).length === 8)
     .Or(
         rt.Number.Or(rt.BigInt)
             .Or(rt.String)
-            .withConstraint((n) => checkIntSize(n, false, 8))
+            .withConstraint((n) => checkIntSize(n, false, 8)),
     );
 /**
  * Runtype which validates for a 4 byte floating point:
@@ -124,21 +124,21 @@ export const rtUINT64 = rtBuffer
  * * BigInt
  */
 export const rtFLOAT = rtBuffer
-    .withConstraint((b) => (b as Buffer).length == 4)
+    .withConstraint((b) => (b as Buffer).length === 4)
     .Or(
         rt.Number.Or(rt.BigInt)
             .Or(rt.String)
             .withConstraint((n) => {
-                if (typeof n == "string") {
+                if (typeof n === "string") {
                     const p = parseFloat(n);
                     return Number.isFinite(p);
-                } else if (typeof n == "number") {
+                } else if (typeof n === "number") {
                     //Number should be a number
                     return Number.isFinite(n);
                 } else {
                     return true; //BigInt no problem
                 }
-            })
+            }),
     );
 /**
  * Runtype which validates for a 8 byte floating point:
@@ -147,21 +147,21 @@ export const rtFLOAT = rtBuffer
  * * BigInt
  */
 export const rtDOUBLE = rtBuffer
-    .withConstraint((b) => (b as Buffer).length == 8)
+    .withConstraint((b) => (b as Buffer).length === 8)
     .Or(
         rt.Number.Or(rt.BigInt)
             .Or(rt.String)
             .withConstraint((n) => {
-                if (typeof n == "string") {
+                if (typeof n === "string") {
                     const p = parseFloat(n);
                     return Number.isFinite(p);
-                } else if (typeof n == "number") {
+                } else if (typeof n === "number") {
                     //Number should be a number
                     return Number.isFinite(n);
                 } else {
                     return true; //BigInt no problem
                 }
-            })
+            }),
     );
 /**
  * Runtype which validates for a string (or Buffer)
@@ -182,7 +182,7 @@ export const rtARRAY_OF_INT8 = rtBuffer
             } catch {
                 return false;
             }
-        })
+        }),
     )
     .Or(rt.Array(rtINT8));
 /**
@@ -200,7 +200,7 @@ export const rtARRAY_OF_UINT8 = rtBuffer
             } catch {
                 return false;
             }
-        })
+        }),
     )
     .Or(rt.Array(rtUINT8));
 /**
@@ -211,7 +211,7 @@ export const rtARRAY_OF_UINT8 = rtBuffer
  */
 export const rtARRAY_OF_INT16 = rtBuffer
     .withConstraint(
-        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 2 == 0
+        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 2 === 0,
     )
     .Or(
         rt.String.withConstraint((s) => {
@@ -220,7 +220,7 @@ export const rtARRAY_OF_INT16 = rtBuffer
             } catch {
                 return false;
             }
-        })
+        }),
     )
     .Or(rt.Array(rtINT16));
 /**
@@ -231,7 +231,7 @@ export const rtARRAY_OF_INT16 = rtBuffer
  */
 export const rtARRAY_OF_UINT16 = rtBuffer
     .withConstraint(
-        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 2 == 0
+        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 2 === 0,
     )
     .Or(
         rt.String.withConstraint((s) => {
@@ -240,7 +240,7 @@ export const rtARRAY_OF_UINT16 = rtBuffer
             } catch {
                 return false;
             }
-        })
+        }),
     )
     .Or(rt.Array(rtUINT16));
 /**
@@ -251,7 +251,7 @@ export const rtARRAY_OF_UINT16 = rtBuffer
  */
 export const rtARRAY_OF_INT32 = rtBuffer
     .withConstraint(
-        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 4 == 0
+        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 4 === 0,
     )
     .Or(
         rt.String.withConstraint((s) => {
@@ -260,7 +260,7 @@ export const rtARRAY_OF_INT32 = rtBuffer
             } catch {
                 return false;
             }
-        })
+        }),
     )
     .Or(rt.Array(rtINT32));
 /**
@@ -271,7 +271,7 @@ export const rtARRAY_OF_INT32 = rtBuffer
  */
 export const rtARRAY_OF_UINT32 = rtBuffer
     .withConstraint(
-        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 4 == 0
+        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 4 === 0,
     )
     .Or(
         rt.String.withConstraint((s) => {
@@ -280,7 +280,7 @@ export const rtARRAY_OF_UINT32 = rtBuffer
             } catch {
                 return false;
             }
-        })
+        }),
     )
     .Or(rt.Array(rtUINT32));
 /**
@@ -291,7 +291,7 @@ export const rtARRAY_OF_UINT32 = rtBuffer
  */
 export const rtARRAY_OF_INT64 = rtBuffer
     .withConstraint(
-        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 8 == 0
+        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 8 === 0,
     )
     .Or(
         rt.String.withConstraint((s) => {
@@ -300,7 +300,7 @@ export const rtARRAY_OF_INT64 = rtBuffer
             } catch {
                 return false;
             }
-        })
+        }),
     )
     .Or(rt.Array(rtINT64));
 /**
@@ -311,7 +311,7 @@ export const rtARRAY_OF_INT64 = rtBuffer
  */
 export const rtARRAY_OF_UINT64 = rtBuffer
     .withConstraint(
-        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 8 == 0
+        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 8 === 0,
     )
     .Or(
         rt.String.withConstraint((s) => {
@@ -320,7 +320,7 @@ export const rtARRAY_OF_UINT64 = rtBuffer
             } catch {
                 return false;
             }
-        })
+        }),
     )
     .Or(rt.Array(rtUINT64));
 /**
@@ -331,7 +331,7 @@ export const rtARRAY_OF_UINT64 = rtBuffer
  */
 export const rtARRAY_OF_FLOAT = rtBuffer
     .withConstraint(
-        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 4 == 0
+        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 4 === 0,
     )
     .Or(
         rt.String.withConstraint((s) => {
@@ -340,7 +340,7 @@ export const rtARRAY_OF_FLOAT = rtBuffer
             } catch {
                 return false;
             }
-        })
+        }),
     )
     .Or(rt.Array(rtFLOAT));
 /**
@@ -351,7 +351,7 @@ export const rtARRAY_OF_FLOAT = rtBuffer
  */
 export const rtARRAY_OF_DOUBLE = rtBuffer
     .withConstraint(
-        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 8 == 0
+        (b) => (b as Buffer).length > 0 && (b as Buffer).length % 8 === 0,
     )
     .Or(
         rt.String.withConstraint((s) => {
@@ -360,7 +360,7 @@ export const rtARRAY_OF_DOUBLE = rtBuffer
             } catch {
                 return false;
             }
-        })
+        }),
     )
     .Or(rt.Array(rtDOUBLE));
 /**
@@ -388,6 +388,6 @@ export const rtARRAY_OF_STRING = rtBuffer
             } catch {
                 return false;
             }
-        })
+        }),
     )
     .Or(rt.Array(rt.String));

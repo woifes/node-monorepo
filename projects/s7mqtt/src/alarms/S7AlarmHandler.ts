@@ -41,7 +41,7 @@ type DiscreteAlarmAddresses = {
 export class S7AlarmHandler {
     private static incBitAddress(addr: tS7Address) {
         const newAddr = { ...addr };
-        if (newAddr.bitIndex == undefined) {
+        if (newAddr.bitIndex === undefined) {
             throw new Error("No bitIndex defined on new address");
         }
         newAddr.bitIndex++;
@@ -53,16 +53,16 @@ export class S7AlarmHandler {
     }
     private static alarmBulkToArray(
         bulk: tS7AlarmAddress,
-        count: number
+        count: number,
     ): DiscreteAlarmAddresses[] {
         const addrArr: DiscreteAlarmAddresses[] = [];
         let signal = { ...parseS7AddressString(bulk.signal) };
         let ackOut =
-            bulk.ackOut != undefined
+            bulk.ackOut !== undefined
                 ? { ...parseS7AddressString(bulk.ackOut) }
                 : undefined;
         let ackIn =
-            bulk.ackIn != undefined
+            bulk.ackIn !== undefined
                 ? { ...parseS7AddressString(bulk.ackIn) }
                 : undefined;
         for (let i = 0; i < count; i++) {
@@ -73,10 +73,10 @@ export class S7AlarmHandler {
             };
             addrArr.push(addr);
             signal = this.incBitAddress(signal);
-            if (ackOut != undefined) {
+            if (ackOut !== undefined) {
                 ackOut = this.incBitAddress(ackOut);
             }
-            if (ackIn != undefined) {
+            if (ackIn !== undefined) {
                 ackIn = this.incBitAddress(ackIn);
             }
         }
@@ -97,7 +97,7 @@ export class S7AlarmHandler {
         config: tS7AlarmHandlerConfig,
         s7endpoint: S7Endpoint,
         mqtt: Client,
-        parentDebugger: Debugger
+        parentDebugger: Debugger,
     ) {
         this._config = S7AlarmHandlerConfig.check(config);
         this._debug = parentDebugger?.extend("alarmHandler");
@@ -110,17 +110,17 @@ export class S7AlarmHandler {
                     signal: parseS7AddressString(alarmAddress.signal),
                     invertSignal: alarmAddress.invertSignal,
                 };
-                if (alarmAddress.ackIn != undefined) {
+                if (alarmAddress.ackIn !== undefined) {
                     discreteAlarm.ackIn = parseS7AddressString(
-                        alarmAddress.ackIn
+                        alarmAddress.ackIn,
                     );
                 }
-                if (alarmAddress.ackOut != undefined) {
+                if (alarmAddress.ackOut !== undefined) {
                     discreteAlarm.ackOut = parseS7AddressString(
-                        alarmAddress.ackOut
+                        alarmAddress.ackOut,
                     );
                 }
-                if (alarmAddress.parameter != undefined) {
+                if (alarmAddress.parameter !== undefined) {
                     discreteAlarm.params = [];
                     for (const param of alarmAddress.parameter) {
                         discreteAlarm.params.push(parseS7AddressString(param));
@@ -132,7 +132,7 @@ export class S7AlarmHandler {
         } else {
             discreteAlarms = S7AlarmHandler.alarmBulkToArray(
                 this._config.alarms,
-                this._config.numOfAlarms
+                this._config.numOfAlarms,
             );
         }
         this.setupAlarmTags(discreteAlarms);
@@ -146,7 +146,7 @@ export class S7AlarmHandler {
                     this._alarmHandlerMqtt.presentAlarmWatchdogTimeS * 500, //half of the time the watchdog needs
             },
             this._s7ep,
-            this._debug
+            this._debug,
         );
 
         this.initializeAllAckIn().finally(() => {
@@ -174,24 +174,24 @@ export class S7AlarmHandler {
         for (const discreteAlarm of discreteAlarms) {
             const s7Alarm: S7Alarm = {
                 signalIndex: pushTagToList(
-                    stringifyS7Address(discreteAlarm.signal)
+                    stringifyS7Address(discreteAlarm.signal),
                 ),
                 invertSignal: discreteAlarm.invertSignal ?? false,
             };
-            if (discreteAlarm.params != undefined) {
+            if (discreteAlarm.params !== undefined) {
                 s7Alarm.params = [];
                 for (const param of discreteAlarm.params) {
                     s7Alarm.params.push(
-                        pushTagToList(stringifyS7Address(param))
+                        pushTagToList(stringifyS7Address(param)),
                     );
                 }
             }
-            if (discreteAlarm.ackOut != undefined) {
+            if (discreteAlarm.ackOut !== undefined) {
                 s7Alarm.ackOut = pushTagToList(
-                    stringifyS7Address(discreteAlarm.ackOut)
+                    stringifyS7Address(discreteAlarm.ackOut),
                 );
             }
-            if (discreteAlarm.ackIn != undefined) {
+            if (discreteAlarm.ackIn !== undefined) {
                 s7Alarm.ackIn = { ...discreteAlarm.ackIn };
             }
 
@@ -218,7 +218,7 @@ export class S7AlarmHandler {
      * @param tags
      */
     private onOutput(tags: tS7Variable[]) {
-        this._debug(`onOutput`);
+        this._debug("onOutput");
         for (let i = 1; i <= this._config.numOfAlarms; i++) {
             const s7Alarm = this._s7Alarms.get(i)!;
             let signalValue =
@@ -227,14 +227,14 @@ export class S7AlarmHandler {
                 signalValue = !signalValue;
             }
             const paramValues: any[] = [];
-            if (s7Alarm.params != undefined) {
+            if (s7Alarm.params !== undefined) {
                 for (const paramIndex of s7Alarm.params) {
                     paramValues.push(tags[paramIndex].value);
                 }
             }
             this._alarmHandlerMqtt.updateSignal(i, signalValue, ...paramValues);
 
-            if (s7Alarm.ackOut != undefined) {
+            if (s7Alarm.ackOut !== undefined) {
                 const ackOutVal =
                     (tags[s7Alarm.ackOut].value as number) > 0 ? true : false;
                 if (ackOutVal) {
@@ -250,11 +250,11 @@ export class S7AlarmHandler {
         const tags: tS7Variable[] = [];
         for (const [alarmNr, s7Alarm] of this._s7Alarms) {
             const ackIn = s7Alarm.ackIn;
-            if (ackIn != undefined) {
+            if (ackIn !== undefined) {
                 let value = 0;
                 if (
-                    presentAlarms.alarms[alarmNr] != undefined &&
-                    presentAlarms.alarms[alarmNr].ackTime != undefined
+                    presentAlarms.alarms[alarmNr] !== undefined &&
+                    presentAlarms.alarms[alarmNr].ackTime !== undefined
                 ) {
                     value = 1;
                 }
@@ -288,7 +288,7 @@ export class S7AlarmHandler {
 
     private async setAckIn(alarmNr: number, value: boolean) {
         const ackTag = this._s7Alarms.get(alarmNr)?.ackIn;
-        if (ackTag != undefined) {
+        if (ackTag !== undefined) {
             const ackVar: tS7Variable = { ...ackTag, value: value ? 1 : 0 };
             const writeReq = this._s7ep.createWriteRequest([ackVar]);
             return writeReq.execute();

@@ -12,7 +12,7 @@ import { Message } from "../Message";
  * @returns
  */
 export function MinQos(
-    minQos: QoS
+    minQos: QoS,
 ): (source: Observable<Message>) => Observable<Message> {
     return filter((value: Message) => {
         return value.qos >= minQos;

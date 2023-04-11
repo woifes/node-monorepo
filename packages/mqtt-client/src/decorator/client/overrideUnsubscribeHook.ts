@@ -9,9 +9,9 @@ import {
 } from "../constants";
 
 export function overrideUnsubscribeHook(this: any) {
-    if (this[UNSUBSCRIBE_HOOK_NAME] != undefined) {
+    if (this[UNSUBSCRIBE_HOOK_NAME] !== undefined) {
         const usm = this[this[UNSUBSCRIBE_HOOK_NAME]];
-        if (usm != undefined && typeof usm == "function") {
+        if (usm !== undefined && typeof usm === "function") {
             this[this[UNSUBSCRIBE_HOOK_NAME]] = function (...args: any[]) {
                 for (let i = 0; i < this[SUBSCRIPTION_LIST_KEY].length; i++) {
                     this[SUBSCRIPTION_LIST_KEY][i].unsubscribe(); //call the unsubscribe function
@@ -32,7 +32,7 @@ export function overrideUnsubscribeHook(this: any) {
             };
         } else {
             throw new Error(
-                `MqttClient: given unsubscribe method could not be found: ${this[UNSUBSCRIBE_HOOK_NAME]}`
+                `MqttClient: given unsubscribe method could not be found: ${this[UNSUBSCRIBE_HOOK_NAME]}`,
             );
         }
     }

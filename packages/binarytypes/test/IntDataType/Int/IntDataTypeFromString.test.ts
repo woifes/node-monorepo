@@ -18,7 +18,7 @@ function testDt(
     hexMax: string,
     hexMin: string,
     hexMaxBE: string,
-    hexMinBE: string
+    hexMinBE: string,
 ) {
     //#region defines
     const MAX = max < Number.MAX_SAFE_INTEGER ? Number(max) : max;
@@ -40,8 +40,8 @@ function testDt(
     expect(dt.fromString(S_MAX)).toBe(MAX);
     expect(dt.fromString(S_MIN)).toBe(MIN);
 
-    expect(dt.fromString(S_MAX + ".3")).toBe(MAX);
-    expect(dt.fromString(S_MIN + ".3")).toBe(MIN);
+    expect(dt.fromString(`${S_MAX}.3`)).toBe(MAX);
+    expect(dt.fromString(`${S_MIN}.3`)).toBe(MIN);
 
     expect(() => {
         dt.fromString("no number");
@@ -67,7 +67,7 @@ test("Validation INT32", () => {
         "FFFFFF7F",
         "00000080",
         "7FFFFFFF",
-        "80000000"
+        "80000000",
     );
 });
 
@@ -80,7 +80,7 @@ test("Validation INT64", () => {
         "FFFFFFFFFFFFFF7F",
         "0000000000000080",
         "7FFFFFFFFFFFFFFF",
-        "8000000000000000"
+        "8000000000000000",
     );
 });
 
@@ -108,6 +108,6 @@ test("Validation UINT64", () => {
         "FFFFFFFFFFFFFFFF",
         "0000000000000000",
         "FFFFFFFFFFFFFFFF",
-        "0000000000000000"
+        "0000000000000000",
     );
 });

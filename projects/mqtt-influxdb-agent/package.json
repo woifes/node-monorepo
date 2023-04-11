@@ -1,6 +1,6 @@
 {
   "name": "@woifes/mqtt-influxdb-agent",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "files": [
     "dist"
@@ -11,9 +11,8 @@
     "start": "node ./dist/index.js",
     "test": "jest",
     "compile": "tsc -p tsconfig.build.json",
-    "prettier": "prettier -w ./src/**/*.ts ./test/**/*.ts ./index.ts",
-    "lint": "eslint ./src/ ./test/ ./index.ts --fix",
-    "lint:check": "eslint ./src/ ./test/ ./index.ts",
+    "format": "rome format --write .",
+    "lint": "rome check --apply-unsafe .",
     "prepare": "pnpm compile",
     "docker:build": "docker build -t monorepo ../../ && ver && docker build -t mqtt-influxdb-agent:%npm_package_version% . || docker build -t mqtt-influxdb-agent:$npm_package_version .",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
@@ -22,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "@influxdata/influxdb-client": "^1.33.2",
-    "@woifes/mqtt-client": "workspace:0.2.1",
+    "@woifes/mqtt-client": "workspace:0.2.2",
     "debug": "^4.3.2",
     "runtypes": "^6.5.1",
     "yaml": "^2.2.1"

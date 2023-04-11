@@ -8,7 +8,7 @@ export const PresentAlarmsInfo = rt.Record({
     time: rt.String.withConstraint((s) => Number.isFinite(Date.parse(s))),
     alarms: rt.Dictionary(
         AlarmJsonObject,
-        rt.Number.withConstraint((n) => n > 0)
+        rt.Number.withConstraint((n) => n > 0),
     ),
 });
 

@@ -9,11 +9,11 @@ import {
 } from "../constants";
 
 export function addConnectionHandler(this: any, client: Client) {
-    if (this[UNSUBSCRIBE_CONNECTION_HANDLER_LIST_KEY] == undefined) {
+    if (this[UNSUBSCRIBE_CONNECTION_HANDLER_LIST_KEY] === undefined) {
         this[UNSUBSCRIBE_CONNECTION_HANDLER_LIST_KEY] = [];
     }
 
-    if (this[CONNECTION_HANDLER_LIST_KEY] != undefined) {
+    if (this[CONNECTION_HANDLER_LIST_KEY] !== undefined) {
         const list: ((isOnline: boolean) => void)[] =
             this[CONNECTION_HANDLER_LIST_KEY];
         const unsubList = this[

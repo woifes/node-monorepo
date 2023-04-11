@@ -18,7 +18,7 @@ function testDt(
     hexMax: string,
     hexMin: string,
     hexMaxBE: string,
-    hexMinBE: string
+    hexMinBE: string,
 ) {
     //#region defines
     const MAX = max < Number.MAX_SAFE_INTEGER ? Number(max) : max;
@@ -39,19 +39,19 @@ function testDt(
 
     expect(dt.fromBuffer(BUF_MAX)).toBe(MAX);
     expect(() => {
-        dt.fromBuffer(hexBuf("10" + X_MAX));
+        dt.fromBuffer(hexBuf(`10${X_MAX}`));
     }).toThrow();
     expect(dt.fromBuffer(BUF_MAX_BE, false)).toBe(MAX);
     expect(() => {
-        dt.fromBuffer(hexBuf("10" + X_MAX_BE), false);
+        dt.fromBuffer(hexBuf(`10${X_MAX_BE}`), false);
     }).toThrow();
     expect(dt.fromBuffer(BUF_MIN)).toBe(MIN);
     expect(() => {
-        dt.fromBuffer(hexBuf("10" + X_MIN));
+        dt.fromBuffer(hexBuf(`10${X_MIN}`));
     }).toThrow();
     expect(dt.fromBuffer(BUF_MIN_BE, false)).toBe(MIN);
     expect(() => {
-        dt.fromBuffer(hexBuf("10" + X_MIN_BE), false);
+        dt.fromBuffer(hexBuf(`10${X_MIN_BE}`), false);
     }).toThrow();
 }
 
@@ -80,7 +80,7 @@ test("Validation INT32", () => {
         "FFFFFF7F",
         "00000080",
         "7FFFFFFF",
-        "80000000"
+        "80000000",
     );
 
     expect(dt.fromBuffer(hexBuf("12345678"))).toBe(2018915346);
@@ -96,14 +96,14 @@ test("Validation INT64", () => {
         "FFFFFFFFFFFFFF7F",
         "0000000000000080",
         "7FFFFFFFFFFFFFFF",
-        "8000000000000000"
+        "8000000000000000",
     );
 
     expect(dt.fromBuffer(hexBuf("1234567890ABCDEF"))).toBe(
-        -1167088091436534766n
+        -1167088091436534766n,
     );
     expect(dt.fromBuffer(hexBuf("EFCDAB9078563412"), false)).toBe(
-        -1167088091436534766n
+        -1167088091436534766n,
     );
 });
 
@@ -142,13 +142,13 @@ test("Validation UINT64", () => {
         "FFFFFFFFFFFFFFFF",
         "0000000000000000",
         "FFFFFFFFFFFFFFFF",
-        "0000000000000000"
+        "0000000000000000",
     );
 
     expect(dt.fromBuffer(hexBuf("1234567890ABCDEF"))).toBe(
-        17279655982273016850n
+        17279655982273016850n,
     );
     expect(dt.fromBuffer(hexBuf("EFCDAB9078563412"), false)).toBe(
-        17279655982273016850n
+        17279655982273016850n,
     );
 });

@@ -24,11 +24,11 @@ export class TopicMap<T> {
     private _sublevels: Map<string, TopicMap<T>> = new Map();
     constructor(
         private wildCardsOnInsert: boolean,
-        private isRoot: boolean = true
+        private isRoot: boolean = true,
     ) {}
 
     get isEmpty(): boolean {
-        return this._value == undefined && this._sublevels.size == 0;
+        return this._value === undefined && this._sublevels.size === 0;
     }
 
     /**
@@ -49,7 +49,7 @@ export class TopicMap<T> {
     private validateInsertTopic(topic: string[]): boolean {
         if (this.isRoot) {
             //do not allow an empty topic
-            if (topic.length == 0) {
+            if (topic.length === 0) {
                 return false;
             }
 
@@ -57,7 +57,7 @@ export class TopicMap<T> {
                 return !topic.includes("+") && !topic.includes("#");
             } else {
                 const indexOfHash = topic.indexOf("#");
-                if (indexOfHash != -1 && indexOfHash != topic.length - 1) {
+                if (indexOfHash !== -1 && indexOfHash !== topic.length - 1) {
                     return false;
                 }
             }
@@ -72,7 +72,7 @@ export class TopicMap<T> {
      */
     private validateSearchTopic(topic: string[]): boolean {
         if (this.isRoot) {
-            if (topic.length == 0) {
+            if (topic.length === 0) {
                 return false;
             }
 
@@ -80,7 +80,7 @@ export class TopicMap<T> {
                 return !topic.includes("+") && !topic.includes("#");
             } else {
                 const indexOfHash = topic.indexOf("#");
-                if (indexOfHash != -1 && indexOfHash != topic.length - 1) {
+                if (indexOfHash !== -1 && indexOfHash !== topic.length - 1) {
                     return false;
                 }
             }
@@ -98,12 +98,12 @@ export class TopicMap<T> {
         if (!this.validateInsertTopic(topic)) {
             return;
         }
-        if (topic.length == 0) {
+        if (topic.length === 0) {
             this._value = value;
         } else {
             const nextLevelKey = topic[0];
             let next = this.getNextLevel(topic);
-            if (next == undefined) {
+            if (next === undefined) {
                 next = new TopicMap(this.wildCardsOnInsert, false);
                 this._sublevels.set(nextLevelKey, next);
             }
@@ -121,11 +121,11 @@ export class TopicMap<T> {
         if (!this.validateInsertTopic(topic)) {
             return undefined;
         }
-        if (topic.length == 0) {
+        if (topic.length === 0) {
             return this._value;
         } else {
             const next = this.getNextLevel(topic);
-            if (next != undefined) {
+            if (next !== undefined) {
                 return next.getValue(topic);
             } else {
                 return undefined;
@@ -142,12 +142,12 @@ export class TopicMap<T> {
         if (!this.validateInsertTopic(topic)) {
             return;
         }
-        if (topic.length == 0) {
+        if (topic.length === 0) {
             delete this._value;
         } else {
             const nextLevelKey = topic[0];
             const next = this.getNextLevel(topic);
-            if (next != undefined) {
+            if (next !== undefined) {
                 next.deleteValue(topic);
                 if (next.isEmpty) {
                     this._sublevels.delete(nextLevelKey);
@@ -161,7 +161,7 @@ export class TopicMap<T> {
      * @param filter the filter function to test all values
      */
     deleteByFiler(filter: (arg0: T) => boolean) {
-        if (this._value != undefined && filter(this._value)) {
+        if (this._value !== undefined && filter(this._value)) {
             delete this._value;
         }
         for (const [key, next] of this._sublevels) {
@@ -181,36 +181,36 @@ export class TopicMap<T> {
         if (!this.validateSearchTopic(topic)) {
             return;
         }
-        if (topic.length == 0) {
-            if (!this.isRoot && this._value != undefined) {
+        if (topic.length === 0) {
+            if (!this.isRoot && this._value !== undefined) {
                 yield this._value;
                 return;
             }
         } else {
             const nextLevelKey = topic[0];
-            if (nextLevelKey == "#") {
+            if (nextLevelKey === "#") {
                 for (const next of this._sublevels.values()) {
                     yield* next.allValues();
                 }
-            } else if (nextLevelKey == "+") {
+            } else if (nextLevelKey === "+") {
                 topic.splice(0, 1);
                 for (const next of this._sublevels.values()) {
                     yield* next.findValues(topic);
                 }
             } else {
                 let next = this.getNextLevel(topic);
-                if (next != undefined) {
+                if (next !== undefined) {
                     yield* next.findValues(topic);
                 }
 
                 //+ wildcard on this level
                 next = this._sublevels.get("+");
-                if (next != undefined) {
+                if (next !== undefined) {
                     yield* next.findValues(topic);
                 }
                 //# on this level (insertion topic validation ensures that there are no more following levels)
                 next = this._sublevels.get("#");
-                if (next != undefined) {
+                if (next !== undefined) {
                     yield* next.findValues([]);
                 }
             }
@@ -221,10 +221,10 @@ export class TopicMap<T> {
      * Generator function which returns all values inside the map
      */
     *allValues(): Generator<T> {
-        if (!this.isRoot && this._value != undefined) {
+        if (!this.isRoot && this._value !== undefined) {
             yield this._value;
         }
-        if (this._sublevels != undefined) {
+        if (this._sublevels !== undefined) {
             for (const value of this._sublevels.values()) {
                 yield* value.allValues();
             }
@@ -239,17 +239,17 @@ export class TopicMap<T> {
      */
     generateObject(
         valueKey = "",
-        valueTransform: (value: T) => any = (v) => v
+        valueTransform: (value: T) => any = (v) => v,
     ) {
         const getValue = () => {
             return valueTransform(this._value!);
         };
-        if (this._value != undefined && this._sublevels.size == 0) {
+        if (this._value !== undefined && this._sublevels.size === 0) {
             return getValue();
         }
 
         const obj: any = {};
-        if (this._value != undefined) {
+        if (this._value !== undefined) {
             obj[valueKey] = getValue();
         }
         for (const [key, sublevel] of this._sublevels) {

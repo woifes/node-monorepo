@@ -10,7 +10,7 @@ const combineMerge = (target: any, source: any, options: any) => {
         if (typeof destination[index] === "undefined") {
             destination[index] = options.cloneUnlessOtherwiseSpecified(
                 item,
-                options
+                options,
             );
         } else if (options.isMergeableObject(item) as boolean) {
             destination[index] = deepmerge(target[index], item, options);

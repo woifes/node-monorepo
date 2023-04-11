@@ -7,7 +7,7 @@ export const InfluxWritePrecision = rt.Union(
     rt.Literal("ns"),
     rt.Literal("us"),
     rt.Literal("ms"),
-    rt.Literal("s")
+    rt.Literal("s"),
 );
 
 export type tInfluxWritePrecision = rt.Static<typeof InfluxWritePrecision>;

@@ -39,22 +39,22 @@ export class Client {
 
     constructor(config: tClientConfig) {
         this._config = ClientConfig.check(config);
-        this._useCache = this._config.messageCacheTimeS != undefined;
+        this._useCache = this._config.messageCacheTimeS !== undefined;
 
         this._debug = debug(`MqttClient(${this._config.clientId})`);
         this._debugCache = this._debug.extend("cache");
 
         this._incomingStore = new UniqueTopicStore(
-            this._debug.extend("inStore")
+            this._debug.extend("inStore"),
         );
         this._outgoingStore = new UniqueTopicStore(
-            this._debug.extend("outStore")
+            this._debug.extend("outStore"),
         );
 
-        if (this._config.auth != undefined) {
+        if (this._config.auth !== undefined) {
             this.connectToBroker(
                 this._config.auth.username,
-                this._config.auth.password
+                this._config.auth.password,
             );
         }
     }
@@ -63,7 +63,7 @@ export class Client {
      * self created property (not directly from the underlying client)
      */
     get connected(): boolean {
-        return this._mqttClient != undefined
+        return this._mqttClient !== undefined
             ? this._mqttClient.connected
             : false;
     }
@@ -87,7 +87,7 @@ export class Client {
             username: username,
             password: password,
             will:
-                this._config.notifyPresencePrefix != undefined
+                this._config.notifyPresencePrefix !== undefined
                     ? {
                           topic: `${this._config.notifyPresencePrefix}/${this._config.clientId}`,
                           payload: "0",
@@ -107,7 +107,7 @@ export class Client {
             "message",
             (topic: string, message: Buffer, packet: MqttPubPacket) => {
                 this.onMessageCallback(topic, message, packet);
-            }
+            },
         );
         this._mqttClient.on("error", (e: Error) => {
             this._debug(`underlying client emitted error: ${e}`);
@@ -119,7 +119,7 @@ export class Client {
         if (this._useCache && this._config.messageCacheTimeS! > 0) {
             this._mqttClient.once("message", () => {
                 this._debugCache(
-                    `first message after creation start timeout for checking message cache`
+                    "first message after creation start timeout for checking message cache",
                 );
                 setTimeout(() => {
                     this.checkCache();
@@ -133,13 +133,13 @@ export class Client {
      * @param createNewStores If true creates two new instances of the message stores before reconnecting
      */
     reconnect(createNewStores = false) {
-        if (this._mqttClient != undefined) {
+        if (this._mqttClient !== undefined) {
             if (createNewStores) {
                 this._incomingStore = new UniqueTopicStore(
-                    this._debug.extend("inStore")
+                    this._debug.extend("inStore"),
                 );
                 this._outgoingStore = new UniqueTopicStore(
-                    this._debug.extend("outStore")
+                    this._debug.extend("outStore"),
                 );
             }
             this._mqttClient.reconnect({
@@ -162,14 +162,14 @@ export class Client {
         value: any,
         type: TypeName | "STRING" | "JSON" = "STRING",
         QoS: QoS = 0,
-        retain = false
+        retain = false,
     ): Promise<void> {
         const m = new Message(topic, QoS, retain);
         let res: boolean;
         this._debug(
-            `publishValue(): topic:${topic} | type:${type} | value:${value}`
+            `publishValue(): topic:${topic} | type:${type} | value:${value}`,
         );
-        if (type == "JSON") {
+        if (type === "JSON") {
             res = m.writeJSON(value);
         } else {
             res = m.writeValue(value, type);
@@ -195,7 +195,7 @@ export class Client {
         value: any,
         type: TypeName | "STRING" | "JSON" = "STRING",
         QoS: QoS = 0,
-        retain = false
+        retain = false,
     ) {
         this.publishValue(topic, value, type, QoS, retain).catch(() => {});
     }
@@ -205,16 +205,16 @@ export class Client {
      * @param msg the message to send
      */
     publishMessage(msg: Message): Promise<void> {
-        if (this._mqttClient != undefined) {
+        if (this._mqttClient !== undefined) {
             if (msg.body.length > 0) {
                 const strTopic = msg.topic.join("/");
                 if (
                     RtMqttTopic.validate(msg.topic).success &&
-                    strTopic.indexOf("+") == -1 &&
-                    strTopic.indexOf("#") == -1
+                    strTopic.indexOf("+") === -1 &&
+                    strTopic.indexOf("#") === -1
                 ) {
                     this._debug(
-                        `going to publish message. topic:${msg.topic} | payload:${msg.body}`
+                        `going to publish message. topic:${msg.topic} | payload:${msg.body}`,
                     );
                     return new Promise((resolve, reject) => {
                         this._mqttClient!.publish(
@@ -225,33 +225,33 @@ export class Client {
                                 retain: msg.retain,
                                 cbStorePut: () => {
                                     this._debug(
-                                        `published message was put into store. topic:${msg.topic} | payload:${msg.body}`
+                                        `published message was put into store. topic:${msg.topic} | payload:${msg.body}`,
                                     );
                                 },
                             },
                             (error) => {
-                                if (error != undefined) {
+                                if (error !== undefined) {
                                     this._debug(
-                                        `message not published. topic:${msg.topic} | payload:${msg.body} | error: ${error}`
+                                        `message not published. topic:${msg.topic} | payload:${msg.body} | error: ${error}`,
                                     );
                                     reject(error);
                                 } else {
                                     this._debug(
-                                        `message successfully published. topic:${msg.topic} | payload:${msg.body}`
+                                        `message successfully published. topic:${msg.topic} | payload:${msg.body}`,
                                     );
                                     resolve();
                                 }
-                            }
+                            },
                         );
                     });
                 } else {
                     return Promise.reject(
-                        new Error("Topic on message not correct")
+                        new Error("Topic on message not correct"),
                     );
                 }
             } else {
                 return Promise.reject(
-                    new Error("can not publish empty message")
+                    new Error("can not publish empty message"),
                 );
             }
         } else {
@@ -279,14 +279,14 @@ export class Client {
     private subscribeCb(
         topic: string,
         qos: QoS,
-        cb: (msg: Message) => void
+        cb: (msg: Message) => void,
     ): () => void {
         this._debug(`handler subscribed: topic: ${topic} | qos:${qos}`);
         const t = topic.split("/");
         let subscriberList = this._subscriberMap.getValue(t);
         let lastQos = -1;
-        if (subscriberList == undefined) {
-            this._debug(`going to create new SubscriberList`);
+        if (subscriberList === undefined) {
+            this._debug("going to create new SubscriberList");
             subscriberList = new SubscriberList(t, false, this._debug);
             this._subscriberMap.setValue(t, subscriberList);
         } else {
@@ -294,26 +294,26 @@ export class Client {
         }
 
         subscriberList.addSubscriber(cb, qos);
-        if (lastQos == -1 || subscriberList.maxQos > lastQos) {
+        if (lastQos === -1 || subscriberList.maxQos > lastQos) {
             this._debug(
-                `going to send send subscribe to the underlying mqtt client`
+                "going to send send subscribe to the underlying mqtt client",
             );
             this.sendSubscribe(topic, subscriberList.maxQos, (err, granted) => {
                 this._debug(
-                    `subscribe callback. err: ${err} | granted: ${granted}`
+                    `subscribe callback. err: ${err} | granted: ${granted}`,
                 );
             });
         }
 
         for (const msg of this._messageCache.findValues(t)) {
             this._debugCache(
-                `found message in cache for new subscribed handler. topic: ${msg.topic}`
+                `found message in cache for new subscribed handler. topic: ${msg.topic}`,
             );
             try {
                 cb(msg);
             } catch (e) {
                 this._debug(
-                    `on subscribe the callback threw an exception with cached message: ${e}`
+                    `on subscribe the callback threw an exception with cached message: ${e}`,
                 );
             }
         }
@@ -354,7 +354,7 @@ export class Client {
 
             return () => {
                 const i = this._extOnConnectionHandler.indexOf(handler);
-                if (i != -1 && this._mqttClient != undefined) {
+                if (i !== -1 && this._mqttClient !== undefined) {
                     this._extOnConnectionHandler.splice(i, 1);
                 }
             };
@@ -365,7 +365,7 @@ export class Client {
      * Callback which is called when the mqtt client connects
      */
     private onConnectCallback() {
-        this._debug(`onConnectCallback start`);
+        this._debug("onConnectCallback start");
 
         for (const list of this._subscriberMap.allValues()) {
             const topic = list.topic.join("/");
@@ -373,7 +373,7 @@ export class Client {
             this.sendSubscribe(topic, list.maxQos);
         }
 
-        if (this._config.notifyPresencePrefix != undefined) {
+        if (this._config.notifyPresencePrefix !== undefined) {
             const topic = `${this._config.notifyPresencePrefix}/${this._config.clientId}`;
             this._debug(`send presence message to: ${topic}`);
             const msg = new Message(topic, 2, true);
@@ -386,7 +386,7 @@ export class Client {
                 this._extOnConnectionHandler[i](true);
             } catch (e) {
                 this._debug(
-                    `in onConnectCallback one external connection handler threw an exception: ${e}`
+                    `in onConnectCallback one external connection handler threw an exception: ${e}`,
                 );
             }
         }
@@ -401,7 +401,7 @@ export class Client {
                 this._extOnConnectionHandler[i](false);
             } catch (e) {
                 this._debug(
-                    `in onOfflineCallback one external connection handler threw an exception: ${e}`
+                    `in onOfflineCallback one external connection handler threw an exception: ${e}`,
                 );
             }
         }
@@ -416,17 +416,17 @@ export class Client {
     private onMessageCallback(
         topic: string,
         message: Buffer,
-        packet: MqttPubPacket
+        packet: MqttPubPacket,
     ) {
         this._debug(
-            `onMessageCallback. topic: ${topic} | message:${message.toString()} | packet:${packet}`
+            `onMessageCallback. topic: ${topic} | message:${message.toString()} | packet:${packet}`,
         );
         const m = new Message(
             topic,
             packet.qos,
             packet.retain,
             message.toString(),
-            this
+            this,
         );
         m.properties = packet.properties;
         if (this.distributeMessage(m) > 0) {
@@ -444,12 +444,12 @@ export class Client {
 
         for (const list of this._subscriberMap.findValues(msg.topic)) {
             this._debug(
-                `found one list of handler for message: topic: ${msg.topic}`
+                `found one list of handler for message: topic: ${msg.topic}`,
             );
             const num = list.sendMessage(msg); //try catch is done inside to not interrupt the sequence
-            if (num == 0) {
+            if (num === 0) {
                 this._debug(
-                    `FIXME: no subscriber found in list in distribute message`
+                    "FIXME: no subscriber found in list in distribute message",
                 );
             }
             foundSubscriber += num;
@@ -466,10 +466,10 @@ export class Client {
     private removeSubscriber(topic: string[], handler: SubscribeHandler) {
         this._debug(`removeSubscriber. topic: ${topic}`);
         const list = this._subscriberMap.getValue(topic);
-        if (list != undefined) {
+        if (list !== undefined) {
             if (list.removeSubscriber(handler)) {
-                if (list.size == 0) {
-                    this._debug(`list is now empty`);
+                if (list.size === 0) {
+                    this._debug("list is now empty");
                     this._subscriberMap.deleteValue(topic);
                     this.sendUnsubscribe(topic.join("/"), (err: any) => {
                         this._debug(`send unsubscribe callback: err: ${err}`);
@@ -478,11 +478,11 @@ export class Client {
             } else {
                 //remove list anyway?
                 this._debug(
-                    `FIXME: list found in removeSubscriber did not remove handler`
+                    "FIXME: list found in removeSubscriber did not remove handler",
                 );
             }
         } else {
-            this._debug(`FIXME: found no list for removal of an handler`);
+            this._debug("FIXME: found no list for removal of an handler");
         }
     }
 
@@ -503,12 +503,12 @@ export class Client {
             }
             return false;
         });
-        if (oldest == Number.MAX_SAFE_INTEGER) {
+        if (oldest === Number.MAX_SAFE_INTEGER) {
             //no message found anymore
-            this._debugCache(`cache empty wait for next message`);
+            this._debugCache("cache empty wait for next message");
             this._mqttClient!.once("message", () => {
                 this._debugCache(
-                    `new message during empty cache set timeout for check`
+                    "new message during empty cache set timeout for check",
                 );
                 setTimeout(() => {
                     this.checkCache();
@@ -517,7 +517,7 @@ export class Client {
         } else {
             const diff = now - oldest;
             this._debugCache(
-                `oldest msg timestamp: ${oldest} set next timeout`
+                `oldest msg timestamp: ${oldest} set next timeout`,
             );
             setTimeout(() => {
                 this.checkCache();
@@ -534,11 +534,11 @@ export class Client {
     private sendSubscribe(
         topic: string,
         qos: QoS,
-        cb?: (err: any, granted: any) => void
+        cb?: (err: any, granted: any) => void,
     ) {
-        if (this._mqttClient != undefined && this.connected) {
+        if (this._mqttClient !== undefined && this.connected) {
             this._debug(
-                `send subscribe message to broker. topic: ${topic} | qos: ${qos}`
+                `send subscribe message to broker. topic: ${topic} | qos: ${qos}`,
             );
             this._mqttClient.subscribe(topic, { qos: qos }, cb);
         }
@@ -550,7 +550,7 @@ export class Client {
      * @param cb the callback which should be called after the unsubscribe was successfully
      */
     private sendUnsubscribe(topic: string, cb?: (err: any) => void) {
-        if (this._mqttClient != undefined && this.connected) {
+        if (this._mqttClient !== undefined && this.connected) {
             this._debug(`send unsubscribe message to broker. topic: ${topic}`);
             this._mqttClient!.unsubscribe(topic, cb);
         }

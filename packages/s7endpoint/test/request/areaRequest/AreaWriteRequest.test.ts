@@ -31,7 +31,6 @@ afterAll(() => {
     SERVER.stop();
 });
 
-/* eslint-disable @typescript-eslint/no-namespace */
 declare global {
     namespace jest {
         interface Matchers<R> {
@@ -47,7 +46,7 @@ expect.extend({
             pass
                 ? ""
                 : `Received Buffer (${received.toString(
-                      "hex"
+                      "hex",
                   )}) is not the same as expected (${expected})`;
 
         return {
@@ -62,7 +61,7 @@ describe("creation tests", () => {
         expect(() => {
             new AreaWriteRequest(
                 [{ area: "DB", type: "UINT8", byteIndex: 1 }],
-                S7ENDP
+                S7ENDP,
             );
         }).toThrow();
     });
@@ -182,7 +181,7 @@ describe("write tests", () => {
         const wr = new AreaWriteRequest(testVars, S7ENDP); //101
         await wr.execute();
         expect(SERVER.getDbArea(101)).toBeBuffer(
-            "007b000001c8004e0000000000010000000200000003000001c800"
+            "007b000001c8004e0000000000010000000200000003000001c800",
         );
     });
 
@@ -207,7 +206,7 @@ describe("write tests", () => {
         const wr = new AreaWriteRequest(testVars, S7ENDP); //102
         await wr.execute();
         expect(SERVER.getDbArea(102)).toBeBuffer(
-            "007b0000000000000000000000010000000200000003000000000001c800"
+            "007b0000000000000000000000010000000200000003000000000001c800",
         );
     });
 
@@ -240,7 +239,7 @@ describe("write tests", () => {
         const wr = new AreaWriteRequest(testVars, S7ENDP); //103
         await wr.execute();
         expect(SERVER.getDbArea(103)).toBeBuffer(
-            "007b000001c8004e10000000010000000200000003000001c800"
+            "007b000001c8004e10000000010000000200000003000001c800",
         );
     });
 });

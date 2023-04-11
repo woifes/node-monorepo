@@ -32,34 +32,34 @@ const _init = yasdiBindings.Init as (
     iniPath: string,
     deviceDetectionCb: (evt: DeviceDetectionEvent) => void,
     newValueCb: () => void,
-    cb: () => void
+    cb: () => void,
 ) => void;
 
 export const searchDevicesAsync = yasdiBindings.SearchDevicesAsync as (
-    expectedNumberOfDevice: number
+    expectedNumberOfDevice: number,
 ) => number;
 
 const _getChannelValue = yasdiBindings.GetChannelValue as (
     deviceHandle: number,
     channelHandle: number,
     maxValAge: number,
-    cb: (result: GetChannelValueResult) => void
+    cb: (result: GetChannelValueResult) => void,
 ) => void;
 
 export const getChannelsOfDevice = yasdiBindings.GetChannelsOfDevice as (
-    deviceHandle: number
+    deviceHandle: number,
 ) => GetChannelsResult;
 
 export const getSerialOfDevice = yasdiBindings.GetSerialOfDevice as (
-    deviceHandle: number
+    deviceHandle: number,
 ) => number;
 
 export const getNameOfDevice = yasdiBindings.GetNameOfDevice as (
-    deviceHandle: number
+    deviceHandle: number,
 ) => string;
 
 export const getTypeOfDevice = yasdiBindings.GetTypeOfDevice as (
-    deviceHandle: number
+    deviceHandle: number,
 ) => string;
 
 export const getDeviceHandles =
@@ -68,7 +68,7 @@ export const getDeviceHandles =
 export function getChannelValue(
     deviceHandle: number,
     channelHandle: number,
-    maxAgeS: number
+    maxAgeS: number,
 ): Promise<GetChannelValueResult> {
     return new Promise((resolve, reject) => {
         _getChannelValue(
@@ -77,7 +77,7 @@ export function getChannelValue(
             maxAgeS,
             (result: GetChannelValueResult) => {
                 resolve(result);
-            }
+            },
         );
     });
 }
@@ -85,7 +85,7 @@ export function getChannelValue(
 export function yasdiInit(
     iniPath: string,
     deviceDetectionCb: (event: DeviceDetectionEvent) => void,
-    newValueCb: () => void
+    newValueCb: () => void,
 ): Promise<void> {
     return new Promise((resolve, reject) => {
         try {

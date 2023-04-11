@@ -1,8 +1,6 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/* eslint-disable no-empty */
-
 import { TestServer } from "@woifes/s7endpoint/test/TestServer";
 import { emptyDirSync, mkdirSync, readFileSync, rmdirSync } from "fs-extra";
 import { join } from "path";
@@ -34,56 +32,56 @@ const S7OUTPUT_MQTT_MOCK = S7OutputMqtt as unknown as jest.Mock;
 const alarmConfig = parse(
     readFileSync(
         join(__dirname, "..", "examples", "alarms", "alarm01.example.yaml"),
-        "utf-8"
-    )
+        "utf-8",
+    ),
 );
 const alarmConfig2 = parse(
     readFileSync(
         join(__dirname, "..", "examples", "alarms", "alarm02.example.yaml"),
-        "utf-8"
-    )
+        "utf-8",
+    ),
 );
 const commandConfig = parse(
     readFileSync(
         join(__dirname, "..", "examples", "commands", "command01.example.yaml"),
-        "utf-8"
-    )
+        "utf-8",
+    ),
 );
 const commandConfig2 = parse(
     readFileSync(
         join(__dirname, "..", "examples", "commands", "command02.example.yaml"),
-        "utf-8"
-    )
+        "utf-8",
+    ),
 );
 const eventConfig = parse(
     readFileSync(
         join(__dirname, "..", "examples", "events", "mqttevent.example.yaml"),
-        "utf-8"
-    )
+        "utf-8",
+    ),
 );
 const eventConfig2 = parse(
     readFileSync(
         join(__dirname, "..", "examples", "events", "mqttevent02.example.yaml"),
-        "utf-8"
-    )
+        "utf-8",
+    ),
 );
 const inputConfig = parse(
     readFileSync(
         join(__dirname, "..", "examples", "inputs", "mqttinput.example.yaml"),
-        "utf-8"
-    )
+        "utf-8",
+    ),
 );
 const inputConfig2 = parse(
     readFileSync(
         join(__dirname, "..", "examples", "inputs", "mqttinput02.example.yaml"),
-        "utf-8"
-    )
+        "utf-8",
+    ),
 );
 const outputConfig = parse(
     readFileSync(
         join(__dirname, "..", "examples", "outputs", "outputmqtt.example.yaml"),
-        "utf-8"
-    )
+        "utf-8",
+    ),
 );
 const outputConfig2 = parse(
     readFileSync(
@@ -92,10 +90,10 @@ const outputConfig2 = parse(
             "..",
             "examples",
             "outputs",
-            "outputmqtt02.example.yaml"
+            "outputmqtt02.example.yaml",
         ),
-        "utf-8"
-    )
+        "utf-8",
+    ),
 );
 
 beforeEach(() => {
@@ -221,10 +219,9 @@ describe("local endpoint tests", () => {
         expect((s7mqtt as any)._outputs.length).toBe(1);
         const dbFileContent = readFileSync(
             join(TMP_DIR, "local01_DBs.csv"),
-            "utf-8"
+            "utf-8",
         );
-        expect(dbFileContent)
-            .toBe(`Name;Path;Connection;PLC tag;DataType;Length;Coding;Access Method;Address;Indirect addressing;Index tag;Start value;ID tag;Acquisition mode;Acquisition cycle;Limit Upper 2 Type;Limit Upper 2;Limit Lower 2 Type;Limit Lower 2;Linear scaling;End value PLC;Start value PLC;End value HMI;Start value HMI
+        expect(dbFileContent).toBe(`Name;Path;Connection;PLC tag;DataType;Length;Coding;Access Method;Address;Indirect addressing;Index tag;Start value;ID tag;Acquisition mode;Acquisition cycle;Limit Upper 2 Type;Limit Upper 2;Limit Lower 2 Type;Limit Lower 2;Linear scaling;End value PLC;Start value PLC;End value HMI;Start value HMI
 alarm1_sig;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB1.DBX0.1;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 Cmd_cmd01_cmdId;Standard-Variablentabelle;Con01;<No Value>;DWord;4;Binary;Absolute access;%DB1.DBD0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 Cmd_cmd01_param1;Standard-Variablentabelle;Con01;<No Value>;DWord;4;Binary;Absolute access;%DB1.DBD0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0

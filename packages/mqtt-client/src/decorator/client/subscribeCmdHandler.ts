@@ -9,13 +9,13 @@ import { MsgOperatorFactory } from "../util/MsgOperatorFactory";
 
 export function subscribeCmdHandler(this: any, client: Client) {
     //subscribe to the topics on the client object
-    if (this[SUBSCRIPTION_LIST_KEY] == undefined) {
+    if (this[SUBSCRIPTION_LIST_KEY] === undefined) {
         this[SUBSCRIPTION_LIST_KEY] = [];
     }
 
     if (
-        this[CMD_HANDLER_LIST_KEY] == undefined ||
-        this[CMD_HANDLER_LIST_KEY].size == 0
+        this[CMD_HANDLER_LIST_KEY] === undefined ||
+        this[CMD_HANDLER_LIST_KEY].size === 0
     ) {
         return;
     } else {
@@ -34,7 +34,7 @@ export function subscribeCmdHandler(this: any, client: Client) {
                     config.topicTransform ??
                     ((topic: string[]) => {
                         topic = [...topic];
-                        if (topic.length === 4 && topic[0] == "cmd") {
+                        if (topic.length === 4 && topic[0] === "cmd") {
                             topic[0] = "cmdRes";
                             const sender = topic[2];
                             topic[2] = topic[1];
@@ -53,11 +53,11 @@ export function subscribeCmdHandler(this: any, client: Client) {
                                 msg.qos,
                                 msg.retain,
                                 undefined,
-                                msg.client
+                                msg.client,
                             );
                             fn(msg, res);
                         }
-                    })
+                    }),
                 );
             }
         }

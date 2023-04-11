@@ -8,7 +8,7 @@ export const S7EventMqttConfig = S7EventConfig.And(
     rt.Record({
         topic: rt.String.withConstraint((s) => s.length > 0),
         message: rt.String.optional(),
-    })
+    }),
 );
 
 export type tS7EventMqttConfig = rt.Static<typeof S7EventMqttConfig>;

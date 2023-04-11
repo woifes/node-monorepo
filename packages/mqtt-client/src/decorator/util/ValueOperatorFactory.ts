@@ -9,11 +9,11 @@ import { tMqttValueConfig } from "../types/MqttValueConfig";
 import { MsgOperatorFactory } from "./MsgOperatorFactory";
 
 export type tValueOperator = (
-    source: Observable<Message>
+    source: Observable<Message>,
 ) => Observable<tJsVal>;
 
 export function ValueOperatorFactory(
-    config: tMqttValueConfig
+    config: tMqttValueConfig,
 ): (source: Observable<Message>) => Observable<tJsVal> {
     return function (source: Observable<Message>) {
         source = source.pipe(MsgOperatorFactory(config));
@@ -22,23 +22,22 @@ export function ValueOperatorFactory(
                 let res: tJsVal | null = null;
                 const type = config.type ?? "STRING";
                 try {
-                    if (type == "JSON") {
+                    if (type === "JSON") {
                         res = value.readJSON(
                             config.runtype,
-                            config.fallBackValue
+                            config.fallBackValue,
                         );
-                    } else if (type == "STRING") {
+                    } else if (type === "STRING") {
                         res = value.body;
                     } else {
                         res = value.readValue(type, config.fallBackValue);
                     }
                     return res;
-                    /* eslint-disable-next-line no-empty */
                 } catch {}
             }),
             filter((value: any) => {
                 return value != null;
-            })
+            }),
         );
         return anyTarget;
     };

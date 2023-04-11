@@ -35,7 +35,7 @@ import { renderSummary } from "./src/render/renderSummary";
             licenses,
             licensesCount,
             existingLicensesMap,
-            rl
+            rl,
         );
     }
 

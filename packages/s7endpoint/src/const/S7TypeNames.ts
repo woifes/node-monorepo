@@ -14,7 +14,7 @@ export const S7TypeNames = rt.Union(
     rt.Literal("DInt"),
     rt.Literal("UDInt"),
     rt.Literal("Time"),
-    rt.Literal("Real")
+    rt.Literal("Real"),
 );
 
 export type tS7TypeNames = rt.Static<typeof S7TypeNames>;
@@ -27,7 +27,7 @@ export const S7ShortTypeNames = rt.Union(
     rt.Literal("D"),
     rt.Literal("I"),
     rt.Literal("DI"),
-    rt.Literal("R")
+    rt.Literal("R"),
 );
 
 export type tS7ShortTypeNames = rt.Static<typeof S7ShortTypeNames>;

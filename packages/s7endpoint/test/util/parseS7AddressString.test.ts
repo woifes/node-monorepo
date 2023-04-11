@@ -43,7 +43,7 @@ it("should parse correct string", () => {
 it("should parse LOGO identifier", () => {
     for (const key of Object.keys(LOGO_ADDRESSES)) {
         expect(parseS7AddressString(`LOGO:${key}`)).toEqual(
-            parseS7AddressString((LOGO_ADDRESSES as any)[key])
+            parseS7AddressString((LOGO_ADDRESSES as any)[key]),
         );
     }
 });

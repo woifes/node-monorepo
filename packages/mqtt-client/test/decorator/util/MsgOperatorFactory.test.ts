@@ -33,7 +33,7 @@ it("should throttle messages when configured", async () => {
             MsgOperatorFactory({
                 topic: "",
                 throttleMS: 500,
-            })
+            }),
         )
         .subscribe(cb);
     sub.next(m1);
@@ -56,7 +56,7 @@ it("should only allow minQos", () => {
             MsgOperatorFactory({
                 topic: "",
                 minQos: 1,
-            })
+            }),
         )
         .subscribe(cb);
     sub.next(m1);
@@ -78,7 +78,7 @@ it("should only allow minQos", async () => {
                 topic: "",
                 throttleMS: 300,
                 minQos: 1,
-            })
+            }),
         )
         .subscribe(cb);
     sub.next(m1);

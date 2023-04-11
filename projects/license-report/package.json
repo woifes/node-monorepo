@@ -13,9 +13,8 @@
   "private": true,
   "scripts": {
     "compile": "tsc -p tsconfig.build.json",
-    "prettier": "prettier -w ./src/**/*.ts ./index.ts",
-    "lint": "eslint ./src/ ./index.ts --fix",
-    "lint:check": "eslint ./src/ ./index.ts",
+    "format": "rome format --write .",
+    "lint": "rome check --apply-unsafe .",
     "prepare": "pnpm compile"
   },
   "keywords": [],

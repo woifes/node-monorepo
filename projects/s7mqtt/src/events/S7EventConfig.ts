@@ -7,9 +7,9 @@ import * as rt from "runtypes";
 export const S7EventConfig = rt.Record({
     trigger: S7AddressString.withConstraint((ta) => {
         const addressObject = parseS7AddressString(ta);
-        if (addressObject.count != undefined && addressObject.count > 1) {
+        if (addressObject.count !== undefined && addressObject.count > 1) {
             return "Array variables are not allowed for trigger";
-        } else if (addressObject.type.indexOf("INT") == -1) {
+        } else if (addressObject.type.indexOf("INT") === -1) {
             return "Only integer trigger are allowed";
         }
         return true;

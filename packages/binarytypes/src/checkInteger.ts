@@ -24,17 +24,17 @@ const MAX_UINT64 = 2n ** 64n - 1n;
  * @returns bigint
  */
 export const normalizeBigInt = function (
-    val: number | bigint | string
+    val: number | bigint | string,
 ): bigint {
-    if (typeof val == "number") {
+    if (typeof val === "number") {
         if (val > Number.MAX_SAFE_INTEGER || val < Number.MIN_SAFE_INTEGER) {
-            throw new Error(`Number out of bounds`);
+            throw new Error("Number out of bounds");
         } else {
             val = parseInt(val.toString());
         }
-    } else if (typeof val == "string") {
+    } else if (typeof val === "string") {
         const res = val.match(/^(\+|-)?[0-9]+/);
-        if (res != null && res[0] != undefined) {
+        if (res != null && res[0] !== undefined) {
             val = res[0];
         } else {
             val = Math.floor(Number(val));
@@ -52,7 +52,7 @@ export const normalizeBigInt = function (
  */
 export const calcIntegerSize = function (
     val: number | bigint | string,
-    signed = true
+    signed = true,
 ) {
     try {
         const n: bigint = normalizeBigInt(val);
@@ -99,10 +99,10 @@ export const calcIntegerSize = function (
 export const checkIntSize = function (
     val: number | bigint | string,
     signed = true,
-    bytes: 1 | 2 | 4 | 8 = 1
+    bytes: 1 | 2 | 4 | 8 = 1,
 ) {
     const size = calcIntegerSize(val, signed);
-    if (size == -1) {
+    if (size === -1) {
         return false;
     }
     return size <= bytes;
@@ -114,38 +114,38 @@ export const checkIntSize = function (
  * @returns the type name which can be used for further usage. Null on error
  */
 export const calcTypeOfArray = function (
-    val: number[] | bigint[] | string[]
+    val: number[] | bigint[] | string[],
 ): TypeName | null {
     let sizeUnsigned = -1;
     let sizeSigned = -1;
     let i = 0;
-    if (val.length != 0) {
+    if (val.length !== 0) {
         sizeUnsigned = 0;
         sizeSigned = 0;
         do {
             const n = val[i];
             let res: number;
-            if (sizeSigned != -1) {
+            if (sizeSigned !== -1) {
                 res = calcIntegerSize(n, true);
-                if (res == -1) {
+                if (res === -1) {
                     sizeSigned = -1;
                 } else if (res > sizeSigned) {
                     sizeSigned = res;
                 }
             }
 
-            if (sizeUnsigned != -1) {
+            if (sizeUnsigned !== -1) {
                 res = calcIntegerSize(n, false);
-                if (res == -1) {
+                if (res === -1) {
                     sizeUnsigned = -1;
                 } else if (res > sizeUnsigned) {
                     sizeUnsigned = res;
                 }
             }
             i++;
-        } while (i < val.length && !(sizeSigned == -1 && sizeUnsigned == -1));
+        } while (i < val.length && !(sizeSigned === -1 && sizeUnsigned === -1));
     }
-    if (sizeUnsigned != -1) {
+    if (sizeUnsigned !== -1) {
         switch (sizeUnsigned) {
             case 1:
                 return "ARRAY_OF_UINT8";
@@ -156,7 +156,7 @@ export const calcTypeOfArray = function (
             case 8:
                 return "ARRAY_OF_UINT64";
         }
-    } else if (sizeSigned != -1) {
+    } else if (sizeSigned !== -1) {
         switch (sizeSigned) {
             case 1:
                 return "ARRAY_OF_INT8";

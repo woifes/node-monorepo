@@ -11,17 +11,17 @@ test("number", () => {
     expect(normalizeBigInt(-1000)).toBe(-1000n);
 
     expect(normalizeBigInt(Number.MAX_SAFE_INTEGER)).toBe(
-        BigInt(Number.MAX_SAFE_INTEGER)
+        BigInt(Number.MAX_SAFE_INTEGER),
     );
     expect(normalizeBigInt(Number.MIN_SAFE_INTEGER)).toBe(
-        BigInt(Number.MIN_SAFE_INTEGER)
+        BigInt(Number.MIN_SAFE_INTEGER),
     );
 
     expect(normalizeBigInt(Number.MAX_SAFE_INTEGER + 0.3)).toBe(
-        BigInt(Number.MAX_SAFE_INTEGER)
+        BigInt(Number.MAX_SAFE_INTEGER),
     );
     expect(normalizeBigInt(Number.MIN_SAFE_INTEGER - 0.3)).toBe(
-        BigInt(Number.MIN_SAFE_INTEGER)
+        BigInt(Number.MIN_SAFE_INTEGER),
     );
 
     expect(() => {

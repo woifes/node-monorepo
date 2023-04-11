@@ -129,7 +129,7 @@ function testToBuffer(
     hex1156: string,
     hex1156_BE: string,
     hexM1156: string,
-    hexM1156_BE: string
+    hexM1156_BE: string,
 ) {
     const BUF_4_7 = hexBuf(hex4_7);
     //number
@@ -197,7 +197,7 @@ function testFromBuffer(
     hex1156: string,
     hex1156_BE: string,
     hexM1156: string,
-    hexM1156_BE: string
+    hexM1156_BE: string,
 ) {
     const BUF_4_7 = hexBuf(hex4_7);
     const BUF_4_7_BE = hexBuf(hex4_7_BE);
@@ -208,19 +208,19 @@ function testFromBuffer(
 
     expect(dt.fromBuffer(BUF_4_7)).toBeCloseTo(4.7);
     expect(() => {
-        dt.fromBuffer(hexBuf("10" + hex4_7));
+        dt.fromBuffer(hexBuf(`10${hex4_7}`));
     }).toThrow();
     expect(dt.fromBuffer(BUF_4_7_BE, false)).toBeCloseTo(4.7);
     expect(() => {
-        dt.fromBuffer(hexBuf("10" + hex4_7_BE), false);
+        dt.fromBuffer(hexBuf(`10${hex4_7_BE}`), false);
     }).toThrow();
     expect(dt.fromBuffer(BUF_M1156)).toBeCloseTo(-1156);
     expect(() => {
-        dt.fromBuffer(hexBuf("10" + hexM1156));
+        dt.fromBuffer(hexBuf(`10${hexM1156}`));
     }).toThrow();
     expect(dt.fromBuffer(BUF_M1156_BE, false)).toBeCloseTo(-1156);
     expect(() => {
-        dt.fromBuffer(hexBuf("10" + hexM1156_BE), false);
+        dt.fromBuffer(hexBuf(`10${hexM1156_BE}`), false);
     }).toThrow();
 }
 
@@ -272,10 +272,10 @@ function testToString(dt: FloatDataType, hex4_7: string, hex1156: string) {
     expect(parseFloat(dt.toString(BUF_4_7))).toBeCloseTo(4.7);
 
     expect(() => {
-        dt.toString(hexBuf("10" + hex4_7));
+        dt.toString(hexBuf(`10${hex4_7}`));
     }).toThrow();
     expect(() => {
-        dt.toString(hexBuf("10" + hex4_7), false);
+        dt.toString(hexBuf(`10${hex4_7}`), false);
     }).toThrow();
     expect(() => {
         dt.toString(NaN);
@@ -335,7 +335,7 @@ test("FLOAT toBuffer", () => {
         X_1156,
         X_1156_BE,
         X_M1156,
-        X_M1156_BE
+        X_M1156_BE,
     );
 });
 
@@ -347,7 +347,7 @@ test("DOUBLE toBuffer", () => {
         X_DB_1156,
         X_DB_1156_BE,
         X_DB_M1156,
-        X_DB_M1156_BE
+        X_DB_M1156_BE,
     );
 });
 
@@ -359,7 +359,7 @@ test("FLOAT fromBuffer", () => {
         X_1156,
         X_1156_BE,
         X_M1156,
-        X_M1156_BE
+        X_M1156_BE,
     );
 });
 
@@ -371,7 +371,7 @@ test("DOUBLE fromBuffer", () => {
         X_DB_1156,
         X_DB_1156_BE,
         X_DB_M1156,
-        X_DB_M1156_BE
+        X_DB_M1156_BE,
     );
 });
 

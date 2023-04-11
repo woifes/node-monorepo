@@ -60,9 +60,9 @@ export class Message {
             original._qos,
             original._retain,
             original._body,
-            original.client
+            original.client,
         );
-        if (original.properties != undefined) {
+        if (original.properties !== undefined) {
             m.properties = JSON.parse(JSON.stringify(original.properties));
         }
         m._creation = original._creation;
@@ -74,7 +74,7 @@ export class Message {
         qos: QoS = 0,
         retain = false,
         body?: string,
-        client?: Client
+        client?: Client,
     ) {
         this._qos = qos;
         this._retain = retain;
@@ -141,7 +141,7 @@ export class Message {
         try {
             return DataTypes[type].check(this._body);
         } catch (e) {
-            if (fallBackVal != undefined) {
+            if (fallBackVal !== undefined) {
                 return fallBackVal;
             } else {
                 throw e;
@@ -158,12 +158,12 @@ export class Message {
     readJSON(runtype?: Runtype, fallBackVal?: any): any {
         try {
             const res = JSON5parse(this._body);
-            if (runtype != undefined) {
+            if (runtype !== undefined) {
                 return <any>runtype.check(res);
             }
             return res;
         } catch (e) {
-            if (fallBackVal != undefined) {
+            if (fallBackVal !== undefined) {
                 return fallBackVal;
             } else {
                 throw e;
@@ -183,10 +183,10 @@ export class Message {
             const parsed = JSON5parse(this._body);
             if (Array.isArray(parsed)) {
                 for (let i = 0; i < parsed.length; i++) {
-                    if (expected[i] == undefined) {
+                    if (expected[i] === undefined) {
                         break;
                     } else {
-                        if (expected[i] == "STRING") {
+                        if (expected[i] === "STRING") {
                             try {
                                 res[i] = <string>rtString.check(parsed[i]); //No Buffer can occur here
                             } catch {
@@ -205,7 +205,7 @@ export class Message {
                 }
                 return res;
             } else {
-                throw new Error(`parsed set is not an array`);
+                throw new Error("parsed set is not an array");
             }
         } catch {
             return [];
@@ -220,17 +220,17 @@ export class Message {
      */
     writeValue(value: tVal, type: TypeName | "STRING" = "STRING"): boolean {
         try {
-            if (type != "STRING") {
+            if (type !== "STRING") {
                 this._body = DataTypes[type].toString(value);
                 return true;
             } else {
                 const str = String(value);
-                if (typeof str == "string" && str.length > 0) {
+                if (typeof str === "string" && str.length > 0) {
                     this._body = str;
                     return true;
                 } else {
                     throw new Error(
-                        `value to write as string could not be converted to string`
+                        "value to write as string could not be converted to string",
                     );
                 }
             }
@@ -265,15 +265,15 @@ export class Message {
      * @returns
      */
     send() {
-        if (this._client != undefined) {
+        if (this._client !== undefined) {
             return this._client.publishMessage(this);
         } else {
             return Promise.reject(
                 new Error(
                     `tried to send message without set client. Topic:${this.topic.join(
-                        "/"
-                    )}. Payload: ${this.body}`
-                )
+                        "/",
+                    )}. Payload: ${this.body}`,
+                ),
             );
         }
     }

@@ -12,7 +12,7 @@ export const S7DiscreteAlarm = S7AlarmAddress.And(
             .Array(S7AddressString)
             .withConstraint((a) => a.length > 0)
             .optional(),
-    })
+    }),
 );
 
 export type tS7DiscreteAlarm = rt.Static<typeof S7DiscreteAlarm>;

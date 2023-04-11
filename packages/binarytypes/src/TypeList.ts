@@ -18,7 +18,7 @@ export const rtNumberType = rt.Union(
     rt.Literal("INT64"),
     rt.Literal("UINT64"),
     rt.Literal("FLOAT"),
-    rt.Literal("DOUBLE")
+    rt.Literal("DOUBLE"),
 );
 
 export type tNumber = rt.Static<typeof rtNumberType>;
@@ -33,7 +33,7 @@ export const rtArrayNumberType = rt.Union(
     rt.Literal("ARRAY_OF_INT64"),
     rt.Literal("ARRAY_OF_UINT64"),
     rt.Literal("ARRAY_OF_FLOAT"),
-    rt.Literal("ARRAY_OF_DOUBLE")
+    rt.Literal("ARRAY_OF_DOUBLE"),
 );
 
 export type tNumberArray = rt.Static<typeof rtArrayNumberType>;

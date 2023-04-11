@@ -16,20 +16,16 @@
   "author": "woifes",
   "license": "UNLICENSED",
   "devDependencies": {
-    "@jest/types": "^27.0.6",
+    "@jest/types": "^29.5.0",
     "@types/debug": "^4.1.7",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.6.2",
-    "@typescript-eslint/eslint-plugin": "^5.27.1",
-    "@typescript-eslint/parser": "^5.28.0",
     "@woifes/license-report": "*",
-    "eslint": "^8.17.0",
-    "eslint-config-prettier": "^8.5.0",
     "fs-extra": "^10.0.1",
     "jest": "^27.5.1",
-    "prettier": "2.4.1",
     "require-json5": "^1.1.0",
-    "ts-jest": "^27.0.5",
+    "rome": "^12.0.0",
+    "ts-jest": "^27.1.5",
     "ts-node": "^10.2.1",
     "typescript": "^4.5.5"
   }

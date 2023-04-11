@@ -18,7 +18,7 @@ function testDt(
     hexMax: string,
     hexMin: string,
     hexMaxBE: string,
-    hexMinBE: string
+    hexMinBE: string,
 ) {
     //#region defines
     const MAX = max < Number.MAX_SAFE_INTEGER ? Number(max) : max;
@@ -37,7 +37,7 @@ function testDt(
     const BUF_MIN_BE = hexBuf(X_MIN_BE);
     //#endregion
 
-    if (typeof MAX == "number") {
+    if (typeof MAX === "number") {
         expect(dt.validate(MAX)).toBe(true);
         expect(dt.validate(MIN)).toBe(true);
         expect(dt.validate(MAX + 1)).toBe(false);
@@ -59,25 +59,25 @@ function testDt(
     expect(dt.validate(`${BI_MAX + 1n}`)).toBe(false);
     expect(dt.validate(`${BI_MIN - 1n}`)).toBe(false);
     //string float
-    expect(dt.validate(S_MAX + ".3")).toBe(true);
-    expect(dt.validate(S_MIN + ".3")).toBe(true);
+    expect(dt.validate(`${S_MAX}.3`)).toBe(true);
+    expect(dt.validate(`${S_MIN}.3`)).toBe(true);
     expect(dt.validate(`${BI_MAX + 1n}.3`)).toBe(false);
     expect(dt.validate(`${BI_MIN - 1n}.3`)).toBe(false);
 
-    if (typeof MAX == "number" && typeof MIN == "number") {
+    if (typeof MAX === "number" && typeof MIN === "number") {
         expect(dt.validate([MAX, MIN, 10, -10])).toBe(false);
         expect(dt.validate([MAX + 0.3, MIN, 10, -10])).toBe(false);
     }
     expect(dt.validate([BI_MAX, BI_MIN, 10n, 10n])).toBe(false);
     expect(dt.validate([S_MAX, S_MIN, "10", "10"])).toBe(false);
     expect(dt.validate([BUF_MAX, BUF_MIN, hexBuf("0A"), hexBuf("0A")])).toBe(
-        false
+        false,
     );
     expect(dt.validate(<any>[MAX, BI_MAX, S_MAX, BUF_MAX])).toBe(false);
 
     expect(dt.validate(BUF_MAX)).toBe(true);
     expect(dt.validate(BUF_MIN)).toBe(true);
-    expect(dt.validate(hexBuf("10" + S_MAX))).toBe(false);
+    expect(dt.validate(hexBuf(`10${S_MAX}`))).toBe(false);
     expect(dt.validate(NaN)).toBe(false);
     expect(dt.validate(Infinity)).toBe(false);
     expect(dt.validate(-Infinity)).toBe(false);
@@ -103,7 +103,7 @@ test("Validation INT32", () => {
         "FFFFFF7F",
         "00000080",
         "7FFFFFFF",
-        "80000000"
+        "80000000",
     );
 });
 
@@ -116,7 +116,7 @@ test("Validation INT64", () => {
         "FFFFFFFFFFFFFF7F",
         "0000000000000080",
         "7FFFFFFFFFFFFFFF",
-        "8000000000000000"
+        "8000000000000000",
     );
 });
 
@@ -144,6 +144,6 @@ test("Validation UINT64", () => {
         "FFFFFFFFFFFFFFFF",
         "0000000000000000",
         "FFFFFFFFFFFFFFFF",
-        "0000000000000000"
+        "0000000000000000",
     );
 });

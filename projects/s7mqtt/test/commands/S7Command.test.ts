@@ -9,8 +9,6 @@ import { once } from "events";
 import { S7Command } from "../../src/commands/S7Command";
 import { tS7CommandConfig } from "../../src/commands/S7CommandConfig";
 
-/* eslint-disable @typescript-eslint/no-namespace */
-
 async function promiseTimeout(ms: number) {
     return new Promise((resolve, reject) => {
         setTimeout(resolve, ms);
@@ -35,7 +33,7 @@ function simIncMessage(msg: Message) {
     (mqtt as any).onMessageCallback(
         msg.topic.join("/"),
         Buffer.from(msg.body, "utf-8"),
-        { qos: msg.qos, retain: msg.retain }
+        { qos: msg.qos, retain: msg.retain },
     );
 }
 let publishMock: jest.Mock;
@@ -55,7 +53,7 @@ expect.extend({
             pass
                 ? ""
                 : `Received Buffer (${received.toString(
-                      "hex"
+                      "hex",
                   )}) is not the same as expected (${expected})`;
 
         return {
@@ -100,26 +98,26 @@ describe("fire and forget commands", () => {
             "cmd/client01/me/other",
             2,
             false,
-            "[100, 1, [1, 2, 1], 3]"
+            "[100, 1, [1, 2, 1], 3]",
         ); //wrong topic
         const m2 = new Message(
             "cmd/client01/me/cmd01",
             2,
             false,
-            "[101, 1, [1, 2, 1]]"
+            "[101, 1, [1, 2, 1]]",
         ); //wrong param count
         const m3 = new Message(
             "cmd/client01/me/cmd01",
             2,
             false,
-            "[102, 1, [1, 2, 1]], 'no number'"
+            "[102, 1, [1, 2, 1]], 'no number'",
         ); //wrong param type
         const m4 = new Message("cmd/client01/me/cmd01", 2, false, "Hello"); //completely wrong message
         const m5 = new Message(
             "cmd/client01/me/cmd01",
             2,
             false,
-            "[99, 10, [2, 1, 2], 30]"
+            "[99, 10, [2, 1, 2], 30]",
         );
         simIncMessage(m1);
         await promiseTimeout(150); //Throttle
@@ -157,7 +155,7 @@ describe("fire and forget commands", () => {
             "cmd/client01/me/cmd02",
             2,
             false,
-            "[99, 10, [2, 1, 2], 30]"
+            "[99, 10, [2, 1, 2], 30]",
         );
         simIncMessage(m1);
         await promiseTimeout(1000);
@@ -187,7 +185,7 @@ describe("fire and forget commands", () => {
             "cmd/client01/me/cmd03",
             2,
             false,
-            "[99, 10, [2, 1, 2]]"
+            "[99, 10, [2, 1, 2]]",
         );
         simIncMessage(m1);
         await promiseTimeout(1000);
@@ -217,7 +215,7 @@ describe("fire and forget commands", () => {
             "cmd/client01/me/cmd031",
             2,
             false,
-            "[99, 10, [2, 1, 2], 30]"
+            "[99, 10, [2, 1, 2], 30]",
         );
         simIncMessage(m1);
         await promiseTimeout(1000);
@@ -248,7 +246,7 @@ describe("fire and forget commands", () => {
             "task/client01/me/cmd04",
             2,
             false,
-            "[99, 10, [2, 1, 2]]"
+            "[99, 10, [2, 1, 2]]",
         );
         simIncMessage(m1);
         await promiseTimeout(1000);
@@ -273,7 +271,7 @@ describe("fire and forget commands", () => {
             "cmd/client01/me/cmd041",
             2,
             false,
-            "[99, 10, [2, 1, 2]]"
+            "[99, 10, [2, 1, 2]]",
         );
         simIncMessage(m1);
         await promiseTimeout(1000);
@@ -302,7 +300,7 @@ describe("fire and forget commands", () => {
             "task/client01/me/cmd05",
             2,
             false,
-            "[99, 10, [2, 1, 2], 30]"
+            "[99, 10, [2, 1, 2], 30]",
         );
         simIncMessage(m1);
         await promiseTimeout(1000);
@@ -343,7 +341,7 @@ describe("commands with response tests", () => {
             "cmd/client01/me/cmd01",
             2,
             false,
-            "[101, 10, [2, 1, 2], 30]"
+            "[101, 10, [2, 1, 2], 30]",
         );
         simIncMessage(m1);
         await promiseTimeout(900);
@@ -392,7 +390,7 @@ describe("commands with response tests", () => {
             "cmd/client01/me/cmd02",
             2,
             false,
-            "[102, 10, [2, 1, 2], 30]"
+            "[102, 10, [2, 1, 2], 30]",
         );
         simIncMessage(m1);
         await promiseTimeout(1100);

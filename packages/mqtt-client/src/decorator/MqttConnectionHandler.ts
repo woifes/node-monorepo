@@ -11,29 +11,29 @@ export function MqttConnectionHandler() {
     return function (
         target: any,
         propertyKey: string | symbol,
-        descriptor: PropertyDescriptor
+        descriptor: PropertyDescriptor,
     ) {
-        if (typeof propertyKey == "string") {
-            if (target[CONNECTION_HANDLER_LIST_KEY] == undefined) {
+        if (typeof propertyKey === "string") {
+            if (target[CONNECTION_HANDLER_LIST_KEY] === undefined) {
                 target[CONNECTION_HANDLER_LIST_KEY] = [];
             }
 
             let fn: (this: any, isOnline: boolean) => void;
 
-            if (descriptor.value != undefined) {
+            if (descriptor.value !== undefined) {
                 //Method
                 fn = function (this: any, isOnline: boolean) {
                     this[propertyKey](isOnline);
                 };
             } else {
                 throw new Error(
-                    `MqttConnectHandler set on something which is not a method`
+                    "MqttConnectHandler set on something which is not a method",
                 );
             }
             target[CONNECTION_HANDLER_LIST_KEY].push(fn);
         } else {
             throw new Error(
-                `MqttConnectHandler can not be set on Symbol property`
+                "MqttConnectHandler can not be set on Symbol property",
             );
         }
     };

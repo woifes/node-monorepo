@@ -8,23 +8,23 @@
  */
 export const checkTopic = function (
     topic: string[],
-    subscribe: string[]
+    subscribe: string[],
 ): boolean {
     if (topic.length < subscribe.length) {
         return false;
     }
     if (
         topic.length > subscribe.length &&
-        subscribe[subscribe.length - 1] != "#"
+        subscribe[subscribe.length - 1] !== "#"
     ) {
         return false;
     }
     for (let i = 0; i < topic.length; i++) {
         const t = topic[i];
         const s = subscribe[i];
-        if (t == s || s == "+") {
+        if (t === s || s === "+") {
             //ok go on
-        } else if (s == "#") {
+        } else if (s === "#") {
             return true;
         } else {
             return false;

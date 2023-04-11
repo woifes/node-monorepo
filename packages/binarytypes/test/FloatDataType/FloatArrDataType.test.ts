@@ -38,7 +38,7 @@ function testCheck(
     BUF_4_7: Buffer,
     BUF_4_7_BE: Buffer,
     HEX_4_7: string,
-    HEX_4_7_BE: string
+    HEX_4_7_BE: string,
 ) {
     //number
     expect(() => {
@@ -85,37 +85,37 @@ function testCheck(
     expect(dt.check([1n, 2n, 3n])).toEqual([1, 2, 3]);
     //buffer
     expect(
-        (dt.check(hexBuf(HEX_4_7 + HEX_4_7 + HEX_4_7)) as number[])[0]
+        (dt.check(hexBuf(HEX_4_7 + HEX_4_7 + HEX_4_7)) as number[])[0],
     ).toBeCloseTo(4.7);
     expect(
-        (dt.check(hexBuf(HEX_4_7 + HEX_4_7 + HEX_4_7)) as number[])[1]
+        (dt.check(hexBuf(HEX_4_7 + HEX_4_7 + HEX_4_7)) as number[])[1],
     ).toBeCloseTo(4.7);
     expect(
-        (dt.check(hexBuf(HEX_4_7 + HEX_4_7 + HEX_4_7)) as number[])[2]
-    ).toBeCloseTo(4.7);
-    expect(
-        (
-            dt.check(
-                hexBuf(HEX_4_7_BE + HEX_4_7_BE + HEX_4_7_BE),
-                false
-            ) as number[]
-        )[0]
+        (dt.check(hexBuf(HEX_4_7 + HEX_4_7 + HEX_4_7)) as number[])[2],
     ).toBeCloseTo(4.7);
     expect(
         (
             dt.check(
                 hexBuf(HEX_4_7_BE + HEX_4_7_BE + HEX_4_7_BE),
-                false
+                false,
             ) as number[]
-        )[1]
+        )[0],
     ).toBeCloseTo(4.7);
     expect(
         (
             dt.check(
                 hexBuf(HEX_4_7_BE + HEX_4_7_BE + HEX_4_7_BE),
-                false
+                false,
             ) as number[]
-        )[2]
+        )[1],
+    ).toBeCloseTo(4.7);
+    expect(
+        (
+            dt.check(
+                hexBuf(HEX_4_7_BE + HEX_4_7_BE + HEX_4_7_BE),
+                false,
+            ) as number[]
+        )[2],
     ).toBeCloseTo(4.7);
     expect(() => {
         dt.check(Buffer.alloc(5));
@@ -139,7 +139,7 @@ function testCheck(
 function testValidate(
     dt: FloatArrDataType,
     BUF_4_7: Buffer,
-    BUF_4_7_BE: Buffer
+    BUF_4_7_BE: Buffer,
 ) {
     //number
     expect(dt.validate(3.4)).toBe(false);
@@ -179,7 +179,7 @@ function testToBuffer(
     hex1156: string,
     hex1156_BE: string,
     hexM1156: string,
-    hexM1156_BE: string
+    hexM1156_BE: string,
 ) {
     const BUF_4_7 = hexBuf(hex4_7);
     //number
@@ -202,14 +202,14 @@ function testToBuffer(
     expect(
         PROOF_BUFFER(
             dt.toBuffer('["4.7", "4.7", "4.7"]'),
-            hex4_7 + hex4_7 + hex4_7
-        )
+            hex4_7 + hex4_7 + hex4_7,
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer('["4.7", "4.7", "4.7"]', false),
-            hex4_7_BE + hex4_7_BE + hex4_7_BE
-        )
+            hex4_7_BE + hex4_7_BE + hex4_7_BE,
+        ),
     ).toBe(true);
     expect(() => {
         dt.toBuffer("4.7");
@@ -235,26 +235,26 @@ function testToBuffer(
     }).toThrow();
     //number[]
     expect(
-        PROOF_BUFFER(dt.toBuffer([4.7, 4.7, 4.7]), hex4_7 + hex4_7 + hex4_7)
+        PROOF_BUFFER(dt.toBuffer([4.7, 4.7, 4.7]), hex4_7 + hex4_7 + hex4_7),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer([4.7, 4.7, 4.7], false),
-            hex4_7_BE + hex4_7_BE + hex4_7_BE
-        )
+            hex4_7_BE + hex4_7_BE + hex4_7_BE,
+        ),
     ).toBe(true);
     //string[]
     expect(
         PROOF_BUFFER(
             dt.toBuffer(["4.7", "4.7", "4.7"]),
-            hex4_7 + hex4_7 + hex4_7
-        )
+            hex4_7 + hex4_7 + hex4_7,
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(["4.7", "4.7", "4.7"], false),
-            hex4_7_BE + hex4_7_BE + hex4_7_BE
-        )
+            hex4_7_BE + hex4_7_BE + hex4_7_BE,
+        ),
     ).toBe(true);
     expect(() => {
         dt.toBuffer(["1", "no number", "3"]);
@@ -263,28 +263,28 @@ function testToBuffer(
     expect(
         PROOF_BUFFER(
             dt.toBuffer([1156n, 1156n, -1156n]),
-            hex1156 + hex1156 + hexM1156
-        )
+            hex1156 + hex1156 + hexM1156,
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer([1156n, 1156n, -1156n], false),
-            hex1156_BE + hex1156_BE + hexM1156_BE
-        )
+            hex1156_BE + hex1156_BE + hexM1156_BE,
+        ),
     ).toBe(true);
     //buffer
     expect(PROOF_BUFFER(dt.toBuffer(BUF_4_7), hex4_7)).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(hexBuf(hex4_7 + hex4_7 + hex4_7)),
-            hex4_7 + hex4_7 + hex4_7
-        )
+            hex4_7 + hex4_7 + hex4_7,
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(hexBuf(hex4_7_BE + hex4_7_BE + hex4_7_BE), false),
-            hex4_7_BE + hex4_7_BE + hex4_7_BE
-        )
+            hex4_7_BE + hex4_7_BE + hex4_7_BE,
+        ),
     ).toBe(true);
     expect(() => {
         dt.toBuffer(Buffer.alloc(5));
@@ -296,8 +296,8 @@ function testToBuffer(
     expect(
         PROOF_BUFFER(
             dt.toBuffer([BUF_4_7, BUF_4_7, BUF_4_7]),
-            hex4_7 + hex4_7 + hex4_7
-        )
+            hex4_7 + hex4_7 + hex4_7,
+        ),
     ).toBe(true);
     expect(() => {
         dt.toBuffer([BUF_4_7, BUF_4_7, Buffer.alloc(3)]);
@@ -327,12 +327,12 @@ function testFromBuffer(
     hex1156: string,
     hex1156_BE: string,
     hexM1156: string,
-    hexM1156_BE: string
+    hexM1156_BE: string,
 ) {
     const BUF_1 = hexBuf(hex4_7 + hex1156 + hexM1156);
-    const BUF_1_ERR = hexBuf(hex4_7 + hex1156 + hexM1156 + "10");
+    const BUF_1_ERR = hexBuf(`${hex4_7}${hex1156}${hexM1156}10`);
     const BUF_1_BE = hexBuf(hex4_7_BE + hex1156_BE + hexM1156_BE);
-    const BUF_1_BE_ERR = hexBuf(hex4_7_BE + hex1156_BE + hexM1156_BE + "10");
+    const BUF_1_BE_ERR = hexBuf(`${hex4_7_BE}${hex1156_BE}${hexM1156_BE}10`);
 
     let res: number[];
 
@@ -359,7 +359,7 @@ function testToString(
     hex4_7: string,
     hex1156: string,
     hex4_7_BE: string,
-    hex1156_BE: string
+    hex1156_BE: string,
 ) {
     const BUF_4_7 = hexBuf(hex4_7);
     const BUF_1156 = hexBuf(hex1156);
@@ -391,20 +391,20 @@ function testToString(
     expect(dt.toString([4.7, 10, 10, -10], false)).toEqual("[4.7,10,10,-10]");
 
     expect(dt.toString([1156n, -1156n, 10n, 10n])).toEqual(
-        "[1156,-1156,10,10]"
+        "[1156,-1156,10,10]",
     );
     expect(dt.toString([1156n, -1156n, 10n, 10n], false)).toEqual(
-        "[1156,-1156,10,10]"
+        "[1156,-1156,10,10]",
     );
     expect(dt.toString(["4.7", "1156", "10", "10"])).toEqual(
-        "[4.7,1156,10,10]"
+        "[4.7,1156,10,10]",
     );
     expect(dt.toString(["4.7", "1156", "10", "10"], false)).toEqual(
-        "[4.7,1156,10,10]"
+        "[4.7,1156,10,10]",
     );
 
     let res: number[] = JSON.parse(
-        dt.toString([BUF_4_7, BUF_1156, BUF_4_7, BUF_1156])
+        dt.toString([BUF_4_7, BUF_1156, BUF_4_7, BUF_1156]),
     );
     expect(res[0]).toBeCloseTo(4.7);
     expect(res[1]).toBeCloseTo(1156);
@@ -412,7 +412,7 @@ function testToString(
     expect(res[3]).toBeCloseTo(1156);
 
     res = JSON.parse(
-        dt.toString([BUF_4_7_BE, BUF_1156_BE, BUF_4_7_BE, BUF_1156_BE], false)
+        dt.toString([BUF_4_7_BE, BUF_1156_BE, BUF_4_7_BE, BUF_1156_BE], false),
     );
     expect(res[0]).toBeCloseTo(4.7);
     expect(res[1]).toBeCloseTo(1156);
@@ -452,10 +452,10 @@ function testToString(
     }).toThrow();
 
     expect(() => {
-        dt.toString(hexBuf("10" + hex4_7));
+        dt.toString(hexBuf(`10${hex4_7}`));
     }).toThrow();
     expect(() => {
-        dt.toString(hexBuf("10" + hex4_7), false);
+        dt.toString(hexBuf(`10${hex4_7}`), false);
     }).toThrow();
     expect(() => {
         dt.toString(NaN);
@@ -507,7 +507,7 @@ test("DOUBLE check", () => {
         hexBuf(X_DB_4_7),
         hexBuf(X_DB_4_7_BE),
         X_DB_4_7,
-        X_DB_4_7_BE
+        X_DB_4_7_BE,
     );
 });
 
@@ -527,7 +527,7 @@ test("FLOAT toBuffer", () => {
         X_1156,
         X_1156_BE,
         X_M1156,
-        X_M1156_BE
+        X_M1156_BE,
     );
 });
 
@@ -539,7 +539,7 @@ test("DOUBLE toBuffer", () => {
         X_DB_1156,
         X_DB_1156_BE,
         X_DB_M1156,
-        X_DB_M1156_BE
+        X_DB_M1156_BE,
     );
 });
 
@@ -551,7 +551,7 @@ test("FLOAT fromBuffer", () => {
         X_1156,
         X_1156_BE,
         X_M1156,
-        X_M1156_BE
+        X_M1156_BE,
     );
 });
 
@@ -563,7 +563,7 @@ test("DOUBLE fromBuffer", () => {
         X_DB_1156,
         X_DB_1156_BE,
         X_DB_M1156,
-        X_DB_M1156_BE
+        X_DB_M1156_BE,
     );
 });
 

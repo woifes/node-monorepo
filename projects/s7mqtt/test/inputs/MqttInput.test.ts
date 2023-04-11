@@ -1,8 +1,6 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/* eslint-disable @typescript-eslint/no-namespace */
-
 import { Client, Message } from "@woifes/mqtt-client";
 import { S7RemoteEndpoint } from "@woifes/s7endpoint";
 import { TestServer } from "@woifes/s7endpoint/test/TestServer";
@@ -36,7 +34,7 @@ function simIncMessage(msg: Message) {
     (mqtt as any).onMessageCallback(
         msg.topic.join("/"),
         Buffer.from(msg.body, "utf-8"),
-        { qos: msg.qos, retain: msg.retain }
+        { qos: msg.qos, retain: msg.retain },
     );
 }
 
@@ -55,7 +53,7 @@ expect.extend({
             pass
                 ? ""
                 : `Received Buffer (${received.toString(
-                      "hex"
+                      "hex",
                   )}) is not the same as expected (${expected})`;
 
         return {
@@ -90,7 +88,7 @@ describe("Single target test", () => {
             },
             S7ENDP,
             mqtt,
-            DEBUGGER
+            DEBUGGER,
         );
         await promiseTimeout(1000);
         SERVER.setArea(1, Buffer.alloc(4));
@@ -117,7 +115,7 @@ describe("Single target test", () => {
             },
             S7ENDP,
             mqtt,
-            DEBUGGER
+            DEBUGGER,
         );
         await promiseTimeout(1000);
         const m1 = new Message("a/b/c", 0, false, "456", mqtt);
@@ -139,7 +137,7 @@ describe("Single target test", () => {
             },
             S7ENDP,
             mqtt,
-            DEBUGGER
+            DEBUGGER,
         );
         await promiseTimeout(1500);
         SERVER.setArea(2, Buffer.alloc(4));
@@ -157,7 +155,7 @@ describe("Multi target test", () => {
             },
             S7ENDP,
             mqtt,
-            DEBUGGER
+            DEBUGGER,
         );
         await promiseTimeout(300);
         SERVER.setArea(101, Buffer.alloc(4));
@@ -193,7 +191,7 @@ describe("Multi target test", () => {
             },
             S7ENDP,
             mqtt,
-            DEBUGGER
+            DEBUGGER,
         );
         await promiseTimeout(300);
         SERVER.setArea(101, Buffer.alloc(4));
@@ -204,7 +202,7 @@ describe("Multi target test", () => {
             0,
             false,
             `[123,"wrong value",789]`,
-            mqtt
+            mqtt,
         );
         simIncMessage(m1);
         await promiseTimeout(500);
@@ -222,7 +220,7 @@ describe("Multi target test", () => {
             },
             S7ENDP,
             mqtt,
-            DEBUGGER
+            DEBUGGER,
         );
         await promiseTimeout(300);
         SERVER.setArea(111, Buffer.alloc(4));
@@ -274,7 +272,7 @@ describe("Multi target test", () => {
             },
             S7ENDP,
             mqtt,
-            DEBUGGER
+            DEBUGGER,
         );
         await promiseTimeout(300);
         SERVER.setArea(201, Buffer.alloc(4));
@@ -317,7 +315,7 @@ describe("Multi target test", () => {
             },
             S7ENDP,
             mqtt,
-            DEBUGGER
+            DEBUGGER,
         );
         await promiseTimeout(2500);
         SERVER.setArea(301, Buffer.alloc(4));

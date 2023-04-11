@@ -1,6 +1,6 @@
 {
   "name": "@woifes/s7mqtt",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "",
   "files": [
     "dist"
@@ -14,9 +14,8 @@
     "mt:remote": "jest --runInBand --forceExit mt/remote/remote.test.ts",
     "mt:local": "jest --runInBand --forceExit mt/local/local.test.ts",
     "compile": "tsc -p tsconfig.build.json",
-    "prettier": "prettier -w ./mt/**/*.ts ./src/**/*.ts ./test/**/*.ts ./index.ts ",
-    "lint": "eslint ./mt/ ./src/ ./test/ ./index.ts --fix",
-    "lint:check": "eslint ./mt/ ./src/ ./test/ ./index.ts",
+    "format": "rome format --write .",
+    "lint": "rome check --apply-unsafe .",
     "prepare": "pnpm compile",
     "docker:build": "docker build -t monorepo ../../ && ver && docker build -t s7mqtt:%npm_package_version% . || docker build -t s7mqtt:$npm_package_version .",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
@@ -25,9 +24,9 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@woifes/alarmhandler": "workspace:0.1.1",
-    "@woifes/alarmhandlermqtt": "workspace:0.5.0",
+    "@woifes/alarmhandlermqtt": "workspace:0.5.1",
     "@woifes/binarytypes": "workspace:^1.0.0",
-    "@woifes/mqtt-client": "workspace:0.2.1",
+    "@woifes/mqtt-client": "workspace:0.2.2",
     "@woifes/s7endpoint": "workspace:0.2.2",
     "@woifes/util": "workspace:0.1.1",
     "debug": "^4.3.2",

@@ -21,15 +21,15 @@ type ParseLineResult = {
 function parseDbLine(str: string): ParseLineResult {
     let type = str.split(";")[0];
     const comment = str.split("//")[1];
-    if (type == undefined) {
+    if (type === undefined) {
         throw new Error(
-            `Error in parseLineToTagDesc, type is undefined. str:${str}`
+            `Error in parseLineToTagDesc, type is undefined. str:${str}`,
         );
     }
 
     let count: number | undefined = undefined;
 
-    if (type.indexOf("Array") != -1) {
+    if (type.indexOf("Array") !== -1) {
         //is array type
         const lowerBound = parseInt(type.split("[")[1].split("..")[0]);
         const upperBound = parseInt(type.split("]")[0].split("..")[1]);
@@ -37,7 +37,7 @@ function parseDbLine(str: string): ParseLineResult {
         if (!isNaN(lowerBound) && !isNaN(upperBound)) {
             count = 1 + (upperBound - lowerBound);
         } else {
-            throw new Error(`Could not calculate Array size`);
+            throw new Error("Could not calculate Array size");
         }
     }
 
@@ -50,7 +50,7 @@ function parseDbLine(str: string): ParseLineResult {
         count,
     };
 
-    if (comment != undefined) {
+    if (comment !== undefined) {
         variable.comment = comment;
     }
     return variable;
@@ -66,7 +66,7 @@ function parseDbLine(str: string): ParseLineResult {
 export function transformDbObjectToS7Vars(
     obj: DbObject,
     prefix?: string,
-    byteIndex = 0
+    byteIndex = 0,
 ): tS7Variable[] {
     let resultArray: tS7Variable[] = [];
     let bitIndex: number | undefined = undefined;
@@ -75,12 +75,12 @@ export function transformDbObjectToS7Vars(
         const element = obj[key];
         let variableTmp: tS7Variable;
         let name: string;
-        if (prefix != undefined) {
+        if (prefix !== undefined) {
             name = [prefix, key].join("/");
         } else {
             name = key;
         }
-        if (typeof element == "object") {
+        if (typeof element === "object") {
             let newArr: tS7Variable[] = [];
             bitIndex = undefined; //reset bitindex if a struct is comming
             byteIndex += byteIndex % 2; //if a new struct begins it hast to be a even address!
@@ -99,8 +99,8 @@ export function transformDbObjectToS7Vars(
                 byteIndex: 0,
                 ...dbLineInfo,
             };
-            if (variableTmp.type == "BIT" && variableTmp.count == undefined) {
-                if (bitIndex == undefined) {
+            if (variableTmp.type === "BIT" && variableTmp.count === undefined) {
+                if (bitIndex === undefined) {
                     bitIndex = 0;
                 } else {
                     bitIndex++;
@@ -112,20 +112,20 @@ export function transformDbObjectToS7Vars(
                 variableTmp.byteIndex = byteIndex;
                 variableTmp.bitIndex = bitIndex;
             } else {
-                if (bitIndex != undefined) {
+                if (bitIndex !== undefined) {
                     //before there came a bit variable
                     byteIndex++;
                     bitIndex = undefined;
                 }
                 if (
-                    variableTmp.count == undefined &&
-                    (variableTmp.type == "UINT8" || variableTmp.type == "INT8")
+                    variableTmp.count === undefined &&
+                    (variableTmp.type === "UINT8" || variableTmp.type === "INT8")
                 ) {
                     variableTmp.byteIndex = byteIndex;
                 } else {
                     if (
-                        variableTmp.type == "BIT" &&
-                        variableTmp.count != undefined //is implied because of the condition above anyways
+                        variableTmp.type === "BIT" &&
+                        variableTmp.count !== undefined //is implied because of the condition above anyways
                     ) {
                         variableTmp.bitIndex = 0;
                     }
@@ -133,7 +133,7 @@ export function transformDbObjectToS7Vars(
                     variableTmp.byteIndex = byteIndex;
                 }
                 byteIndex += getS7AddrSize(variableTmp);
-                if (variableTmp.count != undefined) {
+                if (variableTmp.count !== undefined) {
                     byteIndex += byteIndex % 2;
                 }
             }

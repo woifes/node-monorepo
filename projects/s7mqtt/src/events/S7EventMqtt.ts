@@ -19,7 +19,7 @@ export class S7EventMqtt {
         config: tS7EventMqttConfig,
         s7endpoint: S7Endpoint,
         mqtt: Client,
-        parentDebugger: Debugger
+        parentDebugger: Debugger,
     ) {
         this._config = config;
         this._debug = parentDebugger.extend(`mqttEvent:${this._config.topic}`);
@@ -27,7 +27,7 @@ export class S7EventMqtt {
         this._s7event = new S7Event(
             { ...this._config },
             this._s7ep,
-            this._debug
+            this._debug,
         );
         this._mqtt = mqtt;
         this._s7event.on("trigger", this.onNewTrigger.bind(this));
@@ -35,11 +35,11 @@ export class S7EventMqtt {
 
     private onNewTrigger(newTrigger: tS7Variable, params: tS7Variable[]) {
         let message = "";
-        if (this._config.message != undefined) {
+        if (this._config.message !== undefined) {
             message = this.replacePlaceholder(
                 this._config.message,
                 newTrigger,
-                params
+                params,
             );
         } else {
             const valueList: tJsVal[] = [newTrigger.value as tJsVal];
@@ -54,7 +54,7 @@ export class S7EventMqtt {
             2,
             false,
             message,
-            this._mqtt
+            this._mqtt,
         );
         msg.send().catch(() => {
             this._debug("Error at msg.send() in onNewTrigger()");
@@ -64,21 +64,21 @@ export class S7EventMqtt {
     private replacePlaceholder(
         message: string,
         newTrigger: tS7Variable,
-        params: tS7Variable[]
+        params: tS7Variable[],
     ) {
         return message.replaceAll(
             /\$[\d|t]+/g,
             (match: string, ...args: any[]) => {
                 const c = match.slice(1);
                 const n = parseInt(c);
-                if (Number.isFinite(n) && params[n] != undefined) {
+                if (Number.isFinite(n) && params[n] !== undefined) {
                     return JSON.stringify(params[n].value);
-                } else if (c == "t") {
+                } else if (c === "t") {
                     return JSON.stringify(newTrigger.value);
                 } else {
                     return match;
                 }
-            }
+            },
         );
     }
 }

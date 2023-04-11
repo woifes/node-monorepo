@@ -33,7 +33,7 @@ export class S7Command extends EventEmitter {
             topicTransform: (reqTopic: string[]) => {
                 const requester = reqTopic[reqTopic.length - 2];
                 let prefix = "cmdRes";
-                if (this._config.result != undefined) {
+                if (this._config.result !== undefined) {
                     prefix = this._config.result.topicPrefix ?? prefix;
                 }
                 return [
@@ -52,7 +52,7 @@ export class S7Command extends EventEmitter {
         } else {
             return address.type;
         }
-        if (address.count != undefined && address.count > 1) {
+        if (address.count !== undefined && address.count > 1) {
             typeName = `ARRAY_OF_${typeName}`;
         }
 
@@ -73,7 +73,7 @@ export class S7Command extends EventEmitter {
         config: tS7CommandConfig,
         s7endpoint: S7Endpoint,
         @MqttConnection() mqtt: Client,
-        parentDebugger: Debugger
+        parentDebugger: Debugger,
     ) {
         super();
         this._config = S7CommandConfig.check(config);
@@ -83,20 +83,20 @@ export class S7Command extends EventEmitter {
         this._cmdPattern.push("UINT16");
         for (
             let i = 0;
-            this._config.params != undefined && i < this._config.params.length;
+            this._config.params !== undefined && i < this._config.params.length;
             i++
         ) {
             const param = this._config.params[i];
             this._cmdPattern.push(
-                S7Command.transformTypeName(parseS7AddressString(param))
+                S7Command.transformTypeName(parseS7AddressString(param)),
             );
         }
         this._requiredParamCount =
-            this._config.params == undefined
+            this._config.params === undefined
                 ? 0
                 : this._config.requiredParamCount ?? this._config.params.length;
         this._requiredParamCount++;
-        if (this._config.result != undefined) {
+        if (this._config.result !== undefined) {
             this._config.result.params = this._config.result.params ?? [];
             this._config.result.params = [
                 this._config.result.okFlagAddress,
@@ -105,7 +105,7 @@ export class S7Command extends EventEmitter {
             this._s7event = new S7Event(
                 this._config.result,
                 this._s7ep,
-                this._debug
+                this._debug,
             );
             this._s7event.on("trigger", this.onEventTrigger.bind(this));
             this._responseTimeoutMS = this._config.result.timeoutMS;
@@ -114,10 +114,10 @@ export class S7Command extends EventEmitter {
 
     private createWriteRequest(
         cmdIdVal: tJsVal,
-        paramValues: tJsVal[]
+        paramValues: tJsVal[],
     ): WriteRequest {
         const writeTags: tS7Variable[] = [];
-        if (this._config.cmdIdAddress != undefined) {
+        if (this._config.cmdIdAddress !== undefined) {
             writeTags[0] = {
                 ...parseS7AddressString(this._config.cmdIdAddress),
                 value: cmdIdVal,
@@ -127,7 +127,7 @@ export class S7Command extends EventEmitter {
         for (let i = 0; i < paramValues.length; i++) {
             const param = this._config.params![i];
             this._cmdPattern.push(
-                S7Command.transformTypeName(parseS7AddressString(param))
+                S7Command.transformTypeName(parseS7AddressString(param)),
             );
             writeTags.push({
                 ...parseS7AddressString(param),
@@ -147,7 +147,7 @@ export class S7Command extends EventEmitter {
             });
         } else {
             this._debug(
-                `Message with to less params ${msgParams.length}/${this._requiredParamCount}`
+                `Message with to less params ${msgParams.length}/${this._requiredParamCount}`,
             );
         }
     }
@@ -158,7 +158,7 @@ export class S7Command extends EventEmitter {
             try {
                 await res.send();
             } catch (e) {
-                this._debug(`Error at sending of response`);
+                this._debug("Error at sending of response");
             }
         };
         try {
@@ -166,7 +166,7 @@ export class S7Command extends EventEmitter {
             await writeReq.execute();
             if (this._config.result) {
                 const [okFlag, ...eventParams] = await this.waitForCmdId(
-                    cmdId as number
+                    cmdId as number,
                 );
                 res.writeJSON([cmdId, okFlag, ...eventParams]);
                 await res.send();
@@ -183,7 +183,7 @@ export class S7Command extends EventEmitter {
         return new Promise((resolve, reject) => {
             const timeOut = setTimeout(() => {
                 this._debug(
-                    `Timeout while waiting for commandId(${expectedCmdId})`
+                    `Timeout while waiting for commandId(${expectedCmdId})`,
                 );
                 clear();
                 reject("Timeout occurred in command");
@@ -192,7 +192,7 @@ export class S7Command extends EventEmitter {
             once(this, `${expectedCmdId}`)
                 .then(([params]) => {
                     const paramVals = (params as tS7Variable[]).map(
-                        (p) => p.value
+                        (p) => p.value,
                     ) as tJsVal[];
                     resolve(paramVals);
                 })

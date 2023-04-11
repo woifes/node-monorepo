@@ -3,8 +3,6 @@
 
 import { calcIntegerSize } from "../../src/checkInteger";
 
-/* eslint-disable @typescript-eslint/no-loss-of-precision */
-
 test("calcIntegerSize signed 1 byte", () => {
     expect(calcIntegerSize(127, true)).toBe(1);
     expect(calcIntegerSize(-128, true)).toBe(1);
@@ -102,9 +100,12 @@ test("calcIntegerSize signed over 8 bytes", () => {
     expect(calcIntegerSize(Number.MIN_SAFE_INTEGER - 1.3, true)).toBe(-1);
 
     expect(calcIntegerSize(9223372036854775808, true)).toBe(-1);
+    // rome-ignore lint/correctness/noPrecisionLoss: For tests used in this file
     expect(calcIntegerSize(-9223372036854775809, true)).toBe(-1);
 
+    // rome-ignore lint/correctness/noPrecisionLoss: For tests used in this file
     expect(calcIntegerSize(9223372036854775808.3, true)).toBe(-1);
+    // rome-ignore lint/correctness/noPrecisionLoss: For tests used in this file
     expect(calcIntegerSize(-9223372036854775809.3, true)).toBe(-1);
 
     expect(calcIntegerSize(9223372036854775808n, true)).toBe(-1);
@@ -179,6 +180,7 @@ test("calcIntegerSize unsigned out of range", () => {
     expect(calcIntegerSize(Number.MAX_SAFE_INTEGER + 1, false)).toBe(-1);
 
     expect(calcIntegerSize(18446744073709551616, false)).toBe(-1);
+    // rome-ignore lint/correctness/noPrecisionLoss: For tests used in this file
     expect(calcIntegerSize(18446744073709551616.3, false)).toBe(-1);
 
     expect(calcIntegerSize(18446744073709551616n, false)).toBe(-1);

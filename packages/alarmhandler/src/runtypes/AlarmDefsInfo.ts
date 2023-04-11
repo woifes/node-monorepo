@@ -6,7 +6,7 @@ import { AlarmDefinition } from "../Alarm/AlarmDefinition";
 
 export const AlarmDefsInfo = rt.Dictionary(
     AlarmDefinition,
-    rt.Number.withConstraint((n) => n > 0)
+    rt.Number.withConstraint((n) => n > 0),
 );
 
 /**

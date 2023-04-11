@@ -84,7 +84,7 @@ test("validation of ARRAY_OF_STRING", () => {
     }).toThrow();
     expect(() => {
         rtARRAY_OF_STRING.check(
-            Buffer.from('["I", "am", "a", "string", "array"]', "ascii")
+            Buffer.from('["I", "am", "a", "string", "array"]', "ascii"),
         );
     }).not.toThrow();
     //Buffer[]

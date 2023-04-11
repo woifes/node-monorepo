@@ -47,19 +47,19 @@ export class CsvFileHandler {
         let now: Date;
         if (moment instanceof Date) {
             now = moment;
-        } else if (typeof moment == "number") {
+        } else if (typeof moment === "number") {
             now = new Date(moment);
         } else {
             now = new Date();
         }
-        const year = ("0000" + now.getFullYear()).slice(-4);
-        const month = ("00" + (now.getMonth() + 1)).slice(-2);
-        const day = ("00" + now.getDate()).slice(-2);
+        const year = (`0000${now.getFullYear()}`).slice(-4);
+        const month = (`00${(now.getMonth() + 1)}`).slice(-2);
+        const day = (`00${now.getDate()}`).slice(-2);
 
-        const hours = ("00" + now.getHours()).slice(-2);
-        const minutes = ("00" + now.getMinutes()).slice(-2);
-        const seconds = ("00" + now.getSeconds()).slice(-2);
-        const milliseconds = ("000" + now.getMilliseconds()).slice(-3);
+        const hours = (`00${now.getHours()}`).slice(-2);
+        const minutes = (`00${now.getMinutes()}`).slice(-2);
+        const seconds = (`00${now.getSeconds()}`).slice(-2);
+        const milliseconds = (`000${now.getMilliseconds()}`).slice(-3);
 
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
     }
@@ -74,7 +74,7 @@ export class CsvFileHandler {
     constructor(
         fileName: string,
         dirPath: string,
-        opts: CsvFileHandlerOptions
+        opts: CsvFileHandlerOptions,
     ) {
         this._fileExtension = opts.fileExtension ?? "";
         this._csvSeparator = opts.csvSeparator ?? ";";
@@ -121,7 +121,7 @@ export class CsvFileHandler {
     private setupFile(): number {
         if (!(existsSync(this.genFullFilePath()) as boolean)) {
             let content = "";
-            if (this._header != undefined) {
+            if (this._header !== undefined) {
                 content = this.getHeader()! + "\n";
             }
             appendFileSync(this.genFullFilePath(), content);
@@ -133,12 +133,10 @@ export class CsvFileHandler {
 
     private getHeader(): string | undefined {
         let headerStr: string | undefined;
-        if (this._header != undefined) {
+        if (this._header !== undefined) {
             if (this._addTimeStamp) {
                 headerStr =
-                    "created" +
-                    this._csvSeparator +
-                    this._header!.join(this._csvSeparator);
+                    `created${this._csvSeparator}${this._header!.join(this._csvSeparator)}`;
             } else {
                 headerStr = this._header!.join(this._csvSeparator);
             }
@@ -151,7 +149,7 @@ export class CsvFileHandler {
             if (this._actFileSize > this._maxFileSize) {
                 renameSync(
                     this.genFullFilePath(),
-                    this.genFullFilePath(".old" + this._fileExtension)
+                    this.genFullFilePath(`.old${this._fileExtension}`),
                 );
                 this._actFileSize = this.setupFile();
             }
@@ -218,7 +216,7 @@ export class CsvFileHandler {
      */
     getLines(
         filter: (entries: string[]) => boolean,
-        checkAll = false
+        checkAll = false,
     ): EventEmitter {
         const evtEmitter = new EventEmitter();
         let foundStart = false;
@@ -276,7 +274,7 @@ export class CsvFileHandler {
      */
     async getAllLines(
         filter: (entries: string[]) => boolean,
-        checkAll = false
+        checkAll = false,
     ): Promise<string[]> {
         return new Promise((resolve, reject) => {
             try {

@@ -13,7 +13,7 @@ it("should validate example file", () => {
         "..",
         "examples",
         "events",
-        "event.example.yaml"
+        "event.example.yaml",
     );
     expect(() => {
         S7EventConfig.check(parse(readFileSync(p1, "utf-8")));

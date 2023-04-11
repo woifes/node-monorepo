@@ -73,7 +73,7 @@ const GetChannelValueMock = (
                 break;
         }
         return Promise.resolve(val);
-    }
+    },
 );
 
 const NODE_YASDI = new NodeYasdi("test01", {
@@ -172,7 +172,7 @@ describe("getData tests", () => {
                         value: 2001,
                     },
                 ],
-            ])
+            ]),
         );
         expect(i.comStatus).toBe("online");
     });
@@ -279,7 +279,7 @@ it("should go offline if -3 result is received", async () => {
                     break;
             }
             return Promise.resolve(val);
-        }
+        },
     );
     const i = new Inverter(1, NODE_YASDI);
     NODE_YASDI.emit("deviceSearchEnd");
@@ -305,7 +305,7 @@ it("should go offline if -3 result is received", async () => {
                     value: 101,
                 },
             ],
-        ])
+        ]),
     );
     expect(i.comStatus).toBe("offline");
 });
@@ -346,7 +346,7 @@ it("should set comError when result is other bad error code", async () => {
                     break;
             }
             return Promise.resolve(val);
-        }
+        },
     );
     const i = new Inverter(1, NODE_YASDI);
     NODE_YASDI.emit("deviceSearchEnd");
@@ -372,7 +372,7 @@ it("should set comError when result is other bad error code", async () => {
                     value: 101,
                 },
             ],
-        ])
+        ]),
     );
     expect(i.comStatus).toBe("comError");
 });

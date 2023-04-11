@@ -28,7 +28,7 @@ export class MqttInfluxDbAgent {
             writeOptions: { flushInterval: this.config.influx.flushIntervalMS },
         });
         this.mqtt = new Client(this.config.mqtt);
-        this.debug = debug(`MqttInfluxDbAgent`);
+        this.debug = debug("MqttInfluxDbAgent");
         for (const itemConfig of this.config.items) {
             this.items.push(
                 new Item(
@@ -36,8 +36,8 @@ export class MqttInfluxDbAgent {
                     this.config.influx.organization,
                     this.influx,
                     this.mqtt,
-                    this.debug
-                )
+                    this.debug,
+                ),
             );
         }
         process.on("exit", () => {

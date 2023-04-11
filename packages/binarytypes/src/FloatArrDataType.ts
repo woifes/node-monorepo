@@ -33,7 +33,7 @@ export class FloatArrDataType extends FloatDataType implements DataType {
         for (let i = 0; i < buf.length; i = i + this._size) {
             n[j] = super.readFromBuffer(
                 buf.slice(i, i + this._size),
-                littleEndian
+                littleEndian,
             );
             j++;
         }
@@ -49,14 +49,14 @@ export class FloatArrDataType extends FloatDataType implements DataType {
     private writeArrayToBuffer(
         buf: Buffer,
         val: number[],
-        littleEndian = true
+        littleEndian = true,
     ) {
         let j = 0;
         for (let i = 0; i < buf.length; i = i + this._size) {
             super.writeToBuffer(
                 buf.slice(i, i + this._size),
                 val[j],
-                littleEndian
+                littleEndian,
             );
             j++;
         }
@@ -82,7 +82,7 @@ export class FloatArrDataType extends FloatDataType implements DataType {
         if (Buffer.isBuffer(val)) {
             return this.readArrayFromBuffer(val, littleEndian);
         } else {
-            if (typeof val == "string") {
+            if (typeof val === "string") {
                 val = JSON.parse(val);
             }
             const res: number[] = [];

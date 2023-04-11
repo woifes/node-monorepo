@@ -18,7 +18,7 @@ function testDt(
     hexMax: string,
     hexMin: string,
     hexMaxBE: string,
-    hexMinBE: string
+    hexMinBE: string,
 ) {
     //#region defines
     const MAX = max < Number.MAX_SAFE_INTEGER ? Number(max) : max;
@@ -37,7 +37,7 @@ function testDt(
     const BUF_MIN_BE = hexBuf(X_MIN_BE);
     //#endregion
 
-    if (typeof MAX == "number" && typeof MIN == "number") {
+    if (typeof MAX === "number" && typeof MIN === "number") {
         expect(dt.validate(MAX)).toBe(false);
         expect(dt.validate(MIN)).toBe(false);
 
@@ -63,73 +63,83 @@ function testDt(
     expect(dt.validate(S_MAX)).toBe(false);
     expect(dt.validate(S_MIN)).toBe(false);
     //plain string with float
-    expect(dt.validate(S_MAX + ".3")).toBe(false);
-    expect(dt.validate(S_MIN + ".3")).toBe(false);
+    expect(dt.validate(`${S_MAX}.3`)).toBe(false);
+    expect(dt.validate(`${S_MIN}.3`)).toBe(false);
     //stringified array of string
     expect(
-        dt.validate(`[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`)
+        dt.validate(`[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`),
     ).toBe(true);
     expect(
         dt.validate(
-            `[ "${BI_MAX + 1n}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`
-        )
+            `[ "${BI_MAX + 1n}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
+        ),
     ).toBe(false);
     expect(
         dt.validate(
-            `[ "${BI_MAX}", "${BI_MIN - 1n}", "${BI_MAX}", "${BI_MIN}" ]`
-        )
+            `[ "${BI_MAX}", "${BI_MIN - 1n}", "${BI_MAX}", "${BI_MIN}" ]`,
+        ),
     ).toBe(false);
     //stringified array of string with float
     expect(
         dt.validate(
-            `[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}.3", "${BI_MIN}.3" ]`
-        )
+            `[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}.3", "${BI_MIN}.3" ]`,
+        ),
     ).toBe(true);
     expect(
         dt.validate(
-            `[ "${BI_MAX + 1n}.3", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`
-        )
+            `[ "${BI_MAX + 1n}.3", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
+        ),
     ).toBe(false);
     expect(
         dt.validate(
-            `[ "${BI_MAX}", "${BI_MIN - 1n}.3", "${BI_MAX}", "${BI_MIN}" ]`
-        )
+            `[ "${BI_MAX}", "${BI_MIN - 1n}.3", "${BI_MAX}", "${BI_MIN}" ]`,
+        ),
     ).toBe(false);
     //array of string
     expect(dt.validate([S_MAX, S_MIN, S_MAX, S_MIN])).toBe(true);
     expect(
-        dt.validate([`${BI_MAX + 1n}`, `${BI_MIN}`, `${BI_MAX}`, `${BI_MIN}`])
+        dt.validate([`${BI_MAX + 1n}`, `${BI_MIN}`, `${BI_MAX}`, `${BI_MIN}`]),
     ).toBe(false);
     expect(
-        dt.validate([`${BI_MAX}`, `${BI_MIN - 1n}`, `${BI_MAX}`, `${BI_MIN}`])
+        dt.validate([`${BI_MAX}`, `${BI_MIN - 1n}`, `${BI_MAX}`, `${BI_MIN}`]),
     ).toBe(false);
     //array of string with float
     expect(
-        dt.validate([S_MAX + ".3", S_MIN + ".3", S_MAX + ".3", S_MIN + ".3"])
+        dt.validate([`${S_MAX}.3`, `${S_MIN}.3`, `${S_MAX}.3`, `${S_MIN}.3`]),
     ).toBe(true);
     expect(
-        dt.validate([`${BI_MAX + 1n}.3`, `${BI_MIN}`, `${BI_MAX}`, `${BI_MIN}`])
+        dt.validate([
+            `${BI_MAX + 1n}.3`,
+            `${BI_MIN}`,
+            `${BI_MAX}`,
+            `${BI_MIN}`,
+        ]),
     ).toBe(false);
     expect(
-        dt.validate([`${BI_MAX}`, `${BI_MIN - 1n}.3`, `${BI_MAX}`, `${BI_MIN}`])
+        dt.validate([
+            `${BI_MAX}`,
+            `${BI_MIN - 1n}.3`,
+            `${BI_MAX}`,
+            `${BI_MIN}`,
+        ]),
     ).toBe(false);
     //Buffer
     expect(dt.validate(hexBuf(X_MAX + X_MIN + X_MAX + X_MIN))).toBe(true);
     expect(dt.validate(hexBuf(X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE))).toBe(
-        true
+        true,
     );
     if (BUF_MAX.length > 1) {
-        expect(dt.validate(hexBuf(X_MAX + X_MIN + X_MAX + X_MIN + "10"))).toBe(
-            false
+        expect(dt.validate(hexBuf(`${X_MAX}${X_MIN}${X_MAX}${X_MIN}10`))).toBe(
+            false,
         );
     }
     //Array of Buffers
     expect(dt.validate([BUF_MAX, BUF_MIN, BUF_MAX, BUF_MIN])).toBe(true);
     expect(dt.validate([BUF_MAX_BE, BUF_MIN_BE, BUF_MAX_BE, BUF_MIN_BE])).toBe(
-        true
+        true,
     );
     expect(
-        dt.validate([BUF_MAX, BUF_MIN, BUF_MAX, BUF_MIN, hexBuf("10" + S_MAX)])
+        dt.validate([BUF_MAX, BUF_MIN, BUF_MAX, BUF_MIN, hexBuf(`10${S_MAX}`)]),
     ).toBe(false);
     //Wrong input
     expect(dt.validate([NaN, 1, 2, 3])).toBe(false);
@@ -157,7 +167,7 @@ test("Test ARRAY_OF_INT32", () => {
         "FFFFFF7F",
         "00000080",
         "7FFFFFFF",
-        "80000000"
+        "80000000",
     );
 });
 
@@ -170,7 +180,7 @@ test("Test ARRAY_OF_INT64", () => {
         "FFFFFFFFFFFFFF7F",
         "0000000000000080",
         "7FFFFFFFFFFFFFFF",
-        "8000000000000000"
+        "8000000000000000",
     );
 });
 
@@ -198,6 +208,6 @@ test("Test ARRAY_OF_UINT64", () => {
         "FFFFFFFFFFFFFFFF",
         "0000000000000000",
         "FFFFFFFFFFFFFFFF",
-        "0000000000000000"
+        "0000000000000000",
     );
 });

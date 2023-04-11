@@ -58,7 +58,7 @@ export class MqttStruct {
             this._valueKey,
             (value: Message) => {
                 return this._valueTransform(value.body);
-            }
+            },
         );
     }
 }

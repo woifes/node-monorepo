@@ -9,7 +9,7 @@ export const S7OutputMqttConfig = S7OutputConfig.And(
         topicPrefix: rt.String.withConstraint((s) => s.length > 0).optional(),
         qos: rt.Union(rt.Literal(0), rt.Literal(1), rt.Literal(2)).optional(),
         retain: rt.Boolean.optional(),
-    })
+    }),
 );
 
 export type tS7OutputMqttConfig = rt.Static<typeof S7OutputMqttConfig>;

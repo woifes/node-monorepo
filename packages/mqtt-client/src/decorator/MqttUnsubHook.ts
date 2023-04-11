@@ -10,19 +10,19 @@ export function MqttUnsubHook() {
     return function (
         target: any,
         propertyKey: string | symbol,
-        descriptor: PropertyDescriptor
+        descriptor: PropertyDescriptor,
     ) {
-        if (typeof propertyKey == "string") {
-            if (descriptor.value != undefined) {
+        if (typeof propertyKey === "string") {
+            if (descriptor.value !== undefined) {
                 //Method
                 target[UNSUBSCRIBE_HOOK_NAME] = propertyKey;
             } else {
                 throw new Error(
-                    `MqttConnectHandler set on something which is not a method`
+                    "MqttConnectHandler set on something which is not a method",
                 );
             }
         } else {
-            throw new Error(`MqttUnsubHook can not be set on Symbol property`);
+            throw new Error("MqttUnsubHook can not be set on Symbol property");
         }
     };
 }

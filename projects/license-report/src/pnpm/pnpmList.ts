@@ -14,7 +14,7 @@ export async function pnpmList() {
                 } else {
                     resolve([stdout, stderr]);
                 }
-            }
+            },
         );
     });
 }

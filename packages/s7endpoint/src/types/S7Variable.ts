@@ -13,11 +13,11 @@ export const S7Variable = S7Address.And(
         name: rt.String.optional(),
         value: rt.Unknown.optional(),
         comment: rt.String.optional(),
-    })
+    }),
 ).withConstraint((r) => {
-    if (r.value != undefined) {
-        if (r.type == "BIT") {
-            if (r.count == undefined) {
+    if (r.value !== undefined) {
+        if (r.type === "BIT") {
+            if (r.count === undefined) {
                 //single bit
                 if (!DataTypes["UINT8"].validate(r.value as any)) {
                     return `value(${r.value}) provided for tag is not compatible with type: ${r.type}`;
@@ -32,7 +32,7 @@ export const S7Variable = S7Address.And(
                     return `value(${r.value}) provided for tag is not compatible with type: ${r.type}`;
                 }
                 const values = DataTypes["ARRAY_OF_UINT8"].check(
-                    r.value as any
+                    r.value as any,
                 ) as number[];
                 for (const value of values) {
                     if ((value as number) < 0 || (value as number) > 2) {
@@ -41,7 +41,7 @@ export const S7Variable = S7Address.And(
                 }
             }
         } else {
-            if (r.count == undefined) {
+            if (r.count === undefined) {
                 //single value
                 if (!DataTypes[r.type].validate(r.value as any)) {
                     return `value(${r.value}) provided for tag is not compatible with type: ${r.type}`;
@@ -52,9 +52,9 @@ export const S7Variable = S7Address.And(
                     return `value(${r.value}) provided for tag is not compatible with type: ${r.type}`;
                 }
                 const values = DataTypes[`ARRAY_OF_${r.type}`].check(
-                    r.value as any
+                    r.value as any,
                 ) as number[];
-                if (values.length != r.count!) {
+                if (values.length !== r.count!) {
                     return `value length(${values.length}) in DVariable does not match with count(${r.count})`;
                 }
             }

@@ -22,11 +22,11 @@ import { writeDbCsv } from "./writeDbCsv";
 
 export const S7LocalEndpointConfig = rt.Record({
     name: rt.String.withConstraint(
-        (s) => s.length > 0 || `name shall not be empty string`
+        (s) => s.length > 0 || "name shall not be empty string",
     ),
     datablocks: rt.Dictionary(
         DbDefinition,
-        rt.Number.withConstraint((n) => n > 0)
+        rt.Number.withConstraint((n) => n > 0),
     ),
     datablockCsvDir: rt.String.withConstraint((s) => s.length > 0).optional(),
     allowArrayTypesInCsv: rt.Boolean.optional(), //only comfort panels and better can have this
@@ -76,16 +76,16 @@ export class S7LocalEndpoint extends EventEmitter implements S7Endpoint {
         const [start, end] = getBoundsOfVarSet(vars);
         const buf = Buffer.alloc(end);
         for (const variable of vars) {
-            if (variable.value != undefined) {
+            if (variable.value !== undefined) {
                 const varBuf = genVariableBuffer(variable);
                 varBuf.copy(buf, variable.byteIndex, 0);
             }
         }
         this.registerArea(dbNr, buf);
-        if (this._config.datablockCsvDir != undefined) {
+        if (this._config.datablockCsvDir !== undefined) {
             const writer = createDbCsvWriter(
                 `${this._config.name}_DBs`,
-                this._config.datablockCsvDir
+                this._config.datablockCsvDir,
             );
             writeDbCsv(writer, dbNr, vars);
         }
@@ -129,6 +129,7 @@ export class S7LocalEndpoint extends EventEmitter implements S7Endpoint {
 
     connect(): void {
         this._server.Start((err: any) => {
+            // rome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
             if (err != undefined) {
                 this._debug(`Error at server.Connect: ${err}`);
             } else {
@@ -164,11 +165,11 @@ export class S7LocalEndpoint extends EventEmitter implements S7Endpoint {
         area: tS7DataAreas,
         dbNr: number,
         dbIndex: number,
-        length: number
+        length: number,
     ): Promise<Buffer> {
-        if (area != "DB") {
+        if (area !== "DB") {
             throw new Error(
-                "Could not read: In local endpoint only DB areas area allowed"
+                "Could not read: In local endpoint only DB areas area allowed",
             );
         }
         this._debugRead(`Read DB${dbNr} from ${dbIndex} with length ${length}`);
@@ -182,7 +183,7 @@ export class S7LocalEndpoint extends EventEmitter implements S7Endpoint {
                 throw new Error(
                     `Db ${dbNr} has length ${db.length} but needed ${
                         dbIndex + length
-                    }`
+                    }`,
                 );
             }
         } catch (e) {
@@ -197,15 +198,15 @@ export class S7LocalEndpoint extends EventEmitter implements S7Endpoint {
         area: tS7DataAreas,
         dbNr: number,
         dbIndex: number,
-        buf: Buffer
+        buf: Buffer,
     ): Promise<void> {
-        if (area != "DB") {
+        if (area !== "DB") {
             throw new Error(
-                "Could not write: In local endpoint only DB areas area allowed"
+                "Could not write: In local endpoint only DB areas area allowed",
             );
         }
         this._debugWrite(
-            `Write DB${dbNr} from ${dbIndex} with length ${buf.length}`
+            `Write DB${dbNr} from ${dbIndex} with length ${buf.length}`,
         );
         try {
             this.lockArea(dbNr);
@@ -218,7 +219,7 @@ export class S7LocalEndpoint extends EventEmitter implements S7Endpoint {
                 throw new Error(
                     `Db ${dbNr} has length ${db.length} but needed ${
                         dbIndex + buf.length
-                    }`
+                    }`,
                 );
             }
         } catch (e) {

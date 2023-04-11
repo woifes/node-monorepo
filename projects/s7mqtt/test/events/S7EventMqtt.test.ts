@@ -44,7 +44,7 @@ it("should send message on trigger without message set", async () => {
         CONFIG,
         {} as S7Endpoint,
         MQTT as unknown as Client,
-        DEBUGGER
+        DEBUGGER,
     );
     const evt = (evtMqtt as any)._s7event;
     evt.emit(
@@ -61,7 +61,7 @@ it("should send message on trigger without message set", async () => {
                 value: [1, 2, 3],
             },
             { area: "DB", dbNr: 20, byteIndex: 2, type: "INT8", value: -7 },
-        ]
+        ],
     );
     expect(MQTT.publishMessage).toBeCalledTimes(1);
     const msg: Message = MQTT.publishMessage.mock.calls[0][0];
@@ -79,7 +79,7 @@ it("should send message on trigger with message set and no placeholder", async (
         },
         {} as S7Endpoint,
         MQTT as unknown as Client,
-        DEBUGGER
+        DEBUGGER,
     );
     const evt = (evtMqtt as any)._s7event;
     evt.emit(
@@ -96,7 +96,7 @@ it("should send message on trigger with message set and no placeholder", async (
                 value: [1, 2, 3],
             },
             { area: "DB", dbNr: 20, byteIndex: 2, type: "INT8", value: -7 },
-        ]
+        ],
     );
     expect(MQTT.publishMessage).toBeCalledTimes(1);
     const msg: Message = MQTT.publishMessage.mock.calls[0][0];
@@ -114,7 +114,7 @@ it("should send message on trigger with message set and placeholder", async () =
         },
         {} as S7Endpoint,
         MQTT as unknown as Client,
-        DEBUGGER
+        DEBUGGER,
     );
     const evt = (evtMqtt as any)._s7event;
     evt.emit(
@@ -131,7 +131,7 @@ it("should send message on trigger with message set and placeholder", async () =
                 value: [1, 2, 3],
             },
             { area: "DB", dbNr: 20, byteIndex: 2, type: "INT8", value: -7 },
-        ]
+        ],
     );
     expect(MQTT.publishMessage).toBeCalledTimes(1);
     const msg: Message = MQTT.publishMessage.mock.calls[0][0];

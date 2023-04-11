@@ -8,8 +8,6 @@ import {
     rtARRAY_OF_UINT8,
 } from "../../src/datatypeRuntypes";
 
-/* eslint-disable @typescript-eslint/no-loss-of-precision */
-
 test("Validation ARRAY_OF_UINT8", () => {
     expect(() => {
         rtARRAY_OF_UINT8.check(Buffer.alloc(7));

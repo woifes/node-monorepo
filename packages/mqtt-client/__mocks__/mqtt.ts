@@ -1,8 +1,6 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/* eslint-disable @typescript-eslint/ban-types */
-
 import { EventEmitter } from "events";
 import { Message } from "../src/Message";
 
@@ -36,7 +34,7 @@ export class MqttClientMock extends EventEmitter {
             "message",
             msg.topic.join("/"),
             Buffer.from(msg.body, "utf-8"),
-            packet
+            packet,
         );
     }
 
@@ -47,26 +45,26 @@ export class MqttClientMock extends EventEmitter {
                 topic: string,
                 payload: string,
                 publishOpts: { qos: number; retain: boolean },
-                cb?: Function
+                cb?: Function,
             ) => {
-                if (cb != undefined) {
+                if (cb !== undefined) {
                     cb();
                 }
-            }
+            },
         );
     subscribe = jest
         .fn()
         .mockImplementationOnce(
             (topic: string, opts: { qos: number }, cb?: Function) => {
-                if (cb != undefined) {
+                if (cb !== undefined) {
                     cb();
                 }
-            }
+            },
         );
     unsubscribe = jest
         .fn()
         .mockImplementation((topic: string, cb?: Function) => {
-            if (cb != undefined) {
+            if (cb !== undefined) {
                 cb();
             }
         });

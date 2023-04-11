@@ -18,25 +18,25 @@ import { tS7Variable } from "../types/S7Variable";
 
 export const S7RemoteEndpointConfig = rt.Record({
     endpointIp: rt.String.withConstraint(
-        (s) => s.length > 0 || `endPointIp shall not be empty string`
+        (s) => s.length > 0 || "endPointIp shall not be empty string",
     ),
     rack: rt.Number.withConstraint(
-        (n) => n > 0 || `rack shall be greater than 0`
+        (n) => n > 0 || "rack shall be greater than 0",
     ),
     slot: rt.Number.withConstraint(
-        (n) => n > 0 || `slot shall be greater than 0`
+        (n) => n > 0 || "slot shall be greater than 0",
     ),
     selfRack: rt.Number.withConstraint(
-        (n) => n > 0 || `selfRack shall be greater then 0`
+        (n) => n > 0 || "selfRack shall be greater then 0",
     ),
     selfSlot: rt.Number.withConstraint(
-        (n) => n > 0 || `selfSlot shall be greater then 0`
+        (n) => n > 0 || "selfSlot shall be greater then 0",
     ),
     name: rt.String.withConstraint(
-        (s) => s.length > 0 || `name shall not be empty string`
+        (s) => s.length > 0 || "name shall not be empty string",
     ),
     reconnectTimeMS: rt.Number.withConstraint(
-        (n) => n > 0 || `reconnectTimeMS shall be greater then 0`
+        (n) => n > 0 || "reconnectTimeMS shall be greater then 0",
     ).optional(),
 });
 
@@ -71,15 +71,15 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
 
         this._client = new S7Client();
         const selfTSAP =
-            (Number("0x" + this._config.selfRack) << 8) |
-            Number("0x" + this._config.selfSlot);
+            (Number(`0x${this._config.selfRack}`) << 8) |
+            Number(`0x${this._config.selfSlot}`);
         const srcTSAP =
-            (Number("0x" + this._config.rack) << 8) |
-            Number("0x" + this._config.slot);
+            (Number(`0x${this._config.rack}`) << 8) |
+            Number(`0x${this._config.slot}`);
         this._client.SetConnectionParams(
             this._config.endpointIp,
             selfTSAP,
-            srcTSAP
+            srcTSAP,
         );
 
         this._debug = debug(`S7(${this._config.name})`);
@@ -98,9 +98,9 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
      * Connection status of the endpoint
      */
     get connected(): boolean {
-        if (this._connectedToEndpoint != this._client.Connected()) {
+        if (this._connectedToEndpoint !== this._client.Connected()) {
             this._debug(
-                `Connection status between endpoint and client is not synchronous`
+                "Connection status between endpoint and client is not synchronous",
             );
         }
         return this._connectedToEndpoint && this._client.Connected();
@@ -111,9 +111,10 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
      */
     connect() {
         this._client.Connect((err: any) => {
+            // rome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
             if (err != undefined) {
                 this._debug(
-                    `Error at client.Connect: ${this._client.ErrorText(err)}`
+                    `Error at client.Connect: ${this._client.ErrorText(err)}`,
                 );
                 this.scheduleReconnect();
             } else {
@@ -134,8 +135,8 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
             this._client.Disconnect();
             this._connectedToEndpoint = false;
             this.emit("disconnect");
-            if (this._config.reconnectTimeMS != undefined) {
-                this._debug(`Called schedule reconnect in disconnect()`);
+            if (this._config.reconnectTimeMS !== undefined) {
+                this._debug("Called schedule reconnect in disconnect()");
                 this.scheduleReconnect();
             }
         }
@@ -148,7 +149,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
         if (this.connected) {
             this.disconnect();
         }
-        if (this._reconnectTimeout != undefined) {
+        if (this._reconnectTimeout !== undefined) {
             clearTimeout(this._reconnectTimeout);
             this._reconnectTimeout = undefined;
         }
@@ -156,11 +157,11 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
 
     private scheduleReconnect() {
         if (
-            this._config.reconnectTimeMS != undefined &&
-            this._reconnectTimeout == undefined
+            this._config.reconnectTimeMS !== undefined &&
+            this._reconnectTimeout === undefined
         ) {
             this._debug(
-                `Set timeout for reconnect in ${this._config.reconnectTimeMS}ms`
+                `Set timeout for reconnect in ${this._config.reconnectTimeMS}ms`,
             );
             this._reconnectTimeout = setTimeout(() => {
                 this._reconnectTimeout = undefined;
@@ -198,7 +199,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
         area: tS7DataAreas,
         dbNr: number,
         dbIndex: number,
-        length: number
+        length: number,
     ): Promise<Buffer> {
         return new Promise<Buffer>((resolve, reject) => {
             if (this.connected) {
@@ -209,32 +210,33 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                     length,
                     0x02, //S7WLByte
                     (err: any, data: Buffer) => {
+                        // rome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
                         if (err != undefined) {
                             this._debugRead(
                                 `Error at readBytes: ${this._client.ErrorText(
-                                    err
-                                )}`
+                                    err,
+                                )}`,
                             );
                             this.disconnect();
                             reject(this._client.ErrorText(err));
                         } else {
                             if (
                                 Buffer.isBuffer(data) &&
-                                data.length == length
+                                data.length === length
                             ) {
                                 resolve(data);
                             } else {
                                 this._debugRead(
-                                    `Error at readBytes data length not equal to requested length: ${data.length}/${length}`
+                                    `Error at readBytes data length not equal to requested length: ${data.length}/${length}`,
                                 );
                                 reject(new Error("Data not expected length"));
                             }
                         }
-                    }
+                    },
                 );
             } else {
-                this._debugRead(`Endpoint not connected during readBytes`);
-                reject(new Error(`Endpoint not connected during readBytes`));
+                this._debugRead("Endpoint not connected during readBytes");
+                reject(new Error("Endpoint not connected during readBytes"));
             }
         });
     }
@@ -250,23 +252,24 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                 this._client.ReadMultiVars(
                     tags,
                     (err: any, data: MultiVarsReadResult[]) => {
+                        // rome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
                         if (err != undefined) {
                             this._debugRead(
                                 `Error at readMultiVars: ${this._client.ErrorText(
-                                    err
-                                )}`
+                                    err,
+                                )}`,
                             );
                             this.disconnect();
                             reject(new Error(this._client.ErrorText(err)));
                         } else {
                             resolve(data);
                         }
-                    }
+                    },
                 );
             } else {
-                this._debugRead(`Endpoint not connected during readMultiVars`);
+                this._debugRead("Endpoint not connected during readMultiVars");
                 reject(
-                    new Error(`Endpoint not connected during readMultiVars`)
+                    new Error("Endpoint not connected during readMultiVars"),
                 );
             }
         });
@@ -283,7 +286,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
         area: tS7DataAreas,
         dbNr: number,
         dbIndex: number,
-        buf: Buffer
+        buf: Buffer,
     ): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             if (this.connected) {
@@ -295,22 +298,23 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                     0x02, //S7WLByte
                     buf,
                     (err) => {
+                        // rome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
                         if (err != undefined) {
                             this._debugWrite(
                                 `Error at writeBytes: ${this._client.ErrorText(
-                                    err
-                                )}`
+                                    err,
+                                )}`,
                             );
                             this.disconnect();
                             reject(new Error(this._client.ErrorText(err)));
                         } else {
                             resolve();
                         }
-                    }
+                    },
                 );
             } else {
-                this._debugRead(`Endpoint not connected during writeBytes`);
-                reject(new Error(`Endpoint not connected during writeBytes`));
+                this._debugRead("Endpoint not connected during writeBytes");
+                reject(new Error("Endpoint not connected during writeBytes"));
             }
         });
     }
@@ -326,23 +330,24 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                 this._client.WriteMultiVars(
                     tags,
                     (err: any, data: MultiVarsWriteResult[]) => {
+                        // rome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
                         if (err != undefined) {
                             this._debugWrite(
                                 `Error at writeMultiVars: ${this._client.ErrorText(
-                                    err
-                                )}`
+                                    err,
+                                )}`,
                             );
                             this.disconnect();
                             reject(new Error(this._client.ErrorText(err)));
                         } else {
                             resolve(data);
                         }
-                    }
+                    },
                 );
             } else {
-                this._debugRead(`Endpoint not connected during writeMultiVars`);
+                this._debugRead("Endpoint not connected during writeMultiVars");
                 reject(
-                    new Error(`Endpoint not connected during writeMultiVars`)
+                    new Error("Endpoint not connected during writeMultiVars"),
                 );
             }
         });

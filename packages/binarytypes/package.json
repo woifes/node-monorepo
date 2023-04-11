@@ -10,10 +10,9 @@
   "private": true,
   "scripts": {
     "test": "jest",
+    "format": "rome format --write .",
+    "lint": "rome check --apply-unsafe .",
     "compile": "tsc -p tsconfig.build.json",
-    "prettier": "prettier -w ./src/**/*.ts ./test/**/*.ts ./index.ts",
-    "lint": "eslint ./src/ ./index.ts ./test/ --fix",
-    "lint:check": "eslint ./src/ ./index.ts ./test/",
     "prepare": "pnpm compile",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },

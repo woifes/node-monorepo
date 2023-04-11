@@ -42,7 +42,7 @@ export class MqttInput {
         config: tMqttInputConfig,
         s7endpoint: S7Endpoint,
         @MqttConnection() mqtt: Client,
-        parentDebugger: Debugger
+        parentDebugger: Debugger,
     ) {
         this._config = MqttInputConfig.check(config);
         this._debug = parentDebugger.extend(`mqttInput:${this._config.topic}`);
@@ -89,13 +89,13 @@ export class MqttInput {
     }
 
     private startTimeout() {
-        if (this._config.fallback != undefined) {
-            if (this._timeout != undefined) {
+        if (this._config.fallback !== undefined) {
+            if (this._timeout !== undefined) {
                 clearTimeout(this._timeout);
             }
             this._timeout = setTimeout(
                 this.onTimeout.bind(this),
-                this._config.fallback!.watchdogTimeMS
+                this._config.fallback!.watchdogTimeMS,
             );
         }
     }
@@ -119,11 +119,11 @@ export class MqttInput {
             const payload = msg.readJSON();
             if (Array.isArray(payload)) {
                 if (
-                    this._config.minTargetCount != undefined &&
+                    this._config.minTargetCount !== undefined &&
                     payload.length < this._config.minTargetCount
                 ) {
                     this._debug(
-                        `Did not receive minTargetCount ${payload.length}/${this._config.minTargetCount}`
+                        `Did not receive minTargetCount ${payload.length}/${this._config.minTargetCount}`,
                     );
                     return;
                 }

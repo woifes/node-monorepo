@@ -7,7 +7,7 @@ export const InfluxDbDatatype = rt.Union(
     rt.Literal("int"),
     rt.Literal("uint"),
     rt.Literal("float"),
-    rt.Literal("boolean")
+    rt.Literal("boolean"),
 );
 
 export type tInfluxDbDatatype = rt.Static<typeof InfluxDbDatatype>;

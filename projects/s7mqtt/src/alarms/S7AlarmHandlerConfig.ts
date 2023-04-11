@@ -13,12 +13,12 @@ import { S7DiscreteAlarm } from "./S7DiscreteAlarm";
 export const S7AlarmHandlerConfig = AlarmHandlerMqttConfig.And(
     rt.Record({
         alarms: rt.Array(S7DiscreteAlarm).Or(S7AlarmAddress),
-    })
+    }),
 ).withConstraint((config) => {
     if (Array.isArray(config.alarms)) {
         return (
             config.numOfAlarms === config.alarms.length ||
-            `If alarms are defined individually the number of alarms has to match the numOfAlarms value`
+            "If alarms are defined individually the number of alarms has to match the numOfAlarms value"
         );
     }
 

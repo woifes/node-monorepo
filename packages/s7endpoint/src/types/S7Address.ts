@@ -24,14 +24,14 @@ export const S7Address = rt
         }).optional(),
     })
     .withConstraint((r) => {
-        if (r.type == "BIT") {
-            if (r.bitIndex == undefined) {
+        if (r.type === "BIT") {
+            if (r.bitIndex === undefined) {
                 return `Missing bitIndex on bit type: ${r.type}`;
             }
         }
 
-        if (r.area == "DB") {
-            if (r.dbNr == undefined) {
+        if (r.area === "DB") {
+            if (r.dbNr === undefined) {
                 return "Missing dbNr for DB area address";
             }
         }

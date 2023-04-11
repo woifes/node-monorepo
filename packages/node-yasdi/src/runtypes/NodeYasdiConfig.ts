@@ -8,13 +8,13 @@ export const NodeYasdiConfig = rt.Record({
     serialPorts: rt
         .Array(
             rt.String.withConstraint(
-                (s) => s.length > 0 || `Serial device must not be empty`
-            )
+                (s) => s.length > 0 || "Serial device must not be empty",
+            ),
         )
-        .withConstraint((a) => a.length > 0 || `No serial device given`)
+        .withConstraint((a) => a.length > 0 || "No serial device given")
         .optional(),
     iniFileDir: rt.String.withConstraint(
-        (s) => s.length > 0 || `Ini file directory must not be empty`
+        (s) => s.length > 0 || "Ini file directory must not be empty",
     ).optional(),
 });
 

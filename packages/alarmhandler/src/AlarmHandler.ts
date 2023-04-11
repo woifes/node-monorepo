@@ -23,7 +23,7 @@ export declare interface AlarmHandler {
      */
     on(
         event: "new",
-        listener: (alarmNr: number, alarm: tAlarmJsonObject) => void
+        listener: (alarmNr: number, alarm: tAlarmJsonObject) => void,
     ): this;
     /**
      * Emitted when one alarm is reset emits the alarm number and the tracestring
@@ -34,28 +34,28 @@ export declare interface AlarmHandler {
      */
     on(
         event: "ack",
-        listener: (alarmNr: number, alarm: tAlarmJsonObject) => void
+        listener: (alarmNr: number, alarm: tAlarmJsonObject) => void,
     ): this;
     /**
      * Emitted when one alarm changes its signal emit the alarm number and the json representation
      */
     on(
         event: "signalChanged",
-        listener: (alarmNr: number, alarm: tAlarmJsonObject) => void
+        listener: (alarmNr: number, alarm: tAlarmJsonObject) => void,
     ): this;
     /**
      * Emitted when the overall present alarm info changes (combination of the other events). Emits the new alarm representation
      */
     on(
         event: "presentAlarmsChanged",
-        listener: (alarmInfo: tPresentAlarmsInfo) => void
+        listener: (alarmInfo: tPresentAlarmsInfo) => void,
     ): this;
     /**
      * Emitted when one of the alarm texts did change
      */
     on(
         event: "alarmTextChanged",
-        listener: (alarmNr: number, oldText: string, newText: string) => void
+        listener: (alarmNr: number, oldText: string, newText: string) => void,
     ): this;
 }
 
@@ -103,34 +103,34 @@ export class AlarmHandler extends EventEmitter {
     constructor(
         name: string,
         config: tAlarmHandlerConfig,
-        alarmDefs?: PersistentRuntype<tAlarmDefsInfo>
+        alarmDefs?: PersistentRuntype<tAlarmDefsInfo>,
     ) {
         super();
         this._config = AlarmHandlerConfig.check(config);
         this.length = this._config.numOfAlarms + 1; //zero based with empty item at position 0
         this._name = name;
 
-        if (alarmDefs != undefined) {
+        if (alarmDefs !== undefined) {
             this._alarmDefs = alarmDefs;
             let definitions = this._alarmDefs.getValue();
             definitions = this.fillAlarmDefinitons(definitions);
             this._alarmDefs.setValue(definitions);
-        } else if (this._config.alarmDefsPath != undefined) {
+        } else if (this._config.alarmDefsPath !== undefined) {
             const defaultDefs = this.fillAlarmDefinitons();
             this._alarmDefs = new PersistentRuntype(
                 this._config.alarmDefsPath,
                 AlarmDefsInfo,
-                defaultDefs
+                defaultDefs,
             );
         } else {
-            throw new Error(`No alarm definitions found`);
+            throw new Error("No alarm definitions found");
         }
 
         this._presentAlarms = new PersistentRuntype(
             this._config.presentAlarmsFilePath,
             PresentAlarmsInfo,
             { time: new Date().toJSON(), alarms: [] },
-            { noMergeAtSet: true }
+            { noMergeAtSet: true },
         );
         const presentAlarmsObj = this._presentAlarms.getValue().alarms;
         const presentAlarmsByNumber: tAlarmJsonObject[] = [];
@@ -143,7 +143,7 @@ export class AlarmHandler extends EventEmitter {
             const alarm = new Alarm(
                 i,
                 alarmDefinitions[i],
-                presentAlarmsByNumber[i]
+                presentAlarmsByNumber[i],
             );
             alarm.on("new", (obj: tAlarmJsonObject) => {
                 this.emit("new", i, obj);
@@ -176,7 +176,7 @@ export class AlarmHandler extends EventEmitter {
                 maxFileSizeMB: 10,
                 header: AlarmHandler.csvHeader(),
                 addTimeStamp: false,
-            }
+            },
         );
 
         this.getPresentAlarms();
@@ -202,11 +202,11 @@ export class AlarmHandler extends EventEmitter {
      * @returns the filled up (complete) alarm definition info obj
      */
     private fillAlarmDefinitons(
-        existingDef: tAlarmDefsInfo = {}
+        existingDef: tAlarmDefsInfo = {},
     ): tAlarmDefsInfo {
         for (let i = 1; i <= this._config.numOfAlarms; i++) {
             const definition = existingDef[i];
-            if (definition == undefined) {
+            if (definition === undefined) {
                 existingDef[i] = AlarmHandler.standardAlarmDef();
             }
         }
@@ -220,7 +220,7 @@ export class AlarmHandler extends EventEmitter {
      * @param params undefined number of parameters
      */
     updateSignal(nr: number, sig: boolean, ...params: (number | string)[]) {
-        if (this[nr] != undefined) {
+        if (this[nr] !== undefined) {
             this[nr].setSignal(sig, ...params);
             return true;
         }
@@ -233,12 +233,12 @@ export class AlarmHandler extends EventEmitter {
      * @returns true if ack was set, false otherwise
      */
     acknowledgeAlarm(nr: number) {
-        if (nr == 0) {
+        if (nr === 0) {
             for (let i = 1; i < this.length; i++) {
                 this[i].ack = true;
             }
             return true;
-        } else if (this[nr] != undefined) {
+        } else if (this[nr] !== undefined) {
             this[nr].ack = true;
             return true;
         }
@@ -252,7 +252,7 @@ export class AlarmHandler extends EventEmitter {
      * @returns true or false depending if it was successfull
      */
     setAlarmText(nr: number, text: string) {
-        if (this[nr] != undefined) {
+        if (this[nr] !== undefined) {
             this[nr].text = text;
             return true;
         }
@@ -270,7 +270,7 @@ export class AlarmHandler extends EventEmitter {
         };
         for (let i = 1; i < this.length; i++) {
             const alarmInfo = this[i].toJSON();
-            if (alarmInfo.occurred != undefined) {
+            if (alarmInfo.occurred !== undefined) {
                 presentAlarmsInfo.alarms[i] = alarmInfo;
             }
         }
@@ -282,7 +282,7 @@ export class AlarmHandler extends EventEmitter {
     private onAlarmTextChanged(
         alarmNr: number,
         oldText: string,
-        newText: string
+        newText: string,
     ) {
         const definitions = this._alarmDefs.getValue();
         definitions[alarmNr].text = newText;

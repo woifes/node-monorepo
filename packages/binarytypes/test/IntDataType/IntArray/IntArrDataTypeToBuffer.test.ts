@@ -18,7 +18,7 @@ function testDt(
     hexMax: string,
     hexMin: string,
     hexMaxBE: string,
-    hexMinBE: string
+    hexMinBE: string,
 ) {
     //#region defines
     const MAX = max < Number.MAX_SAFE_INTEGER ? Number(max) : max;
@@ -37,7 +37,7 @@ function testDt(
     const BUF_MIN_BE = hexBuf(X_MIN_BE);
     //#endregion
 
-    if (typeof MAX == "number" && typeof MIN == "number") {
+    if (typeof MAX === "number" && typeof MIN === "number") {
         expect(() => {
             dt.toBuffer(MAX);
         }).toThrow();
@@ -54,14 +54,14 @@ function testDt(
         expect(
             PROOF_BUFFER(
                 dt.toBuffer([MAX, MIN, MAX, MIN]),
-                X_MAX + X_MIN + X_MAX + X_MIN
-            )
+                X_MAX + X_MIN + X_MAX + X_MIN,
+            ),
         ).toBe(true);
         expect(
             PROOF_BUFFER(
                 dt.toBuffer([MAX, MIN, MAX, MIN], false),
-                X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE
-            )
+                X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE,
+            ),
         ).toBe(true);
         expect(() => {
             dt.toBuffer([MAX + 1, MIN, MAX, MIN]);
@@ -92,17 +92,17 @@ function testDt(
         expect(
             PROOF_BUFFER(
                 dt.toBuffer([MAX + 0.3, MIN - 0.3, MAX + 0.3, MIN - 0.3]),
-                X_MAX + X_MIN + X_MAX + X_MIN
-            )
+                X_MAX + X_MIN + X_MAX + X_MIN,
+            ),
         ).toBe(true);
         expect(
             PROOF_BUFFER(
                 dt.toBuffer(
                     [MAX + 0.3, MIN - 0.3, MAX + 0.3, MIN - 0.3],
-                    false
+                    false,
                 ),
-                X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE
-            )
+                X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE,
+            ),
         ).toBe(true);
         expect(() => {
             dt.toBuffer([MAX + 1.3, MIN, MAX, MIN]);
@@ -132,14 +132,14 @@ function testDt(
     expect(
         PROOF_BUFFER(
             dt.toBuffer([BI_MAX, BI_MIN, BI_MAX, BI_MIN]),
-            X_MAX + X_MIN + X_MAX + X_MIN
-        )
+            X_MAX + X_MIN + X_MAX + X_MIN,
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer([BI_MAX, BI_MIN, BI_MAX, BI_MIN], false),
-            X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE
-        )
+            X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE,
+        ),
     ).toBe(true);
     expect(() => {
         dt.toBuffer([BI_MAX + 1n, BI_MIN, BI_MAX, BI_MIN]);
@@ -162,103 +162,103 @@ function testDt(
     }).toThrow();
     //plain string with float
     expect(() => {
-        dt.toBuffer(S_MAX + ".3");
+        dt.toBuffer(`${S_MAX}.3`);
     }).toThrow();
     expect(() => {
-        dt.toBuffer(S_MIN + ".3");
+        dt.toBuffer(`${S_MIN}.3`);
     }).toThrow();
     //stringified array of string
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
-                `[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`
+                `[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
             ),
-            X_MAX + X_MIN + X_MAX + X_MIN
-        )
+            X_MAX + X_MIN + X_MAX + X_MIN,
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
                 `[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
-                false
+                false,
             ),
-            X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE
-        )
+            X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE,
+        ),
     ).toBe(true);
     expect(() => {
         dt.toBuffer(
-            `[ "${BI_MAX + 1n}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`
-        );
-    }).toThrow();
-    expect(() => {
-        dt.toBuffer(
-            `[ "${BI_MAX}", "${BI_MIN - 1n}", "${BI_MAX}", "${BI_MIN}" ]`
-        );
-    }).toThrow();
-    expect(() => {
-        dt.toBuffer(
             `[ "${BI_MAX + 1n}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
-            false
         );
     }).toThrow();
     expect(() => {
         dt.toBuffer(
             `[ "${BI_MAX}", "${BI_MIN - 1n}", "${BI_MAX}", "${BI_MIN}" ]`,
-            false
+        );
+    }).toThrow();
+    expect(() => {
+        dt.toBuffer(
+            `[ "${BI_MAX + 1n}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
+            false,
+        );
+    }).toThrow();
+    expect(() => {
+        dt.toBuffer(
+            `[ "${BI_MAX}", "${BI_MIN - 1n}", "${BI_MAX}", "${BI_MIN}" ]`,
+            false,
         );
     }).toThrow();
     //stringified array of string with float
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
-                `[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}.3", "${BI_MIN}.3" ]`
+                `[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}.3", "${BI_MIN}.3" ]`,
             ),
-            X_MAX + X_MIN + X_MAX + X_MIN
-        )
+            X_MAX + X_MIN + X_MAX + X_MIN,
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
                 `[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}.3", "${BI_MIN}.3" ]`,
-                false
+                false,
             ),
-            X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE
-        )
+            X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE,
+        ),
     ).toBe(true);
     expect(() => {
         dt.toBuffer(
-            `[ "${BI_MAX + 1n}.3", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`
-        );
-    }).toThrow();
-    expect(() => {
-        dt.toBuffer(
-            `[ "${BI_MAX}", "${BI_MIN - 1n}.3", "${BI_MAX}", "${BI_MIN}" ]`
-        );
-    }).toThrow();
-    expect(() => {
-        dt.toBuffer(
             `[ "${BI_MAX + 1n}.3", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
-            false
         );
     }).toThrow();
     expect(() => {
         dt.toBuffer(
             `[ "${BI_MAX}", "${BI_MIN - 1n}.3", "${BI_MAX}", "${BI_MIN}" ]`,
-            false
+        );
+    }).toThrow();
+    expect(() => {
+        dt.toBuffer(
+            `[ "${BI_MAX + 1n}.3", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
+            false,
+        );
+    }).toThrow();
+    expect(() => {
+        dt.toBuffer(
+            `[ "${BI_MAX}", "${BI_MIN - 1n}.3", "${BI_MAX}", "${BI_MIN}" ]`,
+            false,
         );
     }).toThrow();
     //array of string
     expect(
         PROOF_BUFFER(
             dt.toBuffer([S_MAX, S_MIN, S_MAX, S_MIN]),
-            X_MAX + X_MIN + X_MAX + X_MIN
-        )
+            X_MAX + X_MIN + X_MAX + X_MIN,
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer([S_MAX, S_MIN, S_MAX, S_MIN], false),
-            X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE
-        )
+            X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE,
+        ),
     ).toBe(true);
     expect(() => {
         dt.toBuffer([`${BI_MAX + 1n}`, `${BI_MIN}`, `${BI_MAX}`, `${BI_MIN}`]);
@@ -269,35 +269,35 @@ function testDt(
     expect(() => {
         dt.toBuffer(
             [`${BI_MAX + 1n}`, `${BI_MIN}`, `${BI_MAX}`, `${BI_MIN}`],
-            false
+            false,
         );
     }).toThrow();
     expect(() => {
         dt.toBuffer(
             [`${BI_MAX}`, `${BI_MIN - 1n}`, `${BI_MAX}`, `${BI_MIN}`],
-            false
+            false,
         );
     }).toThrow();
     //array of string with floats
     expect(
         PROOF_BUFFER(
             dt.toBuffer([
-                S_MAX + ".3",
-                S_MIN + ".3",
-                S_MAX + ".3",
-                S_MIN + ".3",
+                `${S_MAX}.3`,
+                `${S_MIN}.3`,
+                `${S_MAX}.3`,
+                `${S_MIN}.3`,
             ]),
-            X_MAX + X_MIN + X_MAX + X_MIN
-        )
+            X_MAX + X_MIN + X_MAX + X_MIN,
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
-                [S_MAX + ".3", S_MIN + ".3", S_MAX + ".3", S_MIN + ".3"],
-                false
+                [`${S_MAX}.3`, `${S_MIN}.3`, `${S_MAX}.3`, `${S_MIN}.3`],
+                false,
             ),
-            X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE
-        )
+            X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE,
+        ),
     ).toBe(true);
     expect(() => {
         dt.toBuffer([
@@ -318,54 +318,54 @@ function testDt(
     expect(() => {
         dt.toBuffer(
             [`${BI_MAX + 1n}.3`, `${BI_MIN}`, `${BI_MAX}`, `${BI_MIN}`],
-            false
+            false,
         );
     }).toThrow();
     expect(() => {
         dt.toBuffer(
             [`${BI_MAX}`, `${BI_MIN - 1n}.3`, `${BI_MAX}`, `${BI_MIN}`],
-            false
+            false,
         );
     }).toThrow();
     //Buffer
     expect(
         PROOF_BUFFER(
             dt.toBuffer(hexBuf(X_MAX + X_MIN + X_MAX + X_MIN)),
-            X_MAX + X_MIN + X_MAX + X_MIN
-        )
+            X_MAX + X_MIN + X_MAX + X_MIN,
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
                 hexBuf(X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE),
-                false
+                false,
             ),
-            X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE
-        )
+            X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE,
+        ),
     ).toBe(true);
     if (BUF_MAX.length > 1) {
         expect(() => {
-            dt.toBuffer(hexBuf(X_MAX + X_MIN + X_MAX + X_MIN + "10"));
+            dt.toBuffer(hexBuf(`${X_MAX}${X_MIN}${X_MAX}${X_MIN}10`));
         }).toThrow();
     }
     //Array of Buffers
     expect(
         PROOF_BUFFER(
             dt.toBuffer([BUF_MAX, BUF_MIN, BUF_MAX, BUF_MIN]),
-            X_MAX + X_MIN + X_MAX + X_MIN
-        )
+            X_MAX + X_MIN + X_MAX + X_MIN,
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
                 [BUF_MAX_BE, BUF_MIN_BE, BUF_MAX_BE, BUF_MIN_BE],
-                false
+                false,
             ),
-            X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE
-        )
+            X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE,
+        ),
     ).toBe(true);
     expect(() => {
-        dt.toBuffer([BUF_MAX, BUF_MIN, BUF_MAX, BUF_MIN, hexBuf("10" + S_MAX)]);
+        dt.toBuffer([BUF_MAX, BUF_MIN, BUF_MAX, BUF_MIN, hexBuf(`10${S_MAX}`)]);
     }).toThrow();
     //Wrong input
     expect(() => {
@@ -389,19 +389,19 @@ test("Test ARRAY_OF_INT8", () => {
 
     expect(PROOF_BUFFER(dt.toBuffer([18, 18, 18, 18]), "12121212")).toBe(true);
     expect(PROOF_BUFFER(dt.toBuffer([18, 18, 18, 18], false), "12121212")).toBe(
-        true
+        true,
     );
     expect(
-        PROOF_BUFFER(dt.toBuffer(["18", "18", "18", "18"]), "12121212")
+        PROOF_BUFFER(dt.toBuffer(["18", "18", "18", "18"]), "12121212"),
     ).toBe(true);
     expect(
-        PROOF_BUFFER(dt.toBuffer(["18", "18", "18", "18"], false), "12121212")
+        PROOF_BUFFER(dt.toBuffer(["18", "18", "18", "18"], false), "12121212"),
     ).toBe(true);
     expect(PROOF_BUFFER(dt.toBuffer([18n, 18n, 18n, 18n]), "12121212")).toBe(
-        true
+        true,
     );
     expect(
-        PROOF_BUFFER(dt.toBuffer([18n, 18n, 18n, 18n], false), "12121212")
+        PROOF_BUFFER(dt.toBuffer([18n, 18n, 18n, 18n], false), "12121212"),
     ).toBe(true);
 });
 
@@ -412,38 +412,38 @@ test("Test ARRAY_OF_INT16", () => {
     expect(
         PROOF_BUFFER(
             dt.toBuffer([13330, 13330, 13330, 13330]),
-            "1234123412341234"
-        )
+            "1234123412341234",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer([13330, 13330, 13330, 13330], false),
-            "3412341234123412"
-        )
+            "3412341234123412",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(["13330", "13330", "13330", "13330"]),
-            "1234123412341234"
-        )
+            "1234123412341234",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(["13330", "13330", "13330", "13330"], false),
-            "3412341234123412"
-        )
+            "3412341234123412",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer([13330n, 13330n, 13330n, 13330n]),
-            "1234123412341234"
-        )
+            "1234123412341234",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer([13330n, 13330n, 13330n, 13330n], false),
-            "3412341234123412"
-        )
+            "3412341234123412",
+        ),
     ).toBe(true);
 });
 
@@ -456,23 +456,23 @@ test("Test ARRAY_OF_INT32", () => {
         "FFFFFF7F",
         "00000080",
         "7FFFFFFF",
-        "80000000"
+        "80000000",
     );
 
     expect(
         PROOF_BUFFER(
             dt.toBuffer([2018915346, 2018915346, 2018915346, 2018915346]),
-            "12345678123456781234567812345678"
-        )
+            "12345678123456781234567812345678",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
                 [2018915346, 2018915346, 2018915346, 2018915346],
-                false
+                false,
             ),
-            "78563412785634127856341278563412"
-        )
+            "78563412785634127856341278563412",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
@@ -482,32 +482,32 @@ test("Test ARRAY_OF_INT32", () => {
                 "2018915346",
                 "2018915346",
             ]),
-            "12345678123456781234567812345678"
-        )
+            "12345678123456781234567812345678",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
                 ["2018915346", "2018915346", "2018915346", "2018915346"],
-                false
+                false,
             ),
-            "78563412785634127856341278563412"
-        )
+            "78563412785634127856341278563412",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer([2018915346n, 2018915346n, 2018915346n, 2018915346n]),
-            "12345678123456781234567812345678"
-        )
+            "12345678123456781234567812345678",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
                 [2018915346n, 2018915346n, 2018915346n, 2018915346n],
-                false
+                false,
             ),
-            "78563412785634127856341278563412"
-        )
+            "78563412785634127856341278563412",
+        ),
     ).toBe(true);
 });
 
@@ -520,23 +520,23 @@ test("Test ARRAY_OF_INT64", () => {
         "FFFFFFFFFFFFFF7F",
         "0000000000000080",
         "7FFFFFFFFFFFFFFF",
-        "8000000000000000"
+        "8000000000000000",
     );
 
     expect(
         PROOF_BUFFER(
             dt.toBuffer([2018915346, 2018915346, 2018915346, 2018915346]),
-            "1234567800000000123456780000000012345678000000001234567800000000"
-        )
+            "1234567800000000123456780000000012345678000000001234567800000000",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
                 [2018915346, 2018915346, 2018915346, 2018915346],
-                false
+                false,
             ),
-            "0000000078563412000000007856341200000000785634120000000078563412"
-        )
+            "0000000078563412000000007856341200000000785634120000000078563412",
+        ),
     ).toBe(true);
     expect(() => {
         dt.toBuffer([
@@ -549,7 +549,7 @@ test("Test ARRAY_OF_INT64", () => {
     expect(() => {
         dt.toBuffer(
             [2018915346, Number.MIN_SAFE_INTEGER - 1, 2018915346, 2018915346],
-            false
+            false,
         );
     }).toThrow();
 
@@ -561,8 +561,8 @@ test("Test ARRAY_OF_INT64", () => {
                 "-1167088091436534766",
                 "-1167088091436534766",
             ]),
-            "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF"
-        )
+            "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
@@ -573,10 +573,10 @@ test("Test ARRAY_OF_INT64", () => {
                     "-1167088091436534766",
                     "-1167088091436534766",
                 ],
-                false
+                false,
             ),
-            "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412"
-        )
+            "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
@@ -586,8 +586,8 @@ test("Test ARRAY_OF_INT64", () => {
                 -1167088091436534766n,
                 -1167088091436534766n,
             ]),
-            "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF"
-        )
+            "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
@@ -598,10 +598,10 @@ test("Test ARRAY_OF_INT64", () => {
                     -1167088091436534766n,
                     -1167088091436534766n,
                 ],
-                false
+                false,
             ),
-            "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412"
-        )
+            "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412",
+        ),
     ).toBe(true);
 });
 
@@ -611,19 +611,19 @@ test("Test ARRAY_OF_UINT8", () => {
 
     expect(PROOF_BUFFER(dt.toBuffer([18, 18, 18, 18]), "12121212")).toBe(true);
     expect(PROOF_BUFFER(dt.toBuffer([18, 18, 18, 18], false), "12121212")).toBe(
-        true
+        true,
     );
     expect(
-        PROOF_BUFFER(dt.toBuffer(["18", "18", "18", "18"]), "12121212")
+        PROOF_BUFFER(dt.toBuffer(["18", "18", "18", "18"]), "12121212"),
     ).toBe(true);
     expect(
-        PROOF_BUFFER(dt.toBuffer(["18", "18", "18", "18"], false), "12121212")
+        PROOF_BUFFER(dt.toBuffer(["18", "18", "18", "18"], false), "12121212"),
     ).toBe(true);
     expect(PROOF_BUFFER(dt.toBuffer([18n, 18n, 18n, 18n]), "12121212")).toBe(
-        true
+        true,
     );
     expect(
-        PROOF_BUFFER(dt.toBuffer([18n, 18n, 18n, 18n], false), "12121212")
+        PROOF_BUFFER(dt.toBuffer([18n, 18n, 18n, 18n], false), "12121212"),
     ).toBe(true);
 });
 
@@ -634,38 +634,38 @@ test("Test ARRAY_OF_UINT16", () => {
     expect(
         PROOF_BUFFER(
             dt.toBuffer([13330, 13330, 13330, 13330]),
-            "1234123412341234"
-        )
+            "1234123412341234",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer([13330, 13330, 13330, 13330], false),
-            "3412341234123412"
-        )
+            "3412341234123412",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(["13330", "13330", "13330", "13330"]),
-            "1234123412341234"
-        )
+            "1234123412341234",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(["13330", "13330", "13330", "13330"], false),
-            "3412341234123412"
-        )
+            "3412341234123412",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer([13330n, 13330n, 13330n, 13330n]),
-            "1234123412341234"
-        )
+            "1234123412341234",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer([13330n, 13330n, 13330n, 13330n], false),
-            "3412341234123412"
-        )
+            "3412341234123412",
+        ),
     ).toBe(true);
 });
 
@@ -676,17 +676,17 @@ test("Test ARRAY_OF_UINT32", () => {
     expect(
         PROOF_BUFFER(
             dt.toBuffer([2018915346, 2018915346, 2018915346, 2018915346]),
-            "12345678123456781234567812345678"
-        )
+            "12345678123456781234567812345678",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
                 [2018915346, 2018915346, 2018915346, 2018915346],
-                false
+                false,
             ),
-            "78563412785634127856341278563412"
-        )
+            "78563412785634127856341278563412",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
@@ -696,32 +696,32 @@ test("Test ARRAY_OF_UINT32", () => {
                 "2018915346",
                 "2018915346",
             ]),
-            "12345678123456781234567812345678"
-        )
+            "12345678123456781234567812345678",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
                 ["2018915346", "2018915346", "2018915346", "2018915346"],
-                false
+                false,
             ),
-            "78563412785634127856341278563412"
-        )
+            "78563412785634127856341278563412",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer([2018915346n, 2018915346n, 2018915346n, 2018915346n]),
-            "12345678123456781234567812345678"
-        )
+            "12345678123456781234567812345678",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
                 [2018915346n, 2018915346n, 2018915346n, 2018915346n],
-                false
+                false,
             ),
-            "78563412785634127856341278563412"
-        )
+            "78563412785634127856341278563412",
+        ),
     ).toBe(true);
 });
 
@@ -734,23 +734,23 @@ test("Test ARRAY_OF_UINT64", () => {
         "FFFFFFFFFFFFFFFF",
         "0000000000000000",
         "FFFFFFFFFFFFFFFF",
-        "0000000000000000"
+        "0000000000000000",
     );
 
     expect(
         PROOF_BUFFER(
             dt.toBuffer([2018915346, 2018915346, 2018915346, 2018915346]),
-            "1234567800000000123456780000000012345678000000001234567800000000"
-        )
+            "1234567800000000123456780000000012345678000000001234567800000000",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
             dt.toBuffer(
                 [2018915346, 2018915346, 2018915346, 2018915346],
-                false
+                false,
             ),
-            "0000000078563412000000007856341200000000785634120000000078563412"
-        )
+            "0000000078563412000000007856341200000000785634120000000078563412",
+        ),
     ).toBe(true);
     expect(() => {
         dt.toBuffer([
@@ -772,8 +772,8 @@ test("Test ARRAY_OF_UINT64", () => {
                 "17279655982273016850",
                 "17279655982273016850",
             ]),
-            "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF"
-        )
+            "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
@@ -784,10 +784,10 @@ test("Test ARRAY_OF_UINT64", () => {
                     "17279655982273016850",
                     "17279655982273016850",
                 ],
-                false
+                false,
             ),
-            "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412"
-        )
+            "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
@@ -797,8 +797,8 @@ test("Test ARRAY_OF_UINT64", () => {
                 17279655982273016850n,
                 17279655982273016850n,
             ]),
-            "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF"
-        )
+            "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+        ),
     ).toBe(true);
     expect(
         PROOF_BUFFER(
@@ -809,9 +809,9 @@ test("Test ARRAY_OF_UINT64", () => {
                     17279655982273016850n,
                     17279655982273016850n,
                 ],
-                false
+                false,
             ),
-            "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412"
-        )
+            "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412",
+        ),
     ).toBe(true);
 });

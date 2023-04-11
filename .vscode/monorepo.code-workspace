@@ -7,29 +7,32 @@
         { "path": "../packages/node-yasdi" },
         { "path": "../packages/s7endpoint" },
         { "path": "../packages/util" },
-
+        
         { "path": "../projects/license-report" },
         { "path": "../projects/matrix-mqtt-bridge" },
         { "path": "../projects/mqtt-influxdb-agent" },
         { "path": "../projects/s7mqtt" },
-
+        
         { "path": "../", "name": "_root_" },
     ],
     "settings": {
         "[typescript]": {
             "editor.codeActionsOnSave": {
-                "source.organizeImports": true,
+                "source.organizeImports.rome": true,
             },
-            "editor.defaultFormatter": "esbenp.prettier-vscode",
+            "editor.defaultFormatter": "rome.rome",
             "editor.formatOnSave": true
         },
         "[javascript]": {
             "editor.codeActionsOnSave": {
-                "source.organizeImports": true
+                "source.organizeImports.rome": true
             },
-            "editor.defaultFormatter": "esbenp.prettier-vscode",
+            "editor.defaultFormatter": "rome.rome",
             "editor.formatOnSave": true
         },
+
+        "rome.requireConfiguration": true,
+
         "cSpell.allowCompoundWords": true,
         "cSpell.ignoreWords": [
             "runtype",
@@ -42,10 +45,9 @@
     },
     "extensions": {
         "recommendations": [
-            "dbaeumer.vscode-eslint",
-            "esbenp.prettier-vscode",
             "gruntfuggly.todo-tree",
             "pkief.material-icon-theme",
+            "rome.rome",
             "streetsidesoftware.code-spell-checker"
         ]
     },

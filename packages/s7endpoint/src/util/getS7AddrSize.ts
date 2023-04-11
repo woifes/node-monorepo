@@ -10,14 +10,14 @@ import { tS7Address } from "../types/S7Address";
  * @returns the size in bytes
  */
 export function getS7AddrSize(t: tS7Address): number {
-    if (t.type == "BIT") {
-        if (t.count == undefined) {
+    if (t.type === "BIT") {
+        if (t.count === undefined) {
             return 1;
         } else {
             return Math.ceil((t.bitIndex! + t.count!) / 8);
         }
     } else {
-        if (t.count == undefined) {
+        if (t.count === undefined) {
             return DataTypes[t.type].size;
         } else {
             return DataTypes[t.type].size * t.count!;

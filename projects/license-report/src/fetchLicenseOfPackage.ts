@@ -11,17 +11,17 @@ export async function fetchLicenseOfPackage(
     licenseMap: Map<string, string>,
     licenseCountMap: Map<string, number>,
     existingLicensesMap: Map<string, string>,
-    interf: Interface
+    interf: Interface,
 ): Promise<void> {
     let license = existingLicensesMap.get(packageStr);
-    if (license == undefined) {
+    if (license === undefined) {
         try {
             console.error(`Fetch for ${packageStr}`);
             //https://registry.npmjs.org/react/17.0.2
             const res = await fetch(`https://registry.npmjs.org/${packageStr}`);
-            if (res.status != 200) {
+            if (res.status !== 200) {
                 throw new Error(
-                    `Could not fetch meta data of package ${packageStr}`
+                    `Could not fetch meta data of package ${packageStr}`,
                 );
             }
             const packageJson = await res.json();
@@ -32,21 +32,21 @@ export async function fetchLicenseOfPackage(
                 const packageJson = JSON.parse(
                     readFileSync(
                         join(resolve(relativePath), "package.json"),
-                        "utf-8"
-                    )
+                        "utf-8",
+                    ),
                 );
                 license = (packageJson.license as string) ?? "UNKNOWN";
             } catch {
                 license = await question(
                     `Which license does the package ${packageStr} have?`,
                     "License",
-                    interf
+                    interf,
                 );
             }
         }
     } else {
         console.error(
-            `Do not fetch package ${packageStr}, because it was in de previous report file with ${license}`
+            `Do not fetch package ${packageStr}, because it was in de previous report file with ${license}`,
         );
     }
     licenseMap.set(packageStr, license);

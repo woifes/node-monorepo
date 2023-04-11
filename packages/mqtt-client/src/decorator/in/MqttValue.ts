@@ -23,19 +23,19 @@ export function MqttValue(config: tMqttValueConfig | (() => tMqttValueConfig)) {
     return function (
         target: any,
         propertyKey: string,
-        descriptor?: PropertyDescriptor
+        descriptor?: PropertyDescriptor,
     ) {
-        if (target[VALUE_LIST_KEY] == undefined) {
+        if (target[VALUE_LIST_KEY] === undefined) {
             target[VALUE_LIST_KEY] = new Map<
                 (msg: Message) => void,
                 (
-                    config: any
+                    config: any,
                 ) => (source: Observable<Message>) => Observable<any>
             >();
         }
 
         let mqttValueConfig: () => tMqttValueConfig;
-        if (typeof config == "function") {
+        if (typeof config === "function") {
             mqttValueConfig = config;
         } else {
             mqttValueConfig = () => config;
@@ -43,19 +43,19 @@ export function MqttValue(config: tMqttValueConfig | (() => tMqttValueConfig)) {
 
         let fn: (this: any, value: tJsVal) => void;
 
-        if (descriptor == undefined || descriptor.set != undefined) {
+        if (descriptor === undefined || descriptor.set !== undefined) {
             //Property or Setter
             fn = function (this: any, value: tJsVal) {
                 this[propertyKey] = value;
             };
-        } else if (descriptor.value != undefined) {
+        } else if (descriptor.value !== undefined) {
             //Method
             fn = function (this: any, value: tJsVal) {
                 this[propertyKey](value);
             };
         } else {
             throw new Error(
-                `MqttValue decorator set on something which is neither a property, setter or method`
+                "MqttValue decorator set on something which is neither a property, setter or method",
             );
         }
 

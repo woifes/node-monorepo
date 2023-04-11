@@ -6,29 +6,29 @@ import { checkTopic } from "../../src/utils/checkTopic";
 test("CheckTopic test", () => {
     //yes
     expect(
-        checkTopic(["test", "topic", "check"], ["test", "topic", "check"])
+        checkTopic(["test", "topic", "check"], ["test", "topic", "check"]),
     ).toBe(true);
 
     expect(checkTopic(["test", "topic", "check"], ["test", "+", "check"])).toBe(
-        true
+        true,
     );
 
     expect(checkTopic(["test", "topic", "check"], ["test", "#"])).toBe(true);
 
     expect(checkTopic(["test", "topic", "check"], ["test", "topic", "#"])).toBe(
-        true
+        true,
     );
 
     //no
     expect(
-        checkTopic(["test", "topic", "check"], ["test", "nottopic", "check"])
+        checkTopic(["test", "topic", "check"], ["test", "nottopic", "check"]),
     ).toBe(false);
 
     expect(checkTopic(["test", "topic", "check"], ["test", "topic"])).toBe(
-        false
+        false,
     );
 
     expect(checkTopic(["test", "topic"], ["test", "topic", "check"])).toBe(
-        false
+        false,
     );
 });

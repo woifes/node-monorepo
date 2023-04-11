@@ -9,11 +9,11 @@ import { ValueOperatorFactory } from "../util/ValueOperatorFactory";
 
 export function subscribeValue(this: any, client: Client) {
     //subscribe to the topics on the client object
-    if (this[SUBSCRIPTION_LIST_KEY] == undefined) {
+    if (this[SUBSCRIPTION_LIST_KEY] === undefined) {
         this[SUBSCRIPTION_LIST_KEY] = [];
     }
 
-    if (this[VALUE_LIST_KEY] == undefined || this[VALUE_LIST_KEY].size == 0) {
+    if (this[VALUE_LIST_KEY] === undefined || this[VALUE_LIST_KEY].size === 0) {
         return;
     } else {
         const list = this[VALUE_LIST_KEY] as Map<
@@ -26,7 +26,7 @@ export function subscribeValue(this: any, client: Client) {
             if (config.topic.length > 0) {
                 const obsr = client.mqttSubscribe(
                     config.topic,
-                    config.qos ?? 0
+                    config.qos ?? 0,
                 );
                 const valObsrv = obsr.pipe(ValueOperatorFactory(config));
                 fn = fn.bind(this);

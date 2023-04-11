@@ -22,12 +22,12 @@ export interface S7Endpoint {
         area: tS7DataAreas,
         dbNr: number,
         dbIndex: number,
-        length: number
+        length: number,
     ): Promise<Buffer>;
     writeAreaBytes(
         area: tS7DataAreas,
         dbNr: number,
         dbIndex: number,
-        buf: Buffer
+        buf: Buffer,
     ): Promise<void>;
 }

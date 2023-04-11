@@ -53,7 +53,7 @@ describe("Creation test", () => {
             "myOrg",
             INFLUX as unknown as InfluxDB,
             MQTT,
-            DEBUGGER
+            DEBUGGER,
         );
 
         expect(INFLUX.getWriteApi).toBeCalledTimes(1);
@@ -74,7 +74,7 @@ describe("Write value test", () => {
             "myOrg",
             INFLUX as unknown as InfluxDB,
             MQTT,
-            DEBUGGER
+            DEBUGGER,
         );
 
         const writeApi = (item as any).writeApi;
@@ -94,7 +94,7 @@ describe("Write value test", () => {
             "myOrg",
             INFLUX as unknown as InfluxDB,
             MQTT,
-            DEBUGGER
+            DEBUGGER,
         );
 
         const writeApi = (item as any).writeApi;
@@ -120,7 +120,7 @@ describe("Write value test", () => {
             "myOrg",
             INFLUX as unknown as InfluxDB,
             MQTT,
-            DEBUGGER
+            DEBUGGER,
         );
 
         const writeApi = (item as any).writeApi;
@@ -130,7 +130,7 @@ describe("Write value test", () => {
             JSON.stringify({
                 my: { val: [0, 7, 10] },
             }),
-            0
+            0,
         );
 
         expect(writeApi.writePoint).toBeCalledTimes(1);
@@ -150,7 +150,7 @@ describe("Write value test", () => {
             "myOrg",
             INFLUX as unknown as InfluxDB,
             MQTT,
-            DEBUGGER
+            DEBUGGER,
         );
 
         const writeApi = (item as any).writeApi;
@@ -160,7 +160,7 @@ describe("Write value test", () => {
             JSON.stringify({
                 my: { val: [1, 3, 7] },
             }),
-            0
+            0,
         );
 
         expect(writeApi.writePoint).toBeCalledTimes(1);

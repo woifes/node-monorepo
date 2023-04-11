@@ -16,18 +16,18 @@ export const S7CommandConfig = rt
                 addressObject.type === "UINT16" ||
                 addressObject.type === "UINT32" ||
                 addressObject.type === "INT32" ||
-                `Command Id address has to be a compatible type`
+                "Command Id address has to be a compatible type"
             );
         }).optional(),
         params: rt
             .Array(
                 //parameter to write down with the command
-                S7AddressString
+                S7AddressString,
             )
             .withConstraint((a) => {
                 return (
                     a.length > 0 ||
-                    `Params array has to have at least one param`
+                    "Params array has to have at least one param"
                 );
             })
             .optional(),
@@ -36,28 +36,28 @@ export const S7CommandConfig = rt
             rt.Record({
                 //result configuration if this is omitted no response will be send
                 topicPrefix: rt.String.withConstraint(
-                    (s) => s.length > 0
+                    (s) => s.length > 0,
                 ).optional(), //standard is "cmdRes"
                 timeoutMS: rt.Number.withConstraint(
-                    (n) => n > 0 || `Timeout has to be greater than 0`
+                    (n) => n > 0 || "Timeout has to be greater than 0",
                 ), //timeout when a failure response has to be send //standard will be 3s
                 okFlagAddress: S7AddressString.withConstraint((variable) => {
                     const addressObject = parseS7AddressString(variable);
                     return (
-                        addressObject.type == "UINT8" ||
-                        `okFlagAddress has to point to a UINT8`
+                        addressObject.type === "UINT8" ||
+                        "okFlagAddress has to point to a UINT8"
                     );
                 }),
-            })
+            }),
         ).optional(),
     })
     .withConstraint((config) => {
-        if (config.cmdIdAddress == undefined && config.params == undefined) {
+        if (config.cmdIdAddress === undefined && config.params === undefined) {
             return "cmdIdAddress and params can not both be undefined";
         }
         if (
-            config.requiredParamCount != undefined &&
-            config.params != undefined
+            config.requiredParamCount !== undefined &&
+            config.params !== undefined
         ) {
             return (
                 config.requiredParamCount <= config.params.length ||

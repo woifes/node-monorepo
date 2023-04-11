@@ -6,14 +6,14 @@ import { Interface } from "readline";
 export async function question(
     questionText: string,
     answerName: string,
-    intf: Interface
+    intf: Interface,
 ): Promise<string> {
     return new Promise((resolve, reject) => {
         intf.question(
-            questionText + "\n\n" + answerName + ": ",
+            `${questionText}\n\n${answerName}: `,
             (answer: string) => {
                 resolve(answer);
-            }
+            },
         );
     });
 }

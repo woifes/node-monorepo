@@ -14,7 +14,7 @@ export class AreaReadRequest extends AreaRequest {
 
     async execute(): Promise<tS7Variable[]> {
         const result: tS7Variable[] = [];
-        if (this._variables.length == 0) {
+        if (this._variables.length === 0) {
             throw new Error("No variables specified in AreaReadRequest");
         }
         try {
@@ -22,33 +22,33 @@ export class AreaReadRequest extends AreaRequest {
                 this._area,
                 this._dbNr ?? 0,
                 this._startIndex,
-                this._length
+                this._length,
             );
-            if (data.length == this._length) {
+            if (data.length === this._length) {
                 for (let i = 0; i < this._variablesUnsorted.length; i++) {
                     const variable = this._variablesUnsorted[i];
                     const varSize = getS7AddrSize(variable);
                     const startInData = variable.byteIndex - this._startIndex;
                     const dataChunk = data.slice(
                         startInData,
-                        startInData + varSize
+                        startInData + varSize,
                     );
 
                     let value: any;
 
-                    if (variable.type != "BIT") {
-                        if (variable.count == undefined) {
+                    if (variable.type !== "BIT") {
+                        if (variable.count === undefined) {
                             value = DataTypes[variable.type].fromBuffer(
                                 dataChunk,
-                                false
+                                false,
                             );
                         } else {
                             value = DataTypes[
                                 `ARRAY_OF_${variable.type}`
                             ].fromBuffer(dataChunk, false);
                         }
-                    } else if (variable.type == "BIT") {
-                        if (variable.count == undefined) {
+                    } else if (variable.type === "BIT") {
+                        if (variable.count === undefined) {
                             value =
                                 (dataChunk[0] & (0x1 << variable.bitIndex!)) > 0
                                     ? 1
@@ -79,7 +79,7 @@ export class AreaReadRequest extends AreaRequest {
                 return result;
             } else {
                 throw new Error(
-                    `AreaReadRequest did not read enough bytes for request`
+                    "AreaReadRequest did not read enough bytes for request",
                 );
             }
         } catch (e) {

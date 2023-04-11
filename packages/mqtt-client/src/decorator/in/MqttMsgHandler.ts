@@ -15,22 +15,22 @@ import { tMqttMsgHandlerConfig } from "../types/MqttMsgHandlerConfig";
  * @param config.throttleMS min delay between messages - dropped otherwise
  */
 export function MqttMsgHandler(
-    config: tMqttMsgHandlerConfig | (() => tMqttMsgHandlerConfig)
+    config: tMqttMsgHandlerConfig | (() => tMqttMsgHandlerConfig),
 ): MethodDecorator {
     return function (
         target: any,
         propertyKey: string | symbol,
-        descriptor: PropertyDescriptor
+        descriptor: PropertyDescriptor,
     ) {
-        if (typeof propertyKey == "string") {
-            if (target[MSG_HANDLER_LIST_KEY] == undefined) {
+        if (typeof propertyKey === "string") {
+            if (target[MSG_HANDLER_LIST_KEY] === undefined) {
                 target[MSG_HANDLER_LIST_KEY] = new Map<
                     (msg: Message) => void,
                     () => tMqttMsgHandlerConfig
                 >();
             }
             let msgHandlerConfig: () => tMqttMsgHandlerConfig;
-            if (typeof config == "function") {
+            if (typeof config === "function") {
                 msgHandlerConfig = config;
             } else {
                 msgHandlerConfig = () => config;
@@ -38,24 +38,24 @@ export function MqttMsgHandler(
 
             let fn: (msg: Message) => void;
 
-            if (descriptor != undefined && descriptor.set != undefined) {
+            if (descriptor !== undefined && descriptor.set !== undefined) {
                 //Setter
                 fn = function (this: any, msg: Message) {
                     this[propertyKey] = msg;
                 };
-            } else if (descriptor.value != undefined) {
+            } else if (descriptor.value !== undefined) {
                 //Method
                 fn = function (this: any, msg: Message) {
                     this[propertyKey](msg);
                 };
             } else {
                 throw new Error(
-                    `MqttMsgHandler decorator set on something which is neither a property, setter or method`
+                    "MqttMsgHandler decorator set on something which is neither a property, setter or method",
                 );
             }
             target[MSG_HANDLER_LIST_KEY].set(fn, msgHandlerConfig);
         } else {
-            throw new Error(`MqttMsgHandler can not be set on Symbol property`);
+            throw new Error("MqttMsgHandler can not be set on Symbol property");
         }
     };
 }

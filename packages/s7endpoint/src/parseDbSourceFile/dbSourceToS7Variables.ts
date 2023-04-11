@@ -8,7 +8,7 @@ import { transformDbObjectToS7Vars } from "./transformDbObjectToS7Vars";
 export function dbSourceToS7Variables(source: string): tS7Variable[];
 export function dbSourceToS7Variables(
     source: string,
-    dbNr: number
+    dbNr: number,
 ): tS7Variable[];
 
 /**
@@ -18,12 +18,12 @@ export function dbSourceToS7Variables(
  */
 export function dbSourceToS7Variables(
     source: string,
-    dbNr?: number
+    dbNr?: number,
 ): tS7Variable[] {
     const variables: tS7Variable[] = transformDbObjectToS7Vars(
-        parseDBsourceFileString(source)
+        parseDBsourceFileString(source),
     );
-    if (dbNr != undefined) {
+    if (dbNr !== undefined) {
         if (dbNr <= 0) {
             throw new Error("dbNr may not be zero or negative");
         }

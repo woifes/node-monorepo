@@ -13,28 +13,28 @@ import { join } from "path";
  */
 export function createYasdiIniFileContent(
     serialPorts: string[],
-    debug = false
+    debug = false,
 ): string {
     let fileContent = "";
-    fileContent += `[DriverModules]\n`;
-    fileContent += `Driver0=yasdi_drv_serial\n\n`;
+    fileContent += "[DriverModules]\n";
+    fileContent += "Driver0=yasdi_drv_serial\n\n";
 
     for (let i = 0; i < serialPorts.length; i++) {
         let d = serialPorts[i];
-        if (process.platform == "linux") {
+        if (process.platform === "linux") {
             if (d.split("/").length >= 2) {
                 d = execSync(`readlink -f ${d}`).toString().split("\n")[0];
             }
         }
         fileContent += `[COM${i + 1}]\n`;
         fileContent += `Device=${d}\n`;
-        fileContent += `Media=RS485\n`;
-        fileContent += `Baudrate=1200\n`;
-        fileContent += `Protocol=SMANet\n\n`;
+        fileContent += "Media=RS485\n";
+        fileContent += "Baudrate=1200\n";
+        fileContent += "Protocol=SMANet\n\n";
     }
     if (debug) {
-        fileContent += `[Misc]\n`;
-        fileContent += `DebugOutput=/dev/stdout\n`;
+        fileContent += "[Misc]\n";
+        fileContent += "DebugOutput=/dev/stdout\n";
     }
 
     return fileContent;
@@ -51,7 +51,7 @@ export function createYasdiIniFile(
     iniDir: string,
     fileName: string,
     serialPorts: string[],
-    debug = false
+    debug = false,
 ): string {
     const fileContent = createYasdiIniFileContent(serialPorts, debug);
 

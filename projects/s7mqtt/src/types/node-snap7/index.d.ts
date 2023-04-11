@@ -30,8 +30,8 @@ export declare module "node-snap7" {
                 operation: 0x01 | 0x00,
                 tagObj: TagObject,
                 buffer: Buffer,
-                callback: () => void
-            ) => void
+                callback: () => void,
+            ) => void,
         );
     }
 

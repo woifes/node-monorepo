@@ -7,8 +7,6 @@ import { join } from "path";
 import { AlarmHandlerMqtt } from "../src/AlarmHandlerMqtt";
 import { tAlarmHandlerMqttConfig } from "../src/runtypes/AlarmHandlerMqttConfig";
 
-/* eslint-disable no-empty */
-
 process.env.TZ = "Europe/Berlin";
 process.env.LANG = "de";
 
@@ -33,8 +31,8 @@ let publishValueSyncMock = jest.fn(
         value: any,
         type: string,
         QoS: number,
-        retain: boolean
-    ) => {}
+        retain: boolean,
+    ) => {},
 );
 (mqtt as any).publishValueSync = publishValueSyncMock;
 let publishMessageMock = jest.fn((msg: Message) => {
@@ -109,8 +107,8 @@ beforeEach(() => {
             value: any,
             type: string,
             QoS: number,
-            retain: boolean
-        ) => {}
+            retain: boolean,
+        ) => {},
     );
     (mqtt as any).publishValueSync = publishValueSyncMock;
     publishMessageMock = jest.fn((msg: Message) => {
@@ -151,7 +149,7 @@ describe("creation test", () => {
             alarms: {},
         });
         expect(traceFileContent).toBe(
-            "alarmNum;occurred;disappeared;acknowledged;autoAck;category;categoryNum;text\n"
+            "alarmNum;occurred;disappeared;acknowledged;autoAck;category;categoryNum;text\n",
         );
 
         expect(h.name).toBe(mqtt.clientId);
@@ -259,14 +257,14 @@ describe("Alarm signal tests", () => {
         expect(retain).toBeFalsy();
 
         [topic, value, type, QoS, retain] = publishValueSyncMock.mock.calls[3];
-        expect(topic).toBe(`messenger/room01/to`);
+        expect(topic).toBe("messenger/room01/to");
         expect(value).toEqual("New Alarm from test01: #2 - A 10 30");
         expect(type).toBe("STRING");
         expect(QoS).toBe(1);
         expect(retain).toBeFalsy();
 
         [topic, value, type, QoS, retain] = publishValueSyncMock.mock.calls[4];
-        expect(topic).toBe(`messenger/room02/to`);
+        expect(topic).toBe("messenger/room02/to");
         expect(value).toEqual("New Alarm from test01: #2 - A 10 30");
         expect(type).toBe("STRING");
         expect(QoS).toBe(1);
@@ -347,7 +345,7 @@ describe("incoming message tests", () => {
             {
                 qos: msg.qos,
                 retain: msg.retain,
-            }
+            },
         );
     }
 
@@ -405,19 +403,19 @@ describe("incoming message tests", () => {
             `cmd/${mqtt.clientId}/me/setAlarmText`,
             2,
             false,
-            JSON.stringify([123, 2, "New text 1"])
+            JSON.stringify([123, 2, "New text 1"]),
         );
         const m2 = new Message(
-            `cmd/wrongClientId/me/setAlarmText`,
+            "cmd/wrongClientId/me/setAlarmText",
             2,
             false,
-            JSON.stringify([123, 3, "New text 2"])
+            JSON.stringify([123, 3, "New text 2"]),
         ); //wrong client id
         const m3 = new Message(
-            `cmd/wrongClientId/me/setAlarmText`,
+            "cmd/wrongClientId/me/setAlarmText",
             2,
             false,
-            JSON.stringify([123, 7, "New text 3"])
+            JSON.stringify([123, 7, "New text 3"]),
         ); //wrong alarm number
         simulateMessage(m1);
         simulateMessage(m2);
@@ -445,7 +443,7 @@ describe("incoming message tests", () => {
         let unixTime = new Date(2020, 11, 24, 7).getTime();
         jest.setSystemTime(unixTime);
         for (let i = 0; i < 100; i++) {
-            h.updateSignal(2, i % 2 == 0);
+            h.updateSignal(2, i % 2 === 0);
             unixTime += 60 * 1000; //1 minute
             jest.setSystemTime(unixTime);
         }
@@ -456,7 +454,7 @@ describe("incoming message tests", () => {
             `cmd/${mqtt.clientId}/me/getHistory`,
             2,
             false,
-            JSON.stringify([456, d1, d2])
+            JSON.stringify([456, d1, d2]),
         );
         jest.clearAllMocks();
         simulateMessage(m1);
@@ -497,7 +495,7 @@ describe("incoming message tests", () => {
         let unixTime = new Date(2020, 11, 24, 7).getTime();
         jest.setSystemTime(unixTime);
         for (let i = 0; i < 100; i++) {
-            h.updateSignal(2, i % 2 == 0);
+            h.updateSignal(2, i % 2 === 0);
             unixTime += 60 * 1000; //1 minute
             jest.setSystemTime(unixTime);
         }
@@ -508,7 +506,7 @@ describe("incoming message tests", () => {
             `cmd/${mqtt.clientId}/me/getHistory`,
             2,
             false,
-            JSON.stringify([456, d1, d2])
+            JSON.stringify([456, d1, d2]),
         );
         jest.clearAllMocks();
         simulateMessage(m1);
@@ -544,7 +542,7 @@ describe("text command tests", () => {
     });
 
     function simTxtCmd(cmd: string) {
-        (mqtt as any).onMessageCallback(`messenger/from`, Buffer.from(cmd), {
+        (mqtt as any).onMessageCallback("messenger/from", Buffer.from(cmd), {
             qos: 2,
             retain: false,
         });
@@ -555,7 +553,7 @@ describe("text command tests", () => {
         await promiseTimeout(400);
         expect(publishMessageMock).toBeCalledTimes(2);
         expect(publishMessageMock.mock.calls[1][0].body).toBe(
-            `No alarms for test01`
+            "No alarms for test01",
         );
     });
 
@@ -563,8 +561,7 @@ describe("text command tests", () => {
         simTxtCmd("alarms -h");
         await promiseTimeout(400);
         expect(publishMessageMock).toBeCalledTimes(1);
-        expect(publishMessageMock.mock.calls[0][0].body)
-            .toBe(`Usage: alarms [options] [command]
+        expect(publishMessageMock.mock.calls[0][0].body).toBe(`Usage: alarms [options] [command]
 
 Options:
   -h, --help         display help for command
@@ -582,7 +579,7 @@ Commands:
         await promiseTimeout(400);
         expect(publishMessageMock).toBeCalledTimes(2);
         expect(publishMessageMock.mock.calls[1][0].body).toBe(
-            `No alarms for test01`
+            "No alarms for test01",
         );
     });
 
@@ -604,8 +601,8 @@ Commands:
                 value: any,
                 type: string,
                 QoS: number,
-                retain: boolean
-            ) => {}
+                retain: boolean,
+            ) => {},
         );
         (mqtt as any).publishValueSync = publishValueSyncMock;
         publishMessageMock = jest.fn((msg: Message) => {
@@ -613,9 +610,9 @@ Commands:
         });
         (mqtt as any).publishMessage = publishMessageMock;
 
-        const name = `alSig_doNothing`;
+        const name = "alSig_doNothing";
         const config = createConfig(name, 3);
-        delete config.textCommand;
+        config.textCommand = undefined;
         jest.clearAllMocks();
         const handler = new AlarmHandlerMqtt(config, mqtt);
         simTxtCmd("alarms");
@@ -637,7 +634,7 @@ Commands:
             //console.log(publishMessageMock.mock.calls[0][0].body); messages from the alarm handler
             //console.log(publishMessageMock.mock.calls[1][0].body);
             expect(publishMessageMock.mock.calls[2][0].body).toBe(
-                "Alarm 0 was acknowledged"
+                "Alarm 0 was acknowledged",
             );
             expect(h[2].triggered).toBe(false);
         });
@@ -647,7 +644,7 @@ Commands:
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(3);
             expect(publishMessageMock.mock.calls[2][0].body).toBe(
-                "Alarm 2 was acknowledged"
+                "Alarm 2 was acknowledged",
             );
             expect(h[2].triggered).toBe(false);
         });
@@ -660,7 +657,7 @@ Commands:
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(5);
             expect(publishMessageMock.mock.calls[4][0].body).toBe(
-                "Alarm 0 was acknowledged"
+                "Alarm 0 was acknowledged",
             );
             expect(h[1].triggered).toBe(false);
             expect(h[2].triggered).toBe(false);
@@ -671,8 +668,7 @@ Commands:
             simTxtCmd("alarms help ack");
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(2);
-            expect(publishMessageMock.mock.calls[0][0].body)
-                .toBe(`Usage: alarms ack [options] [alarmNumber]
+            expect(publishMessageMock.mock.calls[0][0].body).toBe(`Usage: alarms ack [options] [alarmNumber]
 
 Acknowledges the given alarm. Acknowledges all if not given
 
@@ -682,8 +678,7 @@ Arguments:
 Options:
   -h, --help   display help for command
 `);
-            expect(publishMessageMock.mock.calls[1][0].body)
-                .toBe(`Usage: alarms ack [options] [alarmNumber]
+            expect(publishMessageMock.mock.calls[1][0].body).toBe(`Usage: alarms ack [options] [alarmNumber]
 
 Acknowledges the given alarm. Acknowledges all if not given
 
@@ -709,8 +704,7 @@ Options:
             simTxtCmd("alarms act");
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(2);
-            expect(publishMessageMock.mock.calls[1][0].body)
-                .toBe(`Alarms of test01
+            expect(publishMessageMock.mock.calls[1][0].body).toBe(`Alarms of test01
 ______________________________
     #2 | 24.12.2020, 07:12:03,000
 No text
@@ -730,7 +724,7 @@ ______________________________
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(2);
             expect(publishMessageMock.mock.calls[1][0].body).toBe(
-                `No alarms for test01`
+                "No alarms for test01",
             );
         });
 
@@ -739,8 +733,7 @@ ______________________________
             simTxtCmd("alarms help act");
             await promiseTimeout(400);
             expect(publishMessageMock).toBeCalledTimes(2);
-            expect(publishMessageMock.mock.calls[0][0].body)
-                .toBe(`Usage: alarms act [options]
+            expect(publishMessageMock.mock.calls[0][0].body).toBe(`Usage: alarms act [options]
 
 Prints the present alarms
 

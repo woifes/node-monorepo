@@ -37,7 +37,7 @@ export declare interface Inverter {
      */
     on(
         event: "newValue",
-        listener: (valueName: string, value: inverterValue) => void
+        listener: (valueName: string, value: inverterValue) => void,
     ): this;
 
     /**
@@ -47,8 +47,8 @@ export declare interface Inverter {
         event: "newValue",
         listener: (
             valueName: yasdiComStatusTypeName,
-            value: inverterValue
-        ) => void
+            value: inverterValue,
+        ) => void,
     ): this;
 }
 
@@ -81,10 +81,10 @@ export class Inverter extends EventEmitter {
         this._nodeYasdi.on(
             "downloadChannels",
             (handle: number, miscParam: number) => {
-                if (handle == this._handle) {
+                if (handle === this._handle) {
                     this.onDownloadChannels(miscParam);
                 }
-            }
+            },
         );
     }
 
@@ -167,7 +167,7 @@ export class Inverter extends EventEmitter {
 
     private onDeviceSearchEnd() {
         if (!this.channelsComplete) {
-            this._debug(`device search ended load channels...`);
+            this._debug("device search ended load channels...");
             this.loadChannels();
         }
     }
@@ -203,7 +203,7 @@ export class Inverter extends EventEmitter {
     async getData(maxValueAgeS: number): Promise<inverterValues> {
         if (!this._nodeYasdi.deviceSearchFinished) {
             this._debugGetData(
-                `instant finish of getData() because device search not yet finished`
+                "instant finish of getData() because device search not yet finished",
             );
             return Promise.resolve(this._values);
         }
@@ -212,11 +212,11 @@ export class Inverter extends EventEmitter {
 
         for (const val of this.getChannelValues(maxValueAgeS)) {
             const res: GetChannelValueResult = await val.prom;
-            if (res.result == 0) {
+            if (res.result === 0) {
                 this._debugGetData(`loaded channel: ${JSON.stringify(res)}`);
                 this.mapValue(val.chanName, val.chan.unit, res);
             } else {
-                if (res.result == -3) {
+                if (res.result === -3) {
                     comStatus = "offline"; //device not reachable, but this can be ok if the sun goes down
                 } else {
                     comStatus = "comError";
@@ -240,7 +240,7 @@ export class Inverter extends EventEmitter {
                     prom: getChannelValue(
                         this._handle,
                         channel.handle,
-                        maxValueAgeS
+                        maxValueAgeS,
                     ),
                 };
             }
@@ -250,13 +250,13 @@ export class Inverter extends EventEmitter {
     private mapValue(
         channelName: string,
         unit: string,
-        newValue: GetChannelValueResult
+        newValue: GetChannelValueResult,
     ) {
         const timeStamp = new Date(newValue.timeStamp * 1000).toJSON();
 
         let existingValueObj = this._values.get(channelName);
 
-        if (existingValueObj == undefined) {
+        if (existingValueObj === undefined) {
             existingValueObj = {
                 value: newValue.value,
                 unit: unit,

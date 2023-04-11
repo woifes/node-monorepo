@@ -11,7 +11,7 @@ export const AlarmHandlerMqttConfig = AlarmHandlerConfig.And(
             .withConstraint((a) => a.length > 0)
             .optional(),
         presentAlarmWatchdogS: rt.Number.withConstraint(
-            (n) => n > 0
+            (n) => n > 0,
         ).optional(),
         textCommand: rt
             .Record({
@@ -19,7 +19,7 @@ export const AlarmHandlerMqttConfig = AlarmHandlerConfig.And(
                 commandOutTopic: rt.String,
             })
             .optional(),
-    })
+    }),
 );
 
 export type tAlarmHandlerMqttConfig = rt.Static<typeof AlarmHandlerMqttConfig>;

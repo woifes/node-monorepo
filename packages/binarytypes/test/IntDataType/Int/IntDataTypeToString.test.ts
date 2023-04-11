@@ -18,7 +18,7 @@ function testDt(
     hexMax: string,
     hexMin: string,
     hexMaxBE: string,
-    hexMinBE: string
+    hexMinBE: string,
 ) {
     //#region defines
     const MAX = max < Number.MAX_SAFE_INTEGER ? Number(max) : max;
@@ -37,7 +37,7 @@ function testDt(
     const BUF_MIN_BE = hexBuf(X_MIN_BE);
     //#endregion
 
-    if (typeof MAX == "number") {
+    if (typeof MAX === "number") {
         expect(dt.toString(MAX)).toBe(S_MAX);
         expect(dt.toString(MIN)).toBe(S_MIN);
         expect(dt.toString(MAX, false)).toBe(S_MAX);
@@ -107,10 +107,10 @@ function testDt(
         dt.toString(`${BI_MIN - 1n}`, false);
     }).toThrow();
     //string float
-    expect(dt.toString(S_MAX + ".3")).toBe(S_MAX);
-    expect(dt.toString(S_MIN + ".3")).toBe(S_MIN);
-    expect(dt.toString(S_MAX + ".3", false)).toBe(S_MAX);
-    expect(dt.toString(S_MIN + ".3", false)).toBe(S_MIN);
+    expect(dt.toString(`${S_MAX}.3`)).toBe(S_MAX);
+    expect(dt.toString(`${S_MIN}.3`)).toBe(S_MIN);
+    expect(dt.toString(`${S_MAX}.3`, false)).toBe(S_MAX);
+    expect(dt.toString(`${S_MIN}.3`, false)).toBe(S_MIN);
     expect(() => {
         dt.toString(`${BI_MAX + 1n}.3`);
     }).toThrow();
@@ -124,7 +124,7 @@ function testDt(
         dt.toString(`${BI_MIN - 1n}.3`, false);
     }).toThrow();
 
-    if (typeof MAX == "number" && typeof MIN == "number") {
+    if (typeof MAX === "number" && typeof MIN === "number") {
         expect(() => {
             dt.toString([MAX, MIN, 10, -10]);
         }).toThrow();
@@ -168,10 +168,10 @@ function testDt(
     expect(dt.toString(BUF_MIN)).toBe(S_MIN);
 
     expect(() => {
-        dt.toString(hexBuf("10" + S_MAX));
+        dt.toString(hexBuf(`10${S_MAX}`));
     }).toThrow();
     expect(() => {
-        dt.toString(hexBuf("10" + S_MAX), false);
+        dt.toString(hexBuf(`10${S_MAX}`), false);
     }).toThrow();
     expect(() => {
         dt.toString(NaN);
@@ -224,7 +224,7 @@ test("Validation INT32", () => {
         "FFFFFF7F",
         "00000080",
         "7FFFFFFF",
-        "80000000"
+        "80000000",
     );
 
     expect(dt.toString(hexBuf("12345678"))).toBe("2018915346");
@@ -240,14 +240,14 @@ test("Validation INT64", () => {
         "FFFFFFFFFFFFFF7F",
         "0000000000000080",
         "7FFFFFFFFFFFFFFF",
-        "8000000000000000"
+        "8000000000000000",
     );
 
     expect(dt.toString(hexBuf("1234567890ABCDEF"))).toBe(
-        "-1167088091436534766"
+        "-1167088091436534766",
     );
     expect(dt.toString(hexBuf("EFCDAB9078563412"), false)).toBe(
-        "-1167088091436534766"
+        "-1167088091436534766",
     );
 });
 
@@ -284,13 +284,13 @@ test("Validation UINT64", () => {
         "FFFFFFFFFFFFFFFF",
         "0000000000000000",
         "FFFFFFFFFFFFFFFF",
-        "0000000000000000"
+        "0000000000000000",
     );
 
     expect(dt.toString(hexBuf("1234567890ABCDEF"))).toBe(
-        "17279655982273016850"
+        "17279655982273016850",
     );
     expect(dt.toString(hexBuf("EFCDAB9078563412"), false)).toBe(
-        "17279655982273016850"
+        "17279655982273016850",
     );
 });

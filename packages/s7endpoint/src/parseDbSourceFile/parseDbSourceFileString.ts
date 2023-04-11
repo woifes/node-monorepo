@@ -16,7 +16,7 @@ export function parseDBsourceFileString(source: string) {
         return e.length > 0;
     });
     const n = arr.indexOf("STRUCT");
-    if (n == -1) {
+    if (n === -1) {
         throw new Error("no STRUCT found");
     }
     arr = arr.slice(n + 1);
@@ -42,9 +42,9 @@ function parseLines(lineIter: IterableIterator<string>): DbObject {
     for (let line of lineIter) {
         let [name, content] = line.split(":");
         line = line.toUpperCase();
-        if (line.indexOf("END_STRUCT") != -1) {
+        if (line.indexOf("END_STRUCT") !== -1) {
             return obj;
-        } else if (line.indexOf("OFSTRUCT") != -1) {
+        } else if (line.indexOf("OFSTRUCT") !== -1) {
             const lower = parseInt(line.split("[")[1].split("..")[0]);
             const upper = parseInt(line.split("]")[0].split("..")[1]);
             const res = parseLines(lineIter);
@@ -53,13 +53,13 @@ function parseLines(lineIter: IterableIterator<string>): DbObject {
                 arrayStruct[i] = { ...res };
             }
             obj[name] = arrayStruct;
-        } else if (line.indexOf("STRUCT") != -1) {
+        } else if (line.indexOf("STRUCT") !== -1) {
             obj[name] = parseLines(lineIter);
         } else {
-            if (content == undefined) {
+            if (content === undefined) {
                 throw new Error(`Content could not be split by ":" ${line}`);
             }
-            if (name.indexOf('"') != -1) {
+            if (name.indexOf('"') !== -1) {
                 name = name.split('"')[1];
             }
             obj[name] = content;

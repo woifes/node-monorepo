@@ -18,7 +18,7 @@ export class WriteRequest extends Request {
 
         for (const variableSet of this._varsByArea.values()) {
             this._areaRequests.push(
-                new AreaWriteRequest(variableSet, this._endpoint)
+                new AreaWriteRequest(variableSet, this._endpoint),
             );
         }
     }

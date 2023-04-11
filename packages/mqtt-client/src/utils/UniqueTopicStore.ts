@@ -27,7 +27,7 @@ export class UniqueTopicStore {
     constructor(private _debug?: Debugger) {}
 
     debug(line: string, ...args: any[]) {
-        if (this._debug != undefined) {
+        if (this._debug !== undefined) {
             this._debug(line, ...args);
         }
     }
@@ -38,17 +38,17 @@ export class UniqueTopicStore {
      *
      */
     public put(packet: Packet, cb?: () => void) {
-        this.debug(`put packet %O`, packet);
+        this.debug("put packet %O", packet);
         const found = this._inflights.get(packet.messageId);
-        if (found != undefined && found.topic != undefined) {
+        if (found !== undefined && found.topic !== undefined) {
             this._reverseMap.delete(found.topic);
         }
 
-        if (packet.topic != undefined) {
+        if (packet.topic !== undefined) {
             const msgId = this._reverseMap.get(packet.topic);
-            if (msgId != undefined) {
+            if (msgId !== undefined) {
                 this.debug(
-                    `delete packet with same topic. topic: ${packet.topic}`
+                    `delete packet with same topic. topic: ${packet.topic}`,
                 );
                 this._inflights.delete(msgId);
             }
@@ -104,15 +104,15 @@ export class UniqueTopicStore {
      * deletes a packet from the store.
      */
     public del(packet: Packet, cb: (err: Error | null, packet?: any) => void) {
-        this.debug(`delete packet %O`, packet);
+        this.debug("delete packet %O", packet);
         packet = this._inflights.get(packet.messageId);
-        if (packet != undefined) {
+        if (packet !== undefined) {
             this._inflights.delete(packet.messageId);
-            if (packet.topic != undefined) {
+            if (packet.topic !== undefined) {
                 this._reverseMap.delete(packet.topic);
             }
             cb(null, packet);
-        } else if (cb != undefined) {
+        } else if (cb !== undefined) {
             cb(new Error("missing packet"));
         }
 
@@ -124,12 +124,12 @@ export class UniqueTopicStore {
      */
     public get(
         packet: Packet,
-        cb: (error: Error | null, packet?: Packet) => void
+        cb: (error: Error | null, packet?: Packet) => void,
     ) {
         packet = this._inflights.get(packet.messageId);
-        if (packet != undefined) {
+        if (packet !== undefined) {
             cb(null, packet);
-        } else if (cb != undefined) {
+        } else if (cb !== undefined) {
             cb(new Error("missing packet"));
         }
 
@@ -143,7 +143,7 @@ export class UniqueTopicStore {
         this._inflights = new Map();
         this._reverseMap = new Map();
 
-        if (cb != undefined) {
+        if (cb !== undefined) {
             cb();
         }
     }

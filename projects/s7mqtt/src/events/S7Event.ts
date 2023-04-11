@@ -16,13 +16,13 @@ const STD_POLL_INTERVAL_MS = 1000;
 export declare interface S7Event {
     on(
         event: "trigger",
-        listener: (newTrigger: tS7Variable, params: tS7Variable[]) => void
+        listener: (newTrigger: tS7Variable, params: tS7Variable[]) => void,
     ): this;
     on(event: "pollingStarted", listener: () => void): this;
     on(event: "pollingStopped", listener: () => void): this;
     once(
         event: "trigger",
-        listener: (newTrigger: tS7Variable, params: tS7Variable[]) => void
+        listener: (newTrigger: tS7Variable, params: tS7Variable[]) => void,
     ): this;
     once(event: "pollingStarted", listener: () => void): this;
     once(event: "pollingStopped", listener: () => void): this;
@@ -40,11 +40,11 @@ export class S7Event extends EventEmitter {
     constructor(
         config: tS7EventConfig,
         s7endpoint: S7Endpoint,
-        parentDebugger: Debugger
+        parentDebugger: Debugger,
     ) {
         super();
         this._config = S7EventConfig.check(config);
-        this._debug = parentDebugger.extend(`event`);
+        this._debug = parentDebugger.extend("event");
         this._s7ep = s7endpoint;
         const pollIntervalMS =
             this._config.pollIntervalMS ?? STD_POLL_INTERVAL_MS;
@@ -55,7 +55,7 @@ export class S7Event extends EventEmitter {
                 tags: { trigger: this._config.trigger },
             },
             this._s7ep,
-            this._debug
+            this._debug,
         );
         this._output.on("pollingStarted", () => {
             this.emit("pollingStarted");
@@ -72,7 +72,7 @@ export class S7Event extends EventEmitter {
 
     private async fetchParams(): Promise<tS7Variable[]> {
         const paramVars: tS7Variable[] = [];
-        if (this._config.params != undefined) {
+        if (this._config.params !== undefined) {
             for (const param of this._config.params) {
                 paramVars.push({
                     ...parseS7AddressString(param),
@@ -80,9 +80,9 @@ export class S7Event extends EventEmitter {
             }
             const readRequest = this._s7ep.createReadRequest(paramVars);
             const result = await readRequest.execute();
-            if (this._config.params.length != result.length) {
+            if (this._config.params.length !== result.length) {
                 throw new Error(
-                    "Fetched params count is not matching config param counts"
+                    "Fetched params count is not matching config param counts",
                 );
             }
             this._debug(`Fetched ${result.length} parameters`);
@@ -93,10 +93,10 @@ export class S7Event extends EventEmitter {
 
     private onData(data: tS7Variable[]) {
         const newTrigger = data[0];
-        if (newTrigger != undefined) {
+        if (newTrigger !== undefined) {
             if (
-                this._lastTrigger != undefined &&
-                newTrigger.value != this._lastTrigger.value
+                this._lastTrigger !== undefined &&
+                newTrigger.value !== this._lastTrigger.value
             ) {
                 this._debug(`New trigger value: ${newTrigger.value}`);
                 this.onTrigger(newTrigger);

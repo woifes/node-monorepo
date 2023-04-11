@@ -5,7 +5,7 @@ import { Client as MqttClient } from "@woifes/mqtt-client";
 import { createClient as matrixCreateClient } from "matrix-js-sdk";
 import { MatrixMqttBridge } from "../src/MatrixMqttBridge";
 import { tMatrixMqttBridgeConfig } from "../src/MatrixMqttBridgeConfig";
-jest.mock<typeof import("matrix-js-sdk")>("matrix-js-sdk", () => {
+jest.mock("matrix-js-sdk", () => {
     return {
         __esModule: true,
         ...jest.requireActual("matrix-js-sdk"),
@@ -89,7 +89,7 @@ describe("creation tests", () => {
                             room_id: generateMatrixRoomId("room06"),
                         });
                 }
-            }
+            },
         );
         const c = new MatrixMqttBridge(config);
         await wait(100);
@@ -201,7 +201,7 @@ describe("Incoming matrix message tests", () => {
             body: string,
             roomId: string,
             userId: string,
-            localTimestamp: number
+            localTimestamp: number,
         ) => {
             const event = {
                 getType: () => type,
@@ -227,7 +227,7 @@ describe("Incoming matrix message tests", () => {
                 message,
                 "#room01:matrix",
                 "someoneelse",
-                Date.now() + 1000 //give it 1s time to execute
+                Date.now() + 1000, //give it 1s time to execute
             );
         }
 
@@ -267,7 +267,7 @@ Commands:
                 "Hello World!",
                 "#room01:matrix",
                 "someoneelse",
-                Date.now() + 1000 //give it 1s time to execute
+                Date.now() + 1000, //give it 1s time to execute
             );
             expect(publishValueMock).toBeCalledTimes(1);
             const [topic, message] = publishValueMock.mock.calls[0];
@@ -282,7 +282,7 @@ Commands:
                 "Hello World!",
                 "#room01:matrix",
                 "someoneelse",
-                Date.now() + 1000 //give it 1s time to execute
+                Date.now() + 1000, //give it 1s time to execute
             );
             expect(publishValueMock).not.toBeCalled();
         });
@@ -294,7 +294,7 @@ Commands:
                 "Hello World!",
                 "#room01:matrix",
                 "someoneelse",
-                Date.now() + 1000 //give it 1s time to execute
+                Date.now() + 1000, //give it 1s time to execute
             );
             expect(publishValueMock).not.toBeCalled();
         });
@@ -306,7 +306,7 @@ Commands:
                 "Hello World!",
                 "#room01:matrix",
                 "someoneelse",
-                Date.now() - 10000
+                Date.now() - 10000,
             );
             expect(publishValueMock).toBeCalledTimes(1);
 
@@ -320,7 +320,7 @@ Commands:
                 "Hello World!",
                 "#room01:matrix",
                 "someoneelse",
-                Date.now() - 10000
+                Date.now() - 10000,
             );
             expect(publishValueMock).not.toBeCalled();
         });
@@ -332,7 +332,7 @@ Commands:
                 "Hello World!",
                 "#room01:matrix",
                 "@user01:localhost",
-                Date.now() + 1000 //give it 1s time to execute
+                Date.now() + 1000, //give it 1s time to execute
             );
             expect(publishValueMock).not.toBeCalled();
         });
@@ -344,7 +344,7 @@ Commands:
                 "Hello World!",
                 "#room99:matrix",
                 "someoneelse",
-                Date.now() + 1000 //give it 1s time to execute
+                Date.now() + 1000, //give it 1s time to execute
             );
             expect(publishValueMock).not.toBeCalled();
         });
@@ -364,7 +364,7 @@ describe("Incoming mqtt message tests", () => {
             (c as any)._mqttClient.onMessageCallback(
                 topic,
                 Buffer.from(message, "utf-8"),
-                { qos: 0, retain: false }
+                { qos: 0, retain: false },
             );
         };
     });

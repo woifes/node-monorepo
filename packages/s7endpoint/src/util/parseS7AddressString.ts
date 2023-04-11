@@ -30,7 +30,7 @@ export function parseS7AddressString(addressString: string): tS7Address {
     //Replace Logo identifier
     if (addressString.startsWith(LOGO_PREFIX)) {
         addressString = replaceLogoConstant(
-            addressString.substring(LOGO_PREFIX.length)
+            addressString.substring(LOGO_PREFIX.length),
         );
     }
     //DB1,X14.0.8
@@ -46,7 +46,7 @@ export function parseS7AddressString(addressString: string): tS7Address {
     const byteIndex = parseInt(dbIndexStr);
     let area: tS7DataAreas;
     let type: tDataTypeNames;
-    if (dbNrStr != undefined) {
+    if (dbNrStr !== undefined) {
         dbNr = parseInt(dbNrStr); //will always succeed because of the regex
         area = "DB";
         type = checkTypeString(typeStr);
@@ -58,7 +58,7 @@ export function parseS7AddressString(addressString: string): tS7Address {
             throw new Error(`Could not determine area code: ${addressString}`);
         }
 
-        if (typeStr.substring(1).length == 0) {
+        if (typeStr.substring(1).length === 0) {
             //only merker bit
             type = "BIT";
         } else {
@@ -68,19 +68,19 @@ export function parseS7AddressString(addressString: string): tS7Address {
 
     let bitIndex: number | undefined = undefined;
     let count: number | undefined = undefined;
-    if (type == "BIT") {
+    if (type === "BIT") {
         bitIndex = parseInt(quantifier1); //quantifier1 must be bitindex
         if (!Number.isFinite(bitIndex)) {
             throw new Error("Missing bitIndex for bit variable");
         }
-        if (quantifier2 != undefined) {
+        if (quantifier2 !== undefined) {
             count = parseInt(quantifier2);
         }
     } else {
-        if (quantifier2 != undefined) {
+        if (quantifier2 !== undefined) {
             throw new Error("A byte wise variable has two quantifier");
         }
-        if (quantifier1 != undefined) {
+        if (quantifier1 !== undefined) {
             count = parseInt(quantifier1);
         }
     }
@@ -121,17 +121,17 @@ export function stringifyS7Address(address: tS7Address): tS7AddressString {
         str += address.area;
     }
 
-    if (address.type === "BIT" && address.area != "DB") {
+    if (address.type === "BIT" && address.area !== "DB") {
         str += `${address.byteIndex}`;
     } else {
         str += `${typeToS7Type(address.type as tNumber)}${address.byteIndex}`;
     }
 
-    if (address.bitIndex != undefined) {
+    if (address.bitIndex !== undefined) {
         str += `.${address.bitIndex}`;
     }
 
-    if (address.count != undefined) {
+    if (address.count !== undefined) {
         str += `.${address.count}`;
     }
 
@@ -154,7 +154,7 @@ function replaceLogoConstant(identifier: string): string {
         return (LOGO_ADDRESSES as any)[identifier] as string;
     } else {
         throw new Error(
-            `Could not find identifier ${identifier} in constants of ${LOGO_PREFIX}`
+            `Could not find identifier ${identifier} in constants of ${LOGO_PREFIX}`,
         );
     }
 }

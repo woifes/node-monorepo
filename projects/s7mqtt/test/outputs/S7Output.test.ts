@@ -59,7 +59,7 @@ it("should emit event on trigger", async () => {
             pollIntervalMS: 500,
         },
         S7ENDP,
-        DEBUGGER
+        DEBUGGER,
     );
     const dataCb = jest.fn();
 

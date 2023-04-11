@@ -37,7 +37,7 @@ export class Item {
         organization: string,
         influx: InfluxDB,
         @MqttConnection() mqtt: Client,
-        parentDebug: Debugger
+        parentDebug: Debugger,
     ) {
         this.config = ItemConfig.check(config);
         this.organization = organization;
@@ -46,7 +46,7 @@ export class Item {
         this.writeApi = influx.getWriteApi(
             this.organization,
             this.config.bucket,
-            this.config.precision
+            this.config.precision,
         );
         if (this.config.topicTags !== undefined) {
             this.topicTags = this.config.topicTags.split("/");

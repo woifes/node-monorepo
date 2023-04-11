@@ -17,9 +17,9 @@ export class AreaWriteRequest extends AreaRequest {
         super(variables, endpoint);
 
         for (let i = 0; i < this._variables.length; i++) {
-            if (variables[i].value == undefined) {
+            if (variables[i].value === undefined) {
                 throw new Error(
-                    `Write request variable without value at index: ${i}`
+                    `Write request variable without value at index: ${i}`,
                 );
             }
         }
@@ -53,13 +53,13 @@ export class AreaWriteRequest extends AreaRequest {
         const length = end - start;
         let buf: Buffer;
 
-        if (variables.some((v) => v.type == "BIT")) {
+        if (variables.some((v) => v.type === "BIT")) {
             //at least one bit variable present
             buf = await this._endpoint.readAreaBytes(
                 this._area,
                 this._dbNr ?? 0,
                 start,
-                length
+                length,
             );
         } else {
             buf = Buffer.alloc(length);
@@ -69,25 +69,25 @@ export class AreaWriteRequest extends AreaRequest {
             const variable = variables[i];
             const startOfVar = variable.byteIndex - start;
             const writeBuf = buf.slice(startOfVar);
-            if (variable.type == "BIT") {
-                if (variable.count == undefined) {
-                    if (variable.value == 2) {
+            if (variable.type === "BIT") {
+                if (variable.count === undefined) {
+                    if (variable.value === 2) {
                         toggleBitInBuffer(writeBuf, variable.bitIndex!);
                     } else {
                         setBitInBuffer(
-                            variable.value == 1,
+                            variable.value === 1,
                             writeBuf,
-                            variable.bitIndex!
+                            variable.bitIndex!,
                         );
                     }
                 } else {
                     const value = variable.value as number[];
                     let bitIndex = variable.bitIndex!;
                     for (let i = 0; i < value.length; i++) {
-                        if (value[i] == 2) {
+                        if (value[i] === 2) {
                             toggleBitInBuffer(writeBuf, bitIndex);
                         } else {
-                            setBitInBuffer(value[i] == 1, writeBuf, bitIndex);
+                            setBitInBuffer(value[i] === 1, writeBuf, bitIndex);
                         }
                         bitIndex++;
                     }
@@ -102,7 +102,7 @@ export class AreaWriteRequest extends AreaRequest {
             this._area,
             this._dbNr ?? 0,
             start,
-            buf
+            buf,
         );
     }
 }

@@ -201,7 +201,7 @@ describe("trigger and ack alarm test", () => {
         expect(cbGone.mock.calls[0][0]).toBe(
             `1;${d1.toJSON()};${d2.toJSON()};${d2.toJSON()};0;${
                 testAlarmDef.c
-            };${testAlarmDef.cn};${testAlarmDef.text}`
+            };${testAlarmDef.cn};${testAlarmDef.text}`,
         );
         expect(cbAck).toBeCalledTimes(1);
         expect(cbAck.mock.calls[0][0]).toEqual({
@@ -261,7 +261,7 @@ describe("trigger and ack alarm test", () => {
         expect(cbGone.mock.calls[0][0]).toBe(
             `1;${d1.toJSON()};${d3.toJSON()};${d2.toJSON()};0;${
                 testAlarmDef.c
-            };${testAlarmDef.cn};${testAlarmDef.text}`
+            };${testAlarmDef.cn};${testAlarmDef.text}`,
         );
         expect(cbAck).not.toBeCalled();
     });
@@ -293,7 +293,7 @@ describe("trigger and ack alarm test", () => {
         expect(cbGone.mock.calls[0][0]).toBe(
             `1;${d1.toJSON()};${d2.toJSON()};;1;${testAlarmDef.c};${
                 testAlarmDef.cn
-            };${testAlarmDef.text}`
+            };${testAlarmDef.text}`,
         );
         expect(cbAck).not.toBeCalled();
     });
@@ -323,7 +323,7 @@ describe("trigger and ack alarm test", () => {
         expect(a.triggered).toBe(false);
         expect(a.text).toBe("$1 $2 $3");
         expect(cbGone.mock.calls[0][0]).toBe(
-            `1;${d1.toJSON()};${d1.toJSON()};;1;${def.c};${def.cn};A 10 20`
+            `1;${d1.toJSON()};${d1.toJSON()};;1;${def.c};${def.cn};A 10 20`,
         );
     });
 });

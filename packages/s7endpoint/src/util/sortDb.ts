@@ -9,7 +9,7 @@ import { tS7Address } from "../types/S7Address";
  * @param b
  */
 export const sortDbAddresses = function (a: tS7Address, b: tS7Address): number {
-    if (a.area != b.area && a.area != "DB") {
+    if (a.area !== b.area && a.area !== "DB") {
         throw new Error("Can only sort db addresses");
     }
     if (a.dbNr! < b.dbNr!) {

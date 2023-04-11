@@ -26,7 +26,7 @@ function simulateIncMsg(msg: Message) {
     (SERVER as any)._mqtt.onMessageCallback(
         msg.topic.join("/"),
         msg.body,
-        msg.publishOpts
+        msg.publishOpts,
     );
 }
 async function wait(ms: number) {
@@ -63,7 +63,7 @@ describe("command test", () => {
             "actions/client01/me/add",
             2,
             false,
-            `[${cmdId}, 100, 20, 3]`
+            `[${cmdId}, 100, 20, 3]`,
         );
         simulateIncMsg(m);
         await wait(3000);
@@ -80,7 +80,7 @@ describe("event test", () => {
             "cmd/client01/me/triggerEvent",
             2,
             false,
-            `[${cmdId}]`
+            `[${cmdId}]`,
         );
         simulateIncMsg(m);
         await wait(1000);
@@ -88,7 +88,7 @@ describe("event test", () => {
         expect(m1.body).toBe(`[${cmdId},1]`);
         m1 = findInPubMsgMock("a/b/c")[0];
         expect(m1.body).toBe(
-            `[${cmdId + 1},${cmdId + 10},${cmdId + 100},${cmdId + 1000}]`
+            `[${cmdId + 1},${cmdId + 10},${cmdId + 100},${cmdId + 1000}]`,
         );
     });
 });
@@ -101,7 +101,7 @@ describe("input test", () => {
             "inputs/first",
             2,
             false,
-            `[${val},${val + 1},${val + 2}]`
+            `[${val},${val + 1},${val + 2}]`,
         );
         simulateIncMsg(m);
         await wait(500);
@@ -125,7 +125,7 @@ describe("output test", () => {
             "cmd/client01/me/setOutputs",
             2,
             false,
-            `[${cmdId}]`
+            `[${cmdId}]`,
         );
         simulateIncMsg(m);
         await wait(3500);
@@ -148,7 +148,7 @@ describe("alarm test", () => {
             "cmd/client01/me/setSignal",
             2,
             false,
-            `[${cmdId}, ${value ? 1 : 0}]`
+            `[${cmdId}, ${value ? 1 : 0}]`,
         );
         simulateIncMsg(m);
     }
@@ -159,7 +159,7 @@ describe("alarm test", () => {
             "cmd/client01/me/setAck",
             2,
             false,
-            `[${cmdId}, ${value ? 1 : 0}]`
+            `[${cmdId}, ${value ? 1 : 0}]`,
         );
         simulateIncMsg(m);
     }
@@ -168,12 +168,12 @@ describe("alarm test", () => {
         await sendSetSignal(true);
         await wait(2200);
         expect((SERVER as any)._alarms._alarmHandlerMqtt[2].triggered).toBe(
-            true
+            true,
         );
         await sendSetAck(true);
         await wait(2200);
         expect((SERVER as any)._alarms._alarmHandlerMqtt[2].triggered).toBe(
-            false
+            false,
         );
     });
 
@@ -181,15 +181,15 @@ describe("alarm test", () => {
         await sendSetSignal(true);
         await wait(2200);
         expect((SERVER as any)._alarms._alarmHandlerMqtt[2].triggered).toBe(
-            true
+            true,
         );
 
-        const m = new Message("alarms/ack/client01", 2, false, `2`);
+        const m = new Message("alarms/ack/client01", 2, false, "2");
         simulateIncMsg(m);
 
         await wait(2200);
         expect((SERVER as any)._alarms._alarmHandlerMqtt[2].triggered).toBe(
-            false
+            false,
         );
     });
 });

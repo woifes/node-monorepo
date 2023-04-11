@@ -27,9 +27,9 @@ const PUBMSGMOCK = (msg: Message) => {
     if (topicStr === "a/b/c") {
         EVT.emit("mqttEvent");
     }
-    if (topicStr == "plc01/tag01") {
+    if (topicStr === "plc01/tag01") {
         const outValue = msg.readValue("UINT32") as number;
-        if (outValue != lastOutput) {
+        if (outValue !== lastOutput) {
             console.log("new out value");
             EVT.emit("mqttOutputChanged");
         }
@@ -43,7 +43,7 @@ function simulateIncMsg(msg: Message) {
     (SERVER as any)._mqtt.onMessageCallback(
         msg.topic.join("/"),
         msg.body,
-        msg.publishOpts
+        msg.publishOpts,
     );
 }
 

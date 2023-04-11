@@ -1,8 +1,6 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/* eslint-disable @typescript-eslint/no-namespace */
-
 import { ReadRequest, S7RemoteEndpoint, tS7Variable } from "@woifes/s7endpoint";
 import debug from "debug";
 import { EventEmitter } from "events";
@@ -24,7 +22,7 @@ declare global {
     namespace jest {
         interface Matchers<R> {
             toBeTagDecl(
-                expected: Omit<tS7Variable, "name">
+                expected: Omit<tS7Variable, "name">,
             ): CustomMatcherResult;
         }
     }
@@ -33,7 +31,7 @@ declare global {
 expect.extend({
     toBeTagDecl(
         received: Omit<tS7Variable, "name">,
-        expected: tS7Variable
+        expected: tS7Variable,
     ): jest.CustomMatcherResult {
         if (received.dbNr !== expected.dbNr) {
             return {
@@ -127,7 +125,7 @@ it("should emit event on trigger", async () => {
             pollIntervalMS: 500,
         },
         S7ENDP,
-        DEBUGGER
+        DEBUGGER,
     );
     const OUT_MOCK: EventEmitter = (evt as any)._output;
     const TRG_KEY: symbol = (evt as any).TRIGGER_KEY;

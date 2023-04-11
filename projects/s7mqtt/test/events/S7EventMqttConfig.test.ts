@@ -13,7 +13,7 @@ it("should validate example file", () => {
         "..",
         "examples",
         "events",
-        "mqttevent.example.yaml"
+        "mqttevent.example.yaml",
     );
     expect(() => {
         S7EventMqttConfig.check(parse(readFileSync(p1, "utf-8")));

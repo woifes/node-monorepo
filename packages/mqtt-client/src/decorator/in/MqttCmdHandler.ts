@@ -18,15 +18,15 @@ import { tMqttCmdHandlerConfig } from "../types/MqttCmdHandlerConfig";
  * If an empty array is returned the decorated method will not be called
  */
 export function MqttCmdHandler(
-    config: tMqttCmdHandlerConfig | (() => tMqttCmdHandlerConfig)
+    config: tMqttCmdHandlerConfig | (() => tMqttCmdHandlerConfig),
 ): MethodDecorator {
     return function (
         target: any,
         propertyKey: string | symbol,
-        descriptor: PropertyDescriptor
+        descriptor: PropertyDescriptor,
     ) {
-        if (typeof propertyKey == "string") {
-            if (target[CMD_HANDLER_LIST_KEY] == undefined) {
+        if (typeof propertyKey === "string") {
+            if (target[CMD_HANDLER_LIST_KEY] === undefined) {
                 target[CMD_HANDLER_LIST_KEY] = new Map<
                     (msg: Message) => void,
                     () => tMqttCmdHandlerConfig
@@ -34,7 +34,7 @@ export function MqttCmdHandler(
             }
 
             let msgHandlerConfig: () => tMqttCmdHandlerConfig;
-            if (typeof config == "function") {
+            if (typeof config === "function") {
                 msgHandlerConfig = config;
             } else {
                 msgHandlerConfig = () => config;
@@ -42,19 +42,19 @@ export function MqttCmdHandler(
 
             let fn: (msg: Message, res: Message) => void;
 
-            if (descriptor.value != undefined) {
+            if (descriptor.value !== undefined) {
                 //Method
                 fn = function (this: any, msg: Message, res: Message) {
                     this[propertyKey](msg, res);
                 };
             } else {
                 throw new Error(
-                    `MqttCmdHandler decorator set on something which is no method`
+                    "MqttCmdHandler decorator set on something which is no method",
                 );
             }
             target[CMD_HANDLER_LIST_KEY].set(fn, msgHandlerConfig);
         } else {
-            throw new Error(`MqttCmdHandler can not be set on Symbol property`);
+            throw new Error("MqttCmdHandler can not be set on Symbol property");
         }
     };
 }

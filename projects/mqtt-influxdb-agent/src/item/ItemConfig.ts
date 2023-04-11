@@ -18,8 +18,8 @@ export const ItemConfig = rt.Record({
     searchPath: rt
         .Array(
             rt.Number.withConstraint((n) => n >= 0).Or(
-                rt.String.withConstraint((s) => s.length > 0)
-            )
+                rt.String.withConstraint((s) => s.length > 0),
+            ),
         )
         .withConstraint((a) => a.length > 0)
         .optional(),

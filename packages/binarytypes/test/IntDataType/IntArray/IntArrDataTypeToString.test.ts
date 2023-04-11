@@ -18,7 +18,7 @@ function testDt(
     hexMax: string,
     hexMin: string,
     hexMaxBE: string,
-    hexMinBE: string
+    hexMinBE: string,
 ) {
     //#region defines
     const MAX = max < Number.MAX_SAFE_INTEGER ? Number(max) : max;
@@ -37,7 +37,7 @@ function testDt(
     const BUF_MIN_BE = hexBuf(X_MIN_BE);
     //#endregion
 
-    if (typeof MAX == "number" && typeof MIN == "number") {
+    if (typeof MAX === "number" && typeof MIN === "number") {
         expect(() => {
             dt.toString(MAX);
         }).toThrow();
@@ -52,10 +52,10 @@ function testDt(
         }).toThrow();
 
         expect(dt.toString([MAX, MIN, MAX, MIN])).toEqual(
-            `[${MAX},${MIN},${MAX},${MIN}]`
+            `[${MAX},${MIN},${MAX},${MIN}]`,
         );
         expect(dt.toString([MAX, MIN, MAX, MIN], false)).toEqual(
-            `[${MAX},${MIN},${MAX},${MIN}]`
+            `[${MAX},${MIN},${MAX},${MIN}]`,
         );
         expect(() => {
             dt.toString([MAX + 1, MIN, MAX, MIN]);
@@ -84,10 +84,10 @@ function testDt(
         }).toThrow();
 
         expect(
-            dt.toString([MAX + 0.3, MIN - 0.3, MAX + 0.3, MIN - 0.3])
+            dt.toString([MAX + 0.3, MIN - 0.3, MAX + 0.3, MIN - 0.3]),
         ).toEqual(`[${MAX},${MIN},${MAX},${MIN}]`);
         expect(
-            dt.toString([MAX + 0.3, MIN - 0.3, MAX + 0.3, MIN - 0.3], false)
+            dt.toString([MAX + 0.3, MIN - 0.3, MAX + 0.3, MIN - 0.3], false),
         ).toEqual(`[${MAX},${MIN},${MAX},${MIN}]`);
         expect(() => {
             dt.toString([MAX + 1.3, MIN, MAX, MIN]);
@@ -114,19 +114,19 @@ function testDt(
     expect(() => {
         dt.toString(BI_MIN), false;
     }).toThrow();
-    if (BUF_MAX.length == 8) {
+    if (BUF_MAX.length === 8) {
         expect(dt.toString([BI_MAX, BI_MIN, BI_MAX, BI_MIN])).toEqual(
-            `["${MAX}","${MIN}","${MAX}","${MIN}"]`
+            `["${MAX}","${MIN}","${MAX}","${MIN}"]`,
         );
         expect(dt.toString([BI_MAX, BI_MIN, BI_MAX, BI_MIN], false)).toEqual(
-            `["${MAX}","${MIN}","${MAX}","${MIN}"]`
+            `["${MAX}","${MIN}","${MAX}","${MIN}"]`,
         );
     } else {
         expect(dt.toString([BI_MAX, BI_MIN, BI_MAX, BI_MIN])).toEqual(
-            `[${MAX},${MIN},${MAX},${MIN}]`
+            `[${MAX},${MIN},${MAX},${MIN}]`,
         );
         expect(dt.toString([BI_MAX, BI_MIN, BI_MAX, BI_MIN], false)).toEqual(
-            `[${MAX},${MIN},${MAX},${MIN}]`
+            `[${MAX},${MIN},${MAX},${MIN}]`,
         );
     }
     expect(() => {
@@ -150,121 +150,121 @@ function testDt(
     }).toThrow();
     //plain string float
     expect(() => {
-        dt.toString(S_MAX + ".3");
+        dt.toString(`${S_MAX}.3`);
     }).toThrow();
     expect(() => {
-        dt.toString(S_MIN + ".3");
+        dt.toString(`${S_MIN}.3`);
     }).toThrow();
     //stringified array of string
-    if (BUF_MAX.length == 8) {
+    if (BUF_MAX.length === 8) {
         expect(
             dt.toString(
-                `[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`
-            )
+                `[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
+            ),
         ).toEqual(`["${MAX}","${MIN}","${MAX}","${MIN}"]`);
         expect(
             dt.toString(
                 `[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
-                false
-            )
+                false,
+            ),
         ).toEqual(`["${MAX}","${MIN}","${MAX}","${MIN}"]`);
     } else {
         expect(
             dt.toString(
-                `[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`
-            )
+                `[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
+            ),
         ).toEqual(`[${MAX},${MIN},${MAX},${MIN}]`);
         expect(
             dt.toString(
                 `[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
-                false
-            )
+                false,
+            ),
         ).toEqual(`[${MAX},${MIN},${MAX},${MIN}]`);
     }
     expect(() => {
         dt.toString(
-            `[ "${BI_MAX + 1n}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`
-        );
-    }).toThrow();
-    expect(() => {
-        dt.toString(
-            `[ "${BI_MAX}", "${BI_MIN - 1n}", "${BI_MAX}", "${BI_MIN}" ]`
-        );
-    }).toThrow();
-    expect(() => {
-        dt.toString(
             `[ "${BI_MAX + 1n}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
-            false
         );
     }).toThrow();
     expect(() => {
         dt.toString(
             `[ "${BI_MAX}", "${BI_MIN - 1n}", "${BI_MAX}", "${BI_MIN}" ]`,
-            false
+        );
+    }).toThrow();
+    expect(() => {
+        dt.toString(
+            `[ "${BI_MAX + 1n}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
+            false,
+        );
+    }).toThrow();
+    expect(() => {
+        dt.toString(
+            `[ "${BI_MAX}", "${BI_MIN - 1n}", "${BI_MAX}", "${BI_MIN}" ]`,
+            false,
         );
     }).toThrow();
     //stringified array of string with float
-    if (BUF_MAX.length == 8) {
+    if (BUF_MAX.length === 8) {
         expect(
             dt.toString(
-                `[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}.3", "${BI_MIN}.3" ]`
-            )
+                `[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}.3", "${BI_MIN}.3" ]`,
+            ),
         ).toEqual(`["${MAX}","${MIN}","${MAX}","${MIN}"]`);
         expect(
             dt.toString(
                 `[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}.3", "${BI_MIN}.3" ]`,
-                false
-            )
+                false,
+            ),
         ).toEqual(`["${MAX}","${MIN}","${MAX}","${MIN}"]`);
     } else {
         expect(
             dt.toString(
-                `[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}.3", "${BI_MIN}.3" ]`
-            )
+                `[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}.3", "${BI_MIN}.3" ]`,
+            ),
         ).toEqual(`[${MAX},${MIN},${MAX},${MIN}]`);
         expect(
             dt.toString(
                 `[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}.3", "${BI_MIN}.3" ]`,
-                false
-            )
+                false,
+            ),
         ).toEqual(`[${MAX},${MIN},${MAX},${MIN}]`);
     }
     expect(() => {
         dt.toString(
-            `[ "${BI_MAX + 1n}.3", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`
-        );
-    }).toThrow();
-    expect(() => {
-        dt.toString(
-            `[ "${BI_MAX}", "${BI_MIN - 1n}.3", "${BI_MAX}", "${BI_MIN}" ]`
-        );
-    }).toThrow();
-    expect(() => {
-        dt.toString(
             `[ "${BI_MAX + 1n}.3", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
-            false
         );
     }).toThrow();
     expect(() => {
         dt.toString(
             `[ "${BI_MAX}", "${BI_MIN - 1n}.3", "${BI_MAX}", "${BI_MIN}" ]`,
-            false
+        );
+    }).toThrow();
+    expect(() => {
+        dt.toString(
+            `[ "${BI_MAX + 1n}.3", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
+            false,
+        );
+    }).toThrow();
+    expect(() => {
+        dt.toString(
+            `[ "${BI_MAX}", "${BI_MIN - 1n}.3", "${BI_MAX}", "${BI_MIN}" ]`,
+            false,
         );
     }).toThrow();
     //array of string
-    if (BUF_MAX.length == 8) {
+    if (BUF_MAX.length === 8) {
         expect(dt.toString([S_MAX, S_MIN, S_MAX, S_MIN])).toEqual(
-            `["${MAX}","${MIN}","${MAX}","${MIN}"]`
+            `["${MAX}","${MIN}","${MAX}","${MIN}"]`,
         );
         expect(dt.toString([S_MAX, S_MIN, S_MAX, S_MIN], false)).toEqual(
-            `["${MAX}","${MIN}","${MAX}","${MIN}"]`
+            `["${MAX}","${MIN}","${MAX}","${MIN}"]`,
         );
     } else {
         expect(dt.toString([S_MAX, S_MIN, S_MAX, S_MIN])).toEqual(
-            `[${MAX},${MIN},${MAX},${MIN}]`
+            `[${MAX},${MIN},${MAX},${MIN}]`,
         );
         expect(dt.toString([S_MAX, S_MIN, S_MAX, S_MIN], false)).toEqual(
-            `[${MAX},${MIN},${MAX},${MIN}]`
+            `[${MAX},${MIN},${MAX},${MIN}]`,
         );
     }
     expect(() => {
@@ -276,45 +276,45 @@ function testDt(
     expect(() => {
         dt.toString(
             [`${BI_MAX + 1n}`, `${BI_MIN}`, `${BI_MAX}`, `${BI_MIN}`],
-            false
+            false,
         );
     }).toThrow();
     expect(() => {
         dt.toString(
             [`${BI_MAX}`, `${BI_MIN - 1n}`, `${BI_MAX}`, `${BI_MIN}`],
-            false
+            false,
         );
     }).toThrow();
     //array of string with float
-    if (BUF_MAX.length == 8) {
+    if (BUF_MAX.length === 8) {
         expect(
             dt.toString([
-                S_MAX + ".3",
-                S_MIN + ".3",
-                S_MAX + ".3",
-                S_MIN + ".3",
-            ])
+                `${S_MAX}.3`,
+                `${S_MIN}.3`,
+                `${S_MAX}.3`,
+                `${S_MIN}.3`,
+            ]),
         ).toEqual(`["${MAX}","${MIN}","${MAX}","${MIN}"]`);
         expect(
             dt.toString(
-                [S_MAX + ".3", S_MIN + ".3", S_MAX + ".3", S_MIN + ".3"],
-                false
-            )
+                [`${S_MAX}.3`, `${S_MIN}.3`, `${S_MAX}.3`, `${S_MIN}.3`],
+                false,
+            ),
         ).toEqual(`["${MAX}","${MIN}","${MAX}","${MIN}"]`);
     } else {
         expect(
             dt.toString([
-                S_MAX + ".3",
-                S_MIN + ".3",
-                S_MAX + ".3",
-                S_MIN + ".3",
-            ])
+                `${S_MAX}.3`,
+                `${S_MIN}.3`,
+                `${S_MAX}.3`,
+                `${S_MIN}.3`,
+            ]),
         ).toEqual(`[${MAX},${MIN},${MAX},${MIN}]`);
         expect(
             dt.toString(
-                [S_MAX + ".3", S_MIN + ".3", S_MAX + ".3", S_MIN + ".3"],
-                false
-            )
+                [`${S_MAX}.3`, `${S_MIN}.3`, `${S_MAX}.3`, `${S_MIN}.3`],
+                false,
+            ),
         ).toEqual(`[${MAX},${MIN},${MAX},${MIN}]`);
     }
     expect(() => {
@@ -336,60 +336,66 @@ function testDt(
     expect(() => {
         dt.toString(
             [`${BI_MAX + 1n}.3`, `${BI_MIN}`, `${BI_MAX}`, `${BI_MIN}`],
-            false
+            false,
         );
     }).toThrow();
     expect(() => {
         dt.toString(
             [`${BI_MAX}`, `${BI_MIN - 1n}.3`, `${BI_MAX}`, `${BI_MIN}`],
-            false
+            false,
         );
     }).toThrow();
     //Buffer
-    if (BUF_MAX.length == 8) {
+    if (BUF_MAX.length === 8) {
         expect(dt.toString(hexBuf(X_MAX + X_MIN + X_MAX + X_MIN))).toEqual(
-            `["${MAX}","${MIN}","${MAX}","${MIN}"]`
+            `["${MAX}","${MIN}","${MAX}","${MIN}"]`,
         );
         expect(
             dt.toString(
                 hexBuf(X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE),
-                false
-            )
+                false,
+            ),
         ).toEqual(`["${MAX}","${MIN}","${MAX}","${MIN}"]`);
     } else {
         expect(dt.toString(hexBuf(X_MAX + X_MIN + X_MAX + X_MIN))).toEqual(
-            `[${MAX},${MIN},${MAX},${MIN}]`
+            `[${MAX},${MIN},${MAX},${MIN}]`,
         );
         expect(
             dt.toString(
                 hexBuf(X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE),
-                false
-            )
+                false,
+            ),
         ).toEqual(`[${MAX},${MIN},${MAX},${MIN}]`);
     }
     if (BUF_MAX.length > 1) {
         expect(() => {
-            dt.toString(hexBuf(X_MAX + X_MIN + X_MAX + X_MIN + "10"));
+            dt.toString(hexBuf(`${X_MAX}${X_MIN}${X_MAX}${X_MIN}10`));
         }).toThrow();
     }
     //Array of Buffers
-    if (BUF_MAX.length == 8) {
+    if (BUF_MAX.length === 8) {
         expect(dt.toString([BUF_MAX, BUF_MIN, BUF_MAX, BUF_MIN])).toEqual(
-            `["${MAX}","${MIN}","${MAX}","${MIN}"]`
+            `["${MAX}","${MIN}","${MAX}","${MIN}"]`,
         );
         expect(
-            dt.toString([BUF_MAX_BE, BUF_MIN_BE, BUF_MAX_BE, BUF_MIN_BE], false)
+            dt.toString(
+                [BUF_MAX_BE, BUF_MIN_BE, BUF_MAX_BE, BUF_MIN_BE],
+                false,
+            ),
         ).toEqual(`["${MAX}","${MIN}","${MAX}","${MIN}"]`);
     } else {
         expect(dt.toString([BUF_MAX, BUF_MIN, BUF_MAX, BUF_MIN])).toEqual(
-            `[${MAX},${MIN},${MAX},${MIN}]`
+            `[${MAX},${MIN},${MAX},${MIN}]`,
         );
         expect(
-            dt.toString([BUF_MAX_BE, BUF_MIN_BE, BUF_MAX_BE, BUF_MIN_BE], false)
+            dt.toString(
+                [BUF_MAX_BE, BUF_MIN_BE, BUF_MAX_BE, BUF_MIN_BE],
+                false,
+            ),
         ).toEqual(`[${MAX},${MIN},${MAX},${MIN}]`);
     }
     expect(() => {
-        dt.toString([BUF_MAX, BUF_MIN, BUF_MAX, BUF_MIN, hexBuf("10" + S_MAX)]);
+        dt.toString([BUF_MAX, BUF_MIN, BUF_MAX, BUF_MIN, hexBuf(`10${S_MAX}`)]);
     }).toThrow();
 
     expect(() => {
@@ -419,10 +425,10 @@ test("Test ARRAY_OF_INT16", () => {
     testDt(dt, 32767n, -32768n, "FF7F", "0080", "7FFF", "8000");
 
     expect(dt.toString(hexBuf("1234123412341234"))).toEqual(
-        "[13330,13330,13330,13330]"
+        "[13330,13330,13330,13330]",
     );
     expect(dt.toString(hexBuf("3412341234123412"), false)).toEqual(
-        "[13330,13330,13330,13330]"
+        "[13330,13330,13330,13330]",
     );
 });
 
@@ -435,14 +441,14 @@ test("Test ARRAY_OF_INT32", () => {
         "FFFFFF7F",
         "00000080",
         "7FFFFFFF",
-        "80000000"
+        "80000000",
     );
 
     expect(dt.toString(hexBuf("12345678123456781234567812345678"))).toEqual(
-        "[2018915346,2018915346,2018915346,2018915346]"
+        "[2018915346,2018915346,2018915346,2018915346]",
     );
     expect(
-        dt.toString(hexBuf("78563412785634127856341278563412"), false)
+        dt.toString(hexBuf("78563412785634127856341278563412"), false),
     ).toEqual("[2018915346,2018915346,2018915346,2018915346]");
 });
 
@@ -455,27 +461,27 @@ test("Test ARRAY_OF_INT64", () => {
         "FFFFFFFFFFFFFF7F",
         "0000000000000080",
         "7FFFFFFFFFFFFFFF",
-        "8000000000000000"
+        "8000000000000000",
     );
 
     expect(
         dt.toString(
             hexBuf(
-                "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF"
-            )
-        )
+                "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+            ),
+        ),
     ).toEqual(
-        '["-1167088091436534766","-1167088091436534766","-1167088091436534766","-1167088091436534766"]'
+        '["-1167088091436534766","-1167088091436534766","-1167088091436534766","-1167088091436534766"]',
     );
     expect(
         dt.toString(
             hexBuf(
-                "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412"
+                "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412",
             ),
-            false
-        )
+            false,
+        ),
     ).toEqual(
-        '["-1167088091436534766","-1167088091436534766","-1167088091436534766","-1167088091436534766"]'
+        '["-1167088091436534766","-1167088091436534766","-1167088091436534766","-1167088091436534766"]',
     );
 });
 
@@ -492,10 +498,10 @@ test("Test ARRAY_OF_UINT16", () => {
     testDt(dt, 65535n, 0n, "FFFF", "0000", "FFFF", "0000");
 
     expect(dt.toString(hexBuf("1234123412341234"))).toEqual(
-        "[13330,13330,13330,13330]"
+        "[13330,13330,13330,13330]",
     );
     expect(dt.toString(hexBuf("3412341234123412"), false)).toEqual(
-        "[13330,13330,13330,13330]"
+        "[13330,13330,13330,13330]",
     );
 });
 
@@ -504,10 +510,10 @@ test("Test ARRAY_OF_UINT32", () => {
     testDt(dt, 4294967295n, 0n, "FFFFFFFF", "00000000", "FFFFFFFF", "00000000");
 
     expect(dt.toString(hexBuf("12345678123456781234567812345678"))).toEqual(
-        "[2018915346,2018915346,2018915346,2018915346]"
+        "[2018915346,2018915346,2018915346,2018915346]",
     );
     expect(
-        dt.toString(hexBuf("78563412785634127856341278563412"), false)
+        dt.toString(hexBuf("78563412785634127856341278563412"), false),
     ).toEqual("[2018915346,2018915346,2018915346,2018915346]");
 });
 
@@ -520,26 +526,26 @@ test("Test ARRAY_OF_UINT64", () => {
         "FFFFFFFFFFFFFFFF",
         "0000000000000000",
         "FFFFFFFFFFFFFFFF",
-        "0000000000000000"
+        "0000000000000000",
     );
 
     expect(
         dt.toString(
             hexBuf(
-                "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF"
-            )
-        )
+                "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+            ),
+        ),
     ).toEqual(
-        '["17279655982273016850","17279655982273016850","17279655982273016850","17279655982273016850"]'
+        '["17279655982273016850","17279655982273016850","17279655982273016850","17279655982273016850"]',
     );
     expect(
         dt.toString(
             hexBuf(
-                "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412"
+                "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412",
             ),
-            false
-        )
+            false,
+        ),
     ).toEqual(
-        '["17279655982273016850","17279655982273016850","17279655982273016850","17279655982273016850"]'
+        '["17279655982273016850","17279655982273016850","17279655982273016850","17279655982273016850"]',
     );
 });

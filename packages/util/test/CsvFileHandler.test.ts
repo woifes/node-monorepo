@@ -141,7 +141,7 @@ describe("write line sync test", () => {
         content = readFileSync(lh.fullFilePath).toString();
 
         expect(content).toBe(
-            "created#A#B#C\n2000-02-29 12:00:00.000#a123#b456#c789\n"
+            "created#A#B#C\n2000-02-29 12:00:00.000#a123#b456#c789\n",
         );
     });
 
@@ -176,11 +176,11 @@ describe("write line sync test", () => {
 
         const content = readFileSync(lh.fullFilePath).toString();
         const content2 = readFileSync(
-            join(TMP_DIR, "file16.old.csv")
+            join(TMP_DIR, "file16.old.csv"),
         ).toString();
 
         expect(content).toBe(
-            "created;A;B;C\n2000-02-29 12:00:00.000;a123;b456;c789\n"
+            "created;A;B;C\n2000-02-29 12:00:00.000;a123;b456;c789\n",
         );
         expect(content2).toBe("created;A;B;C\n");
     });
@@ -225,7 +225,7 @@ describe("unlink sync", () => {
         lh.deleteFileSync();
 
         expect(readFileSync(lh.fullFilePath).toString()).toBe(
-            "created;A;B;C\n"
+            "created;A;B;C\n",
         );
     });
 });
@@ -246,7 +246,7 @@ describe("getLines tests", () => {
 
     it("should filter all lines", (done) => {
         const filter = jest.fn().mockImplementation((entries: string[]) => {
-            return parseInt(entries[0]) % 3 == 0;
+            return parseInt(entries[0]) % 3 === 0;
         });
         const lineCb = jest.fn();
         const closeCb = jest.fn();
@@ -263,7 +263,7 @@ describe("getLines tests", () => {
                 });
                 expect(res).toEqual(["0", "3", "6", "9", "12"]);
                 done();
-            })
+            }),
         );
     });
 
@@ -287,7 +287,7 @@ describe("getLines tests", () => {
                 });
                 expect(res).toEqual(["4", "5", "6", "7"]);
                 done();
-            })
+            }),
         );
     });
 });
@@ -308,7 +308,7 @@ describe("getAllLines tests", () => {
 
     it("should filter all lines", async () => {
         const filter = jest.fn().mockImplementation((entries: string[]) => {
-            return parseInt(entries[0]) % 3 == 0;
+            return parseInt(entries[0]) % 3 === 0;
         });
 
         const lines = await lh.getAllLines(filter, true);

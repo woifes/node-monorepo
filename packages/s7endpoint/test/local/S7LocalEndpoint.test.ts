@@ -7,8 +7,6 @@ import { join } from "path";
 import { S7LocalEndpoint, tS7LocalEndpointConfig } from "../../src/local";
 import { S7RemoteEndpoint } from "../../src/remote";
 
-/* eslint-disable no-empty */
-
 async function wait(ms: number) {
     return new Promise((resolve, reject) => {
         setTimeout(resolve, ms);
@@ -60,8 +58,7 @@ describe("creation tests", () => {
         const csv = readFileSync(join(TMP_DIR, "test01_DBs.csv"), "utf-8")
             .split("\n")
             .splice(1, 15); //only content rows
-        expect(csv.sort().join("\n"))
-            .toBe(`var01;Standard-Variablentabelle;Con01;<No Value>;Byte;1;Binary;Absolute access;%DB1.DBB0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
+        expect(csv.sort().join("\n")).toBe(`var01;Standard-Variablentabelle;Con01;<No Value>;Byte;1;Binary;Absolute access;%DB1.DBB0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 var_10;Standard-Variablentabelle;Con01;<No Value>;DWord;4;Binary;Absolute access;%DB2.DBD18;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 var_11;Standard-Variablentabelle;Con01;<No Value>;Real;4;Binary;Absolute access;%DB2.DBD22;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0
 var_1_1;Standard-Variablentabelle;Con01;<No Value>;Bool;1;Binary;Absolute access;%DB2.DBX0.0;False;<No Value>;<No Value>;0;Cyclic in operation;1 s;None;<No Value>;None;<No Value>;False;10;0;100;0

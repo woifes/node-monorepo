@@ -22,7 +22,7 @@ export class AreaRequest {
         this._area = variables[0].area;
         this._variablesUnsorted = variables;
         this._variables = [...rtArray(S7Variable).check(variables)].sort(
-            sortS7Addresses
+            sortS7Addresses,
         );
 
         const [start, end] = getBoundsOfVarSet(this._variables);

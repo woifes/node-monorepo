@@ -1,8 +1,6 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/* eslint-disable @typescript-eslint/ban-types */
-
 import { connect } from "mqtt";
 import { Client } from "../src/Client";
 import { Message } from "../src/Message";
@@ -80,7 +78,7 @@ describe("creation tests", () => {
         expect(mqttConfig.username).toBe("user04");
         expect(mqttConfig.password).toBe("pw");
         expect(mqttConfig.will).toEqual({
-            topic: `clients/id04`,
+            topic: "clients/id04",
             payload: "0",
             qos: 2,
             retain: true,
@@ -90,7 +88,7 @@ describe("creation tests", () => {
         const [topic, payload, publishOpts, cb] =
             mqttClient.publish.mock.calls[0];
         expect(topic).toBe("clients/id04");
-        expect(payload).toBe(`1`);
+        expect(payload).toBe("1");
         expect(publishOpts.qos).toBe(2);
         expect(publishOpts.retain).toBe(true);
     });
@@ -126,7 +124,7 @@ describe("publish value tests", () => {
         const [topic, payload, publishOpts, cb] =
             mqttClient.publish.mock.calls[0];
         expect(topic).toBe("A/B/C");
-        expect(payload).toBe(`Hello World`);
+        expect(payload).toBe("Hello World");
         expect(publishOpts.qos).toBe(2);
         expect(publishOpts.retain).toBe(false);
     });
@@ -137,13 +135,13 @@ describe("publish value tests", () => {
             [1.2, 3.4, 5.6],
             "ARRAY_OF_DOUBLE",
             0,
-            false
+            false,
         );
         expect(mqttClient.publish).toBeCalledTimes(1);
         const [topic, payload, publishOpts, cb] =
             mqttClient.publish.mock.calls[0];
         expect(topic).toBe("A/B/C");
-        expect(payload).toBe(`[1.2,3.4,5.6]`);
+        expect(payload).toBe("[1.2,3.4,5.6]");
         expect(publishOpts.qos).toBe(0);
         expect(publishOpts.retain).toBe(false);
     });
@@ -200,7 +198,7 @@ describe("publish message tests", () => {
         const [topic, payload, publishOpts, cb] =
             mqttClient.publish.mock.calls[0];
         expect(topic).toBe("A/B/C");
-        expect(payload).toBe(`Hello World`);
+        expect(payload).toBe("Hello World");
         expect(publishOpts.qos).toBe(1);
         expect(publishOpts.retain).toBe(false);
     });
@@ -243,8 +241,8 @@ describe("publish message tests", () => {
                 t: string,
                 p: string,
                 pO: { qos: number; retain: boolean },
-                cb: Function
-            ) => cb(new Error("MQTT error"))
+                cb: Function,
+            ) => cb(new Error("MQTT error")),
         );
 
         expect(c.publishMessage(m)).rejects.toBeTruthy();
@@ -253,7 +251,7 @@ describe("publish message tests", () => {
         const [topic, payload, publishOpts, cb] =
             mqttClient.publish.mock.calls[0];
         expect(topic).toBe("A/B/C");
-        expect(payload).toBe(`Hello World`);
+        expect(payload).toBe("Hello World");
         expect(publishOpts.qos).toBe(2);
         expect(publishOpts.retain).toBe(true);
     });

@@ -17,7 +17,7 @@ afterEach(() => {
 
 it("should create file with all items", () => {
     expect(createYasdiIniFile(TEST_DIR, TEST_FILE_NAME, ["COM1"], true)).toBe(
-        TEST_FULL_PATH
+        TEST_FULL_PATH,
     );
     const [filePath, content] = writeFileSyncMock.mock.calls[0];
     expect(filePath).toBe(TEST_FULL_PATH);
@@ -37,7 +37,7 @@ DebugOutput=/dev/stdout
 
 it("should create without debug output", () => {
     expect(createYasdiIniFile(TEST_DIR, TEST_FILE_NAME, ["COM1"])).toBe(
-        TEST_FULL_PATH
+        TEST_FULL_PATH,
     );
     const content = writeFileSyncMock.mock.calls[0][1];
     expect(content).toBe(`[DriverModules]
@@ -58,8 +58,8 @@ it("should file with multible com ports", () => {
             TEST_DIR,
             TEST_FILE_NAME,
             ["COM1", "COM2", "COM11"],
-            true
-        )
+            true,
+        ),
     ).toBe(TEST_FULL_PATH);
     const [filePath, content] = writeFileSyncMock.mock.calls[0];
     expect(filePath).toBe(TEST_FULL_PATH);

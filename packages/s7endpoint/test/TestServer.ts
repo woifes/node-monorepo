@@ -14,9 +14,9 @@ export class TestServer {
     setArea(dbNr: number, area: Buffer) {
         const oldArea = this.getDbArea(dbNr);
         this._server.LockArea(5, dbNr);
-        if (oldArea.length != 0 && oldArea.length === area.length) {
+        if (oldArea.length !== 0 && oldArea.length === area.length) {
             this._server.SetArea(5, dbNr, area);
-        } else if (oldArea.length == 0) {
+        } else if (oldArea.length === 0) {
             this._server.RegisterArea(5, dbNr, area);
         } else {
             this._server.UnregisterArea(5, dbNr);

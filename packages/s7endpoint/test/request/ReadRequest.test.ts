@@ -188,7 +188,6 @@ describe("Delegation tests", () => {
         try {
             await rr.execute();
             throw new Error("Should throw exception");
-            /* eslint-disable-next-line no-empty */
         } catch (e) {
             expect(e).toEqual("Some Error");
         }

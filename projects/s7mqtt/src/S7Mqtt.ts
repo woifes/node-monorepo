@@ -43,12 +43,12 @@ export class S7Mqtt {
     constructor(config: tS7MqttConfig) {
         this._config = S7MqttConfig.check(config);
         if (
-            this._config.mqtt.caCertificate != undefined &&
+            this._config.mqtt.caCertificate !== undefined &&
             existsSync(this._config.mqtt.caCertificate)
         ) {
             this._config.mqtt.caCertificate = readFileSync(
                 this._config.mqtt.caCertificate,
-                "utf-8"
+                "utf-8",
             );
         }
         if (S7RemoteEndpointConfig.guard(this._config.endpoint)) {
@@ -56,50 +56,50 @@ export class S7Mqtt {
         } else {
             this._s7ep = this.setupLocalEndpoint(
                 this._config.endpoint,
-                this._config
+                this._config,
             );
         }
         this._debug = debug(`${this._config.mqtt.clientId}`);
         this._s7ep.connect();
         this._mqtt = new Client(this._config.mqtt);
 
-        if (this._config.alarms != undefined) {
+        if (this._config.alarms !== undefined) {
             this._alarms = new S7AlarmHandler(
                 this._config.alarms,
                 this._s7ep,
                 this._mqtt,
-                this._debug
+                this._debug,
             );
         }
 
-        if (this._config.commands != undefined) {
+        if (this._config.commands !== undefined) {
             for (const cmd of this._config.commands) {
                 this._commands.push(
-                    new S7Command(cmd, this._s7ep, this._mqtt, this._debug)
+                    new S7Command(cmd, this._s7ep, this._mqtt, this._debug),
                 );
             }
         }
 
-        if (this._config.events != undefined) {
+        if (this._config.events !== undefined) {
             for (const evt of this._config.events) {
                 this._events.push(
-                    new S7EventMqtt(evt, this._s7ep, this._mqtt, this._debug)
+                    new S7EventMqtt(evt, this._s7ep, this._mqtt, this._debug),
                 );
             }
         }
 
-        if (this._config.inputs != undefined) {
+        if (this._config.inputs !== undefined) {
             for (const inp of this._config.inputs) {
                 this._inputs.push(
-                    new MqttInput(inp, this._s7ep, this._mqtt, this._debug)
+                    new MqttInput(inp, this._s7ep, this._mqtt, this._debug),
                 );
             }
         }
 
-        if (this._config.outputs != undefined) {
+        if (this._config.outputs !== undefined) {
             for (const outp of this._config.outputs) {
                 this._outputs.push(
-                    new S7OutputMqtt(outp, this._s7ep, this._mqtt, this._debug)
+                    new S7OutputMqtt(outp, this._s7ep, this._mqtt, this._debug),
                 );
             }
         }
@@ -111,30 +111,30 @@ export class S7Mqtt {
 
     private setupLocalEndpoint(
         epConfig: Omit<tS7LocalEndpointConfig, "datablocks">,
-        config: tS7MqttConfig
+        config: tS7MqttConfig,
     ): S7Endpoint {
         let v: tNamedS7Variable[] = [];
-        if (config.alarms != undefined) {
+        if (config.alarms !== undefined) {
             v = [...v, ...this.getAlarmDbVariables(config.alarms)];
         }
-        if (this._config.commands != undefined) {
+        if (this._config.commands !== undefined) {
             for (const cmd of this._config.commands) {
                 v = [...v, ...this.getCommandDbVariables(cmd)];
             }
         }
-        if (this._config.events != undefined) {
+        if (this._config.events !== undefined) {
             let i = 1;
             for (const evt of this._config.events) {
                 v = [...v, ...this.getEventDbVariables(i++, evt)];
             }
         }
-        if (this._config.inputs != undefined) {
+        if (this._config.inputs !== undefined) {
             let i = 1;
             for (const inp of this._config.inputs) {
                 v = [...v, ...this.getInputDbVariables(i++, inp)];
             }
         }
-        if (this._config.outputs != undefined) {
+        if (this._config.outputs !== undefined) {
             for (const outp of this._config.outputs) {
                 v = [...v, ...this.getOutputDbVariables(outp)];
             }
@@ -142,7 +142,7 @@ export class S7Mqtt {
         //sort by db
         const datablocks: { [nr: number]: tDbDefinition } = {};
         for (const variable of v) {
-            if (datablocks[variable.dbNr!] == undefined) {
+            if (datablocks[variable.dbNr!] === undefined) {
                 datablocks[variable.dbNr!] = { vars: [] };
             }
             (datablocks[variable.dbNr!].vars as any[]).push(variable);
@@ -152,7 +152,7 @@ export class S7Mqtt {
     }
 
     private getAlarmDbVariables(
-        config: tS7AlarmHandlerConfig
+        config: tS7AlarmHandlerConfig,
     ): tNamedS7Variable[] {
         const addresses: tNamedS7Variable[] = [];
         const alarms = config.alarms;
@@ -163,7 +163,7 @@ export class S7Mqtt {
                     name: `alarm${i}_sig`,
                     ...parseS7AddressString(alarm.signal),
                 });
-                if (alarm.parameter != undefined) {
+                if (alarm.parameter !== undefined) {
                     let j = 1;
                     for (const parameter of alarm.parameter) {
                         addresses.push({
@@ -173,13 +173,13 @@ export class S7Mqtt {
                         j++;
                     }
                 }
-                if (alarm.ackIn != undefined) {
+                if (alarm.ackIn !== undefined) {
                     addresses.push({
                         name: `alarm${i}_ackIn`,
                         ...parseS7AddressString(alarm.ackIn),
                     });
                 }
-                if (alarm.ackOut != undefined) {
+                if (alarm.ackOut !== undefined) {
                     addresses.push({
                         name: `alarm${i}_ackOut`,
                         ...parseS7AddressString(alarm.ackOut),
@@ -189,20 +189,20 @@ export class S7Mqtt {
             }
         } else {
             addresses.push({
-                name: `alarmSignalBulk`,
+                name: "alarmSignalBulk",
                 ...parseS7AddressString(alarms.signal),
                 count: config.numOfAlarms,
             });
-            if (alarms.ackIn != undefined) {
+            if (alarms.ackIn !== undefined) {
                 addresses.push({
-                    name: `alarmAckInBulk`,
+                    name: "alarmAckInBulk",
                     ...parseS7AddressString(alarms.ackIn),
                     count: config.numOfAlarms,
                 });
             }
-            if (alarms.ackOut != undefined) {
+            if (alarms.ackOut !== undefined) {
                 addresses.push({
-                    name: `alarmAckInBulk`,
+                    name: "alarmAckInBulk",
                     ...parseS7AddressString(alarms.ackOut),
                     count: config.numOfAlarms,
                 });
@@ -212,17 +212,17 @@ export class S7Mqtt {
     }
 
     private getCommandDbVariables(
-        config: tS7CommandConfig
+        config: tS7CommandConfig,
     ): tNamedS7Variable[] {
         const addresses: tNamedS7Variable[] = [];
         const identifier = `Cmd_${config.name}`;
-        if (config.cmdIdAddress != undefined) {
+        if (config.cmdIdAddress !== undefined) {
             addresses.push({
                 name: `${identifier}_cmdId`,
                 ...parseS7AddressString(config.cmdIdAddress),
             });
         }
-        if (config.params != undefined) {
+        if (config.params !== undefined) {
             let i = 1;
             for (const param of config.params) {
                 addresses.push({
@@ -231,12 +231,12 @@ export class S7Mqtt {
                 });
             }
         }
-        if (config.result != undefined) {
+        if (config.result !== undefined) {
             addresses.push({
                 name: `${identifier}_resTrigger`,
                 ...parseS7AddressString(config.result.trigger),
             });
-            if (config.result.params != undefined) {
+            if (config.result.params !== undefined) {
                 let i = 1;
                 for (const param of config.result.params) {
                     addresses.push({
@@ -245,7 +245,7 @@ export class S7Mqtt {
                     });
                 }
             }
-            if (config.result.okFlagAddress != undefined) {
+            if (config.result.okFlagAddress !== undefined) {
                 addresses.push({
                     name: `${identifier}_okFlag`,
                     ...parseS7AddressString(config.result.okFlagAddress),
@@ -257,7 +257,7 @@ export class S7Mqtt {
 
     private getEventDbVariables(
         id: number,
-        config: tS7EventMqttConfig
+        config: tS7EventMqttConfig,
     ): tNamedS7Variable[] {
         const addresses: tNamedS7Variable[] = [];
         const identifier = `Evt_${id}`;
@@ -265,7 +265,7 @@ export class S7Mqtt {
             name: `${identifier}_trigger`,
             ...parseS7AddressString(config.trigger),
         });
-        if (config.params != undefined) {
+        if (config.params !== undefined) {
             let i = 1;
             for (const param of config.params) {
                 addresses.push({
@@ -279,7 +279,7 @@ export class S7Mqtt {
 
     private getInputDbVariables(
         id: number,
-        config: tMqttInputConfig
+        config: tMqttInputConfig,
     ): tNamedS7Variable[] {
         const addresses: tNamedS7Variable[] = [];
         const pushAddress = (name: string, tag: tMqttInputTarget) => {
@@ -306,13 +306,13 @@ export class S7Mqtt {
 
     private getOutputDbVariables(config: tS7OutputConfig): tNamedS7Variable[] {
         let addresses: tNamedS7Variable[] = [];
-        if (config.tags != undefined) {
+        if (config.tags !== undefined) {
             for (const tagName of Object.keys(config.tags)) {
                 const tag = config.tags[tagName];
                 addresses.push({ name: tagName, ...parseS7AddressString(tag) });
             }
         }
-        if (config.datablocks != undefined) {
+        if (config.datablocks !== undefined) {
             for (const db of config.datablocks) {
                 try {
                     //first try to parse the string
@@ -320,10 +320,9 @@ export class S7Mqtt {
                         ...addresses,
                         ...(dbSourceToS7Variables(
                             db.filePathOrContent,
-                            db.dbNr
+                            db.dbNr,
                         ) as tNamedS7Variable[]),
                     ];
-                    continue;
                 } catch {
                     //second try to find the file
                     const fileContent = readFileSync(db.filePathOrContent, {
@@ -333,7 +332,7 @@ export class S7Mqtt {
                         ...addresses,
                         ...(dbSourceToS7Variables(
                             fileContent,
-                            db.dbNr
+                            db.dbNr,
                         ) as tNamedS7Variable[]),
                     ];
                 }

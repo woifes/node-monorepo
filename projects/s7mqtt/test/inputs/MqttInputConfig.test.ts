@@ -13,7 +13,7 @@ it("should validate example file", () => {
         "..",
         "examples",
         "inputs",
-        "mqttinput.example.yaml"
+        "mqttinput.example.yaml",
     );
     const p2 = join(
         __dirname,
@@ -21,7 +21,7 @@ it("should validate example file", () => {
         "..",
         "examples",
         "inputs",
-        "mqttinput02.example.yaml"
+        "mqttinput02.example.yaml",
     );
     expect(() => {
         MqttInputConfig.check(parse(readFileSync(p1, "utf-8")));

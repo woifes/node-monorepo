@@ -18,7 +18,7 @@ function testDt(
     hexMax: string,
     hexMin: string,
     hexMaxBE: string,
-    hexMinBE: string
+    hexMinBE: string,
 ) {
     //#region defines
     const MAX = max < Number.MAX_SAFE_INTEGER ? Number(max) : max;
@@ -37,7 +37,7 @@ function testDt(
     const BUF_MIN_BE = hexBuf(X_MIN_BE);
     //#endregion
 
-    if (typeof MAX == "number" && typeof MIN == "number") {
+    if (typeof MAX === "number" && typeof MIN === "number") {
         expect(() => {
             dt.check(MAX);
         }).toThrow();
@@ -102,14 +102,14 @@ function testDt(
     }).toThrow();
     //plain string float
     expect(() => {
-        dt.check(S_MAX + ".3");
+        dt.check(`${S_MAX}.3`);
     }).toThrow();
     expect(() => {
-        dt.check(S_MIN + ".3");
+        dt.check(`${S_MIN}.3`);
     }).toThrow();
     //stringified array of string
     expect(
-        dt.check(`[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`)
+        dt.check(`[ "${BI_MAX}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`),
     ).toEqual([MAX, MIN, MAX, MIN]);
     expect(() => {
         dt.check(`[ "${BI_MAX + 1n}", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`);
@@ -119,16 +119,16 @@ function testDt(
     }).toThrow();
     //stringified array of string with floats
     expect(
-        dt.check(`[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}", "${BI_MIN}" ]`)
+        dt.check(`[ "${BI_MAX}.3", "${BI_MIN}.3", "${BI_MAX}", "${BI_MIN}" ]`),
     ).toEqual([MAX, MIN, MAX, MIN]);
     expect(() => {
         dt.check(
-            `[ "${BI_MAX + 1n}.3", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`
+            `[ "${BI_MAX + 1n}.3", "${BI_MIN}", "${BI_MAX}", "${BI_MIN}" ]`,
         );
     }).toThrow();
     expect(() => {
         dt.check(
-            `[ "${BI_MAX}", "${BI_MIN - 1n}.3", "${BI_MAX}", "${BI_MIN}" ]`
+            `[ "${BI_MAX}", "${BI_MIN - 1n}.3", "${BI_MAX}", "${BI_MIN}" ]`,
         );
     }).toThrow();
     //array of string
@@ -146,7 +146,7 @@ function testDt(
     }).toThrow();
     //array of string with float
     expect(
-        dt.check([S_MAX + ".3", S_MIN + ".3", S_MAX + ".3", S_MIN + ".3"])
+        dt.check([`${S_MAX}.3`, `${S_MIN}.3`, `${S_MAX}.3`, `${S_MIN}.3`]),
     ).toEqual([MAX, MIN, MAX, MIN]);
     expect(() => {
         dt.check([`${BI_MAX + 1n}.3`, `${BI_MIN}`, `${BI_MAX}`, `${BI_MIN}`]);
@@ -162,11 +162,11 @@ function testDt(
         MIN,
     ]);
     expect(
-        dt.check(hexBuf(X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE), false)
+        dt.check(hexBuf(X_MAX_BE + X_MIN_BE + X_MAX_BE + X_MIN_BE), false),
     ).toEqual([MAX, MIN, MAX, MIN]);
     if (BUF_MAX.length > 1) {
         expect(() => {
-            dt.check(hexBuf(X_MAX + X_MIN + X_MAX + X_MIN + "10"));
+            dt.check(hexBuf(`${X_MAX}${X_MIN}${X_MAX}${X_MIN}10`));
         }).toThrow();
     }
     //Array of Buffers
@@ -177,10 +177,10 @@ function testDt(
         MIN,
     ]);
     expect(
-        dt.check([BUF_MAX_BE, BUF_MIN_BE, BUF_MAX_BE, BUF_MIN_BE], false)
+        dt.check([BUF_MAX_BE, BUF_MIN_BE, BUF_MAX_BE, BUF_MIN_BE], false),
     ).toEqual([MAX, MIN, MAX, MIN]);
     expect(() => {
-        dt.check([BUF_MAX, BUF_MIN, BUF_MAX, BUF_MIN, hexBuf("10" + S_MAX)]);
+        dt.check([BUF_MAX, BUF_MIN, BUF_MAX, BUF_MIN, hexBuf(`10${S_MAX}`)]);
     }).toThrow();
     //Wrong input
     expect(() => {
@@ -226,14 +226,14 @@ test("Test ARRAY_OF_INT32", () => {
         "FFFFFF7F",
         "00000080",
         "7FFFFFFF",
-        "80000000"
+        "80000000",
     );
 
     expect(dt.check(hexBuf("12345678123456781234567812345678"))).toEqual([
         2018915346, 2018915346, 2018915346, 2018915346,
     ]);
     expect(dt.check(hexBuf("78563412785634127856341278563412"), false)).toEqual(
-        [2018915346, 2018915346, 2018915346, 2018915346]
+        [2018915346, 2018915346, 2018915346, 2018915346],
     );
 });
 
@@ -246,15 +246,15 @@ test("Test ARRAY_OF_INT64", () => {
         "FFFFFFFFFFFFFF7F",
         "0000000000000080",
         "7FFFFFFFFFFFFFFF",
-        "8000000000000000"
+        "8000000000000000",
     );
 
     expect(
         dt.check(
             hexBuf(
-                "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF"
-            )
-        )
+                "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+            ),
+        ),
     ).toEqual([
         -1167088091436534766n,
         -1167088091436534766n,
@@ -264,10 +264,10 @@ test("Test ARRAY_OF_INT64", () => {
     expect(
         dt.check(
             hexBuf(
-                "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412"
+                "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412",
             ),
-            false
-        )
+            false,
+        ),
     ).toEqual([
         -1167088091436534766n,
         -1167088091436534766n,
@@ -304,7 +304,7 @@ test("Test ARRAY_OF_UINT32", () => {
         2018915346, 2018915346, 2018915346, 2018915346,
     ]);
     expect(dt.check(hexBuf("78563412785634127856341278563412"), false)).toEqual(
-        [2018915346, 2018915346, 2018915346, 2018915346]
+        [2018915346, 2018915346, 2018915346, 2018915346],
     );
 });
 
@@ -317,15 +317,15 @@ test("Test ARRAY_OF_UINT64", () => {
         "FFFFFFFFFFFFFFFF",
         "0000000000000000",
         "FFFFFFFFFFFFFFFF",
-        "0000000000000000"
+        "0000000000000000",
     );
 
     expect(
         dt.check(
             hexBuf(
-                "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF"
-            )
-        )
+                "1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF",
+            ),
+        ),
     ).toEqual([
         17279655982273016850n,
         17279655982273016850n,
@@ -335,10 +335,10 @@ test("Test ARRAY_OF_UINT64", () => {
     expect(
         dt.check(
             hexBuf(
-                "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412"
+                "EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412EFCDAB9078563412",
             ),
-            false
-        )
+            false,
+        ),
     ).toEqual([
         17279655982273016850n,
         17279655982273016850n,

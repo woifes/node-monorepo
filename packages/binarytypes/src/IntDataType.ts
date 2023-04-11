@@ -68,7 +68,7 @@ export class IntDataType implements DataType {
      */
     protected readFromBuffer(
         buf: Buffer,
-        littleEndian = true
+        littleEndian = true,
     ): number | bigint {
         let n: number | bigint;
 
@@ -149,7 +149,7 @@ export class IntDataType implements DataType {
     protected writeToBuffer(
         buf: Buffer,
         val: number | bigint,
-        littleEndian = true
+        littleEndian = true,
     ) {
         if (littleEndian) {
             if (this._signed) {
@@ -239,7 +239,7 @@ export class IntDataType implements DataType {
             return this.readFromBuffer(val, littleEndian);
         } else {
             const n = normalizeBigInt(<any>val);
-            if (this._size == 8) {
+            if (this._size === 8) {
                 return n;
             } else {
                 return Number(n);

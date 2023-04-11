@@ -28,7 +28,7 @@ export function combineContAddresses(variables: tS7Address[]): tS7Address[][] {
     }
 
     while (variableArr.length > 0) {
-        if (variableArr.length == 1) {
+        if (variableArr.length === 1) {
             result.push(variableArr[0]);
             break;
         } else {

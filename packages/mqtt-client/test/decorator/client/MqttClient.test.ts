@@ -1,8 +1,6 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-/* eslint-disable @typescript-eslint/ban-types */
-
 import { tJsVal } from "@woifes/binarytypes";
 import { QoS } from "mqtt";
 import * as rt from "runtypes";

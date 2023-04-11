@@ -32,7 +32,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
         };
     }
     public static cmdSetTextConfig(
-        this: AlarmHandlerMqtt
+        this: AlarmHandlerMqtt,
     ): tMqttCmdHandlerConfig {
         return {
             topic: `cmd/${this._name}/+/setAlarmText`,
@@ -41,7 +41,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
         };
     }
     public static cmdGetHistoryConfig(
-        this: AlarmHandlerMqtt
+        this: AlarmHandlerMqtt,
     ): tMqttCmdHandlerConfig {
         return {
             topic: `cmd/${this._name}/+/getHistory`,
@@ -52,9 +52,9 @@ export class AlarmHandlerMqtt extends AlarmHandler {
 
     public static textCommand = "alarms";
     public static cmdTextCommandConfig(
-        this: AlarmHandlerMqtt
+        this: AlarmHandlerMqtt,
     ): tMqttCmdHandlerConfig {
-        if (this._config.textCommand != undefined) {
+        if (this._config.textCommand !== undefined) {
             return {
                 topic: this._config.textCommand.commandInTopic,
                 qos: 2,
@@ -78,7 +78,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
     constructor(
         config: tAlarmHandlerMqttConfig,
         mqttClient: Client,
-        alarmDefs?: PersistentRuntype<tAlarmDefsInfo>
+        alarmDefs?: PersistentRuntype<tAlarmDefsInfo>,
     ) {
         super(mqttClient.clientId, { ...config }, alarmDefs);
         this._config = AlarmHandlerMqttConfig.check(config);
@@ -87,7 +87,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
         this._client = mqttClient;
         this.on("new", this.onNew.bind(this));
         this.on("presentAlarmsChanged", this.onPresentAlarmInfo.bind(this));
-        if (config.additionalNewAlarmTopics != undefined) {
+        if (config.additionalNewAlarmTopics !== undefined) {
             this._additionalNewAlarmTopics = config.additionalNewAlarmTopics;
         }
     }
@@ -121,7 +121,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                 this._config.numOfAlarms,
                 "UINT32",
                 1,
-                true
+                true,
             );
         }
     }
@@ -172,7 +172,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                             text,
                         ] = elements;
                         const occurredTimeStamp = Date.parse(occurred);
-                        if (params.length == 2) {
+                        if (params.length === 2) {
                             return occurredTimeStamp >= from;
                         } else {
                             return (
@@ -222,13 +222,13 @@ export class AlarmHandlerMqtt extends AlarmHandler {
 
             cmd.command("ack")
                 .description(
-                    "Acknowledges the given alarm. Acknowledges all if not given"
+                    "Acknowledges the given alarm. Acknowledges all if not given",
                 )
                 .argument(
                     "[alarmNumber]",
                     "Which alarm number to acknowledge",
                     (arg: any) => parseInt(arg),
-                    0
+                    0,
                 )
                 .action((alNum?: any) => {
                     const ackNum = alNum ?? 0;
@@ -238,7 +238,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                             sendResponse(`Alarm ${ackNum} was acknowledged`);
                         } else {
                             sendResponse(
-                                `Alarm ${ackNum} was not acknowledged`
+                                `Alarm ${ackNum} was not acknowledged`,
                             );
                         }
                     }
@@ -257,13 +257,13 @@ export class AlarmHandlerMqtt extends AlarmHandler {
             this.newAlarmTopicBase,
             { nr, ...obj },
             "JSON",
-            1
+            1,
         );
         this._client.publishValueSync(
             `${this.newAlarmTopicBase}/byNr/${nr}`,
             { nr, ...obj },
             "JSON",
-            1
+            1,
         );
         if (
             obj.category !== undefined &&
@@ -274,7 +274,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                 `${this.newAlarmTopicBase}/byCategory/${obj.category}/${obj.categoryNum}`,
                 { nr, ...obj },
                 "JSON",
-                1
+                1,
             );
         }
         for (let i = 0; i < this._additionalNewAlarmTopics.length; i++) {
@@ -282,19 +282,19 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                 this._additionalNewAlarmTopics[i],
                 this.newAlarmToText(nr, obj),
                 "STRING",
-                1
+                1,
             );
         }
     }
 
     private onPresentAlarmInfo(
-        presentAlarmsInfo: any /* tPresentAlarmsInfo */
+        presentAlarmsInfo: any /* tPresentAlarmsInfo */,
     ) {
         presentAlarmsInfo.watchdogError =
             this._presentAlarmsWatchdog === undefined;
-        if (this._presentAlarmsWatchdog != undefined) {
+        if (this._presentAlarmsWatchdog !== undefined) {
             clearTimeout(this._presentAlarmsWatchdog);
-            delete this._presentAlarmsWatchdog;
+            this._presentAlarmsWatchdog = undefined;
         }
 
         const m = new Message(this.presentAlarmsTopic, 1, true);
@@ -302,7 +302,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
         this._client.publishMessage(m).catch(() => {}); //debug
 
         this._presentAlarmsWatchdog = setTimeout(() => {
-            delete this._presentAlarmsWatchdog;
+            this._presentAlarmsWatchdog = undefined;
             this.getPresentAlarms(); //the call alone triggers the event
         }, this._presentAlarmWatchdogTimeS * 1000);
     }
@@ -329,13 +329,13 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                 const alNumStr = `    #${alNum.toString()}`.padStart(6);
                 response += `${alNumStr} | ${occurred.toLocaleString(
                     undefined,
-                    options
+                    options,
                 )}\n`;
-                if (alarmObj.ackTime != undefined) {
+                if (alarmObj.ackTime !== undefined) {
                     const ackTime = new Date(alarmObj.ackTime);
                     response += `    ✅ ${ackTime.toLocaleString(
                         undefined,
-                        options
+                        options,
                     )}\n`;
                 }
                 response += `${alarmObj.text}\n`;

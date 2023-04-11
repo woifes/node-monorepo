@@ -107,7 +107,7 @@ describe("creation tests", () => {
         });
         const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         expect(pr.getValue()).toEqual(
-            deepObjectMerge(defaultValue, subDefaultValue)
+            deepObjectMerge(defaultValue, subDefaultValue),
         );
         expect(readFileSyncMock).toBeCalledTimes(1);
         expect(readFileSyncMock.mock.calls[0][0]).toBe(filePath);
@@ -115,7 +115,7 @@ describe("creation tests", () => {
         expect(writeFileSyncMock).toBeCalledTimes(1);
         expect(writeFileSyncMock.mock.calls[0][0]).toBe(filePath);
         expect(writeFileSyncMock.mock.calls[0][1]).toBe(
-            stringify(deepObjectMerge(defaultValue, subDefaultValue))
+            stringify(deepObjectMerge(defaultValue, subDefaultValue)),
         );
     });
     it("should not merged incomming file content if content is a subset of runtype (option set)", () => {
@@ -258,7 +258,7 @@ describe("reload file test", () => {
 
         expect(pr.readFileFromDisk()).toBe(true);
         expect(pr.getValue()).toEqual(
-            deepObjectMerge(defaultValue, subDefaultValue)
+            deepObjectMerge(defaultValue, subDefaultValue),
         );
         expect(readFileSyncMock).toBeCalledTimes(1);
         expect(readFileSyncMock.mock.calls[0][0]).toBe(filePath);
@@ -266,7 +266,7 @@ describe("reload file test", () => {
         expect(writeFileSyncMock).toBeCalledTimes(1);
         expect(writeFileSyncMock.mock.calls[0][0]).toBe(filePath);
         expect(writeFileSyncMock.mock.calls[0][1]).toBe(
-            stringify(deepObjectMerge(defaultValue, subDefaultValue))
+            stringify(deepObjectMerge(defaultValue, subDefaultValue)),
         );
     });
     it("should not merge at reload when option is set", () => {
@@ -352,7 +352,7 @@ describe("set value test", () => {
         expect(writeFileSyncMock).toBeCalledTimes(1);
         expect(writeFileSyncMock.mock.calls[0][0]).toBe(filePath);
         expect(writeFileSyncMock.mock.calls[0][1]).toBe(
-            stringify(deepObjectMerge(defaultValue, subDefaultValue))
+            stringify(deepObjectMerge(defaultValue, subDefaultValue)),
         );
     });
     it("should not merge incoming value if option is set", () => {
@@ -384,7 +384,7 @@ describe("set value test", () => {
         const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
         jest.clearAllMocks();
         expect(pr.setValue(JSON.parse(JSON.stringify(defaultValue)))).toBe(
-            true
+            true,
         ); //make a copy so it is not exactly the same object
         expect(writeFileSyncMock).not.toBeCalled();
     });

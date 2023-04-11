@@ -14,7 +14,7 @@ function simMessage(topic: string, qos: QoS, content: string) {
         {
             qos: qos,
             retain: false,
-        }
+        },
     );
 }
 
@@ -32,10 +32,10 @@ it("should fill up topic struct correctly", () => {
             valueKey: "#",
             qos: 1,
             valueTransform: (content: string) => {
-                return "@: " + content;
+                return `@: ${content}`;
             },
         },
-        cl
+        cl,
     );
     simMessage("BA", 1, "3");
     simMessage("BAA", 1, "7");

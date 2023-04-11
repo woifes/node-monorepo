@@ -36,14 +36,14 @@ export declare interface Alarm {
      */
     on(
         event: "signalChanged",
-        listener: (alarm: tAlarmJsonObject) => void
+        listener: (alarm: tAlarmJsonObject) => void,
     ): this;
     /**
      * Emitted when the alarm text changes
      */
     on(
         event: "alarmTextChanged",
-        listener: (oldText: string, newText: string) => void
+        listener: (oldText: string, newText: string) => void,
     ): this;
 }
 
@@ -77,7 +77,7 @@ export class Alarm extends EventEmitter {
     constructor(
         nr: number,
         def: tAlarmDefinition,
-        presentAlarmInfo?: tAlarmJsonObject
+        presentAlarmInfo?: tAlarmJsonObject,
     ) {
         super();
         this._autoAck = def.autoAck;
@@ -85,7 +85,7 @@ export class Alarm extends EventEmitter {
         this._categoryNum = def.cn;
         this._text = def.text;
         this._nr = nr;
-        if (presentAlarmInfo != undefined) {
+        if (presentAlarmInfo !== undefined) {
             this.fromJSON(presentAlarmInfo);
         }
     }
@@ -107,7 +107,7 @@ export class Alarm extends EventEmitter {
                 this.setTriggered(false);
             }
         }
-        if (sigOld != bit) {
+        if (sigOld !== bit) {
             this.emit("signalChanged", this.toJSON());
         }
     }
@@ -160,12 +160,12 @@ export class Alarm extends EventEmitter {
             /\$\d+/g,
             (match: string, ..._args: any[]) => {
                 const n = parseInt(match.slice(1));
-                if (Number.isFinite(n) && this._params[n - 1] != undefined) {
+                if (Number.isFinite(n) && this._params[n - 1] !== undefined) {
                     return String(this._params[n - 1]);
                 } else {
                     return match;
                 }
-            }
+            },
         );
     }
 
@@ -183,7 +183,7 @@ export class Alarm extends EventEmitter {
         let str = `${this._nr};`; //alarmNum
         str += `${this._occurred!.toJSON()};`; //occurred
         str += `${new Date().toJSON()};`; //disappeared
-        str += `${this._ackTime != undefined ? this._ackTime.toJSON() : ""};`; //acknowledged
+        str += `${this._ackTime !== undefined ? this._ackTime.toJSON() : ""};`; //acknowledged
         str += `${this.autoAck ? 1 : 0};`; //autoAck
         str += `${this._category};`; //category
         str += `${this._categoryNum};`; //categoryNum
@@ -205,10 +205,10 @@ export class Alarm extends EventEmitter {
             categoryNum: this._categoryNum,
             text: this.text,
         };
-        if (this._occurred != undefined) {
+        if (this._occurred !== undefined) {
             obj.occurred = this._occurred.toJSON();
         }
-        if (this._ackTime != undefined) {
+        if (this._ackTime !== undefined) {
             obj.ackTime = this._ackTime.toJSON();
         }
         return obj;
@@ -218,10 +218,10 @@ export class Alarm extends EventEmitter {
         try {
             obj = AlarmJsonObject.check(obj);
             const isOccurred =
-                obj.occurred != undefined &&
+                obj.occurred !== undefined &&
                 Number.isFinite(Date.parse(obj.occurred));
             const isAck =
-                obj.ackTime != undefined &&
+                obj.ackTime !== undefined &&
                 Number.isFinite(Date.parse(obj.ackTime));
             if (isOccurred) {
                 this._occurred = new Date(obj.occurred!);

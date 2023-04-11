@@ -13,7 +13,7 @@ it("should validate example files", () => {
         "..",
         "examples",
         "commands",
-        "command01.example.yaml"
+        "command01.example.yaml",
     );
     expect(() => {
         S7CommandConfig.check(parse(readFileSync(p1, "utf-8")));

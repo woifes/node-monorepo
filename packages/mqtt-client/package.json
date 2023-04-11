@@ -1,6 +1,6 @@
 {
   "name": "@woifes/mqtt-client",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "",
   "exports": {
     ".": {
@@ -30,10 +30,9 @@
   "private": true,
   "scripts": {
     "test": "jest",
+    "format": "rome format --write .",
+    "lint": "rome check --apply-unsafe .",
     "compile": "tsc -p tsconfig.build.json",
-    "prettier": "prettier -w ./__mocks__/**/*.ts ./src/**/*.ts ./test/**/*.ts ./index.ts",
-    "lint": "eslint ./__mocks__/ ./src/ ./test/ ./index.ts --fix",
-    "lint:check": "eslint ./__mocks__/ ./src/ ./test/ ./index.ts",
     "prepare": "pnpm compile",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },

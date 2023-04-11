@@ -12,7 +12,7 @@ export function setBitInBuffer(bit: boolean, buf: Buffer, bitIndex: number) {
         }
     } else {
         throw new Error(
-            "could not set Bit in buffer because buffer size did not fit"
+            "could not set Bit in buffer because buffer size did not fit",
         );
     }
 }

@@ -64,7 +64,7 @@ it("should send values on data", async () => {
         CONFIG,
         S7ENDP,
         MQTT as unknown as Client,
-        DEBUGGER
+        DEBUGGER,
     );
     const s7out = (s7outmqtt as any)._s7out;
     s7out.emit("data", [
@@ -111,7 +111,7 @@ it("should use standard config", async () => {
         config,
         S7ENDP,
         MQTT as unknown as Client,
-        DEBUGGER
+        DEBUGGER,
     );
     const s7out = (s7outmqtt as any)._s7out;
     s7out.emit("data", {

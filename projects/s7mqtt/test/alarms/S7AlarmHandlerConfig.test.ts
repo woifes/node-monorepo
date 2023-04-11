@@ -13,7 +13,7 @@ it("should validate example files", () => {
         "..",
         "examples",
         "alarms",
-        "alarm01.example.yaml"
+        "alarm01.example.yaml",
     );
     expect(() => {
         S7AlarmHandlerConfig.check(parse(readFileSync(p1, "utf-8")));
@@ -24,7 +24,7 @@ it("should validate example files", () => {
         "..",
         "examples",
         "alarms",
-        "alarm02.example.yaml"
+        "alarm02.example.yaml",
     );
     expect(() => {
         S7AlarmHandlerConfig.check(parse(readFileSync(p2, "utf-8")));

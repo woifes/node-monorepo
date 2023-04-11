@@ -14,10 +14,10 @@ it("should validate example", () => {
                 "..",
                 "..",
                 "examples",
-                "MqttInfluxDbAgent.example.yaml"
+                "MqttInfluxDbAgent.example.yaml",
             ),
-            "utf-8"
-        )
+            "utf-8",
+        ),
     );
     expect(() => {
         AgentConfig.check(config);

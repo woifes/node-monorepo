@@ -12,7 +12,7 @@ export function toggleBitInBuffer(buf: Buffer, bitIndex: number) {
         setBitInBuffer(bit, buf, bitIndex);
     } else {
         throw new Error(
-            "could not toggle bit in buffer because buffer size did not fit"
+            "could not toggle bit in buffer because buffer size did not fit",
         );
     }
 }

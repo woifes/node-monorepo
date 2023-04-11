@@ -13,7 +13,7 @@ it("should validate example file", () => {
         "..",
         "examples",
         "outputs",
-        "output.example.yaml"
+        "output.example.yaml",
     );
 
     expect(() => {

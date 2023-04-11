@@ -99,7 +99,7 @@ describe("creation test", () => {
             alarms: {},
         });
         expect(traceFileContent).toBe(
-            "alarmNum;occurred;disappeared;acknowledged;autoAck;category;categoryNum;text\n"
+            "alarmNum;occurred;disappeared;acknowledged;autoAck;category;categoryNum;text\n",
         );
 
         expect(h.name).toBe(NAME);
@@ -173,7 +173,7 @@ describe("creation test", () => {
         const alarmDef = new PersistentRuntype(
             defFile(NAME),
             AlarmDefsInfo,
-            externalAlarmDefs
+            externalAlarmDefs,
         );
 
         jest.useFakeTimers();
@@ -207,7 +207,7 @@ describe("creation test", () => {
             alarms: {},
         });
         expect(traceFileContent).toBe(
-            "alarmNum;occurred;disappeared;acknowledged;autoAck;category;categoryNum;text\n"
+            "alarmNum;occurred;disappeared;acknowledged;autoAck;category;categoryNum;text\n",
         );
 
         expect(h.name).toBe(NAME);
@@ -547,11 +547,11 @@ describe("alarm signal test", () => {
         expect(cbAck).not.toBeCalled();
         expect(cbSignalChanged).toBeCalledTimes(1);
         expect(cbPresAlarmChanged).toBeCalledTimes(2);
-        let trace;
-        [nr, trace] = cbGone.mock.calls[0];
+        nr = cbGone.mock.calls[0][0];
+        const trace = cbGone.mock.calls[0][1];
         expect(nr).toBe(2);
         expect(trace).toEqual(
-            `2;${d1.toJSON()};${d1.toJSON()};${d1.toJSON()};0;default;0;No text`
+            `2;${d1.toJSON()};${d1.toJSON()};${d1.toJSON()};0;default;0;No text`,
         );
 
         [nr, obj] = cbSignalChanged.mock.calls[0];
@@ -626,12 +626,12 @@ describe("alarm signal test", () => {
         expect(cbAck).not.toBeCalled();
         expect(cbSignalChanged).toBeCalledTimes(1);
         expect(cbPresAlarmChanged).toBeCalledTimes(2);
-        let trace;
-        let nr, obj;
-        [nr, trace] = cbGone.mock.calls[0];
+        let obj;
+        let nr = cbGone.mock.calls[0][0];
+        const trace = cbGone.mock.calls[0][1];
         expect(nr).toBe(2);
         expect(trace).toEqual(
-            `2;${d1.toJSON()};${d1.toJSON()};;1;default;0;No text`
+            `2;${d1.toJSON()};${d1.toJSON()};;1;default;0;No text`,
         );
 
         [nr, obj] = cbSignalChanged.mock.calls[0];

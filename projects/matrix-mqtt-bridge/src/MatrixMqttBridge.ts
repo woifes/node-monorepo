@@ -115,7 +115,7 @@ export class MatrixMqttBridge {
                 this._config.bridge.rooms.map((r) => {
                     return r.roomId;
                 }),
-                "JSON"
+                "JSON",
             );
         }
     }
@@ -129,7 +129,7 @@ export class MatrixMqttBridge {
             try {
                 matrixRoomId = (
                     await this._matrixClient.getRoomIdForAlias(
-                        this.getMatrixRoomAlias(room.roomId)
+                        this.getMatrixRoomAlias(room.roomId),
                     )
                 ).room_id;
             } catch (e) {
@@ -166,13 +166,13 @@ export class MatrixMqttBridge {
             try {
                 const res = await this._matrixClient.sendTextMessage(
                     matrixRoomId,
-                    msg
+                    msg,
                 );
             } catch (e) {
                 this._debug(`Error at sendTextMessage ${e}`);
             }
             this._debug(
-                `Send message to matrix finished: ${bridgeRoomId} ${msg}`
+                `Send message to matrix finished: ${bridgeRoomId} ${msg}`,
             );
         }
     }
@@ -200,7 +200,7 @@ export class MatrixMqttBridge {
             return; //only events from someone else
         }
         const bridgeRoomId = this.findBridgeAliasFromMatrixRoomId(
-            event.getRoomId()!
+            event.getRoomId()!,
         );
         if (bridgeRoomId.length === 0) {
             return; //only known rooms
@@ -208,7 +208,7 @@ export class MatrixMqttBridge {
 
         const content = event.getContent().body as string;
         if (content.startsWith(MatrixMqttBridge.commandStartSequence)) {
-            this._debug(`Detected start sequence of text commands`);
+            this._debug("Detected start sequence of text commands");
             this.onTextCommand(bridgeRoomId, content);
             return;
         }
@@ -240,7 +240,7 @@ export class MatrixMqttBridge {
             .action(() => {
                 this._mqttClient.publishValue(
                     `${this._mqttTopicPrefix}/rooms/${bridgeRoomId}/to`,
-                    "pong!"
+                    "pong!",
                 );
             });
 
@@ -270,7 +270,7 @@ export class MatrixMqttBridge {
         this._debug(`Send message to mqtt: ${bridgeRoomId}, ${content}`);
         this._mqttClient.publishValue(
             `${this._mqttTopicPrefix}/rooms/${bridgeRoomId}/from`,
-            content
+            content,
         );
     }
 }

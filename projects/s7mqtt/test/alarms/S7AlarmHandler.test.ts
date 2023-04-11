@@ -19,8 +19,6 @@ import { tS7AlarmHandlerConfig } from "projects/s7mqtt/src/alarms/S7AlarmHandler
 import { S7AlarmHandler } from "../../src/alarms/S7AlarmHandler";
 import { TestAlarmSource } from "./TestAlarmSource";
 
-/* eslint-disable no-empty */
-
 async function promiseTimeout(ms: number) {
     return new Promise((resolve, reject) => {
         setTimeout(resolve, ms);
@@ -128,7 +126,7 @@ describe("creation tests", () => {
         writeFileSync(
             presFile("test01"),
             JSON.stringify(presentAlarms),
-            "utf-8"
+            "utf-8",
         );
         ta.signalsDb = Buffer.from("00", "hex");
         ta.ackOutDb = Buffer.from("00", "hex");
@@ -161,7 +159,7 @@ describe("creation tests", () => {
         writeFileSync(
             presFile("test02"),
             JSON.stringify(presentAlarms),
-            "utf-8"
+            "utf-8",
         );
         ta.signalsDb = Buffer.from("00", "hex");
         ta.ackOutDb = Buffer.from("00", "hex");
@@ -195,7 +193,7 @@ describe("creation tests", () => {
         writeFileSync(
             presFile("test02"),
             JSON.stringify(presentAlarms),
-            "utf-8"
+            "utf-8",
         );
         ta.signalsDb = Buffer.from("00", "hex");
         ta.ackOutDb = Buffer.from("00", "hex");

@@ -8,7 +8,7 @@ export const S7SingleBitAddressString = S7AddressString.withConstraint((s) => {
     const address = parseS7AddressString(s);
     return (
         (address.type === "BIT" &&
-            (address.count == undefined || address.count === 1)) ||
+            (address.count === undefined || address.count === 1)) ||
         `Address string ${s} is no single bit address`
     );
 }); //S7Address.//.And(rt.Record({ bitIndex: rt.Number }));

@@ -35,7 +35,7 @@ export declare interface NodeYasdi {
      */
     on(
         event: "downloadChannels",
-        listener: (handle: number, miscParam: number) => void
+        listener: (handle: number, miscParam: number) => void,
     ): this;
     /**
      * Is fired when the device search of the yasdi library is finished. After this fetching data of the devices is possible.
@@ -69,22 +69,22 @@ export class NodeYasdi extends EventEmitter {
     constructor(
         id: string,
         config: tNodeYasdiConfig,
-        existingIniFilePath?: string
+        existingIniFilePath?: string,
     ) {
         super();
         this._config = NodeYasdiConfig.check(config);
         this._id = id;
         const iniFileDir = this._config.iniFileDir ?? tmpdir();
-        if (existingIniFilePath == undefined) {
-            if (this._config.serialPorts != undefined) {
+        if (existingIniFilePath === undefined) {
+            if (this._config.serialPorts !== undefined) {
                 this._iniFilePath = createYasdiIniFile(
                     iniFileDir,
                     `${this._id}.ini`,
-                    this._config.serialPorts
+                    this._config.serialPorts,
                 );
             } else {
                 throw new Error(
-                    `No existing ini file, nor information to create a ini file provided`
+                    "No existing ini file, nor information to create a ini file provided",
                 );
             }
         } else {
@@ -99,7 +99,7 @@ export class NodeYasdi extends EventEmitter {
             },
             (...args: any[]) => {
                 this.onNewValue(...args);
-            }
+            },
         )
             .then(() => {
                 this.onInitDone();
@@ -168,15 +168,15 @@ export class NodeYasdi extends EventEmitter {
                 break;
             case "remove":
                 this._debug(
-                    `Yasdi remove event occurred: handle(${handle}), miscParam(${miscParam})`
+                    `Yasdi remove event occurred: handle(${handle}), miscParam(${miscParam})`,
                 );
                 break;
             case "searchEnd":
-                if (handle == this.deviceCount) {
+                if (handle === this.deviceCount) {
                     this.onDeviceSearchEnd();
                 } else {
                     this._debug(
-                        `Device search ended unfinished (${this.deviceCount}/${this._config.expectedDeviceCount})`
+                        `Device search ended unfinished (${this.deviceCount}/${this._config.expectedDeviceCount})`,
                     );
                     searchDevicesAsync(this._config.expectedDeviceCount);
                 }
@@ -188,27 +188,27 @@ export class NodeYasdi extends EventEmitter {
     }
 
     private onAddDevice(handle: number) {
-        if (this._inverter.get(handle) == undefined) {
+        if (this._inverter.get(handle) === undefined) {
             this._debug(`Found new device. handle: ${handle}`);
             this._inverter.set(handle, new Inverter(handle, this));
             this.emit("newDevice", handle);
         } else {
             this._debug(
-                `Found device handle is already present. handle: ${handle}`
+                `Found device handle is already present. handle: ${handle}`,
             );
         }
     }
 
     private onDownloadChannels(handle: number, miscParam: number) {
         const inverter = this._inverter.get(handle);
-        if (inverter != undefined) {
+        if (inverter !== undefined) {
             this._debug(
-                `onDownloadChannels event occurred. handle(${handle}), miscParam(${miscParam})`
+                `onDownloadChannels event occurred. handle(${handle}), miscParam(${miscParam})`,
             );
             this.emit("downloadChannels", handle, miscParam);
         } else {
             this._debug(
-                `onDownloadChannels event for not found device. handle(${handle}), miscParam(${miscParam})`
+                `onDownloadChannels event for not found device. handle(${handle}), miscParam(${miscParam})`,
             );
         }
     }
@@ -217,7 +217,7 @@ export class NodeYasdi extends EventEmitter {
         this._deviceSearchFinished = true;
         this.mapSerialsOfInverter();
         this._debug(
-            `Device search ended successfully. Device count: ${this.deviceCount}`
+            `Device search ended successfully. Device count: ${this.deviceCount}`,
         );
         this.emit("deviceSearchEnd", this.deviceCount);
     }

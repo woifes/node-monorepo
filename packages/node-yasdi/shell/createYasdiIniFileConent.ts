@@ -13,20 +13,19 @@ const rl = createInterface({
 
 (async () => {
     const serialPorts: string[] = [];
-    /* eslint-disable-next-line no-constant-condition */
     while (true) {
         const serialPort = await question(
             "Please enter serial device",
             "Serial device:",
-            rl
+            rl,
         );
-        if (serialPort.length == 0) {
+        if (serialPort.length === 0) {
             break;
         }
         serialPorts.push(serialPort);
     }
 
-    if (serialPorts.length == 0) {
+    if (serialPorts.length === 0) {
         console.log("Error no serial device provided");
         process.exit(1);
     }
@@ -35,10 +34,10 @@ const rl = createInterface({
     const debugAnswer = await question(
         "Do you want to add debug config to ini file? (y/n)",
         "debug (y/n)?",
-        rl
+        rl,
     );
     debugAnswer.toUpperCase();
-    if (debugAnswer == "Y") {
+    if (debugAnswer === "Y") {
         debug = true;
     }
     console.error(createYasdiIniFileContent(serialPorts, debug));

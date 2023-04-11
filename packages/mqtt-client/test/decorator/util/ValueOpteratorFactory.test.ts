@@ -37,7 +37,7 @@ describe("test from MsgOperatorFactory", () => {
                     type: "UINT8",
                     minQos: 1,
                     throttleMS: 200,
-                })
+                }),
             )
             .subscribe(cb);
 
@@ -59,7 +59,7 @@ describe("type validation test", () => {
                 ValueOperatorFactory({
                     topic: "",
                     type: "UINT8",
-                })
+                }),
             )
             .subscribe(cb);
         pushMessage("0", 0);
@@ -77,7 +77,7 @@ describe("type validation test", () => {
                     topic: "",
                     type: "UINT8",
                     fallBackValue: 7,
-                })
+                }),
             )
             .subscribe(cb);
         pushMessage("0", 0);
@@ -96,7 +96,7 @@ describe("type validation test", () => {
                     topic: "",
                     type: "JSON",
                     fallBackValue: 7,
-                })
+                }),
             )
             .subscribe(cb);
         pushMessage(JSON.stringify({ A: 1, B: "b" }), 0);
@@ -119,7 +119,7 @@ describe("type validation test", () => {
                         A: rt.Number,
                         B: rt.String,
                     }),
-                })
+                }),
             )
             .subscribe(cb);
         pushMessage(JSON.stringify({ A: 1, B: "b" }), 0);
@@ -137,7 +137,7 @@ describe("type validation test", () => {
                 ValueOperatorFactory({
                     topic: "",
                     type: "STRING",
-                })
+                }),
             )
             .subscribe(cb);
         pushMessage("Hello World", 0);

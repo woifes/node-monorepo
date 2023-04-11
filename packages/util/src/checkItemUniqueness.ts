@@ -16,7 +16,7 @@ export function checkItemUniqueness<T>(array: T[], compare?: (item: T) => any) {
     const shelf = new Map<any, boolean>();
     for (let i = 0; i < array.length; i++) {
         const sample = compare(array[i]);
-        if (shelf.get(sample) != undefined) {
+        if (shelf.get(sample) !== undefined) {
             return false;
         } else {
             shelf.set(sample, true);

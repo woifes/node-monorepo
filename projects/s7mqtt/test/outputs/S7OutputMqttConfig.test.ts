@@ -13,7 +13,7 @@ it("should validate example file", () => {
         "..",
         "examples",
         "outputs",
-        "outputmqtt.example.yaml"
+        "outputmqtt.example.yaml",
     );
 
     expect(() => {
