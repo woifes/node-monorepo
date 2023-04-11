@@ -57,5 +57,6 @@ The license of the different packages or projects are stated inside the correspo
 * [runtypes](https://github.com/pelotom/runtypes) - A very powerful package for validating types
 * [MQTT.js](https://www.npmjs.com/package/mqtt) - The one and only
 * [matrix](https://matrix.org/) - The future of communication
+* [rome](https://rome.tools/) - Fast and easy to use linter and formatter
 
 <p align="right">(<a href="#top">back to top</a>)</p>
