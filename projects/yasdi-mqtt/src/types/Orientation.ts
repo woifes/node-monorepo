@@ -4,8 +4,8 @@
 import * as rt from "runtypes";
 
 export const rtOrientation = rt.Record({
-    tiltDegrees: rt.Number,
-    directionDegrees: rt.Number,
+    tiltDeg: rt.Number, //tilt of the pv modules
+    directionDeg: rt.Number, //direction the pv modules are facing. 0° = North, 90° = East, 180° = South, 270° = West
 });
 
 export type Orientation = rt.Static<typeof rtOrientation>;
