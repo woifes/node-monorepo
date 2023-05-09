@@ -1,0 +1,34 @@
+
+name: client01
+mqtt:
+  url: localhost
+  clientId: client01
+  notifyPresencePrefix: clients
+  messageCacheTimeS: 3
+  caCertificate: "path or cert" #can be either the path to a ca root cert or the cert itself
+yasdi:
+  sendIntervalS: 5
+  mqttPrefix: tags
+  plants:
+    - name: plant01
+      alias: roof01
+      inverter:
+        - id: 1
+          serialNumber: 123456
+          pNomW: 1500
+          coordinates:
+            tiltDeg: 1.2
+            directionDeg: 3.4
+            heightAboveSeeLevelKM: 0.5
+          orientation:
+            tiltDeg: 30
+            directionDeg: 40
+        - id: 2
+          serialNumber: 789
+      coordinates:
+        tiltDeg: 1.2
+        directionDeg: 3.4
+        heightAboveSeeLevelKM: 0.5
+      orientation:
+        tiltDeg: 30
+        directionDeg: 40

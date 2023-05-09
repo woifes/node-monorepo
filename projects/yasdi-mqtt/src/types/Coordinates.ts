@@ -6,6 +6,7 @@ import * as rt from "runtypes";
 export const rtCoordinates = rt.Record({
     latitude: rt.Number,
     longitude: rt.Number,
+    heightAboveSeeLevelKM: rt.Number,
 });
 
 export type Coordinates = rt.Static<typeof rtCoordinates>;

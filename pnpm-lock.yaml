@@ -294,6 +294,9 @@ importers:
       '@woifes/node-yasdi':
         specifier: workspace:1.0.0
         version: link:../../packages/node-yasdi
+      '@woifes/util':
+        specifier: workspace:0.1.1
+        version: link:../../packages/util
       debug:
         specifier: ^4.3.2
         version: 4.3.2

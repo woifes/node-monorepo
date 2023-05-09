@@ -1,9 +1,9 @@
 // SPDX-FileCopyrightText: © 2023 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
+import { rtPlantConfig } from "./plant/PlantConfig";
 import { ClientConfig } from "@woifes/mqtt-client";
 import * as rt from "runtypes";
-import { rtPlantConfig } from "./plant/PlantConfig";
 
 export const rtYasdiMqttConfig = rt.Record({
     name: rt.String,

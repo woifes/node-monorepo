@@ -1,9 +1,9 @@
 // SPDX-FileCopyrightText: © 2023 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import * as rt from "runtypes";
 import { rtCoordinates } from "./Coordinates";
 import { rtOrientation } from "./Orientation";
+import * as rt from "runtypes";
 
 export const rtSunTraceInfo = rt.Record({
     coordinates: rtCoordinates,
