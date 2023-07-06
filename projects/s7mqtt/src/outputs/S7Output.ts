@@ -38,6 +38,7 @@ export class S7Output extends EventEmitter {
     private _config: tS7OutputConfig;
     private _s7ep: S7Endpoint;
 
+    // rome-ignore lint/correctness/noUnreachableSuper: Seems to be false positive because of "Object.entries"
     constructor(
         config: tS7OutputConfig,
         s7endpoint: S7Endpoint,

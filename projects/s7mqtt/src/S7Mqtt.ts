@@ -22,6 +22,7 @@ import { S7Command, tS7CommandConfig } from "./commands";
 import { S7EventMqtt, tS7EventMqttConfig } from "./events";
 import { MqttInput, tMqttInputConfig } from "./inputs";
 import { tMqttInputTarget } from "./inputs/MqttInputConfig";
+import { LifeSign } from "./lifesign/LifeSign";
 import { S7OutputMqtt, tS7OutputConfig } from "./outputs";
 import { S7MqttConfig, tS7MqttConfig } from "./runtypes/S7MqttConfig";
 
@@ -35,6 +36,7 @@ export class S7Mqtt {
     private _config: tS7MqttConfig;
 
     private _alarms?: S7AlarmHandler;
+    private _lifeSign?: LifeSign;
     private _commands: S7Command[] = [];
     private _events: S7EventMqtt[] = [];
     private _inputs: MqttInput[] = [];
@@ -66,6 +68,15 @@ export class S7Mqtt {
         if (this._config.alarms !== undefined) {
             this._alarms = new S7AlarmHandler(
                 this._config.alarms,
+                this._s7ep,
+                this._mqtt,
+                this._debug,
+            );
+        }
+
+        if (this._config.lifesign !== undefined) {
+            this._lifeSign = new LifeSign(
+                this._config.lifesign,
                 this._s7ep,
                 this._mqtt,
                 this._debug,

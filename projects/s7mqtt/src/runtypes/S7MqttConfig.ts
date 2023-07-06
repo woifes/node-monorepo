@@ -11,6 +11,7 @@ import { S7AlarmHandlerConfig } from "../alarms/S7AlarmHandlerConfig";
 import { S7CommandConfig } from "../commands/S7CommandConfig";
 import { S7EventMqttConfig } from "../events/S7EventMqttConfig";
 import { MqttInputConfig } from "../inputs/MqttInputConfig";
+import { rtLifeSignConfig } from "../lifesign/LifeSignConfig";
 import { S7OutputMqttConfig } from "../outputs/S7OutputMqttConfig";
 
 export const S7MqttConfig = rt.Record({
@@ -19,6 +20,7 @@ export const S7MqttConfig = rt.Record({
         S7LocalEndpointConfig.omit("datablocks"),
     ),
     alarms: S7AlarmHandlerConfig.optional(),
+    lifesign: rtLifeSignConfig.optional(),
     inputs: rt
         .Array(MqttInputConfig)
         .withConstraint((a) => a.length > 0 || "Inputs array must not be zero")

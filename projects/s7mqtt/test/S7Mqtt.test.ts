@@ -11,7 +11,9 @@ import { S7EventMqtt } from "../src/events/S7EventMqtt";
 import { MqttInput } from "../src/inputs/MqttInput";
 import { S7OutputMqtt } from "../src/outputs/S7OutputMqtt";
 import { S7Mqtt } from "../src/S7Mqtt";
+import { LifeSign } from "../src/lifesign/LifeSign";
 jest.mock("../src/alarms/S7AlarmHandler");
+jest.mock("../src/lifeSign/LifeSign");
 jest.mock("../src/commands/S7Command");
 jest.mock("../src/events/S7EventMqtt");
 jest.mock("../src/inputs/MqttInput");
@@ -24,6 +26,7 @@ async function wait(ms: number) {
 }
 
 const S7ALARM_HANDLER_MOCK = S7AlarmHandler as unknown as jest.Mock;
+const LIFE_SIGN_MOCK = LifeSign as unknown as jest.Mock;
 const S7COMMAND_MOCK = S7Command as unknown as jest.Mock;
 const S7EVENT_MQTT_MOCK = S7EventMqtt as unknown as jest.Mock;
 const MQTT_INPUT_MOCK = MqttInput as unknown as jest.Mock;
@@ -38,6 +41,12 @@ const alarmConfig = parse(
 const alarmConfig2 = parse(
     readFileSync(
         join(__dirname, "..", "examples", "alarms", "alarm02.example.yaml"),
+        "utf-8",
+    ),
+);
+const lifesignConfig = parse(
+    readFileSync(
+        join(__dirname, "..", "examples", "lifesign", "lifesign.example.yaml"),
         "utf-8",
     ),
 );
@@ -130,6 +139,7 @@ describe("remote endpoint tests", () => {
         const config = {
             ...baseConfig,
             alarms: alarmConfig,
+            lifesign: lifesignConfig,
             commands: [
                 { ...commandConfig },
                 { ...commandConfig },
@@ -153,6 +163,7 @@ describe("remote endpoint tests", () => {
         };
         const s7mqtt = new S7Mqtt(config);
         expect(S7ALARM_HANDLER_MOCK).toBeCalledTimes(1);
+        expect(LIFE_SIGN_MOCK).toBeCalledTimes(1);
         expect(S7COMMAND_MOCK).toBeCalledTimes(3);
         expect(S7EVENT_MQTT_MOCK).toBeCalledTimes(3);
         expect(MQTT_INPUT_MOCK).toBeCalledTimes(3);
@@ -202,6 +213,7 @@ describe("local endpoint tests", () => {
         const config = {
             ...baseConfig,
             alarms: alarmConfig2,
+            lifesign: lifesignConfig,
             commands: [{ ...commandConfig2 }],
             events: [{ ...eventConfig2 }],
             inputs: [{ ...inputConfig2 }],
@@ -209,6 +221,7 @@ describe("local endpoint tests", () => {
         };
         const s7mqtt = new S7Mqtt(config);
         expect(S7ALARM_HANDLER_MOCK).toBeCalledTimes(1);
+        expect(LIFE_SIGN_MOCK).toBeCalledTimes(1);
         expect(S7COMMAND_MOCK).toBeCalledTimes(1);
         expect(S7EVENT_MQTT_MOCK).toBeCalledTimes(1);
         expect(MQTT_INPUT_MOCK).toBeCalledTimes(1);

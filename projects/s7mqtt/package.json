@@ -1,6 +1,6 @@
 {
   "name": "@woifes/s7mqtt",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "",
   "files": [
     "dist"
@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node ./dist/index.js",
     "jest": "jest --runInBand --forceExit",
-    "test": "jest --runInBand --forceExit --verbose test/alarms && jest --runInBand --forceExit test/commands && jest --runInBand --forceExit test/events && jest --runInBand --forceExit test/inputs && jest --runInBand --forceExit test/outputs && jest --runInBand --forceExit test/runtypes && jest --runInBand --forceExit test/S7Mqtt.test.ts",
+    "test": "jest --runInBand --forceExit --verbose test/alarms && jest --runInBand --forceExit test/commands && jest --runInBand --forceExit test/events && jest --runInBand --forceExit test/inputs && jest --runInBand test/lifesign && jest --runInBand --forceExit test/outputs && jest --runInBand --forceExit test/runtypes && jest --runInBand --forceExit test/S7Mqtt.test.ts",
     "mt:remote": "jest --runInBand --forceExit mt/remote/remote.test.ts",
     "mt:local": "jest --runInBand --forceExit mt/local/local.test.ts",
     "compile": "tsc -p tsconfig.build.json",

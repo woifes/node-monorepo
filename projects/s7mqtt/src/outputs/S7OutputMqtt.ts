@@ -65,7 +65,7 @@ export class S7OutputMqtt {
     }
 
     private sendValue(tag: tS7Variable) {
-        const topic = `${this._topicPrefix}/${(tag.name as string)}`;
+        const topic = `${this._topicPrefix}/${tag.name as string}`;
         const msg = new Message(topic, this._qos, this._retain);
         if (msg.writeValue(tag.value as any, S7OutputMqtt.normalizeType(tag))) {
             this._mqtt.publishMessageSync(msg);

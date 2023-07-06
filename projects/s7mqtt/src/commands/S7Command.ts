@@ -69,6 +69,7 @@ export class S7Command extends EventEmitter {
     private _requiredParamCount: number;
     private _responseTimeoutMS = 3000;
 
+    // rome-ignore lint/correctness/noUnreachableSuper: False positives?
     constructor(
         config: tS7CommandConfig,
         s7endpoint: S7Endpoint,

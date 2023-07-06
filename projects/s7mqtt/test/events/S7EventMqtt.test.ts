@@ -15,10 +15,6 @@ S7EVENT_MOCK.mockImplementation(() => {
 });
 
 class MqttClientMock extends EventEmitter {
-    constructor() {
-        super();
-    }
-
     publishMessage = jest.fn((msg: Message) => {
         this.emit("publishedMessage");
         return Promise.resolve();
