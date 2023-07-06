@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes -->
+<!-- SPDX-FileCopyrightText: &#169; 2022 woifes <https://github.com/woifes -->
 <!-- SPDX-License-Identifier: UNLICENSED -->
-<svg width="800" height="800" version="1.1" viewBox="0 0 211.67 211.67" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
- <defs>
-  <linearGradient id="linearGradient4132">
-   <stop stop-color="#fff" offset="0"/>
-   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
-  </linearGradient>
-  <linearGradient id="linearGradient3868" x1="162.47" x2="120.17" y1="-111.8" y2="-38.247" gradientTransform="matrix(-.98875 0 0 .98875 316.3 139.31)" gradientUnits="userSpaceOnUse">
-   <stop offset="0"/>
-   <stop stop-opacity="0" offset="1"/>
-  </linearGradient>
-  <linearGradient id="linearGradient4062" x1="435.18" x2="290.59" y1="-598.2" y2="-312.45" gradientTransform="matrix(-.26161 0 0 .26161 223.68 158.81)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient4132"/>
-  <linearGradient id="linearGradient5824" x1="378.18" x2="203.01" y1="-528.92" y2="-261.91" gradientTransform="matrix(-.26161 0 0 .26161 250.59 222.65)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient4132"/>
- </defs>
- <path transform="scale(.26458)" d="m384.88 8.7266-331.29 191.27v400l346.41 200 331.29-191.27-173.2-100-158.09 91.271-173.21-100v-200l158.09-91.273v-200zm30.236 0.0039063v200l142.96 82.541v-200l-142.96-82.541zm173.2 99.998v183.61l158.09 91.27v-183.61l-158.09-91.271zm-15.117 209.8v164.01l173.21 100v-164.01l-173.21-100z" fill="#09f" stroke-width=".86603"/>
- <g stroke-width=".86604">
-  <path d="m109.83 2.3099 37.826 21.839v52.917l-37.826-21.839z" fill="url(#linearGradient4062)"/>
-  <path d="m151.66 84.277 45.827 26.459v43.395l-45.827-26.458z" fill="url(#linearGradient5824)"/>
-  <path d="m155.66 28.768 41.827 24.149v48.58l-41.827-24.148z" fill="url(#linearGradient3868)"/>
- </g>
+<svg width="800" height="800" version="1.1" viewBox="0 0 211.67 211.67" xmlns="http://www.w3.org/2000/svg">
+ <path transform="scale(.26458)" d="m573.2 318.53v164.01l173.21 100v-164.01z" fill="#78c9ff"/>
+ <path transform="scale(.26458)" d="m588.32 108.73v183.61l158.09 91.27v-183.61l-158.09-91.271z" fill="#0063a5"/>
+ <path transform="scale(.26458)" d="m415.12 8.7305v200l142.96 82.541v-200z" fill="#78c9ff"/>
+ <path transform="scale(.26458)" d="m384.88 8.7266-331.29 191.27v400l346.41 200 331.29-191.27-173.2-100-158.09 91.271-173.21-100v-200l158.09-91.273v-200z" fill="#09f"/>
 </svg>

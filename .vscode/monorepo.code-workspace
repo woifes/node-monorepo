@@ -18,14 +18,14 @@
     "settings": {
         "[typescript]": {
             "editor.codeActionsOnSave": {
-                "source.organizeImports.rome": true,
+                "source.organizeImports": true,
             },
             "editor.defaultFormatter": "rome.rome",
             "editor.formatOnSave": true
         },
         "[javascript]": {
             "editor.codeActionsOnSave": {
-                "source.organizeImports.rome": true
+                "source.organizeImports": true
             },
             "editor.defaultFormatter": "rome.rome",
             "editor.formatOnSave": true
