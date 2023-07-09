@@ -100,4 +100,8 @@ export const CONFIG: tS7MqttConfig = {
             },
         ],
     },
+    lifesign: {
+        out: { address: "DB6001,W0", timeoutMS: 1000, topic: "lifesign" },
+        in: { address: "DB6001,W0", cycleMS: 500 },
+    },
 };

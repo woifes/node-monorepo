@@ -49,10 +49,17 @@ beforeEach(() => {
 });
 
 afterAll(async () => {
-    SERVER.stop();
-    await wait(300);
+    //SERVER.stop();
     emptyDirSync(TMP_DIR);
     rmdirSync(TMP_DIR);
+    await wait(300);
+});
+
+describe("connection test", () => {
+    it("should connect successfully", async () => {
+        await wait(300);
+        expect(SERVER.connected).toBe(true);
+    });
 });
 
 describe("command test", () => {
@@ -191,5 +198,16 @@ describe("alarm test", () => {
         expect((SERVER as any)._alarms._alarmHandlerMqtt[2].triggered).toBe(
             false,
         );
+    });
+});
+
+describe("life sign tests", () => {
+    it("should have a positive life sign", async () => {
+        const now = Date.now();
+        await wait(1400);
+        const { lifeSign } = JSON.parse(
+            (findInPubMsgMock("lifesign").at(-1) as Message).body,
+        );
+        expect(lifeSign).toBe(1);
     });
 });

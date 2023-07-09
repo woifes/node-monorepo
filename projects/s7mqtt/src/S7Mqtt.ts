@@ -116,6 +116,10 @@ export class S7Mqtt {
         }
     }
 
+    get connected(): boolean {
+        return this._s7ep.connected;
+    }
+
     stop() {
         this._s7ep.stop();
     }
