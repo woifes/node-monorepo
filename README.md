@@ -24,8 +24,8 @@ This is the monorepo is holding various packages and projects. It is the result 
 * [license-report](/projects/license-report/) - Generate a license report in the other packages and projects
 * [matrix-mqtt-bridge](/projects/matrix-mqtt-bridge/) - Generate a list of rooms and send an receive messages from that room via mqtt
 * [mqtt-influxdb-agent](/projects/mqtt-influxdb-agent/) - Agent for sending data from MQTT into InfluxDB 2.x
-* [s7mqtt](/projects/s7mqtt/) - Mqtt gateway for devices which use the S7 protocol (RFC1006)
-* [yasdi-mqtt](/projects/yasdi-mqtt/) - Mqtt version of [node-yasdi](/packages/node-yasdi/)
+* [s7mqtt](/projects/s7mqtt/) - MQTT gateway for devices which use the S7 protocol (RFC1006)
+* [yasdi-mqtt](/projects/yasdi-mqtt/) - MQTT version of [node-yasdi](/packages/node-yasdi/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
