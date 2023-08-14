@@ -1,10 +1,10 @@
 // SPDX-FileCopyrightText: © 2023 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { YasdiMqttConfig, rtYasdiMqttConfig } from "./YasdiMqttConfig";
-import { Plant } from "./plant/Plant";
 import { Client } from "@woifes/mqtt-client";
 import { NodeYasdi } from "@woifes/node-yasdi";
+import { YasdiMqttConfig, rtYasdiMqttConfig } from "./YasdiMqttConfig";
+import { Plant } from "./plant/Plant";
 
 export class YasdiMqtt {
     private config: YasdiMqttConfig;
@@ -38,14 +38,25 @@ export class YasdiMqtt {
             this.plants.forEach((plant) => {
                 plant.onDeviceSearchEnd(this.nodeYasdi.serials);
             });
+            this.publishData();
         });
     }
 
     private get inverterCount(): number {
         let count = 0;
-        this.config.yasdi.plants.forEach((plant) => {
+        this.config.yasdi.plants.forEach((plant: any) => {
             count += plant.inverter.length;
         });
         return count;
+    }
+
+    private publishData() {
+        this.plants.forEach((plant) => {
+            plant.publishData();
+        });
+        setTimeout(
+            this.publishData.bind(this),
+            (this.config.yasdi.sendIntervalS ?? 5) * 1000,
+        );
     }
 }

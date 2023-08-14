@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: © 2023 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { SunTraceInfo } from "../types/SunTraceInfo";
 import { getPosition } from "suncalc";
+import { SunTraceInfo } from "../types/SunTraceInfo";
 
 /**
  * Calculates the theoretical intensity of the sun on the PV modules. Uses the current position of the sun and the cosine function for tilt, direction and airmass.
@@ -46,14 +46,14 @@ export function getIntensity(sunTraceInfo: SunTraceInfo): number {
             Math.sin((azimuthDeg * Math.PI) / 180),
     ];
 
-    const cosFact =
+    let cosFact =
         roofNormalVecotr[0] * sunVector[0] +
         roofNormalVecotr[1] * sunVector[1] +
         roofNormalVecotr[2] * sunVector[2];
 
-    if (cosFact >= 0) {
-        return intensityDiffuse + cosFact * intensityByAirMass;
+    if (cosFact < 0) {
+        cosFact = 0;
     }
 
-    return 0;
+    return intensityDiffuse + cosFact * intensityByAirMass;
 }

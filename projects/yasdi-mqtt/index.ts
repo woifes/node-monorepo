@@ -1,11 +1,11 @@
 // SPDX-FileCopyrightText: © 2023 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { YasdiMqtt } from "./src/YasdiMqtt";
 import { readFileSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 import { parse } from "yaml";
+import { YasdiMqtt } from "./src/YasdiMqtt";
 
 const YASDI_MQTT_SERIAL_DEVICE =
     process.env.YASDI_MQTT_SERIAL_DEVICE ?? "/dev/ttyUSB0";

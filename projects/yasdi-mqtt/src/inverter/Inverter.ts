@@ -1,12 +1,11 @@
 // SPDX-FileCopyrightText: © 2023 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { Coordinates } from "../types/Coordinates";
-import { Orientation } from "../types/Orientation";
-import { SunTraceInfo } from "../types/SunTraceInfo";
-import { InverterConfig, rtInverterConfig } from "./InverterConfig";
 import { Client } from "@woifes/mqtt-client";
 import { NodeYasdi, inverterValue } from "@woifes/node-yasdi";
+import { postIntensity } from "../sun/postIntensity";
+import { SunTraceInfo } from "../types/SunTraceInfo";
+import { InverterConfig, rtInverterConfig } from "./InverterConfig";
 
 export class Inverter {
     private config: InverterConfig;
@@ -21,21 +20,12 @@ export class Inverter {
         nodeYasdi: NodeYasdi,
         mqtt: Client,
         mqttTopicPrefix: string,
-        coordinates?: Coordinates,
-        orientation?: Orientation,
     ) {
         this.config = rtInverterConfig.check(config);
         this.plantMqttTopicPrefix = mqttTopicPrefix;
         this.nodeYasdi = nodeYasdi;
         this.mqtt = mqtt;
-        const cords = this.config.coordinates ?? coordinates;
-        const orien = this.config.orientation ?? orientation;
-        if (cords !== undefined && orien !== undefined) {
-            this.sunTraceInfo = {
-                coordinates: cords,
-                orientation: orien,
-            };
-        }
+        this.sunTraceInfo = this.config.suntraceInfo;
     }
 
     get present(): boolean {
@@ -66,6 +56,16 @@ export class Inverter {
         );
     }
 
+    private async postIntensity() {
+        if (this.sunTraceInfo !== undefined) {
+            await postIntensity(
+                this.sunTraceInfo,
+                `${this.mqttTopicPrefix}/sunIntensity`,
+                this.mqtt,
+            );
+        }
+    }
+
     async publishData() {
         const inverter = this.nodeYasdi.getInverterBySerial(
             this.config.serialNumber,
@@ -76,7 +76,7 @@ export class Inverter {
                 for (const [valName, val] of result) {
                     this.publishInverterValue(valName, val);
                 }
-                //TODO sun trace info?
+                await this.postIntensity();
             } catch {
                 //TODO
             }
@@ -90,7 +90,7 @@ export class Inverter {
     }
 
     onDeviceSearchEnd(serials: number[]) {
-        if (this.found || this.config.serialNumber in serials) {
+        if (this.found || serials.indexOf(this.config.serialNumber) !== -1) {
             this.found = true;
             return;
         }

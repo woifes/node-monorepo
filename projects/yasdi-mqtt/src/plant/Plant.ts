@@ -1,8 +1,6 @@
 // SPDX-FileCopyrightText: © 2023 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { Inverter } from "../inverter/Inverter";
-import { PlantConfig, rtPlantConfig } from "./PlantConfig";
 import { Client } from "@woifes/mqtt-client";
 import {
     MqttClient,
@@ -10,6 +8,9 @@ import {
     MqttConnectionHandler,
 } from "@woifes/mqtt-client/decorator";
 import { NodeYasdi } from "@woifes/node-yasdi";
+import { Inverter } from "../inverter/Inverter";
+import { postIntensity } from "../sun/postIntensity";
+import { PlantConfig, rtPlantConfig } from "./PlantConfig";
 
 @MqttClient()
 export class Plant {
@@ -27,7 +28,7 @@ export class Plant {
     ) {
         this.config = rtPlantConfig.check(config);
         this.nodeYasdi = nodeYasdi;
-        this.mqttTopicPrefix = mqttTopicPrefix;
+        this.mqttTopicPrefix = this.getMqttPrefix(mqttTopicPrefix);
         this.mqtt = mqtt;
         for (const inverterConfig of this.config.inverter) {
             this.inverter.push(
@@ -36,8 +37,6 @@ export class Plant {
                     this.nodeYasdi,
                     this.mqtt,
                     this.mqttTopicPrefix,
-                    this.config.coordinates,
-                    this.config.orientation,
                 ),
             );
         }
@@ -53,8 +52,8 @@ export class Plant {
         return this.inverter.length;
     }
 
-    private getMqttPrefix(): string {
-        return `${this.mqttTopicPrefix}/${this.config.name}`;
+    private getMqttPrefix(mqttTopicPrefix: string): string {
+        return `${mqttTopicPrefix}/${this.config.name}`;
     }
 
     @MqttConnectionHandler()
@@ -74,16 +73,31 @@ export class Plant {
         this.inverter.forEach((inverter) => {
             inverter.onNewDevice(serial);
         });
+        this.sendDeviceCount();
     }
 
     onDeviceSearchEnd(serials: number[]) {
         this.inverter.forEach((inverter) => {
             inverter.onDeviceSearchEnd(serials);
         });
+        this.sendDeviceCount();
+    }
+
+    async publishData() {
+        for (const inverter of this.inverter) {
+            await inverter.publishData();
+        }
+        if (this.config.sunTraceInfo !== undefined) {
+            await postIntensity(
+                this.config.sunTraceInfo,
+                `${this.mqttTopicPrefix}/sunIntensity`,
+                this.mqtt,
+            );
+        }
     }
 
     private sendDeviceCount() {
-        this.mqtt.publishValue(
+        this.mqtt.publishValueSync(
             `${this.mqttTopicPrefix}/deviceFound`,
             `${this.foundInverterCount}/${this.inverterCount}`,
         );
