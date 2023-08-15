@@ -1,6 +1,6 @@
 FROM monorepo AS builder
 
-RUN pnpm --filter @woifes/matrix-mqtt-bridge --prod deploy /deployed/
+RUN pnpm --filter @woifes/yasdi-mqtt --prod deploy /deployed/
 
 FROM node:18-alpine
 
