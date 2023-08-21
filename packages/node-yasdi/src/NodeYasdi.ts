@@ -70,10 +70,12 @@ export class NodeYasdi extends EventEmitter {
         id: string,
         config: tNodeYasdiConfig,
         existingIniFilePath?: string,
+        yasdiDebug = false,
     ) {
         super();
         this._config = NodeYasdiConfig.check(config);
         this._id = id;
+        this._debug = debug(`NodeYasdi(${this._id})`);
         const iniFileDir = this._config.iniFileDir ?? tmpdir();
         if (existingIniFilePath === undefined) {
             if (this._config.serialPorts !== undefined) {
@@ -81,7 +83,9 @@ export class NodeYasdi extends EventEmitter {
                     iniFileDir,
                     `${this._id}.ini`,
                     this._config.serialPorts,
+                    yasdiDebug,
                 );
+                this._debug(`Created Ini-File at ${this._iniFilePath}`);
             } else {
                 throw new Error(
                     "No existing ini file, nor information to create a ini file provided",
@@ -89,8 +93,8 @@ export class NodeYasdi extends EventEmitter {
             }
         } else {
             this._iniFilePath = existingIniFilePath;
+            this._debug(`Use existing ini-file at ${this._iniFilePath}`);
         }
-        this._debug = debug(`NodeYasdi(${this._id})`);
 
         yasdiInit(
             this._iniFilePath,

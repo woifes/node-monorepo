@@ -25,7 +25,7 @@
             }],
             ['OS=="linux"', {
                 'libraries': [
-                    "-Wl,-rpath,<!(pwd)/build/Release/"
+                    "-Wl,-rpath,'$$ORIGIN'"
                 ]
             }]
         ],
@@ -140,7 +140,7 @@
                     ]
                 },
                 'libraries': [
-                    "-Wl,-rpath,<!(pwd)/build/Release/"
+                    "-Wl,-rpath,'$$ORIGIN'"
                 ]
             }],
             ['OS=="win"', {
@@ -178,7 +178,7 @@
                     "./bin/yasdi-1.8.1build9-src/driver/serial_posix.c"
                     ],
                 'libraries': [
-                    "-Wl,-rpath,<!(pwd)/build/Release/"
+                    "-Wl,-rpath,'$$ORIGIN'"
                 ]
             }],
             ['OS=="win"', {
