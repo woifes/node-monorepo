@@ -17,11 +17,16 @@ export class YasdiMqtt {
 
         this.mqtt = new Client(this.config.mqtt);
 
-        this.nodeYasdi = new NodeYasdi(this.config.name, {
-            expectedDeviceCount: this.inverterCount,
-            iniFileDir: tmpDir,
-            serialPorts: [serialDevice],
-        });
+        this.nodeYasdi = new NodeYasdi(
+            this.config.name,
+            {
+                expectedDeviceCount: this.inverterCount,
+                iniFileDir: tmpDir,
+                serialPorts: [serialDevice],
+            },
+            undefined,
+            this.config.yasdi.debug,
+        );
 
         for (const plantConfig of this.config.yasdi.plants) {
             this.plants.push(

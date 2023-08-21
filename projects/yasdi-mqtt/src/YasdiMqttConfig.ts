@@ -16,6 +16,7 @@ export const rtYasdiMqttConfig = rt.Record({
         ).optional(), //default - 5s
         mqttPrefix: rt.String.optional(), //default - tags
         suntraceInfo: rtSunTraceInfo.optional(), //will be used to calc the sun intensity
+        debug: rt.Boolean.optional(),
     }),
 });
 
