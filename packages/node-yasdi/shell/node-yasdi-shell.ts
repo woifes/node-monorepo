@@ -96,8 +96,10 @@ function emptyLine() {
                 const space = Math.floor((43 - value.length) / 2);
                 const left = space;
                 const right = space + rest;
-                value = `|${" ".repeat(left)}${value}${" ".repeat(right)}|`;
-                console.log(value);
+                const formatedValue = `|${" ".repeat(left)}${value}${" ".repeat(
+                    right,
+                )}|`;
+                console.log(formatedValue);
             };
 
             hr();
