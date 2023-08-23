@@ -114,7 +114,7 @@ describe("Send data tests", () => {
         expect(POST_INTENSITY_MOCK).toBeCalledTimes(1);
         const [sunTraceInfo, topic, mqtt] = POST_INTENSITY_MOCK.mock.calls[0];
         expect(sunTraceInfo).toEqual(SUN_TRACE_INFO);
-        expect(topic).toBe("myTopicPrefix/myInverter/sunIntensity");
+        expect(topic).toBe("myTopicPrefix/inverter/myInverter/sunIntensity");
         expect(mqtt).toEqual(MQTT);
     });
 });

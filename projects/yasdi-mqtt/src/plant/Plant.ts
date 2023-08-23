@@ -83,6 +83,10 @@ export class Plant {
         this.sendDeviceCount();
     }
 
+    onDownloadChannels() {
+        this.sendDeviceCount();
+    }
+
     async publishData() {
         for (const inverter of this.inverter) {
             await inverter.publishData();

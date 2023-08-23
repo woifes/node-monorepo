@@ -45,6 +45,12 @@ export class YasdiMqtt {
             });
             this.publishData();
         });
+
+        this.nodeYasdi.on("downloadChannels", () => {
+            this.plants.forEach((plant) => {
+                plant.onDownloadChannels();
+            });
+        });
     }
 
     private get inverterCount(): number {

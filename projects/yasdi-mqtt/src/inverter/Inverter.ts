@@ -33,7 +33,7 @@ export class Inverter {
     }
 
     get mqttTopicPrefix(): string {
-        return `${this.plantMqttTopicPrefix}/${this.config.id}`;
+        return `${this.plantMqttTopicPrefix}/inverter/${this.config.id}`;
     }
 
     private publishInverterValue(valName: string, val: inverterValue) {
