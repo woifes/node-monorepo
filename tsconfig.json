@@ -18,6 +18,7 @@
       "@woifes/mqtt-influxdb-agent": ["projects/mqtt-influxdb-agent/index.ts"],
       "@woifes/s7mqtt": ["projects/s7mqtt/index.ts"],
       "@woifes/yasdi-mqtt": ["projects/yasdi-mqtt/index.ts"],
+      "@woifes/yasdi-rest": ["projects/yasdi-rest/index.ts"],
     },
     "noEmit": true
   }
