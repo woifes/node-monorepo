@@ -43,7 +43,7 @@ export class YasdiMqtt {
             this.plants.forEach((plant) => {
                 plant.onDeviceSearchEnd(this.nodeYasdi.serials);
             });
-            this.publishData();
+            this.fetchingLoop();
         });
 
         this.nodeYasdi.on("downloadChannels", () => {
@@ -61,13 +61,22 @@ export class YasdiMqtt {
         return count;
     }
 
-    private publishData() {
-        this.plants.forEach((plant) => {
-            plant.publishData();
-        });
-        setTimeout(
-            this.publishData.bind(this),
-            (this.config.yasdi.sendIntervalS ?? 5) * 1000,
-        );
+    private async publishData() {
+        for (const plant of this.plants) {
+            await plant.publishData();
+        }
+    }
+
+    private fetchingLoop() {
+        this.publishData()
+            .catch(() => {
+                //TODO
+            })
+            .finally(() => {
+                setTimeout(
+                    this.fetchingLoop.bind(this),
+                    (this.config.yasdi.sendDelayS ?? 5) * 1000,
+                );
+            });
     }
 }

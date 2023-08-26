@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Client } from "@woifes/mqtt-client";
-import { NodeYasdi } from "@woifes/node-yasdi";
+import { NodeYasdi, YASDI_COM_STATUS_NAME } from "@woifes/node-yasdi";
 import { Inverter } from "../../src/inverter/Inverter";
 import { postIntensity } from "../../src/sun/postIntensity";
 jest.mock("../../src/sun/postIntensity");
@@ -18,6 +18,7 @@ MQTT.publishValue = jest.fn(() => {
 
 const INVERTER_MOCK = {
     getData: jest.fn(),
+    comStatus: "online",
 };
 const NODE_YASDI_MOCK = {
     getInverterBySerial: jest.fn((serial: number) => {
@@ -39,6 +40,7 @@ beforeEach(() => {
         MQTT,
         "myTopicPrefix",
     );
+    INVERTER_MOCK.comStatus = "online";
 });
 
 describe("Search tests", () => {
@@ -81,6 +83,39 @@ describe("Send data tests", () => {
         expect(NODE_YASDI_MOCK.getInverterBySerial).toBeCalledTimes(1);
         expect(INVERTER_MOCK.getData).toBeCalledTimes(1);
         expect(PUBLISH_VALUE_SYNC_SPY).toBeCalledTimes(8);
+    });
+
+    it("should send only comStatus when inverter is offline", async () => {
+        INVERTER_MOCK.comStatus = "offline";
+        INVERTER_MOCK.getData.mockImplementationOnce(() => {
+            const m = new Map();
+            m.set("val01", {
+                value: 1,
+                unit: "unit01",
+                timeStamp: "timeStamp01",
+                statusText: "statusText01",
+            });
+            m.set("val02", {
+                value: 2,
+                unit: "unit02",
+                timeStamp: "timeStamp02",
+                statusText: "statusText02",
+            });
+            m.set(YASDI_COM_STATUS_NAME, {
+                value: 0,
+                unit: "",
+                timeStamp: "timeStamp03",
+                statusText: "offline",
+            });
+            return Promise.resolve(m);
+        });
+
+        await inverter.publishData();
+
+        expect(POST_INTENSITY_MOCK).not.toBeCalled();
+        expect(NODE_YASDI_MOCK.getInverterBySerial).toBeCalledTimes(1);
+        expect(INVERTER_MOCK.getData).toBeCalledTimes(1);
+        expect(PUBLISH_VALUE_SYNC_SPY).toBeCalledTimes(4);
     });
 
     it("should send intensity if sun trace info is set", async () => {

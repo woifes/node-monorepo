@@ -3,7 +3,7 @@ mqtt:
   url: localhost
   clientId: client01
 yasdi:
-  sendIntervalS: 5
+  sendDelayS: 5
   mqttPrefix: tags
   plants:
     - name: plant01

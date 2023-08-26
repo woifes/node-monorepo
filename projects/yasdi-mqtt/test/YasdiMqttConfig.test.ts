@@ -28,7 +28,7 @@ it("should validate correct config", () => {
                 clientId: "client01",
             },
             yasdi: {
-                sendIntervalS: 5,
+                sendDelayS: 5,
                 mqttPrefix: "tags",
 
                 plants: [
@@ -72,7 +72,7 @@ it("should validate correct config", () => {
     }).not.toThrow();
 });
 
-it("should not allow negative send intervall", () => {
+it("should not allow negative send sendDelayS", () => {
     expect(() => {
         rtYasdiMqttConfig.check({
             name: "client01",
@@ -84,7 +84,7 @@ it("should not allow negative send intervall", () => {
                 caCertificate: "path or cert",
             },
             yasdi: {
-                sendIntervalS: -5,
+                sendDelayS: -5,
                 mqttPrefix: "tags",
                 plants: [],
             },

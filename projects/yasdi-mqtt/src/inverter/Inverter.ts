@@ -2,7 +2,11 @@
 // SPDX-License-Identifier: MIT
 
 import { Client } from "@woifes/mqtt-client";
-import { NodeYasdi, inverterValue } from "@woifes/node-yasdi";
+import {
+    NodeYasdi,
+    YASDI_COM_STATUS_NAME,
+    inverterValue,
+} from "@woifes/node-yasdi";
 import { postIntensity } from "../sun/postIntensity";
 import { SunTraceInfo } from "../types/SunTraceInfo";
 import { InverterConfig, rtInverterConfig } from "./InverterConfig";
@@ -73,8 +77,15 @@ export class Inverter {
         if (inverter !== undefined) {
             try {
                 const result = await inverter.getData(0);
-                for (const [valName, val] of result) {
-                    this.publishInverterValue(valName, val);
+                if (inverter.comStatus === "online") {
+                    for (const [valName, val] of result) {
+                        this.publishInverterValue(valName, val);
+                    }
+                } else {
+                    this.publishInverterValue(
+                        YASDI_COM_STATUS_NAME,
+                        result.get(YASDI_COM_STATUS_NAME)!,
+                    );
                 }
                 await this.postIntensity();
             } catch {

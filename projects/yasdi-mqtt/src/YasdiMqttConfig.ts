@@ -11,7 +11,7 @@ export const rtYasdiMqttConfig = rt.Record({
     mqtt: ClientConfig,
     yasdi: rt.Record({
         plants: rt.Array(rtPlantConfig),
-        sendIntervalS: rt.Number.withConstraint(
+        sendDelayS: rt.Number.withConstraint(
             (n) => n > 0 || "Send interval has to be positive",
         ).optional(), //default - 5s
         mqttPrefix: rt.String.optional(), //default - tags
