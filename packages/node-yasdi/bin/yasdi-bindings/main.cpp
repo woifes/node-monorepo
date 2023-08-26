@@ -87,7 +87,7 @@ void newChannelValueEventListener(DWORD dChannelHandle, DWORD dDeviceHandle, dou
     data->dDeviceHandle = dDeviceHandle;
     data->dValue = dValue;
     data->textvalue = textvalue;
-    data->errorcode = erorrcode;
+    data->errorcode = errorcode;
     newValueEventTsfn.NonBlockingCall(data);
 }
 
@@ -98,7 +98,7 @@ void NewValueToJS(Napi::Env env, Napi::Function callback, Context *context, NewV
         result.Set("dDeviceHandle", Number::New(env, data->dDeviceHandle));
         result.Set("dValue", Number::New(env, data->dValue));
         result.Set("textvalue", String::New(env, std::string(data->textvalue)));
-        result.Set("errorcode", Number::New(env, data->erorrcode));
+        result.Set("errorcode", Number::New(env, data->errorcode));
         if(callback != nullptr) {
             callback.Call(context->Value(), { result });
         }
