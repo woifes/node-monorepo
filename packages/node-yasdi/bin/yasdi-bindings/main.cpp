@@ -27,7 +27,7 @@ struct NewValueData {
     DWORD dDeviceHandle;
     double dValue;
     char* textvalue;
-    int erorrcode;
+    int errorcode;
 };
 
 using Context = Reference<Value>;
@@ -81,13 +81,13 @@ void DeviceDetectionToJS(Napi::Env env, Napi::Function callback, Context *contex
     }
 }
 
-void newChannelValueEventListener(DWORD dChannelHandle, DWORD dDeviceHandle, double dValue, char* textvalue, int erorrcode) {
+void newChannelValueEventListener(DWORD dChannelHandle, DWORD dDeviceHandle, double dValue, char* textvalue, int errorcode) {
     NewValueData* data = new NewValueData();
     data->dChannelHandle = dChannelHandle;
     data->dDeviceHandle = dDeviceHandle;
     data->dValue = dValue;
     data->textvalue = textvalue;
-    data->erorrcode = erorrcode;
+    data->errorcode = erorrcode;
     newValueEventTsfn.NonBlockingCall(data);
 }
 
@@ -98,7 +98,7 @@ void NewValueToJS(Napi::Env env, Napi::Function callback, Context *context, NewV
         result.Set("dDeviceHandle", Number::New(env, data->dDeviceHandle));
         result.Set("dValue", Number::New(env, data->dValue));
         result.Set("textvalue", String::New(env, std::string(data->textvalue)));
-        result.Set("erorrcode", Number::New(env, data->erorrcode));
+        result.Set("errorcode", Number::New(env, data->erorrcode));
         if(callback != nullptr) {
             callback.Call(context->Value(), { result });
         }

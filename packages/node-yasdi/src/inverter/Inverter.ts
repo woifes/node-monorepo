@@ -195,7 +195,9 @@ export class Inverter extends EventEmitter {
     }
 
     /**
-     * Fetches new data from the inverter. Stores the result in the current data object
+     * Fetches new data from the inverter. Stores the result in the current data object.
+     * If one value has its result set to -3 (timeout) it is assumed the device is offline because of the sunset.
+     * In this case no value after that is updated, which means every value has to be seen as invalid.
      * @see values property
      * @param maxValueAgeS maximal value age in seconds (yasdi will fetch new ones if the cached values are older than the given time)
      * @returns Promise which resolves with the value object
@@ -221,6 +223,9 @@ export class Inverter extends EventEmitter {
                 } else {
                     comStatus = "comError";
                 }
+                this._debugGetData(
+                    `Result value was ${res.result} for value ${val.chanName} - break`,
+                );
                 break;
             }
         }
