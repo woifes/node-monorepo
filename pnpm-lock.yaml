@@ -292,7 +292,7 @@ importers:
         specifier: workspace:0.2.2
         version: link:../../packages/mqtt-client
       '@woifes/node-yasdi':
-        specifier: workspace:1.0.0
+        specifier: workspace:1.0.1
         version: link:../../packages/node-yasdi
       '@woifes/util':
         specifier: workspace:0.1.1
