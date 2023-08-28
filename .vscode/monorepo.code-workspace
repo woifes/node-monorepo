@@ -13,6 +13,7 @@
         { "path": "../projects/mqtt-influxdb-agent" },
         { "path": "../projects/s7mqtt" },
         { "path": "../projects/yasdi-mqtt" },
+        { "path": "../projects/yasdi-rest" },
         
         { "path": "../", "name": "_root_" },
     ],

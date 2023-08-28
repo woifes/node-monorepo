@@ -26,6 +26,7 @@ This is the monorepo is holding various packages and projects. It is the result 
 * [mqtt-influxdb-agent](/projects/mqtt-influxdb-agent/) - Agent for sending data from MQTT into InfluxDB 2.x
 * [s7mqtt](/projects/s7mqtt/) - MQTT gateway for devices which use the S7 protocol (RFC1006)
 * [yasdi-mqtt](/projects/yasdi-mqtt/) - MQTT version of [node-yasdi](/packages/node-yasdi/)
+* [yasdi-rest](/projects/yasdi-rest/) - Extends [node-yasdi](/packages/node-yasdi/) by REST endpoints
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -50,6 +51,7 @@ The license of the different packages or projects are stated inside the correspo
 * [mqtt-influxdb-agent](/projects/mqtt-influxdb-agent/) - MIT
 * [s7mqtt](/projects/s7mqtt/) - AGPL-3.0-or-later
 * [yasdi-mqtt](/projects/yasdi-mqtt/) - MIT
+* [yasdi-rest](/projects/yasdi-mqtt/) - MIT
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
