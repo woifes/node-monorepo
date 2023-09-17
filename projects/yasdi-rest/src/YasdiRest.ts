@@ -11,13 +11,15 @@ export interface InverterRequest extends Request {
 export class YasdiRest {
     private nodeYasdi: NodeYasdi;
     private express: Express;
+    private startupTime: Date;
+    private deviceSearchFinishedTime?: Date;
 
     constructor(
-        id: string,
-        deviceCount: number,
+        private id: string,
+        private deviceCount: number,
         port: number,
         tmpDir: string,
-        serialDevice: string,
+        private serialDevice: string,
         yasdiDebug = false,
     ) {
         this.nodeYasdi = new NodeYasdi(
@@ -31,22 +33,40 @@ export class YasdiRest {
             yasdiDebug,
         );
 
+        this.startupTime = new Date();
+
         this.express = express();
         this.express.listen(port);
+        this.express.get("/", this.getYasdiRestStatus.bind(this));
         this.express.use(this.yasdiSearchNotFinishedMiddleware.bind(this));
-        this.express.get("/deviceSerials", this.getDeviceSerials.bind(this));
+        this.express.get("/serials", this.getDeviceSerials.bind(this));
 
         this.express.use(
-            "/:serial/values",
+            "/device/:serial",
             this.inverterNotFoundMiddleware.bind(this),
         );
-        this.express.get("/:serial/values", this.getDeviceValues.bind(this));
+        this.express.get(
+            "/device/:serial/values",
+            this.getDeviceValues.bind(this),
+        );
+        this.express.get(
+            "/device/:serial/data",
+            this.getDeviceMetadata.bind(this),
+        );
+    }
 
-        this.express.use(
-            "/:serial/data",
-            this.inverterNotFoundMiddleware.bind(this),
-        );
-        this.express.get("/:serial/data", this.getDeviceMetadata.bind(this));
+    private getYasdiRestStatus(req: Request, res: Response) {
+        const statusInfo = {
+            id: this.id,
+            deviceCount: this.deviceCount,
+            deviceFound: this.nodeYasdi.serials.length,
+            deviceSerials: this.nodeYasdi.serials,
+            serialDevice: this.serialDevice,
+            startupTime: this.startupTime,
+            deviceSearchFinishedTime: this.deviceSearchFinishedTime,
+        };
+
+        res.status(200).json(statusInfo);
     }
 
     private yasdiSearchNotFinishedMiddleware(

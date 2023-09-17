@@ -22,15 +22,15 @@ beforeEach(() => {
 });
 
 it("should send error if device search is not finished", async () => {
-    await REQUEST.get("/deviceSerials").expect(503);
-    await REQUEST.get("/123/values").expect(503);
-    await REQUEST.get("/123/data").expect(503);
+    await REQUEST.get("/serials").expect(503);
+    await REQUEST.get("/device/123/values").expect(503);
+    await REQUEST.get("/device/123/data").expect(503);
 });
 
 it("should send serial of found inverter", async () => {
     NODE_YASDI.serials = [123, 456];
     NODE_YASDI.deviceSearchFinished = true;
-    const response = await REQUEST.get("/deviceSerials").expect(200);
+    const response = await REQUEST.get("/serials").expect(200);
     expect(response.body).toEqual([123, 456]);
 });
 
@@ -41,7 +41,7 @@ describe("inverter get values tests", () => {
     });
 
     it("should send inverter values", async () => {
-        const response = await REQUEST.get("/123/values").expect(200);
+        const response = await REQUEST.get("/device/123/values").expect(200);
         expect(response.body).toEqual({
             val01: {
                 statusText: "statusText01",
@@ -65,7 +65,7 @@ describe("inverter get values tests", () => {
     });
 
     it("should send 404 when inverter not found", async () => {
-        await REQUEST.get("/9999/values").expect(404);
+        await REQUEST.get("/device/9999/values").expect(404);
     });
 });
 
@@ -76,7 +76,7 @@ describe("inverter meta data tests", () => {
     });
 
     it("should send meta data", async () => {
-        const response = await REQUEST.get("/123/data").expect(200);
+        const response = await REQUEST.get("/device/123/data").expect(200);
         expect(response.body).toEqual({
             name: "inv01",
             serial: 123,

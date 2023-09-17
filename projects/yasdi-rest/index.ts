@@ -12,7 +12,9 @@ const PORT = parseInt(process.env.YASDI_REST_PORT ?? "80");
 
 const SERIAL_DEVICE = process.env.YASDI_REST_SERIAL_DEVICE ?? "/dev/ttyUSB0";
 
-const TMP_DIR = process.env.YASDI_INI_TMP_DIR ?? tmpdir();
+const TMP_DIR = process.env.YASDI_REST_INI_TMP_DIR ?? tmpdir();
+
+const DEBUG = (process.env.YASDI_REST_DEBUG ?? "").toUpperCase();
 
 if (ID === undefined) {
     throw new Error("YASDI_REST_ID not defined");
@@ -27,4 +29,5 @@ const YASDI_REST = new YasdiRest(
     PORT,
     TMP_DIR,
     SERIAL_DEVICE,
+    DEBUG === "TRUE",
 );
