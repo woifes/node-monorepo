@@ -14,7 +14,7 @@
     "format": "rome format --write .",
     "lint": "rome check --apply-unsafe .",
     "prepare": "pnpm compile",
-    "docker:build": "ver && docker build -t yasdi-rest:%npm_package_version% . || docker build -t yasdi-rest:$npm_package_version .",
+    "docker:build": "cd ../../ && ver && docker build -t yasdi-rest:%npm_package_version% -f projects/yasdi-rest/Dockerfile . || docker build -t yasdi-rest:$npm_package_version -f projects/yasdi-rest/Dockerfile .",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "author": "woifes",
