@@ -43,16 +43,16 @@ function testDt(
         expect(PROOF_BUFFER(dt.toBuffer(MAX, false), X_MAX_BE)).toBe(true);
         expect(PROOF_BUFFER(dt.toBuffer(MIN, false), X_MIN_BE)).toBe(true);
         expect(() => {
-            dt.toBuffer(MAX + 1), X_MAX;
+            dt.toBuffer(MAX + 1);
         }).toThrow();
         expect(() => {
-            dt.toBuffer(<any>MIN - 1), X_MIN;
+            dt.toBuffer(<any>MIN - 1);
         }).toThrow();
         expect(() => {
-            dt.toBuffer(MAX + 1, false), X_MAX_BE;
+            dt.toBuffer(MAX + 1, false);
         }).toThrow();
         expect(() => {
-            dt.toBuffer(<any>MIN - 1, false), X_MIN_BE;
+            dt.toBuffer(<any>MIN - 1, false);
         }).toThrow();
         //float
         expect(PROOF_BUFFER(dt.toBuffer(MAX + 0.3), X_MAX)).toBe(true);
@@ -64,16 +64,16 @@ function testDt(
             true,
         );
         expect(() => {
-            dt.toBuffer(MAX + 1.3), X_MAX;
+            dt.toBuffer(MAX + 1.3);
         }).toThrow();
         expect(() => {
-            dt.toBuffer(<any>MIN - 1.3), X_MIN;
+            dt.toBuffer(<any>MIN - 1.3);
         }).toThrow();
         expect(() => {
-            dt.toBuffer(MAX + 1.3, false), X_MAX_BE;
+            dt.toBuffer(MAX + 1.3, false);
         }).toThrow();
         expect(() => {
-            dt.toBuffer(<any>MIN - 1.3, false), X_MIN_BE;
+            dt.toBuffer(<any>MIN - 1.3, false);
         }).toThrow();
     }
     //bigint
@@ -82,16 +82,16 @@ function testDt(
     expect(PROOF_BUFFER(dt.toBuffer(BI_MAX, false), X_MAX_BE)).toBe(true);
     expect(PROOF_BUFFER(dt.toBuffer(BI_MIN, false), X_MIN_BE)).toBe(true);
     expect(() => {
-        dt.toBuffer(BI_MAX + 1n), X_MAX;
+        dt.toBuffer(BI_MAX + 1n);
     }).toThrow();
     expect(() => {
-        dt.toBuffer(BI_MIN - 1n), X_MIN;
+        dt.toBuffer(BI_MIN - 1n);
     }).toThrow();
     expect(() => {
-        dt.toBuffer(BI_MAX + 1n, false), X_MAX_BE;
+        dt.toBuffer(BI_MAX + 1n, false);
     }).toThrow();
     expect(() => {
-        dt.toBuffer(BI_MIN - 1n, false), X_MIN_BE;
+        dt.toBuffer(BI_MIN - 1n, false);
     }).toThrow();
     //string integer
     expect(PROOF_BUFFER(dt.toBuffer(S_MAX), X_MAX)).toBe(true);
@@ -99,16 +99,16 @@ function testDt(
     expect(PROOF_BUFFER(dt.toBuffer(S_MAX, false), X_MAX_BE)).toBe(true);
     expect(PROOF_BUFFER(dt.toBuffer(S_MIN, false), X_MIN_BE)).toBe(true);
     expect(() => {
-        dt.toBuffer(`${BI_MAX + 1n}`), X_MAX;
+        dt.toBuffer(`${BI_MAX + 1n}`);
     }).toThrow();
     expect(() => {
-        dt.toBuffer(`${BI_MIN - 1n}`), X_MIN;
+        dt.toBuffer(`${BI_MIN - 1n}`);
     }).toThrow();
     expect(() => {
-        dt.toBuffer(`${BI_MAX + 1n}`, false), X_MAX_BE;
+        dt.toBuffer(`${BI_MAX + 1n}`, false);
     }).toThrow();
     expect(() => {
-        dt.toBuffer(`${BI_MIN - 1n}`, false), X_MIN_BE;
+        dt.toBuffer(`${BI_MIN - 1n}`, false);
     }).toThrow();
     //string float
     expect(PROOF_BUFFER(dt.toBuffer(`${S_MAX}.3`), X_MAX)).toBe(true);
@@ -116,16 +116,16 @@ function testDt(
     expect(PROOF_BUFFER(dt.toBuffer(`${S_MAX}.3`, false), X_MAX_BE)).toBe(true);
     expect(PROOF_BUFFER(dt.toBuffer(`${S_MIN}.3`, false), X_MIN_BE)).toBe(true);
     expect(() => {
-        dt.toBuffer(`${BI_MAX + 1n}.3`), X_MAX;
+        dt.toBuffer(`${BI_MAX + 1n}.3`);
     }).toThrow();
     expect(() => {
-        dt.toBuffer(`${BI_MIN - 1n}.3`), X_MIN;
+        dt.toBuffer(`${BI_MIN - 1n}.3`);
     }).toThrow();
     expect(() => {
-        dt.toBuffer(`${BI_MAX + 1n}.3`, false), X_MAX_BE;
+        dt.toBuffer(`${BI_MAX + 1n}.3`, false);
     }).toThrow();
     expect(() => {
-        dt.toBuffer(`${BI_MIN - 1n}.3`, false), X_MIN_BE;
+        dt.toBuffer(`${BI_MIN - 1n}.3`, false);
     }).toThrow();
 
     if (typeof MAX === "number" && typeof MIN === "number") {

@@ -3,10 +3,10 @@
 
 import { tJsVal } from "@woifes/binarytypes";
 import * as rt from "runtypes";
+import { Message } from "../../../src/Message";
 import { VALUE_LIST_KEY } from "../../../src/decorator/constants";
 import { MqttValue } from "../../../src/decorator/in/MqttValue";
 import { tMqttValueConfig } from "../../../src/decorator/types/MqttValueConfig";
-import { Message } from "../../../src/Message";
 /*
 {
     topic: string,
@@ -27,8 +27,6 @@ describe("property decorator test", () => {
                 type: "UINT8",
             })
             public theProperty = 0;
-
-            constructor() {}
         }
         const t = new TestClass();
         const list = (t as any)[VALUE_LIST_KEY] as Map<
@@ -56,8 +54,6 @@ describe("property decorator test", () => {
 
             @MqttValue(TestClass.getConfig)
             public theProperty = 0;
-
-            constructor() {}
         }
         const t = new TestClass();
         const list = (t as any)[VALUE_LIST_KEY] as Map<
@@ -78,8 +74,6 @@ describe("setter decorator test", () => {
     it("should add setter to value list list", () => {
         class TestClass {
             public test: jest.Mock = jest.fn();
-
-            constructor() {}
 
             @MqttValue({
                 topic: "A/B/C",
@@ -121,8 +115,6 @@ describe("setter decorator test", () => {
             public test: jest.Mock = jest.fn();
             private _topic = "A/B/C";
 
-            constructor() {}
-
             @MqttValue(TestClass.getConfig)
             set aMsg(val: tJsVal) {
                 this.test(val);
@@ -148,8 +140,6 @@ describe("method decorator test", () => {
     it("should add method to value list list", () => {
         class TestClass {
             public test: jest.Mock = jest.fn();
-
-            constructor() {}
 
             @MqttValue({
                 topic: "A/B/C",
@@ -178,8 +168,6 @@ describe("method decorator test", () => {
     it("should add method to value list dynamic config", () => {
         class TestClass {
             public test: jest.Mock = jest.fn();
-
-            constructor() {}
 
             @MqttValue({
                 topic: "A/B/C",

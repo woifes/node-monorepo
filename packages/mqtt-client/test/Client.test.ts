@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { connect } from "mqtt";
+import { MqttClientMock } from "../__mocks__/mqtt";
 import { Client } from "../src/Client";
 import { Message } from "../src/Message";
 import { TopicMap } from "../src/utils/TopicMap";
-import { MqttClientMock } from "../__mocks__/mqtt";
 const CONNECT = connect as jest.Mock;
 
 beforeEach(() => {
@@ -241,6 +241,7 @@ describe("publish message tests", () => {
                 t: string,
                 p: string,
                 pO: { qos: number; retain: boolean },
+                //biome-ignore lint/complexity/noBannedTypes: needed
                 cb: Function,
             ) => cb(new Error("MQTT error")),
         );

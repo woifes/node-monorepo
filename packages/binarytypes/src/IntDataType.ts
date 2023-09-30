@@ -2,19 +2,19 @@
 // SPDX-License-Identifier: MIT
 
 import { Runtype } from "runtypes";
-import { normalizeBigInt } from "./checkInteger";
 import { DataType } from "./DataType";
+import { tJsVal, tVal } from "./TypeList";
+import { normalizeBigInt } from "./checkInteger";
 import {
+    rtINT8,
     rtINT16,
     rtINT32,
     rtINT64,
-    rtINT8,
+    rtUINT8,
     rtUINT16,
     rtUINT32,
     rtUINT64,
-    rtUINT8,
 } from "./datatypeRuntypes";
-import { tJsVal, tVal } from "./TypeList";
 
 export class IntDataType implements DataType {
     private _rt: Runtype;

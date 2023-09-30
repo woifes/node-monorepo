@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 
 import { once } from "events";
-import { emptyDirSync, mkdirSync, readFileSync, rmdirSync } from "fs-extra";
 import { join } from "path";
+import { emptyDirSync, mkdirSync, readFileSync, rmdirSync } from "fs-extra";
 import { S7LocalEndpoint, tS7LocalEndpointConfig } from "../../src/local";
 import { S7RemoteEndpoint } from "../../src/remote";
 

@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import {
-    parseS7AddressString,
     S7AddressString,
     S7Variable,
+    parseS7AddressString,
 } from "@woifes/s7endpoint";
 import * as rt from "runtypes";
 

@@ -1,13 +1,11 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { UNSUBSCRIBE_HOOK_NAME } from "../../src/decorator/constants";
 import { MqttUnsubHook } from "../../src/decorator/MqttUnsubHook";
+import { UNSUBSCRIBE_HOOK_NAME } from "../../src/decorator/constants";
 
 it("should add method name to property", () => {
     class testClass1 {
-        constructor() {}
-
         @MqttUnsubHook()
         destroy() {}
     }
@@ -20,7 +18,6 @@ it("should add method name to property", () => {
 it("should throw when decorating a setter/getter", () => {
     expect(() => {
         class testClass1 {
-            constructor() {}
             @MqttUnsubHook()
             get destory(): number {
                 return 1;
@@ -30,7 +27,6 @@ it("should throw when decorating a setter/getter", () => {
 
     expect(() => {
         class testClass1 {
-            constructor() {}
             @MqttUnsubHook()
             set destory(d: number) {}
         }

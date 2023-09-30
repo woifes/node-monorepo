@@ -1,10 +1,10 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { Message } from "../../../src/Message";
 import { CMD_HANDLER_LIST_KEY } from "../../../src/decorator/constants";
 import { MqttCmdHandler } from "../../../src/decorator/in/MqttCmdHandler";
 import { tMqttCmdHandlerConfig } from "../../../src/decorator/types/MqttCmdHandlerConfig";
-import { Message } from "../../../src/Message";
 /*
 {
     topic: string,
@@ -18,8 +18,6 @@ describe("method decorator test", () => {
     it("should add method to the handler list", () => {
         class TestClass {
             public test: jest.Mock = jest.fn();
-
-            constructor() {}
 
             @MqttCmdHandler({
                 topic: "cmd/you/me/doit",
@@ -60,8 +58,6 @@ describe("method decorator test", () => {
             }
             public test: jest.Mock = jest.fn();
 
-            constructor() {}
-
             @MqttCmdHandler(TestClass.getConfig)
             aMethod(msg: Message, res: Message) {
                 this.test(msg, res);
@@ -97,8 +93,6 @@ it("should throw if set on setter", () => {
                 };
             }
             public test: jest.Mock = jest.fn();
-
-            constructor() {}
 
             @MqttCmdHandler(TestClass.getConfig)
             set cmd(msg: Message) {

@@ -3,18 +3,18 @@
 
 import { Runtype } from "runtypes";
 import { DataType } from "./DataType";
+import { IntDataType } from "./IntDataType";
+import { tJsVal, tVal } from "./TypeList";
 import {
+    rtARRAY_OF_INT8,
     rtARRAY_OF_INT16,
     rtARRAY_OF_INT32,
     rtARRAY_OF_INT64,
-    rtARRAY_OF_INT8,
+    rtARRAY_OF_UINT8,
     rtARRAY_OF_UINT16,
     rtARRAY_OF_UINT32,
     rtARRAY_OF_UINT64,
-    rtARRAY_OF_UINT8,
 } from "./datatypeRuntypes";
-import { IntDataType } from "./IntDataType";
-import { tJsVal, tVal } from "./TypeList";
 
 export class IntArrDataType extends IntDataType implements DataType {
     private _rtArray: Runtype;
@@ -115,16 +115,17 @@ export class IntArrDataType extends IntDataType implements DataType {
      * @param val
      */
     private _toJsArrVal(val: tVal, littleEndian = true): number[] | bigint[] {
-        if (Buffer.isBuffer(val)) {
-            return this.readArrayFromBuffer(val, littleEndian);
+        let value = val;
+        if (Buffer.isBuffer(value)) {
+            return this.readArrayFromBuffer(value, littleEndian);
         } else {
             //Array
-            if (typeof val === "string") {
-                val = JSON.parse(val);
+            if (typeof value === "string") {
+                value = JSON.parse(value);
             }
             const res: number[] | bigint[] = [];
-            for (let i = 0; i < (val as any[]).length; i++) {
-                res[i] = super._toJsVal((val as any[])[i], littleEndian);
+            for (let i = 0; i < (value as any[]).length; i++) {
+                res[i] = super._toJsVal((value as any[])[i], littleEndian);
             }
             return res;
         }

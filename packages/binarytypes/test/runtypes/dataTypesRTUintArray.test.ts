@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: MIT
 
 import {
+    rtARRAY_OF_UINT8,
     rtARRAY_OF_UINT16,
     rtARRAY_OF_UINT32,
     rtARRAY_OF_UINT64,
-    rtARRAY_OF_UINT8,
 } from "../../src/datatypeRuntypes";
 
 test("Validation ARRAY_OF_UINT8", () => {

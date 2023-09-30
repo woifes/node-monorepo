@@ -3,9 +3,9 @@
 
 import { Runtype } from "runtypes";
 import { DataType } from "./DataType";
-import { rtARRAY_OF_DOUBLE, rtARRAY_OF_FLOAT } from "./datatypeRuntypes";
 import { FloatDataType } from "./FloatDataType";
 import { tJsVal, tVal } from "./TypeList";
+import { rtARRAY_OF_DOUBLE, rtARRAY_OF_FLOAT } from "./datatypeRuntypes";
 
 export class FloatArrDataType extends FloatDataType implements DataType {
     protected _rtArr: Runtype;

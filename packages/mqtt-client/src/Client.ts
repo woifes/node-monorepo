@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { TypeName } from "@woifes/binarytypes";
-import { debug, Debugger } from "debug";
+import { Debugger, debug } from "debug";
 import { Client as MqttClient, connect as MqttConnect } from "mqtt";
 import { IPublishPacket as MqttPubPacket, QoS } from "mqtt-packet";
 import { Observable } from "rxjs";

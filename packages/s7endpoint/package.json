@@ -12,8 +12,8 @@
     "jest": "jest --runInBand",
     "test": "jest test/const && jest --forceExit test/local && jest test/parseDbSourceFile && jest test/remote && jest --runInBand --forceExit test/request && jest test/types && jest test/util",
     "compile": "tsc -p tsconfig.build.json",
-    "format": "rome format --write .",
-    "lint": "rome check --apply-unsafe .",
+    "format": "biome format --write .",
+    "lint": "biome check --apply-unsafe .",
     "prepare": "pnpm compile",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },

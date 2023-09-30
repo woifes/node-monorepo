@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: © 2023 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { Item } from "../src/item/Item";
 import { MqttInfluxDbAgent } from "../src/MqttInfluxDbAgent";
+import { Item } from "../src/item/Item";
 import { tAgentConfig } from "../src/types/AgentConfig";
 jest.mock("../src/item/Item");
 

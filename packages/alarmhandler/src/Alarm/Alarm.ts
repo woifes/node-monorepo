@@ -215,20 +215,21 @@ export class Alarm extends EventEmitter {
     }
 
     private fromJSON(obj: any) {
+        let o = obj;
         try {
-            obj = AlarmJsonObject.check(obj);
+            o = AlarmJsonObject.check(o);
             const isOccurred =
-                obj.occurred !== undefined &&
-                Number.isFinite(Date.parse(obj.occurred));
+                o.occurred !== undefined &&
+                Number.isFinite(Date.parse(o.occurred));
             const isAck =
-                obj.ackTime !== undefined &&
-                Number.isFinite(Date.parse(obj.ackTime));
+                o.ackTime !== undefined &&
+                Number.isFinite(Date.parse(o.ackTime));
             if (isOccurred) {
-                this._occurred = new Date(obj.occurred!);
+                this._occurred = new Date(o.occurred!);
                 this._bitMask |= TRIGGERED_BIT_POS;
 
                 if (isAck) {
-                    this._ackTime = new Date(obj.ackTime!);
+                    this._ackTime = new Date(o.ackTime!);
                     this._bitMask |= ACKNOWLEDGED_BIT_POS;
                     this._bitMask |= SIGNAL_BIT_POS;
                 }

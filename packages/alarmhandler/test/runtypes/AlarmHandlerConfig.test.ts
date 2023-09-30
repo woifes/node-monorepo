@@ -1,9 +1,9 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
+import { join } from "path";
 import { readFileSync } from "fs-extra";
 import { parse } from "json5";
-import { join } from "path";
 import { AlarmHandlerConfig } from "../../src/runtypes/AlarmHandlerConfig";
 const CONFIG_EXAMPLE = parse(
     readFileSync(join(__dirname, "..", "..", "config.example.jsonc"), "utf-8"),

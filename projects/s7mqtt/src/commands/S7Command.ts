@@ -1,7 +1,8 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { tJsVal, TypeName } from "@woifes/binarytypes";
+import { EventEmitter, once } from "events";
+import { TypeName, tJsVal } from "@woifes/binarytypes";
 import { Client, Message } from "@woifes/mqtt-client";
 import {
     MqttClient,
@@ -10,14 +11,13 @@ import {
     tMqttCmdHandlerConfig,
 } from "@woifes/mqtt-client/decorator";
 import {
-    parseS7AddressString,
     S7Endpoint,
+    WriteRequest,
+    parseS7AddressString,
     tS7Address,
     tS7Variable,
-    WriteRequest,
 } from "@woifes/s7endpoint";
 import { Debugger } from "debug";
-import { EventEmitter, once } from "events";
 import { S7Event } from "../events/S7Event";
 import { S7CommandConfig, tS7CommandConfig } from "./S7CommandConfig";
 
@@ -69,7 +69,6 @@ export class S7Command extends EventEmitter {
     private _requiredParamCount: number;
     private _responseTimeoutMS = 3000;
 
-    // rome-ignore lint/correctness/noUnreachableSuper: False positives?
     constructor(
         config: tS7CommandConfig,
         s7endpoint: S7Endpoint,

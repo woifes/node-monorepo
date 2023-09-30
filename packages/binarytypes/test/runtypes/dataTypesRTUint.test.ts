@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: MIT
 
 import {
+    rtUINT8,
     rtUINT16,
     rtUINT32,
     rtUINT64,
-    rtUINT8,
 } from "../../src/datatypeRuntypes";
 
 test("Validation UINT8", () => {

@@ -3,10 +3,10 @@
 
 import {
     DataTypes,
+    TypeName,
     rtString,
     tJsVal,
     tVal,
-    TypeName,
 } from "@woifes/binarytypes";
 import { parse as JSON5parse } from "json5";
 import { QoS } from "mqtt-packet";

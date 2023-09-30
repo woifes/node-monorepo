@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
+import { join } from "path";
 import { PersistentRuntype } from "@woifes/util";
 import {
     emptyDirSync,
@@ -9,7 +10,6 @@ import {
     rmdirSync,
     writeFileSync,
 } from "fs-extra";
-import { join } from "path";
 import { AlarmHandler } from "../src/AlarmHandler";
 import { AlarmDefsInfo, tAlarmDefsInfo } from "../src/runtypes/AlarmDefsInfo";
 import { tAlarmHandlerConfig } from "../src/runtypes/AlarmHandlerConfig";

@@ -3,8 +3,8 @@
 
 import { Runtype } from "runtypes";
 import { DataType } from "./DataType";
-import { rtDOUBLE, rtFLOAT } from "./datatypeRuntypes";
 import { tJsVal, tVal } from "./TypeList";
+import { rtDOUBLE, rtFLOAT } from "./datatypeRuntypes";
 
 export class FloatDataType implements DataType {
     protected _rt: Runtype;

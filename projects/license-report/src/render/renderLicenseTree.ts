@@ -11,7 +11,7 @@ export function renderLicenseTree(
 
     function print(line: string) {
         console.log(line);
-        content += line + "\n";
+        content += `${line}\n`;
     }
 
     print("Dependency License Tree:");

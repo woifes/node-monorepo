@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { Observable, Subject } from "rxjs";
-import { MsgOperatorFactory } from "../../../src/decorator/util/MsgOperatorFactory";
 import { Message } from "../../../src/Message";
+import { MsgOperatorFactory } from "../../../src/decorator/util/MsgOperatorFactory";
 
 async function promiseTimeout(ms: number) {
     return new Promise((resolve, reject) => {

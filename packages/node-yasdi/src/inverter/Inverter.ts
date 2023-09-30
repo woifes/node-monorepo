@@ -1,17 +1,17 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { debug, Debugger } from "debug";
 import { EventEmitter } from "events";
+import { Debugger, debug } from "debug";
+import { NodeYasdi } from "../NodeYasdi";
 import {
-    getChannelsOfDevice,
-    getChannelValue,
     GetChannelValueResult,
+    getChannelValue,
+    getChannelsOfDevice,
     getNameOfDevice,
     getSerialOfDevice,
     getTypeOfDevice,
 } from "../bindings/yasdiBindings";
-import { NodeYasdi } from "../NodeYasdi";
 import {
     inverterChannels,
     inverterComStatus,

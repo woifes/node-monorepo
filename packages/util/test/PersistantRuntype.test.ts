@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: MIT
 
 import { readFileSync, writeFileSync } from "fs";
-import stringify from "json-stringify-pretty-compact";
 import { join } from "path";
+import stringify from "json-stringify-pretty-compact";
 import * as rt from "runtypes";
-import { deepObjectMerge } from "../src/deepObjectMerge";
 import { PersistentRuntype } from "../src/PersistentRuntype";
+import { deepObjectMerge } from "../src/deepObjectMerge";
 jest.mock("fs");
 const readFileSyncMock = readFileSync as jest.Mock;
 const writeFileSyncMock = writeFileSync as jest.Mock;
@@ -149,6 +149,7 @@ describe("creation tests", () => {
             throw new Error("file does not exist");
         });
         const pr = new PersistentRuntype(filePath, testRuntype, defaultValue);
+        //biome-ignore lint/suspicious/noSelfCompare: it is not itself at this point
         expect(pr.getValue() === pr.getValue()).toBe(false);
     });
 });

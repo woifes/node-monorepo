@@ -1,9 +1,9 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { EventEmitter } from "events";
 import { ReadRequest, S7RemoteEndpoint, tS7Variable } from "@woifes/s7endpoint";
 import debug from "debug";
-import { EventEmitter } from "events";
 import { S7Event } from "../../src/events/S7Event";
 import { S7Output } from "../../src/outputs/S7Output";
 jest.mock("../../src/outputs/S7Output");

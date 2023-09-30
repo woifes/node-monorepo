@@ -18,7 +18,6 @@ export class TestAlarmSource {
 
     static setBitInBuffer(buf: Buffer, bitPos: number, value: boolean) {
         const bytePos = Math.floor(bitPos / 8);
-        // rome-ignore lint/style/noParameterAssign: It is ok
         bitPos = bitPos % 8;
         let byte = buf[bytePos];
         if (value) {
@@ -31,7 +30,6 @@ export class TestAlarmSource {
 
     static getBitInBuffer(buf: Buffer, bitPos: number): boolean {
         const bytePos = Math.floor(bitPos / 8);
-        // rome-ignore lint/style/noParameterAssign: It is ok
         bitPos = bitPos % 8;
         const byte = buf[bytePos];
         return (byte & (1 << bitPos)) > 0;

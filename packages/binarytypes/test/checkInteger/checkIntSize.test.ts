@@ -196,7 +196,7 @@ test("checkIntBounds unsigned 8 bytes", () => {
     expect(checkIntSize(Number.MAX_SAFE_INTEGER + 1, false, 8)).toBe(false);
     expect(checkIntSize(Number.MAX_SAFE_INTEGER + 1.3, false, 8)).toBe(false);
     expect(checkIntSize(18446744073709551616, false, 8)).toBe(false);
-    // rome-ignore lint/correctness/noPrecisionLoss: For tests used in this file
+    // biome-ignore lint/correctness/noPrecisionLoss: For tests used in this file
     expect(checkIntSize(18446744073709551616.3, false, 8)).toBe(false);
     expect(checkIntSize(18446744073709551616n, false, 8)).toBe(false);
     expect(checkIntSize("18446744073709551616", false, 8)).toBe(false);

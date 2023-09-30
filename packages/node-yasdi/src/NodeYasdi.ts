@@ -1,9 +1,9 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { debug, Debugger } from "debug";
 import { EventEmitter } from "events";
 import { tmpdir } from "os";
+import { Debugger, debug } from "debug";
 import {
     DeviceDetectionEvent,
     searchDevicesAsync,

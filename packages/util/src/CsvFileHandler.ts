@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: MIT
 
 import { EventEmitter } from "events";
+import { join } from "path";
+import { createInterface } from "readline";
 import {
     appendFileSync,
     createReadStream,
@@ -11,8 +13,6 @@ import {
     statSync,
     unlinkSync,
 } from "fs-extra";
-import { join } from "path";
-import { createInterface } from "readline";
 
 /**
  * @property maxFileSizeMB the maximal file size
@@ -52,14 +52,14 @@ export class CsvFileHandler {
         } else {
             now = new Date();
         }
-        const year = (`0000${now.getFullYear()}`).slice(-4);
-        const month = (`00${(now.getMonth() + 1)}`).slice(-2);
-        const day = (`00${now.getDate()}`).slice(-2);
+        const year = `0000${now.getFullYear()}`.slice(-4);
+        const month = `00${now.getMonth() + 1}`.slice(-2);
+        const day = `00${now.getDate()}`.slice(-2);
 
-        const hours = (`00${now.getHours()}`).slice(-2);
-        const minutes = (`00${now.getMinutes()}`).slice(-2);
-        const seconds = (`00${now.getSeconds()}`).slice(-2);
-        const milliseconds = (`000${now.getMilliseconds()}`).slice(-3);
+        const hours = `00${now.getHours()}`.slice(-2);
+        const minutes = `00${now.getMinutes()}`.slice(-2);
+        const seconds = `00${now.getSeconds()}`.slice(-2);
+        const milliseconds = `000${now.getMilliseconds()}`.slice(-3);
 
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${milliseconds}`;
     }
@@ -122,7 +122,7 @@ export class CsvFileHandler {
         if (!(existsSync(this.genFullFilePath()) as boolean)) {
             let content = "";
             if (this._header !== undefined) {
-                content = this.getHeader()! + "\n";
+                content = `${this.getHeader()!}\n`;
             }
             appendFileSync(this.genFullFilePath(), content);
             return statSync(this.genFullFilePath()).size; //file will be created at first append and size will be set
@@ -135,8 +135,9 @@ export class CsvFileHandler {
         let headerStr: string | undefined;
         if (this._header !== undefined) {
             if (this._addTimeStamp) {
-                headerStr =
-                    `created${this._csvSeparator}${this._header!.join(this._csvSeparator)}`;
+                headerStr = `created${this._csvSeparator}${this._header!.join(
+                    this._csvSeparator,
+                )}`;
             } else {
                 headerStr = this._header!.join(this._csvSeparator);
             }
@@ -153,7 +154,7 @@ export class CsvFileHandler {
                 );
                 this._actFileSize = this.setupFile();
             }
-            line = line + "\n";
+            line = `${line}\n`;
             appendFileSync(this.genFullFilePath(), line);
             this._actFileSize += line.length;
             return true;

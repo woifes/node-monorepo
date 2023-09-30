@@ -1,16 +1,14 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { CONNECTION_HANDLER_LIST_KEY } from "../../src/decorator/constants";
 import { MqttConnectionHandler } from "../../src/decorator/MqttConnectionHandler";
+import { CONNECTION_HANDLER_LIST_KEY } from "../../src/decorator/constants";
 
 describe("setter decorating test", () => {
     it("should throw when set on a setter", () => {
         expect(() => {
             class testClass {
                 public test: jest.Mock = jest.fn();
-
-                constructor() {}
 
                 @MqttConnectionHandler()
                 set aConnectSetter(a: number) {
@@ -26,8 +24,6 @@ describe("setter decorating test", () => {
 describe("method decorating test", () => {
     class testClass {
         public test: jest.Mock = jest.fn();
-
-        constructor() {}
 
         @MqttConnectionHandler()
         aMethod() {

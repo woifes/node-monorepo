@@ -1,19 +1,19 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { debug, Debugger } from "debug";
 import { EventEmitter } from "events";
+import { Debugger, debug } from "debug";
 import {
     MultiVarRead,
+    MultiVarWrite,
     MultiVarsReadResult,
     MultiVarsWriteResult,
-    MultiVarWrite,
     S7Client,
 } from "node-snap7";
 import * as rt from "runtypes";
+import { S7Endpoint } from "../S7Endpoint";
 import { tS7DataAreas } from "../const";
 import { ReadRequest, WriteRequest } from "../request";
-import { S7Endpoint } from "../S7Endpoint";
 import { tS7Variable } from "../types/S7Variable";
 
 export const S7RemoteEndpointConfig = rt.Record({
@@ -111,7 +111,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
      */
     connect() {
         this._client.Connect((err: any) => {
-            // rome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
+            // biome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
             if (err != undefined) {
                 this._debug(
                     `Error at client.Connect: ${this._client.ErrorText(err)}`,
@@ -210,7 +210,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                     length,
                     0x02, //S7WLByte
                     (err: any, data: Buffer) => {
-                        // rome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
+                        // biome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
                         if (err != undefined) {
                             this._debugRead(
                                 `Error at readBytes: ${this._client.ErrorText(
@@ -252,7 +252,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                 this._client.ReadMultiVars(
                     tags,
                     (err: any, data: MultiVarsReadResult[]) => {
-                        // rome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
+                        // biome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
                         if (err != undefined) {
                             this._debugRead(
                                 `Error at readMultiVars: ${this._client.ErrorText(
@@ -298,7 +298,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                     0x02, //S7WLByte
                     buf,
                     (err) => {
-                        // rome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
+                        // biome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
                         if (err != undefined) {
                             this._debugWrite(
                                 `Error at writeBytes: ${this._client.ErrorText(
@@ -330,7 +330,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                 this._client.WriteMultiVars(
                     tags,
                     (err: any, data: MultiVarsWriteResult[]) => {
-                        // rome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
+                        // biome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
                         if (err != undefined) {
                             this._debugWrite(
                                 `Error at writeMultiVars: ${this._client.ErrorText(

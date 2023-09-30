@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { rtINT16, rtINT32, rtINT64, rtINT8 } from "../../src/datatypeRuntypes";
+import { rtINT8, rtINT16, rtINT32, rtINT64 } from "../../src/datatypeRuntypes";
 
 test("Validation INT8", () => {
     expect(() => {

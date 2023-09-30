@@ -1,8 +1,8 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { Debugger } from "debug";
 import { Readable } from "stream";
+import { Debugger } from "debug";
 
 type Packet = { messageId: number; topic?: string };
 

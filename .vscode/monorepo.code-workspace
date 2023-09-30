@@ -15,27 +15,25 @@
         { "path": "../projects/yasdi-mqtt" },
         { "path": "../projects/yasdi-rest" },
         
-        { "path": "../", "name": "_root_" },
+        { "path": "../", "name": "_root_" }
     ],
     "settings": {
         "[typescript]": {
             "editor.codeActionsOnSave": {
-                "source.organizeImports": true
-                //"source.organizeImports.rome": true,
+                "source.organizeImports": true,
+                "source.organizeImports.biome": true
             },
-            "editor.defaultFormatter": "rome.rome",
+            "editor.defaultFormatter": "biomejs.biome",
             "editor.formatOnSave": true
         },
         "[javascript]": {
             "editor.codeActionsOnSave": {
-                "source.organizeImports": true
-                //"source.organizeImports.rome": true
+                "source.organizeImports": true,
+                "source.organizeImports.biome": true
             },
-            "editor.defaultFormatter": "rome.rome",
+            "editor.defaultFormatter": "biomejs.biome",
             "editor.formatOnSave": true
         },
-
-        "rome.requireConfiguration": true,
 
         "cSpell.allowCompoundWords": true,
         "cSpell.ignoreWords": [
@@ -45,14 +43,14 @@
             "alarmhandlermqtt",
             "binarytypes",
             "yasdi"
-        ],
+        ]
     },
     "extensions": {
         "recommendations": [
             "gruntfuggly.todo-tree",
             "pkief.material-icon-theme",
-            "rome.rome",
+            "biomejs.biome",
             "streetsidesoftware.code-spell-checker"
         ]
-    },
+    }
 }

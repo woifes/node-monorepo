@@ -3,13 +3,13 @@
 
 import { Client } from "@woifes/mqtt-client";
 import {
-    dbSourceToS7Variables,
-    parseS7AddressString,
     S7AddressString,
     S7Endpoint,
     S7LocalEndpoint,
     S7RemoteEndpoint,
     S7RemoteEndpointConfig,
+    dbSourceToS7Variables,
+    parseS7AddressString,
     tDbDefinition,
     tS7LocalEndpointConfig,
     tS7Variable,

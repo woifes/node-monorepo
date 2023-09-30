@@ -8,10 +8,6 @@ import { getS7AddrSize } from "../../util/getS7AddrSize";
 import { AreaRequest } from "./AreaRequest";
 
 export class AreaReadRequest extends AreaRequest {
-    constructor(variables: tS7Variable[], endpoint: S7Endpoint) {
-        super(variables, endpoint);
-    }
-
     async execute(): Promise<tS7Variable[]> {
         const result: tS7Variable[] = [];
         if (this._variables.length === 0) {

@@ -1,9 +1,9 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { join } from "path";
 import { Client, Message } from "@woifes/mqtt-client";
 import { emptyDirSync, mkdirSync, readFileSync, rmdirSync } from "fs-extra";
-import { join } from "path";
 import { AlarmHandlerMqtt } from "../src/AlarmHandlerMqtt";
 import { tAlarmHandlerMqttConfig } from "../src/runtypes/AlarmHandlerMqttConfig";
 

@@ -6,7 +6,7 @@ export function renderSummary(licenseCountMap: Map<string, number>) {
 
     function print(line: string) {
         console.log(line);
-        content += line + "\n";
+        content += `${line}\n`;
     }
     print("Dependency License Summary:");
     print("");

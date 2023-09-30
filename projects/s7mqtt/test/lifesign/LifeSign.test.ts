@@ -1,12 +1,12 @@
 // SPDX-FileCopyrightText: © 2023 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { LifeSign } from "../../src/lifesign/LifeSign";
+import EventEmitter from "events";
 import { Client, Message } from "@woifes/mqtt-client";
 import { S7RemoteEndpoint } from "@woifes/s7endpoint";
 import { TestServer } from "@woifes/s7endpoint/test/TestServer";
 import debug from "debug";
-import EventEmitter from "events";
+import { LifeSign } from "../../src/lifesign/LifeSign";
 
 process.env.TZ = "Europe/Berlin";
 jest.setTimeout(10000);

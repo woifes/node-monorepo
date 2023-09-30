@@ -1,19 +1,19 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { once } from "events";
 import { tAlarmJsonObject } from "@woifes/alarmhandler";
 import { AlarmHandlerMqtt } from "@woifes/alarmhandlermqtt";
 import { Client } from "@woifes/mqtt-client";
 import {
-    parseS7AddressString,
     S7Endpoint,
+    parseS7AddressString,
     stringifyS7Address,
     tS7Address,
     tS7AddressString,
     tS7Variable,
 } from "@woifes/s7endpoint";
 import { Debugger } from "debug";
-import { once } from "events";
 import * as rt from "runtypes";
 import { S7Output } from "../outputs/S7Output";
 import { S7AlarmAddress, tS7AlarmAddress } from "./S7AlarmAddress";

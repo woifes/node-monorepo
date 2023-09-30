@@ -4,20 +4,20 @@
 import { tJsVal } from "@woifes/binarytypes";
 import { QoS } from "mqtt";
 import * as rt from "runtypes";
+import { MqttClientMock } from "../../../__mocks__/mqtt";
 import { Client } from "../../../src/Client";
+import { Message } from "../../../src/Message";
+import { MqttConnection } from "../../../src/decorator/MqttConnection";
+import { MqttConnectionHandler } from "../../../src/decorator/MqttConnectionHandler";
+import { MqttUnsubHook } from "../../../src/decorator/MqttUnsubHook";
 import { MqttClient } from "../../../src/decorator/client/MqttClient";
 import { SUBSCRIPTION_LIST_KEY } from "../../../src/decorator/constants";
 import { MqttCmdHandler } from "../../../src/decorator/in/MqttCmdHandler";
 import { MqttMsgHandler } from "../../../src/decorator/in/MqttMsgHandler";
 import { MqttValue } from "../../../src/decorator/in/MqttValue";
-import { MqttConnection } from "../../../src/decorator/MqttConnection";
-import { MqttConnectionHandler } from "../../../src/decorator/MqttConnectionHandler";
-import { MqttUnsubHook } from "../../../src/decorator/MqttUnsubHook";
 import { tMqttCmdHandlerConfig } from "../../../src/decorator/types/MqttCmdHandlerConfig";
 import { tMqttMsgHandlerConfig } from "../../../src/decorator/types/MqttMsgHandlerConfig";
 import { tMqttValueConfig } from "../../../src/decorator/types/MqttValueConfig";
-import { Message } from "../../../src/Message";
-import { MqttClientMock } from "../../../__mocks__/mqtt";
 const config = {
     url: "url",
     clientId: "id",
@@ -815,6 +815,7 @@ describe("subscribing tests", () => {
         }
         const cl = new Client(config);
         const t = new TestClass(cl);
+        //biome-ignore lint/complexity/noBannedTypes: needed
         const list = (t as any)[SUBSCRIPTION_LIST_KEY] as Array<Function>;
         expect(list.length).toBe(0);
     });
@@ -857,6 +858,7 @@ describe("subscribing tests", () => {
         const t = new TestClass(cl);
         const mqttClient = (cl as any)._mqttClient as MqttClientMock;
         mqttClient.connected = true;
+        //biome-ignore lint/complexity/noBannedTypes: needed
         const list = (t as any)[SUBSCRIPTION_LIST_KEY] as Array<Function>;
         expect(list.length).toBe(5);
         let [topic, opts] = mqttClient.subscribe.mock.calls[0];

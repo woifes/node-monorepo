@@ -10,8 +10,8 @@ import {
     S7TypeNames,
     S7_SHORT_TYPE_TO_TYPE_NAME,
     S7_TYPE_TO_TYPE_NAME,
-    tS7DataAreas,
     TYPE_NAME_TO_S7_TYPE,
+    tS7DataAreas,
 } from "../const";
 import { tDataTypeNames } from "../types/DataTypeNames";
 import { S7Address, tS7Address } from "../types/S7Address";

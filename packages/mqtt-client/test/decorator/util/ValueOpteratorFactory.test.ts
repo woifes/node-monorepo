@@ -4,8 +4,8 @@
 import { QoS } from "mqtt";
 import * as rt from "runtypes";
 import { Observable, Subject } from "rxjs";
-import { ValueOperatorFactory } from "../../../src/decorator/util/ValueOperatorFactory";
 import { Message } from "../../../src/Message";
+import { ValueOperatorFactory } from "../../../src/decorator/util/ValueOperatorFactory";
 
 async function promiseTimeout(ms: number) {
     return new Promise((resolve, reject) => {

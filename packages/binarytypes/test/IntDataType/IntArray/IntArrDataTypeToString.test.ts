@@ -109,10 +109,10 @@ function testDt(
         dt.toString(BI_MIN);
     }).toThrow();
     expect(() => {
-        dt.toString(BI_MAX), false;
+        dt.toString(BI_MAX);
     }).toThrow();
     expect(() => {
-        dt.toString(BI_MIN), false;
+        dt.toString(BI_MIN);
     }).toThrow();
     if (BUF_MAX.length === 8) {
         expect(dt.toString([BI_MAX, BI_MIN, BI_MAX, BI_MIN])).toEqual(

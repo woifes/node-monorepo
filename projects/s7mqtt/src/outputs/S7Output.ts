@@ -1,15 +1,15 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { EventEmitter } from "events";
 import {
-    dbSourceToS7Variables,
-    parseS7AddressString,
     ReadRequest,
     S7Endpoint,
+    dbSourceToS7Variables,
+    parseS7AddressString,
     tS7Variable,
 } from "@woifes/s7endpoint";
 import { Debugger } from "debug";
-import { EventEmitter } from "events";
 import { readFileSync } from "fs-extra";
 import { S7OutputConfig, tS7OutputConfig } from "./S7OutputConfig";
 
@@ -38,7 +38,6 @@ export class S7Output extends EventEmitter {
     private _config: tS7OutputConfig;
     private _s7ep: S7Endpoint;
 
-    // rome-ignore lint/correctness/noUnreachableSuper: Seems to be false positive because of "Object.entries"
     constructor(
         config: tS7OutputConfig,
         s7endpoint: S7Endpoint,

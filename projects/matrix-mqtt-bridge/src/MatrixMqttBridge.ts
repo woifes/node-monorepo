@@ -15,10 +15,10 @@ import {
 import { Command } from "commander";
 import { debug } from "debug";
 import {
-    createClient as matrixCreateClient,
     MatrixClient,
     MatrixEvent,
     Visibility as MatrixVisibility,
+    createClient as matrixCreateClient,
 } from "matrix-js-sdk";
 import {
     MatrixMqttBridgeConfig,

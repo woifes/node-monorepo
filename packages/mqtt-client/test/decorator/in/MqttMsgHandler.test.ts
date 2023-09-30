@@ -1,10 +1,10 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { Message } from "../../../src/Message";
 import { MSG_HANDLER_LIST_KEY } from "../../../src/decorator/constants";
 import { MqttMsgHandler } from "../../../src/decorator/in/MqttMsgHandler";
 import { tMqttMsgHandlerConfig } from "../../../src/decorator/types/MqttMsgHandlerConfig";
-import { Message } from "../../../src/Message";
 /*
 {
     topic: string,
@@ -17,8 +17,6 @@ describe("setter decorator test", () => {
     it("should add setter to the handler list", () => {
         class TestClass {
             public test: jest.Mock = jest.fn();
-
-            constructor() {}
 
             @MqttMsgHandler({
                 topic: "A/B/C",
@@ -53,8 +51,6 @@ describe("setter decorator test", () => {
             }
             public test: jest.Mock = jest.fn();
 
-            constructor() {}
-
             @MqttMsgHandler(TestClass.getConfig)
             set aMsg(msg: Message) {
                 this.test(msg);
@@ -81,8 +77,6 @@ describe("method decorator test", () => {
     it("should add method to the handler list", () => {
         class TestClass {
             public test: jest.Mock = jest.fn();
-
-            constructor() {}
 
             @MqttMsgHandler({
                 topic: "A/B/C",
@@ -120,8 +114,6 @@ describe("method decorator test", () => {
                 };
             }
             public test: jest.Mock = jest.fn();
-
-            constructor() {}
 
             @MqttMsgHandler(TestClass.getConfig)
             set aMsg(msg: Message) {

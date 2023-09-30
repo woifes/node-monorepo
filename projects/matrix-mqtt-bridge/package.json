@@ -11,8 +11,8 @@
     "start": "node ./dist/index.js",
     "test": "jest",
     "compile": "tsc -p tsconfig.build.json",
-    "format": "rome format --write .",
-    "lint": "rome check --apply-unsafe .",
+    "format": "biome format --write .",
+    "lint": "biome check --apply-unsafe .",
     "prepare": "pnpm compile",
     "docker:build": "docker build -t monorepo ../../ && ver && docker build -t matrix-mqtt-bridge:%npm_package_version% . || docker build -t matrix-mqtt-bridge:$npm_package_version .",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"

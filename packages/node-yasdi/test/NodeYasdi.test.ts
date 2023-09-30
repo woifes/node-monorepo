@@ -3,9 +3,9 @@
 
 import { tmpdir } from "os";
 import { join } from "path";
+import { NodeYasdi } from "../src/NodeYasdi";
 import { searchDevicesAsync, yasdiInit } from "../src/bindings/yasdiBindings";
 import { Inverter } from "../src/inverter/Inverter";
-import { NodeYasdi } from "../src/NodeYasdi";
 import { tNodeYasdiConfig } from "../src/runtypes/NodeYasdiConfig";
 import { createYasdiIniFile } from "../src/util/createYasdiIniFile";
 jest.mock("../src/bindings/yasdiBindings");

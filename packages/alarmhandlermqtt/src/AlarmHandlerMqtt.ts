@@ -322,7 +322,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
         };
         if (alNumbers.length > 0) {
             response = `Alarms of ${this.name}\n`;
-            response += "_".repeat(30) + "\n";
+            response += `${"_".repeat(30)}\n`;
             for (const alNum of alNumbers) {
                 const alarmObj = present.alarms[alNum];
                 const occurred = new Date(alarmObj.occurred!);
@@ -339,7 +339,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                     )}\n`;
                 }
                 response += `${alarmObj.text}\n`;
-                response += "_".repeat(30) + "\n";
+                response += `${"_".repeat(30)}\n`;
             }
             return response;
         } else {

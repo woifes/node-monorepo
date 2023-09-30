@@ -7,10 +7,6 @@ import { Message } from "../src/Message";
 export class MqttClientMock extends EventEmitter {
     public _connected = false;
 
-    constructor() {
-        super();
-    }
-
     set connected(c: boolean) {
         const emitConnect = !this._connected && c;
         const emitOffline = this._connected && !c;
@@ -38,31 +34,30 @@ export class MqttClientMock extends EventEmitter {
         );
     }
 
-    publish = jest
-        .fn()
-        .mockImplementation(
-            (
-                topic: string,
-                payload: string,
-                publishOpts: { qos: number; retain: boolean },
-                cb?: Function,
-            ) => {
-                if (cb !== undefined) {
-                    cb();
-                }
-            },
-        );
-    subscribe = jest
-        .fn()
-        .mockImplementationOnce(
-            (topic: string, opts: { qos: number }, cb?: Function) => {
-                if (cb !== undefined) {
-                    cb();
-                }
-            },
-        );
+    publish = jest.fn().mockImplementation(
+        (
+            topic: string,
+            payload: string,
+            publishOpts: { qos: number; retain: boolean },
+            //biome-ignore lint/complexity/noBannedTypes: ok
+            cb?: Function,
+        ) => {
+            if (cb !== undefined) {
+                cb();
+            }
+        },
+    );
+    subscribe = jest.fn().mockImplementationOnce(
+        //biome-ignore lint/complexity/noBannedTypes: ok
+        (topic: string, opts: { qos: number }, cb?: Function) => {
+            if (cb !== undefined) {
+                cb();
+            }
+        },
+    );
     unsubscribe = jest
         .fn()
+        //biome-ignore lint/complexity/noBannedTypes: ok
         .mockImplementation((topic: string, cb?: Function) => {
             if (cb !== undefined) {
                 cb();

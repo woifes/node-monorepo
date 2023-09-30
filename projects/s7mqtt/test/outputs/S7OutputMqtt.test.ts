@@ -1,13 +1,13 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { S7Output } from "../../src/outputs/S7Output";
-import { S7OutputMqtt } from "../../src/outputs/S7OutputMqtt";
+import { EventEmitter } from "events";
 import { Client, Message } from "@woifes/mqtt-client";
 import { S7RemoteEndpoint } from "@woifes/s7endpoint";
 import debug from "debug";
-import { EventEmitter } from "events";
 import { tS7OutputMqttConfig } from "projects/s7mqtt/src/outputs/S7OutputMqttConfig";
+import { S7Output } from "../../src/outputs/S7Output";
+import { S7OutputMqtt } from "../../src/outputs/S7OutputMqtt";
 jest.mock("../../src/outputs/S7Output");
 const S7OUT_MOCK = S7Output as unknown as jest.Mock;
 S7OUT_MOCK.mockImplementation(() => {

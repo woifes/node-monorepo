@@ -1,15 +1,15 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
+import { NodeYasdi } from "../../src/NodeYasdi";
 import {
-    getChannelsOfDevice,
     getChannelValue,
+    getChannelsOfDevice,
     getNameOfDevice,
     getSerialOfDevice,
     getTypeOfDevice,
 } from "../../src/bindings/yasdiBindings";
 import { Inverter } from "../../src/inverter/Inverter";
-import { NodeYasdi } from "../../src/NodeYasdi";
 jest.mock("../../src/NodeYasdi");
 jest.mock("../../src/bindings/yasdiBindings");
 jest.useFakeTimers();

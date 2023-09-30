@@ -3,8 +3,8 @@
 
 import { S7Endpoint } from "../S7Endpoint";
 import { tS7Variable } from "../types/S7Variable";
-import { AreaWriteRequest } from "./areaRequest/AreaWriteRequest";
 import { Request } from "./Request";
+import { AreaWriteRequest } from "./areaRequest/AreaWriteRequest";
 
 /**
  * Represents a write request on the given endpoint. The tags can be from different data blocks.

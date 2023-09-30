@@ -19,19 +19,19 @@ export const S7Variable = S7Address.And(
         if (r.type === "BIT") {
             if (r.count === undefined) {
                 //single bit
-                if (!DataTypes["UINT8"].validate(r.value as any)) {
+                if (!DataTypes.UINT8.validate(r.value as any)) {
                     return `value(${r.value}) provided for tag is not compatible with type: ${r.type}`;
                 }
-                const value = DataTypes["UINT8"].check(r.value as any);
+                const value = DataTypes.UINT8.check(r.value as any);
                 if ((value as number) < 0 || (value as number) > 2) {
                     return `value(${r.value}) does not match the bit operation values`;
                 }
             } else {
                 //bit array
-                if (!DataTypes["ARRAY_OF_UINT8"].validate(r.value as any)) {
+                if (!DataTypes.ARRAY_OF_UINT8.validate(r.value as any)) {
                     return `value(${r.value}) provided for tag is not compatible with type: ${r.type}`;
                 }
-                const values = DataTypes["ARRAY_OF_UINT8"].check(
+                const values = DataTypes.ARRAY_OF_UINT8.check(
                     r.value as any,
                 ) as number[];
                 for (const value of values) {

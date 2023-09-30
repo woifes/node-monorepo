@@ -119,7 +119,8 @@ export function transformDbObjectToS7Vars(
                 }
                 if (
                     variableTmp.count === undefined &&
-                    (variableTmp.type === "UINT8" || variableTmp.type === "INT8")
+                    (variableTmp.type === "UINT8" ||
+                        variableTmp.type === "INT8")
                 ) {
                     variableTmp.byteIndex = byteIndex;
                 } else {

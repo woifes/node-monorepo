@@ -1,10 +1,10 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { EventEmitter } from "events";
 import { Client, Message } from "@woifes/mqtt-client";
 import { S7Endpoint } from "@woifes/s7endpoint";
 import debug from "debug";
-import { EventEmitter } from "events";
 import { S7Event } from "../../src/events/S7Event";
 import { S7EventMqtt } from "../../src/events/S7EventMqtt";
 import { tS7EventMqttConfig } from "../../src/events/S7EventMqttConfig";

@@ -1,23 +1,23 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { debug, Debugger } from "debug";
 import { EventEmitter } from "events";
+import { Debugger, debug } from "debug";
 import { readFileSync } from "fs-extra";
 import { S7Server } from "node-snap7";
 import * as rt from "runtypes";
+import { S7Endpoint } from "../S7Endpoint";
 import { tS7DataAreas } from "../const";
 import { dbSourceToS7Variables } from "../parseDbSourceFile";
 import {
-    genVariableBuffer,
-    getBoundsOfVarSet,
     ReadRequest,
     WriteRequest,
+    genVariableBuffer,
+    getBoundsOfVarSet,
 } from "../request";
-import { S7Endpoint } from "../S7Endpoint";
 import { tS7Variable } from "../types/S7Variable";
-import { createDbCsvWriter } from "./createDbCsvWriter";
 import { DbDefinition } from "./DbDefinition";
+import { createDbCsvWriter } from "./createDbCsvWriter";
 import { writeDbCsv } from "./writeDbCsv";
 
 export const S7LocalEndpointConfig = rt.Record({
@@ -129,7 +129,7 @@ export class S7LocalEndpoint extends EventEmitter implements S7Endpoint {
 
     connect(): void {
         this._server.Start((err: any) => {
-            // rome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
+            // biome-ignore lint/suspicious/noDoubleEquals: Cant find a better check
             if (err != undefined) {
                 this._debug(`Error at server.Connect: ${err}`);
             } else {

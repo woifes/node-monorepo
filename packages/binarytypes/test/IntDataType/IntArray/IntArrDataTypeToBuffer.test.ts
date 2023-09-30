@@ -124,10 +124,10 @@ function testDt(
         dt.toBuffer(BI_MIN);
     }).toThrow();
     expect(() => {
-        dt.toBuffer(BI_MAX), false;
+        dt.toBuffer(BI_MAX);
     }).toThrow();
     expect(() => {
-        dt.toBuffer(BI_MIN), false;
+        dt.toBuffer(BI_MIN);
     }).toThrow();
     expect(
         PROOF_BUFFER(

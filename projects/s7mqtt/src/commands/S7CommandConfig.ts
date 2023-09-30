@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { parseS7AddressString, S7AddressString } from "@woifes/s7endpoint";
+import { S7AddressString, parseS7AddressString } from "@woifes/s7endpoint";
 import * as rt from "runtypes";
 import { S7EventConfig } from "../events/S7EventConfig";
 //cmd/<cmdProviderClientId>/<cmdRequesterClientId>/<cmdName>

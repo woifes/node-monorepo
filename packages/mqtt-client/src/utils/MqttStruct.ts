@@ -3,12 +3,12 @@
 
 import { QoS } from "mqtt";
 import { Client } from "../Client";
+import { Message } from "../Message";
 import {
     MqttClient,
     MqttMsgHandler,
     tMqttMsgHandlerConfig,
 } from "../decorator";
-import { Message } from "../Message";
 import { TopicMap } from "./TopicMap";
 
 export type tMqttStructConfig = {

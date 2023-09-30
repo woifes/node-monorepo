@@ -11,8 +11,8 @@
   "scripts": {
     "test": "jest",
     "compile": "tsc -p tsconfig.build.json",
-    "format": "rome format --write .",
-    "lint": "rome check --apply-unsafe .",
+    "format": "biome format --write .",
+    "lint": "biome check --apply-unsafe .",
     "prepare": "pnpm compile",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },

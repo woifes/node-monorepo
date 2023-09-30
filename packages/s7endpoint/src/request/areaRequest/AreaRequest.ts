@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 
 import { Array as rtArray } from "runtypes";
-import { tS7DataAreas } from "../../const";
 import { S7Endpoint } from "../../S7Endpoint";
+import { tS7DataAreas } from "../../const";
 import { S7Variable, tS7Variable } from "../../types/S7Variable";
 import { sortS7Addresses } from "../../util/sortDb";
 import { getBoundsOfVarSet } from "../util/getBoundsOfVarSet";

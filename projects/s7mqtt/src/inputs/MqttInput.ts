@@ -9,8 +9,8 @@ import {
     tMqttMsgHandlerConfig,
 } from "@woifes/mqtt-client/decorator";
 import {
-    parseS7AddressString,
     S7Endpoint,
+    parseS7AddressString,
     tS7Variable,
 } from "@woifes/s7endpoint";
 import { Debugger } from "debug";

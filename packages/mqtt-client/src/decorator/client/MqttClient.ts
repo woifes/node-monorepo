@@ -21,6 +21,7 @@ export type tConnectionToUseInfo = string | number;
  * @returns
  */
 export function MqttClient() {
+    //biome-ignore lint/complexity/noBannedTypes: needed
     return function <T extends { new (...args: any[]): {} }>(
         originalConstructor: T,
     ) {

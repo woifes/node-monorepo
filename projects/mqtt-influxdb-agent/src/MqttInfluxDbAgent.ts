@@ -1,10 +1,10 @@
 // SPDX-FileCopyrightText: © 2023 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
+import { Agent } from "http";
 import { InfluxDB } from "@influxdata/influxdb-client";
 import { Client } from "@woifes/mqtt-client";
-import { debug, Debugger } from "debug";
-import { Agent } from "http";
+import { Debugger, debug } from "debug";
 import { Item } from "./item/Item";
 import { AgentConfig, tAgentConfig } from "./types/AgentConfig";
 

@@ -1,11 +1,11 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { Message } from "@woifes/mqtt-client";
 import { once } from "events";
-import { emptyDirSync, mkdirSync, rmdirSync } from "fs-extra";
 import { join, resolve } from "path";
 import { EventEmitter } from "stream";
+import { Message } from "@woifes/mqtt-client";
+import { emptyDirSync, mkdirSync, rmdirSync } from "fs-extra";
 import { S7Mqtt } from "../../src/S7Mqtt";
 import { CONFIG } from "./localConfig";
 

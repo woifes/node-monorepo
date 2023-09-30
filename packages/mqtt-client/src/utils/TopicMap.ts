@@ -22,10 +22,7 @@
 export class TopicMap<T> {
     private _value?: T;
     private _sublevels: Map<string, TopicMap<T>> = new Map();
-    constructor(
-        private wildCardsOnInsert: boolean,
-        private isRoot: boolean = true,
-    ) {}
+    constructor(private wildCardsOnInsert: boolean, private isRoot = true) {}
 
     get isEmpty(): boolean {
         return this._value === undefined && this._sublevels.size === 0;

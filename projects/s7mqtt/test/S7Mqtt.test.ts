@@ -1,17 +1,17 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { join } from "path";
 import { TestServer } from "@woifes/s7endpoint/test/TestServer";
 import { emptyDirSync, mkdirSync, readFileSync, rmdirSync } from "fs-extra";
-import { join } from "path";
 import { parse } from "yaml";
+import { S7Mqtt } from "../src/S7Mqtt";
 import { S7AlarmHandler } from "../src/alarms/S7AlarmHandler";
 import { S7Command } from "../src/commands/S7Command";
 import { S7EventMqtt } from "../src/events/S7EventMqtt";
 import { MqttInput } from "../src/inputs/MqttInput";
-import { S7OutputMqtt } from "../src/outputs/S7OutputMqtt";
-import { S7Mqtt } from "../src/S7Mqtt";
 import { LifeSign } from "../src/lifesign/LifeSign";
+import { S7OutputMqtt } from "../src/outputs/S7OutputMqtt";
 jest.mock("../src/alarms/S7AlarmHandler");
 jest.mock("../src/lifeSign/LifeSign");
 jest.mock("../src/commands/S7Command");

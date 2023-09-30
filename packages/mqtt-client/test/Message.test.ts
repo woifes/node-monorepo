@@ -1,11 +1,11 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { rtINT32, rtINT64, rtUINT8, TypeName } from "@woifes/binarytypes";
+import { TypeName, rtINT32, rtINT64, rtUINT8 } from "@woifes/binarytypes";
 import * as rt from "runtypes";
+import { MqttClientMock } from "../__mocks__/mqtt";
 import { Client } from "../src/Client";
 import { Message } from "../src/Message";
-import { MqttClientMock } from "../__mocks__/mqtt";
 
 afterEach(() => {
     jest.clearAllMocks();
