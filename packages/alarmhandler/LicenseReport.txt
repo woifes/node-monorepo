@@ -1,8 +1,19 @@
 Dependency License Summary:
 
-MIT - 2
+MIT - 8
+ISC - 1
 
 Dependency License Tree:
 
 @woifes/util link:../util - MIT
-runtypes 6.6.0 - MIT
+├── deepmerge 4.2.2 - MIT
+├─┬ fs-extra 10.0.1 - MIT
+│ ├── graceful-fs 4.2.11 - ISC
+│ ├─┬ jsonfile 6.1.0 - MIT
+│ │ ├── graceful-fs 4.2.11 - ISC
+│ │ └── universalify 2.0.0 - MIT
+│ └── universalify 2.0.0 - MIT
+├── json-stringify-pretty-compact 3.0.0 - MIT
+├── json5 2.2.1 - MIT
+└── runtypes 6.5.1 - MIT
+runtypes 6.5.1 - MIT

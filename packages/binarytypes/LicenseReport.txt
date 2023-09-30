@@ -4,4 +4,4 @@ MIT - 1
 
 Dependency License Tree:
 
-runtypes 6.6.0 - MIT
+runtypes 6.5.1 - MIT
