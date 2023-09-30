@@ -17,7 +17,8 @@
     "format": "rome format --write .",
     "lint": "rome check --apply-unsafe .",
     "prepare": "pnpm compile",
-    "docker:build": "docker build -t monorepo ../../ && ver && docker build -t s7mqtt:%npm_package_version% . || docker build -t s7mqtt:$npm_package_version .",
+    "docker:build": "cd ../../ && ver && docker build -t s7mqtt:%npm_package_version% -f projects/s7mqtt/Dockerfile . || docker build -t s7mqtt:$npm_package_version -f projects/s7mqtt/Dockerfile .",
+    "docker:publish": "cd ../../ && ver && docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t woifes/s7mqtt:%npm_package_version% -f projects/s7mqtt/Dockerfile . || docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t woifes/s7mqtt:$npm_package_version -f projects/s7mqtt/Dockerfile .",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "author": "woifes",
