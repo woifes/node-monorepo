@@ -43,6 +43,14 @@
             "alarmhandlermqtt",
             "binarytypes",
             "yasdi"
+        ],
+        "cSpell.ignorePaths": [
+            "pnpm-lock.yaml",
+            "biome.json",
+            "node_modules",
+            "vscode-extension",
+            ".git/objects",
+            ".vscode"
         ]
     },
     "extensions": {

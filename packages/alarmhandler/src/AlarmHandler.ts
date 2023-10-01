@@ -1,9 +1,9 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
+import { CsvFileHandler, PersistentRuntype } from "@woifes/util";
 import { EventEmitter } from "events";
 import { basename, dirname } from "path";
-import { CsvFileHandler, PersistentRuntype } from "@woifes/util";
 import { Alarm } from "./Alarm/Alarm";
 import { tAlarmDefinition } from "./Alarm/AlarmDefinition";
 import { tAlarmJsonObject } from "./Alarm/AlarmJsonObject";
