@@ -3,6 +3,8 @@
 ## Why?
 This package implements the (GSJON)[https://github.com/tidwall/gjson] json document search. Since the NodeJS environments already has a good json support this package focuses on the search aspect of GJSON (Check the supported features section for details).
 
+**Please check the source code before using this package**
+
 ## Installation
 Package not (yet) published
 
