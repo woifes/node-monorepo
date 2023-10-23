@@ -15,6 +15,7 @@ This is the monorepo is holding various packages and projects. It is the result 
 * [alarmhandler](/packages/alarmhandler/) - Simple alarm handler
 * [alarmhandlermqtt](/packages/alarmhandlermqtt/) - MQTT extension of the [alarmhandler](/packages/alarmhandler/) package
 * [binarytypes](/packages/binarytypes/) - Handles binary datatypes
+* [gjson](/packages/gjson/) - Implementation of the [GJSON](https://github.com/tidwall/gjson) json document search
 * [mqtt-client](/packages/mqtt-client/) - Facade for the mqtt package
 * [node-yasdi](/packages/node-yasdi/) - Binding package for the yasdi library
 * [s7endpoint](/packages/s7endpoint/) - Adapter package for connecting via S7 protocol (RFC1006)
@@ -40,6 +41,7 @@ The license of the different packages or projects are stated inside the correspo
 * [alarmhandler](/packages/alarmhandler/) - MIT
 * [alarmhandlermqtt](/packages/alarmhandlermqtt/) - AGPL-3.0-or-later
 * [binarytypes](/packages/binarytypes/) - MIT
+* [gjson](/packages/gsjon/) - MIT
 * [mqtt-client](/packages/mqtt-client/) - AGPL-3.0-or-later
 * [node-yasdi](/packages/node-yasdi/) - MIT
 * [s7endpoint](/packages/s7endpoint/) - MIT

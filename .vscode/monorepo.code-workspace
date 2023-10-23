@@ -3,6 +3,7 @@
         { "path": "../packages/alarmhandler" },
         { "path": "../packages/alarmhandlermqtt" },
         { "path": "../packages/binarytypes" },
+        { "path": "../packages/gjson" },
         { "path": "../packages/mqtt-client" },
         { "path": "../packages/node-yasdi" },
         { "path": "../packages/s7endpoint" },
