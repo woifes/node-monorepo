@@ -7,7 +7,7 @@
       "enabled": true,
       "indentStyle": "space",
       "lineWidth": 80,
-      "indentWidth": 4,
+      "indentSize": 4,
       "ignore": [
         "dist",
         "node_modules",

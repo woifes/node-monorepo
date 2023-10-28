@@ -97,6 +97,8 @@ importers:
         specifier: ^6.5.1
         version: 6.5.1
 
+  packages/gjson: {}
+
   packages/mqtt-client:
     dependencies:
       '@woifes/binarytypes':
