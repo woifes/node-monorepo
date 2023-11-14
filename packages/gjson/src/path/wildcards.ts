@@ -10,7 +10,7 @@ const questionMarkRegEx = /(?<!\\)\?/g; //targets "?" if they are NOT predecesse
  * @returns regular expression taking the wildcards into account
  */
 export function createWildcardRegex(path: string): RegExp {
-	let regexString = path.replaceAll(starRegEx, ".*");
-	regexString = regexString.replaceAll(questionMarkRegEx, ".");
-	return new RegExp(regexString);
+    let regexString = path.replaceAll(starRegEx, ".*");
+    regexString = regexString.replaceAll(questionMarkRegEx, ".");
+    return new RegExp(regexString);
 }

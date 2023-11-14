@@ -1,12 +1,15 @@
 # @woifes/gjson
 
 ## Why?
-This package implements the (GSJON)[https://github.com/tidwall/gjson] json document search. Since the NodeJS environments already has a good json support this package focuses on the search aspect of GJSON (Check the supported features section for details).
+This package implements the [GSJON](https://github.com/tidwall/gjson) json document search. The focus lies on the search aspect of GJSON because even though NodeJS comes with a good build-in JSON support. It misses a commong searching syntax.
 
 **Please check the source code before using this package**
 
 ## Installation
-Package not (yet) published
+
+```shell
+npm install @woifes/gjson
+```
 
 ## Quick start
 

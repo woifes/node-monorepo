@@ -1,22 +1,25 @@
 {
   "name": "@woifes/gjson",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/index",
   "types": "dist/index",
   "files": [
     "dist"
   ],
-  "private": true,
   "scripts": {
     "test": "jest",
-    "format": "rome format --write .",
-    "lint": "rome check --apply-unsafe .",
+    "format": "biome format --write .",
+    "lint": "biome check --apply-unsafe .",
     "compile": "tsc -p tsconfig.build.json",
     "prepare": "pnpm compile",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/woifes/node-monorepo"
+  },
+  "keywords": ["GJSON"],
   "author": "woifes",
   "license": "MIT",
   "dependencies": {

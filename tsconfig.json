@@ -7,6 +7,7 @@
       "@woifes/alarmhandler": ["packages/alarmhandler/index.ts"],
       "@woifes/alarmhandlermqtt": ["packages/alarmhandlermqtt/index.ts"],
       "@woifes/binarytypes": ["packages/binarytypes/index.ts"],
+      "@woifes/gjson": ["packages/gjson/index.ts"],
       "@woifes/mqtt-client": ["packages/mqtt-client/index.ts"],
       "@woifes/mqtt-client/decorator": ["packages/mqtt-client/src/decorator/index.ts"],
       "@woifes/node-yasdi": ["packages/node-yasdi/index.ts"],

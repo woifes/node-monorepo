@@ -11,17 +11,17 @@ import { splitPath } from "./path/splitPath";
  * @returns
  */
 export function get(data: any, path: string) {
-	let dataObj: any;
-	if (typeof data === "string") {
-		dataObj = JSON.parse(data);
-	} else {
-		dataObj = data;
-	}
+    let dataObj: any;
+    if (typeof data === "string") {
+        dataObj = JSON.parse(data);
+    } else {
+        dataObj = data;
+    }
 
-	const pathItems = splitPath(path);
-	try {
-		return handleNextLevel(dataObj, pathItems);
-	} catch {
-		return undefined;
-	}
+    const pathItems = splitPath(path);
+    try {
+        return handleNextLevel(dataObj, pathItems);
+    } catch {
+        return undefined;
+    }
 }
