@@ -17,7 +17,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/woifes/node-monorepo"
+    "url": "https://github.com/woifes/node-monorepo",
+    "directory": "packages/gjson"
   },
   "keywords": ["GJSON"],
   "author": "woifes",
