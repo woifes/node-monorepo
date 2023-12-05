@@ -14,8 +14,8 @@
     "format": "biome format --write .",
     "lint": "biome check --apply-unsafe .",
     "prepare": "pnpm compile",
-    "docker:build": "docker build -t monorepo ../../ && ver && docker build -t mqtt-influxdb-agent:%npm_package_version% . || docker build -t mqtt-influxdb-agent:$npm_package_version .",
-    "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
+    "docker:build": "cd ../../ && ver && docker build -t mqtt-influxdb-agent:%npm_package_version% -f projects/mqtt-influxdb-agent/Dockerfile . || docker build -t mqtt-influxdb-agent:$npm_package_version -f projects/mqtt-influxdb-agent/Dockerfile .",
+    "docker:publish": "cd ../../ && ver && docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t woifes/mqtt-influxdb-agent:%npm_package_version% -f projects/mqtt-influxdb-agent/Dockerfile . || docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t woifes/mqtt-influxdb-agent:$npm_package_version -f projects/mqtt-influxdb-agent/Dockerfile ."
   },
   "author": "woifes",
   "license": "MIT",

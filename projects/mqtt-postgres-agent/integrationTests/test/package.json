@@ -1,0 +1,12 @@
+{
+    "version": "0.0.1",
+    "name": "mqtt-postgres-agent-test",
+    "scripts": {
+        "test": "jest --forceExit"
+    },
+    "dependencies": {
+        "jest": "^27.5.1",
+        "mqtt": "^4.0.0",
+        "pg": "^8.11.3"
+    }
+}

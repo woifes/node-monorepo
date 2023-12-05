@@ -25,6 +25,7 @@ This is the monorepo is holding various packages and projects. It is the result 
 * [license-report](/projects/license-report/) - Generate a license report in the other packages and projects
 * [matrix-mqtt-bridge](/projects/matrix-mqtt-bridge/) - Generate a list of rooms and send an receive messages from that room via mqtt
 * [mqtt-influxdb-agent](/projects/mqtt-influxdb-agent/) - Agent for sending data from MQTT into InfluxDB 2.x
+* [mqtt-postgres-agent](/projects/mqtt-postgres-agent/) - Agent for sending data from MQTT into Postgres DB
 * [s7mqtt](/projects/s7mqtt/) - MQTT gateway for devices which use the S7 protocol (RFC1006)
 * [yasdi-mqtt](/projects/yasdi-mqtt/) - MQTT version of [node-yasdi](/packages/node-yasdi/)
 * [yasdi-rest](/projects/yasdi-rest/) - Extends [node-yasdi](/packages/node-yasdi/) by REST endpoints
@@ -51,6 +52,7 @@ The license of the different packages or projects are stated inside the correspo
 * [license-report](/projects/license-report/) - MIT
 * [matrix-mqtt-bridge](/projects/matrix-mqtt-bridge/) - AGPL-3.0-or-later
 * [mqtt-influxdb-agent](/projects/mqtt-influxdb-agent/) - MIT
+* [mqtt-postgres-agent](/projects/mqtt-postgres-agent/) - MIT
 * [s7mqtt](/projects/s7mqtt/) - AGPL-3.0-or-later
 * [yasdi-mqtt](/projects/yasdi-mqtt/) - MIT
 * [yasdi-rest](/projects/yasdi-mqtt/) - MIT

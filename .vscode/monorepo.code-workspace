@@ -12,6 +12,7 @@
         { "path": "../projects/license-report" },
         { "path": "../projects/matrix-mqtt-bridge" },
         { "path": "../projects/mqtt-influxdb-agent" },
+        { "path": "../projects/mqtt-postgres-agent" },
         { "path": "../projects/s7mqtt" },
         { "path": "../projects/yasdi-mqtt" },
         { "path": "../projects/yasdi-rest" },

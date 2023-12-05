@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  agent:
+    build: 
+      context: ../../..
+      dockerfile: "projects/mqtt-postgres-agent/Dockerfile"
+    volumes:
+      - ./agent/config.yaml:/data/config.yaml
+    environment:
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGUSER=postgres
+
+  mqtt:
+    image: eclipse-mosquitto:2.0.18
+    ports:
+      - 1883:1883
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+    - ./postgres/01-init.sql:/docker-entrypoint-initdb.d/01-init.sql
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-q', '-d', 'postgres', '-U', 'postgres']
+      timeout: 45s
+      interval: 10s
+      retries: 10
+
+  test:
+    build: 
+      context: ./test
+    command: "npm test"
+    environment:
+      - MQTT_URL=mqtt://mqtt:1883
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGUSER=postgres
+    depends_on:
+      - agent
+      - mqtt
+      - postgres
+  

@@ -1,0 +1,18 @@
+mqtt:
+  url: mqtt://mqtt:1883
+  clientId: agent01
+  auth:
+    username: "user01"
+    password: "123456"
+#postgres: everything set via environment variables
+
+items:
+  - topic: A/+/C #the topic to subscribe to
+    table: testtable #the table to insert into
+    topicValues: _/info/_ #define value keys in the topic tree which get inserted too
+    payloadValues:
+      value: "@this" #define search paths and keys for values taken from the message payload
+    constValues:
+      name: foo #define constant key value pairs which are inserted along the other values
+    timestampValues:
+      - time #define keys which are inserted by the current timestamp

@@ -1,0 +1,18 @@
+mqtt:
+  url: mqtt://mqtt:1883
+  clientId: agent01
+  auth:
+    username: ""
+    password: ""
+#postgres: everything set via environment variables
+
+items:
+  - topic: A/+/C
+    table: testtable
+    topicValues: _/info/_
+    payloadValues:
+      value: "@this"
+    constValues:
+      name: foo
+    timestampValues:
+      - time
