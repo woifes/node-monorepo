@@ -17,7 +17,6 @@ This is the monorepo is holding various packages and projects. It is the result 
 * [binarytypes](/packages/binarytypes/) - Handles binary datatypes
 * [gjson](/packages/gjson/) - Implementation of the [GJSON](https://github.com/tidwall/gjson) json document search
 * [mqtt-client](/packages/mqtt-client/) - Facade for the mqtt package
-* [node-yasdi](/packages/node-yasdi/) - Binding package for the yasdi library
 * [s7endpoint](/packages/s7endpoint/) - Adapter package for connecting via S7 protocol (RFC1006)
 * [util](/packages/util/) - Collection of helper functions, types or classes
 
@@ -27,8 +26,8 @@ This is the monorepo is holding various packages and projects. It is the result 
 * [mqtt-influxdb-agent](/projects/mqtt-influxdb-agent/) - Agent for sending data from MQTT into InfluxDB 2.x
 * [mqtt-postgres-agent](/projects/mqtt-postgres-agent/) - Agent for sending data from MQTT into Postgres DB
 * [s7mqtt](/projects/s7mqtt/) - MQTT gateway for devices which use the S7 protocol (RFC1006)
-* [yasdi-mqtt](/projects/yasdi-mqtt/) - MQTT version of [node-yasdi](/packages/node-yasdi/)
-* [yasdi-rest](/projects/yasdi-rest/) - Extends [node-yasdi](/packages/node-yasdi/) by REST endpoints
+* [yasdi-mqtt](/projects/yasdi-mqtt/) - MQTT version of [node-yasdi](https://www.npmjs.com/package/@woifes/node-yasdi)
+* [yasdi-rest](/projects/yasdi-rest/) - Extends [node-yasdi](https://www.npmjs.com/package/@woifes/node-yasdi) by REST endpoints
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -44,7 +43,6 @@ The license of the different packages or projects are stated inside the correspo
 * [binarytypes](/packages/binarytypes/) - MIT
 * [gjson](/packages/gsjon/) - MIT
 * [mqtt-client](/packages/mqtt-client/) - AGPL-3.0-or-later
-* [node-yasdi](/packages/node-yasdi/) - MIT
 * [s7endpoint](/packages/s7endpoint/) - MIT
 * [util](/packages/util/) - MIT
 

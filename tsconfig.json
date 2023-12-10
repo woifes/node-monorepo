@@ -10,7 +10,6 @@
       "@woifes/gjson": ["packages/gjson/index.ts"],
       "@woifes/mqtt-client": ["packages/mqtt-client/index.ts"],
       "@woifes/mqtt-client/decorator": ["packages/mqtt-client/src/decorator/index.ts"],
-      "@woifes/node-yasdi": ["packages/node-yasdi/index.ts"],
       "@woifes/s7endpoint": ["packages/s7endpoint/index.ts"],
       "@woifes/util": ["packages/util/index.ts"],
 
