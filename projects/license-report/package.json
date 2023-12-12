@@ -16,7 +16,12 @@
     "lint": "biome check --apply-unsafe .",
     "prepare": "pnpm compile"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/woifes/node-monorepo",
+    "directory": "./projects/license-report"
+  },
+  "keywords": ["license", "report", "pnpm", "oss"],
   "author": "woifes",
   "license": "MIT",
   "devDependencies": {
