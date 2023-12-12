@@ -7,7 +7,7 @@ This package provides a script to create a license report from a repository mana
 Install the package globally or as devDependency. Execute the script ```license-report```.
 
 ## License determination
-* The package uses the ```pnpm list``` script to print the dependency tree of the package of the current working directory. From there it parses the package name and license of every package. The package.json of every package will be fetched from the registry and from this the license field will be used.
+* The package uses the ```pnpm list``` script to print the dependency tree of the package (no dev dependencies) of the current working directory. From there it parses the package name and license of every package. The package.json of every package will be fetched from the registry and from this the license field will be used.
 * If you re run the report generation a already existing lincense report will first read back to save time fetching the package.json
 * If a license can not be determined a prompt will ask for the license. You should use a standard license identifier like it is required in a package.json. Otherwise the summary might not be correct.
 * If your package is part of a monorepo and has cross linked packages as dependency it tries to resolve the path of the package.json directly.
