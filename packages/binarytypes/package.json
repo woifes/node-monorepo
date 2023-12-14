@@ -7,7 +7,6 @@
   "files": [
     "dist"
   ],
-  "private": true,
   "scripts": {
     "test": "jest",
     "format": "biome format --write .",
@@ -31,6 +30,11 @@
     "FLOAT",
     "DOUBLE"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/woifes/node-monorepo",
+    "directory": "packages/binarytypes"
+  },
   "author": "woifes",
   "license": "MIT",
   "dependencies": {
