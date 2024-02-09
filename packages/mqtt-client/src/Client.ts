@@ -3,7 +3,7 @@
 
 import { TypeName } from "@woifes/binarytypes";
 import { Debugger, debug } from "debug";
-import { Client as MqttClient, connect as MqttConnect } from "mqtt";
+import { MqttClient, connect as MqttConnect } from "mqtt";
 import { IPublishPacket as MqttPubPacket, QoS } from "mqtt-packet";
 import { Observable } from "rxjs";
 import { ClientConfig, tClientConfig } from "./ClientConfig";
@@ -90,7 +90,7 @@ export class Client {
                 this._config.notifyPresencePrefix !== undefined
                     ? {
                           topic: `${this._config.notifyPresencePrefix}/${this._config.clientId}`,
-                          payload: "0",
+                          payload: Buffer.from("0", "ascii"),
                           qos: 2,
                           retain: true,
                       }
@@ -230,7 +230,7 @@ export class Client {
                                 },
                             },
                             (error) => {
-                                if (error !== undefined) {
+                                if (error != null) {
                                     this._debug(
                                         `message not published. topic:${msg.topic} | payload:${msg.body} | error: ${error}`,
                                     );

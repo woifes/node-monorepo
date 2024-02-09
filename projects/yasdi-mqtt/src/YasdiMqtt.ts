@@ -40,24 +40,24 @@ export class YasdiMqtt {
         }
 
         this.nodeYasdi.on("deviceSearchEnd", () => {
-            this.plants.forEach((plant) => {
+            for (const plant of this.plants) {
                 plant.onDeviceSearchEnd(this.nodeYasdi.serials);
-            });
+            }
             this.fetchingLoop();
         });
 
         this.nodeYasdi.on("downloadChannels", () => {
-            this.plants.forEach((plant) => {
+            for (const plant of this.plants) {
                 plant.onDownloadChannels();
-            });
+            }
         });
     }
 
     private get inverterCount(): number {
         let count = 0;
-        this.config.yasdi.plants.forEach((plant: any) => {
+        for (const plant of this.config.yasdi.plants) {
             count += plant.inverter.length;
-        });
+        }
         return count;
     }
 

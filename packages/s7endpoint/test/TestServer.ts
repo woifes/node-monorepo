@@ -26,7 +26,7 @@ export class TestServer {
     }
 
     getDbArea(dbNr: number): Buffer {
-        let area;
+        let area: Buffer;
         try {
             this._server.LockArea(5, dbNr);
             area = this._server.GetArea(5, dbNr);

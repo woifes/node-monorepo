@@ -1,13 +1,13 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { EventEmitter } from "events";
 import {
     S7Endpoint,
     parseS7AddressString,
     tS7Variable,
 } from "@woifes/s7endpoint";
 import { Debugger } from "debug";
-import { EventEmitter } from "events";
 import { S7Output } from "../outputs/S7Output";
 import { S7EventConfig, tS7EventConfig } from "./S7EventConfig";
 

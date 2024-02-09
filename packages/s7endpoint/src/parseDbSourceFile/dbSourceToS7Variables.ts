@@ -29,10 +29,12 @@ export function dbSourceToS7Variables(
         }
         const tags: tS7Variable[] = [];
         for (const v of variables) {
-            tags.push({ ...v, dbNr });
+            tags.push({
+                ...v,
+                dbNr,
+            });
         }
         return tags;
-    } else {
-        return variables;
     }
+    return variables;
 }

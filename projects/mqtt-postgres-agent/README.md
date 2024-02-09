@@ -28,8 +28,8 @@ mqtt:
 url: mqtt://mqtt:1883
 clientId: agent01
 auth:
-username: "user01"
-password: "123456"
+  username: "user01"
+  password: "123456"
 
 #postgres: everything set via environment variables
 

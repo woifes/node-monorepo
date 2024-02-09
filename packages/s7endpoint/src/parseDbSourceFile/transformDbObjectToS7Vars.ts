@@ -34,7 +34,7 @@ function parseDbLine(str: string): ParseLineResult {
         const lowerBound = parseInt(type.split("[")[1].split("..")[0]);
         const upperBound = parseInt(type.split("]")[0].split("..")[1]);
         type = type.split("of")[1];
-        if (!isNaN(lowerBound) && !isNaN(upperBound)) {
+        if (!Number.isNaN(lowerBound) && !Number.isNaN(upperBound)) {
             count = 1 + (upperBound - lowerBound);
         } else {
             throw new Error("Could not calculate Array size");

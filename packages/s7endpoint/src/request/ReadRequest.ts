@@ -29,21 +29,25 @@ export class ReadRequest extends Request {
      * @returns object where the keys are the given tag names and the values the tag object with set value property
      */
     async execute(): Promise<tS7Variable[]> {
-        const promises: Map<string, Promise<tS7Variable[]>> = new Map();
+        const promises: Promise<tS7Variable[]>[] = []; //Map<string, Promise<tS7Variable[]>> = new Map();
+        const areas: string[] = [];
 
         //start every promise so it can start to perform the request
         for (const [area, areaRequest] of this._areaRequests.entries()) {
-            promises.set(area, areaRequest.execute());
+            promises.push(areaRequest.execute());
+            areas.push(area);
         }
 
+        const promisesResult = await Promise.all(promises);
+
         const result: tS7Variable[] = [];
-        //await every promise (if a promise is already done await will finish immediately)
-        for (const [area, areaPromise] of promises.entries()) {
-            const areaResult = await areaPromise;
+        for (let i = 0; i < promisesResult.length; i++) {
+            const areaResult = promisesResult[i];
+            const area = areas[i];
             const areaVariableIndexes = this._indexesByArea.get(area)!;
-            for (let i = 0; i < areaVariableIndexes.length; i++) {
-                const variable = areaResult[i];
-                const index = areaVariableIndexes[i];
+            for (let j = 0; j < areaVariableIndexes.length; j++) {
+                const variable = areaResult[j];
+                const index = areaVariableIndexes[j];
                 result[index] = variable;
             }
         }

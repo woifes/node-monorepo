@@ -37,9 +37,8 @@ function getTypeField(variable: tS7Variable): string {
 function getSizeField(variable: tS7Variable): number {
     if (variable.type === "BIT") {
         return 1;
-    } else {
-        return DataTypes[variable.type].size;
     }
+    return DataTypes[variable.type].size;
 }
 
 function getAddressField(dbNr: number, variable: tS7Variable): string {

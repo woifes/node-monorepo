@@ -5,9 +5,10 @@
     },
     "formatter": {
       "enabled": true,
+      "lineEnding": "crlf",
       "indentStyle": "space",
       "lineWidth": 80,
-      "indentSize": 4,
+      "indentWidth": 4,
       "ignore": [
         "dist",
         "node_modules",
@@ -29,6 +30,9 @@
         },
         "performance": {
           "noDelete": "off"
+        },
+        "complexity": {
+          "noThisInStatic": "off"
         }
       },
       "ignore": [

@@ -16,11 +16,31 @@ const S7ENDP = new S7RemoteEndpoint({
 
 it("should check variable array with runtype", () => {
     const varSet: tS7Variable[] = [
-        { area: "DB", byteIndex: 2, type: "UINT8" },
-        { area: "DB", byteIndex: 13, type: "UINT8" },
-        { area: "DB", byteIndex: 111, type: "UINT8" },
-        { area: "DB", byteIndex: 250, type: "UINT8" },
-        { area: "DB", byteIndex: 1000, type: "UINT8" },
+        {
+            area: "DB",
+            byteIndex: 2,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            byteIndex: 13,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            byteIndex: 111,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            byteIndex: 250,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            byteIndex: 1000,
+            type: "UINT8",
+        },
         {
             area: "DB",
             byteIndex: 2010,
@@ -36,11 +56,36 @@ it("should check variable array with runtype", () => {
 
 it("should calc correct size", () => {
     const varSet: tS7Variable[] = [
-        { area: "DB", dbNr: 1, byteIndex: 111, type: "UINT8" },
-        { area: "DB", dbNr: 1, byteIndex: 2, type: "UINT8" },
-        { area: "DB", dbNr: 1, byteIndex: 250, type: "UINT8" },
-        { area: "DB", dbNr: 1, byteIndex: 13, type: "UINT8" },
-        { area: "DB", dbNr: 1, byteIndex: 1000, type: "UINT8" },
+        {
+            area: "DB",
+            dbNr: 1,
+            byteIndex: 111,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            dbNr: 1,
+            byteIndex: 2,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            dbNr: 1,
+            byteIndex: 250,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            dbNr: 1,
+            byteIndex: 13,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            dbNr: 1,
+            byteIndex: 1000,
+            type: "UINT8",
+        },
         {
             area: "DB",
             dbNr: 1,
@@ -51,11 +96,36 @@ it("should calc correct size", () => {
     ];
     const dr = new AreaRequest(varSet, S7ENDP);
     expect((dr as any)._variables).toEqual([
-        { area: "DB", dbNr: 1, byteIndex: 2, type: "UINT8" },
-        { area: "DB", dbNr: 1, byteIndex: 13, type: "UINT8" },
-        { area: "DB", dbNr: 1, byteIndex: 111, type: "UINT8" },
-        { area: "DB", dbNr: 1, byteIndex: 250, type: "UINT8" },
-        { area: "DB", dbNr: 1, byteIndex: 1000, type: "UINT8" },
+        {
+            area: "DB",
+            dbNr: 1,
+            byteIndex: 2,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            dbNr: 1,
+            byteIndex: 13,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            dbNr: 1,
+            byteIndex: 111,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            dbNr: 1,
+            byteIndex: 250,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            dbNr: 1,
+            byteIndex: 1000,
+            type: "UINT8",
+        },
         {
             area: "DB",
             dbNr: 1,

@@ -44,13 +44,16 @@ function parseLines(lineIter: IterableIterator<string>): DbObject {
         line = line.toUpperCase();
         if (line.indexOf("END_STRUCT") !== -1) {
             return obj;
-        } else if (line.indexOf("OFSTRUCT") !== -1) {
+        }
+        if (line.indexOf("OFSTRUCT") !== -1) {
             const lower = parseInt(line.split("[")[1].split("..")[0]);
             const upper = parseInt(line.split("]")[0].split("..")[1]);
             const res = parseLines(lineIter);
             const arrayStruct: DbObject = {};
             for (let i = lower; i <= upper; i++) {
-                arrayStruct[i] = { ...res };
+                arrayStruct[i] = {
+                    ...res,
+                };
             }
             obj[name] = arrayStruct;
         } else if (line.indexOf("STRUCT") !== -1) {

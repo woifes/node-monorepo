@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import { Packet } from "mqtt-packet";
 import { UniqueTopicStore } from "../../src/utils/UniqueTopicStore";
 
 test("put without topic and get", () => {
@@ -9,7 +10,7 @@ test("put without topic and get", () => {
         messageId: 42,
     };
 
-    store.put(packet);
+    store.put(packet as Packet, () => {});
     expect((store as any)._inflights.size).toBe(1);
     expect((store as any)._reverseMap.size).toBe(0);
     store.get({ messageId: 42 }, (err: any, p: any) => {
@@ -24,7 +25,7 @@ test("put with topic and get", () => {
         messageId: 42,
     };
 
-    store.put(packet);
+    store.put(packet as Packet, () => {});
     expect((store as any)._inflights.size).toBe(1);
     expect((store as any)._reverseMap.size).toBe(1);
     store.get({ messageId: 42 }, (err: any, p: any) => {
@@ -43,10 +44,10 @@ test("put and overide same topic and get", () => {
         messageId: 123,
     };
 
-    store.put(packet);
+    store.put(packet as Packet, () => {});
     expect((store as any)._inflights.size).toBe(1);
     expect((store as any)._reverseMap.size).toBe(1);
-    store.put(packet2);
+    store.put(packet2 as Packet, () => {});
     store.get({ messageId: 123 }, (err: any, p: any) => {
         expect(p === packet2).toBe(true);
     });
@@ -63,10 +64,10 @@ test("put and overide same messageId and get", () => {
         messageId: 42,
     };
 
-    store.put(packet);
+    store.put(packet as Packet, () => {});
     expect((store as any)._inflights.size).toBe(1);
     expect((store as any)._reverseMap.size).toBe(0);
-    store.put(packet2);
+    store.put(packet2 as Packet, () => {});
     store.get({ messageId: 42 }, (err: any, p: any) => {
         expect(p === packet2).toBe(true);
     });
@@ -84,10 +85,10 @@ test("put and overide same messageId but no topic and get", () => {
         messageId: 42,
     };
 
-    store.put(packet);
+    store.put(packet as Packet, () => {});
     expect((store as any)._inflights.size).toBe(1);
     expect((store as any)._reverseMap.size).toBe(1);
-    store.put(packet2);
+    store.put(packet2 as Packet, () => {});
     store.get({ messageId: 42 }, (err: any, p: any) => {
         expect(p === packet2).toBe(true);
     });
@@ -106,10 +107,10 @@ test("put and overide same messageId but different topic and get", () => {
         messageId: 42,
     };
 
-    store.put(packet);
+    store.put(packet as Packet, () => {});
     expect((store as any)._inflights.size).toBe(1);
     expect((store as any)._reverseMap.size).toBe(1);
-    store.put(packet2);
+    store.put(packet2 as Packet, () => {});
     store.get({ messageId: 42 }, (err: any, p: any) => {
         expect(p === packet2).toBe(true);
     });
@@ -128,7 +129,7 @@ test("put and stream", (done) => {
         expect(data === packet).toBe(true);
     });
 
-    store.put(packet, () => {
+    store.put(packet as Packet, () => {
         const stream = store.createStream();
         stream.on("data", testFn);
         stream.on("close", () => {
@@ -145,7 +146,7 @@ test("destroy stream", (done) => {
         messageId: 42,
     };
 
-    store.put(packet, () => {
+    store.put(packet as Packet, () => {
         const stream = store.createStream();
         stream.on("close", () => {
             done();
@@ -160,7 +161,7 @@ test("delete package without topic", () => {
         messageId: 42,
     };
 
-    store.put(packet);
+    store.put(packet as Packet, () => {});
     expect((store as any)._inflights.size).toBe(1);
     expect((store as any)._reverseMap.size).toBe(0);
     store.del({ messageId: 42 }, (err: any, p: any) => {
@@ -177,7 +178,7 @@ test("delete package with topic", () => {
         messageId: 42,
     };
 
-    store.put(packet);
+    store.put(packet as Packet, () => {});
     expect((store as any)._inflights.size).toBe(1);
     expect((store as any)._reverseMap.size).toBe(1);
     store.del({ messageId: 42 }, (err: any, p: any) => {

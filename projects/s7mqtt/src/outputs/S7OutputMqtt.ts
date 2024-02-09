@@ -15,16 +15,13 @@ export class S7OutputMqtt {
         if (variable.type === "BIT") {
             if (variable.count !== undefined && variable.count > 1)
                 return "ARRAY_OF_UINT8";
-            else {
-                return "UINT8";
-            }
-        } else {
-            if (variable.count !== undefined && variable.count > 1) {
-                return `ARRAY_OF_${variable.type}`;
-            } else {
-                return variable.type;
-            }
+
+            return "UINT8";
         }
+        if (variable.count !== undefined && variable.count > 1) {
+            return `ARRAY_OF_${variable.type}`;
+        }
+        return variable.type;
     }
 
     private _topicPrefix: string;

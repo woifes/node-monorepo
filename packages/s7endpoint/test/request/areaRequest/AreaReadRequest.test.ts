@@ -58,8 +58,20 @@ it("should read the variables as expected", async () => {
             type: "INT16",
             count: 4,
         },
-        { name: "four", area: "DB", dbNr: 1, byteIndex: 3, type: "INT32" },
-        { name: "five", area: "DB", dbNr: 1, byteIndex: 1, type: "UINT8" },
+        {
+            name: "four",
+            area: "DB",
+            dbNr: 1,
+            byteIndex: 3,
+            type: "INT32",
+        },
+        {
+            name: "five",
+            area: "DB",
+            dbNr: 1,
+            byteIndex: 1,
+            type: "UINT8",
+        },
     ];
 
     const buf = Buffer.alloc(47);
@@ -125,8 +137,18 @@ it("should read the variables as expected", async () => {
 
 it("should throw errors up to execute", () => {
     const testVars: tS7Variable[] = [
-        { area: "DB", dbNr: 999, byteIndex: 1, type: "UINT8" },
-        { area: "DB", dbNr: 999, byteIndex: 3, type: "INT32" },
+        {
+            area: "DB",
+            dbNr: 999,
+            byteIndex: 1,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            dbNr: 999,
+            byteIndex: 3,
+            type: "INT32",
+        },
         {
             area: "DB",
             dbNr: 999,
@@ -134,7 +156,13 @@ it("should throw errors up to execute", () => {
             type: "INT16",
             count: 4,
         },
-        { area: "DB", dbNr: 1, byteIndex: 41, type: "BIT", bitIndex: 3 },
+        {
+            area: "DB",
+            dbNr: 1,
+            byteIndex: 41,
+            type: "BIT",
+            bitIndex: 3,
+        },
         {
             area: "DB",
             dbNr: 999,

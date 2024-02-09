@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import { tJsVal } from "@woifes/binarytypes";
-import { QoS } from "mqtt";
+import { QoS } from "mqtt-packet";
 import * as rt from "runtypes";
 import { MqttClientMock } from "../../../__mocks__/mqtt";
 import { Client } from "../../../src/Client";

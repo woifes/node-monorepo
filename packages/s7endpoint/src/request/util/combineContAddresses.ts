@@ -31,18 +31,17 @@ export function combineContAddresses(variables: tS7Address[]): tS7Address[][] {
         if (variableArr.length === 1) {
             result.push(variableArr[0]);
             break;
-        } else {
-            let testee: tS7Address[] = variableArr.shift()!;
-            while (variableArr.length > 0) {
-                if (checkOverlap(testee, variableArr[0])) {
-                    const next = variableArr.shift()!;
-                    testee = [...testee, ...next];
-                } else {
-                    break;
-                }
-            }
-            result.push(testee);
         }
+        let testee: tS7Address[] = variableArr.shift()!;
+        while (variableArr.length > 0) {
+            if (checkOverlap(testee, variableArr[0])) {
+                const next = variableArr.shift()!;
+                testee = [...testee, ...next];
+            } else {
+                break;
+            }
+        }
+        result.push(testee);
     }
 
     return result;

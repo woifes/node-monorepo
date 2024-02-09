@@ -152,9 +152,8 @@ function typeToS7Type(type: tNumber): tDataTypeNames | tS7ShortTypeNames {
 function replaceLogoConstant(identifier: string): string {
     if (identifier in LOGO_ADDRESSES) {
         return (LOGO_ADDRESSES as any)[identifier] as string;
-    } else {
-        throw new Error(
-            `Could not find identifier ${identifier} in constants of ${LOGO_PREFIX}`,
-        );
     }
+    throw new Error(
+        `Could not find identifier ${identifier} in constants of ${LOGO_PREFIX}`,
+    );
 }

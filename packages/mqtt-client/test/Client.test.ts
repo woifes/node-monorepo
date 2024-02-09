@@ -79,7 +79,7 @@ describe("creation tests", () => {
         expect(mqttConfig.password).toBe("pw");
         expect(mqttConfig.will).toEqual({
             topic: "clients/id04",
-            payload: "0",
+            payload: Buffer.from("0", "ascii"),
             qos: 2,
             retain: true,
         });
