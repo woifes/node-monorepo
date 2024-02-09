@@ -328,9 +328,27 @@ describe("client operations", () => {
                 );
 
                 const result = await endPoint.readMultiVars([
-                    { Area: 132, WordLen: 6, DBNumber: 1, Start: 2, Amount: 1 },
-                    { Area: 132, WordLen: 6, DBNumber: 4, Start: 3, Amount: 2 },
-                    { Area: 132, WordLen: 6, DBNumber: 7, Start: 4, Amount: 3 },
+                    {
+                        Area: 132,
+                        WordLen: 6,
+                        DBNumber: 1,
+                        Start: 2,
+                        Amount: 1,
+                    },
+                    {
+                        Area: 132,
+                        WordLen: 6,
+                        DBNumber: 4,
+                        Start: 3,
+                        Amount: 2,
+                    },
+                    {
+                        Area: 132,
+                        WordLen: 6,
+                        DBNumber: 7,
+                        Start: 4,
+                        Amount: 3,
+                    },
                 ]);
                 expect(result[0].Result).toBe(0);
                 expect(result[1].Result).toBe(0);

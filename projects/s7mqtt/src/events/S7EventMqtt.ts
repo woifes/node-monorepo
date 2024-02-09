@@ -73,11 +73,11 @@ export class S7EventMqtt {
                 const n = parseInt(c);
                 if (Number.isFinite(n) && params[n] !== undefined) {
                     return JSON.stringify(params[n].value);
-                } else if (c === "t") {
-                    return JSON.stringify(newTrigger.value);
-                } else {
-                    return match;
                 }
+                if (c === "t") {
+                    return JSON.stringify(newTrigger.value);
+                }
+                return match;
             },
         );
     }

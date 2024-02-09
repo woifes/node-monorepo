@@ -17,13 +17,55 @@ const S7ENDP = new S7RemoteEndpoint({
 });
 
 const testTagSet: tS7Variable[] = [
-    { area: "DB", value: 1, dbNr: 1, byteIndex: 1, type: "UINT8" },
-    { area: "DB", value: 1, dbNr: 2, byteIndex: 1, type: "UINT8" },
-    { area: "DB", value: 1, dbNr: 3, byteIndex: 1, type: "UINT8" },
-    { area: "DB", value: 1, dbNr: 3, byteIndex: 4, type: "UINT8" },
-    { area: "DB", value: 1, dbNr: 3, byteIndex: 12, type: "UINT8" },
-    { area: "DB", value: 1, dbNr: 4, byteIndex: 1, type: "UINT8" },
-    { area: "DB", value: 1, dbNr: 7, byteIndex: 1, type: "UINT8" },
+    {
+        area: "DB",
+        value: 1,
+        dbNr: 1,
+        byteIndex: 1,
+        type: "UINT8",
+    },
+    {
+        area: "DB",
+        value: 1,
+        dbNr: 2,
+        byteIndex: 1,
+        type: "UINT8",
+    },
+    {
+        area: "DB",
+        value: 1,
+        dbNr: 3,
+        byteIndex: 1,
+        type: "UINT8",
+    },
+    {
+        area: "DB",
+        value: 1,
+        dbNr: 3,
+        byteIndex: 4,
+        type: "UINT8",
+    },
+    {
+        area: "DB",
+        value: 1,
+        dbNr: 3,
+        byteIndex: 12,
+        type: "UINT8",
+    },
+    {
+        area: "DB",
+        value: 1,
+        dbNr: 4,
+        byteIndex: 1,
+        type: "UINT8",
+    },
+    {
+        area: "DB",
+        value: 1,
+        dbNr: 7,
+        byteIndex: 1,
+        type: "UINT8",
+    },
 ];
 
 afterEach(() => {
@@ -34,21 +76,63 @@ it("create AreaWriteRequest for each db", () => {
     const wr = new WriteRequest(testTagSet, S7ENDP);
     expect(AreaWriteRequest).toBeCalledTimes(5);
     expect((AreaWriteRequest as jest.Mock).mock.calls[0][0]).toEqual([
-        { area: "DB", value: 1, dbNr: 1, byteIndex: 1, type: "UINT8" },
+        {
+            area: "DB",
+            value: 1,
+            dbNr: 1,
+            byteIndex: 1,
+            type: "UINT8",
+        },
     ]);
     expect((AreaWriteRequest as jest.Mock).mock.calls[1][0]).toEqual([
-        { area: "DB", value: 1, dbNr: 2, byteIndex: 1, type: "UINT8" },
+        {
+            area: "DB",
+            value: 1,
+            dbNr: 2,
+            byteIndex: 1,
+            type: "UINT8",
+        },
     ]);
     expect((AreaWriteRequest as jest.Mock).mock.calls[2][0]).toEqual([
-        { area: "DB", value: 1, dbNr: 3, byteIndex: 1, type: "UINT8" },
-        { area: "DB", value: 1, dbNr: 3, byteIndex: 4, type: "UINT8" },
-        { area: "DB", value: 1, dbNr: 3, byteIndex: 12, type: "UINT8" },
+        {
+            area: "DB",
+            value: 1,
+            dbNr: 3,
+            byteIndex: 1,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            value: 1,
+            dbNr: 3,
+            byteIndex: 4,
+            type: "UINT8",
+        },
+        {
+            area: "DB",
+            value: 1,
+            dbNr: 3,
+            byteIndex: 12,
+            type: "UINT8",
+        },
     ]);
     expect((AreaWriteRequest as jest.Mock).mock.calls[3][0]).toEqual([
-        { area: "DB", value: 1, dbNr: 4, byteIndex: 1, type: "UINT8" },
+        {
+            area: "DB",
+            value: 1,
+            dbNr: 4,
+            byteIndex: 1,
+            type: "UINT8",
+        },
     ]);
     expect((AreaWriteRequest as jest.Mock).mock.calls[4][0]).toEqual([
-        { area: "DB", value: 1, dbNr: 7, byteIndex: 1, type: "UINT8" },
+        {
+            area: "DB",
+            value: 1,
+            dbNr: 7,
+            byteIndex: 1,
+            type: "UINT8",
+        },
     ]);
 });
 

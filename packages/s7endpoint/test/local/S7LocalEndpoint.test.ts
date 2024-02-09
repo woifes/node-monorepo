@@ -45,7 +45,9 @@ describe("creation tests", () => {
                         },
                     ],
                 },
-                2: { vars: join(__dirname, "TestSource.txt") },
+                2: {
+                    vars: join(__dirname, "TestSource.txt"),
+                },
             },
             datablockCsvDir: TMP_DIR,
         };
@@ -108,7 +110,9 @@ describe("client operations", () => {
                         },
                     ],
                 },
-                2: { vars: join(__dirname, "TestSource.txt") },
+                2: {
+                    vars: join(__dirname, "TestSource.txt"),
+                },
             },
             datablockCsvDir: TMP_DIR,
         });

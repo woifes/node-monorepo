@@ -9,7 +9,7 @@ import {
     tVal,
 } from "@woifes/binarytypes";
 import { parse as JSON5parse } from "json5";
-import { QoS } from "mqtt-packet";
+import { IPublishPacket, QoS } from "mqtt-packet";
 import { Runtype } from "runtypes";
 import { Client } from "./Client";
 
@@ -18,18 +18,7 @@ export declare interface Message {
     readJSON<T>(runtype?: Runtype<T>, fallBackVal?: T): T;
 }
 
-export type MqttPubPacketProperties = {
-    payloadFormatIndicator?: boolean;
-    messageExpiryInterval?: number;
-    topicAlias?: number;
-    responseTopic?: string;
-    correlationData?: Buffer;
-    userProperties?: {
-        [key: string]: string | string[];
-    };
-    subscriptionIdentifier?: number;
-    contentType?: string;
-};
+export type MqttPubPacketProperties = IPublishPacket["properties"];
 
 /**
  * This object represents a mqtt message. Either a received one with a message body, or to generate a message which can be send via the mqtt client.

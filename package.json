@@ -16,7 +16,7 @@
   "author": "woifes",
   "license": "UNLICENSED",
   "devDependencies": {
-    "@biomejs/biome": "^1.2.2",
+    "@biomejs/biome": "^1.5.3",
     "@jest/types": "^29.5.0",
     "@types/debug": "^4.1.7",
     "@types/jest": "^27.0.1",

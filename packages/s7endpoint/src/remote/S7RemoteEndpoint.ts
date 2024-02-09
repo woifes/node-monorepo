@@ -100,7 +100,9 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
     get connected(): boolean {
         if (this._connectedToEndpoint !== this._client.Connected()) {
             this._debug(
-                "Connection status between endpoint and client is not synchronous",
+                `Connection status between endpoint and client is not synchronous. Variable: ${
+                    this._connectedToEndpoint
+                }, Client Object: ${this._client.Connected()}`,
             );
         }
         return this._connectedToEndpoint && this._client.Connected();
@@ -218,7 +220,7 @@ export class S7RemoteEndpoint extends EventEmitter implements S7Endpoint {
                                 )}`,
                             );
                             this.disconnect();
-                            reject(this._client.ErrorText(err));
+                            reject(new Error(this._client.ErrorText(err)));
                         } else {
                             if (
                                 Buffer.isBuffer(data) &&

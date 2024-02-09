@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: © 2022 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import { QoS } from "mqtt";
+import { QoS } from "mqtt-packet";
 import { Observable } from "rxjs";
 import { filter } from "rxjs/operators";
 import { Message } from "../Message";

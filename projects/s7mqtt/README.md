@@ -1,4 +1,4 @@
-# @woifes/s7endpoint
+# @woifes/s7mqtt
 
 ## Why?
 This project acts as a gateway between MQTT and the a device via the S7 protocol (RFC1006). The goal is to have as less as possible overhead for the communication on the S7 device.

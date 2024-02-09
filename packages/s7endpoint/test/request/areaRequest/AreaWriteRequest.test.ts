@@ -60,7 +60,13 @@ describe("creation tests", () => {
     it("should throw if no value is set", () => {
         expect(() => {
             new AreaWriteRequest(
-                [{ area: "DB", type: "UINT8", byteIndex: 1 }],
+                [
+                    {
+                        area: "DB",
+                        type: "UINT8",
+                        byteIndex: 1,
+                    },
+                ],
                 S7ENDP,
             );
         }).toThrow();
@@ -72,9 +78,27 @@ describe("write bit variable tests", () => {
         let testVars: tS7Variable[];
         beforeEach(() => {
             testVars = [
-                { area: "DB", dbNr: 1, type: "BIT", byteIndex: 1, bitIndex: 4 },
-                { area: "DB", dbNr: 1, type: "BIT", byteIndex: 1, bitIndex: 5 },
-                { area: "DB", dbNr: 1, type: "BIT", byteIndex: 1, bitIndex: 6 },
+                {
+                    area: "DB",
+                    dbNr: 1,
+                    type: "BIT",
+                    byteIndex: 1,
+                    bitIndex: 4,
+                },
+                {
+                    area: "DB",
+                    dbNr: 1,
+                    type: "BIT",
+                    byteIndex: 1,
+                    bitIndex: 5,
+                },
+                {
+                    area: "DB",
+                    dbNr: 1,
+                    type: "BIT",
+                    byteIndex: 1,
+                    bitIndex: 6,
+                },
             ];
         });
 
@@ -163,9 +187,27 @@ describe("write tests", () => {
         SERVER.setArea(101, Buffer.alloc(27));
 
         const testVars: tS7Variable[] = [
-            { area: "DB", dbNr: 101, byteIndex: 1, type: "UINT8", value: 123 },
-            { area: "DB", dbNr: 101, byteIndex: 2, type: "INT32", value: 456 },
-            { area: "DB", dbNr: 101, byteIndex: 6, type: "UINT16", value: 78 },
+            {
+                area: "DB",
+                dbNr: 101,
+                byteIndex: 1,
+                type: "UINT8",
+                value: 123,
+            },
+            {
+                area: "DB",
+                dbNr: 101,
+                byteIndex: 2,
+                type: "INT32",
+                value: 456,
+            },
+            {
+                area: "DB",
+                dbNr: 101,
+                byteIndex: 6,
+                type: "UINT16",
+                value: 78,
+            },
 
             {
                 area: "DB",
@@ -175,7 +217,13 @@ describe("write tests", () => {
                 count: 3,
                 value: [1, 2, 3],
             },
-            { area: "DB", dbNr: 101, byteIndex: 22, type: "INT32", value: 456 },
+            {
+                area: "DB",
+                dbNr: 101,
+                byteIndex: 22,
+                type: "INT32",
+                value: 456,
+            },
         ];
 
         const wr = new AreaWriteRequest(testVars, S7ENDP); //101
@@ -189,7 +237,13 @@ describe("write tests", () => {
         SERVER.setArea(102, Buffer.alloc(30));
 
         const testVars: tS7Variable[] = [
-            { area: "DB", dbNr: 102, byteIndex: 1, type: "UINT8", value: 123 },
+            {
+                area: "DB",
+                dbNr: 102,
+                byteIndex: 1,
+                type: "UINT8",
+                value: 123,
+            },
 
             {
                 area: "DB",
@@ -200,7 +254,13 @@ describe("write tests", () => {
                 value: [1, 2, 3],
             },
 
-            { area: "DB", dbNr: 102, byteIndex: 25, type: "INT32", value: 456 },
+            {
+                area: "DB",
+                dbNr: 102,
+                byteIndex: 25,
+                type: "INT32",
+                value: 456,
+            },
         ];
 
         const wr = new AreaWriteRequest(testVars, S7ENDP); //102
@@ -214,9 +274,27 @@ describe("write tests", () => {
         SERVER.setArea(103, Buffer.alloc(26));
 
         const testVars: tS7Variable[] = [
-            { area: "DB", dbNr: 103, byteIndex: 1, type: "UINT8", value: 123 },
-            { area: "DB", dbNr: 103, byteIndex: 2, type: "INT32", value: 456 },
-            { area: "DB", dbNr: 103, byteIndex: 6, type: "UINT16", value: 78 },
+            {
+                area: "DB",
+                dbNr: 103,
+                byteIndex: 1,
+                type: "UINT8",
+                value: 123,
+            },
+            {
+                area: "DB",
+                dbNr: 103,
+                byteIndex: 2,
+                type: "INT32",
+                value: 456,
+            },
+            {
+                area: "DB",
+                dbNr: 103,
+                byteIndex: 6,
+                type: "UINT16",
+                value: 78,
+            },
             {
                 area: "DB",
                 dbNr: 103,
@@ -233,7 +311,13 @@ describe("write tests", () => {
                 count: 3,
                 value: [1, 2, 3],
             },
-            { area: "DB", dbNr: 103, byteIndex: 21, type: "INT32", value: 456 },
+            {
+                area: "DB",
+                dbNr: 103,
+                byteIndex: 21,
+                type: "INT32",
+                value: 456,
+            },
         ];
 
         const wr = new AreaWriteRequest(testVars, S7ENDP); //103

@@ -25,7 +25,7 @@ export function getIntensity(sunTraceInfo: SunTraceInfo): number {
         (1 - 0.14 * sunTraceInfo.coordinates.heightAboveSeeLevelKM) *
             0.7 ** (airMass ** 0.678) +
         0.14 * sunTraceInfo.coordinates.heightAboveSeeLevelKM;
-    if (isNaN(intensityByAirMass)) {
+    if (Number.isNaN(intensityByAirMass)) {
         intensityByAirMass = 0;
     }
     const intensityDiffuse = intensityByAirMass * 0.1;

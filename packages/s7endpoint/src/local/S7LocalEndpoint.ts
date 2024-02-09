@@ -179,13 +179,12 @@ export class S7LocalEndpoint extends EventEmitter implements S7Endpoint {
             if (db.length >= dbIndex + length) {
                 const dbSlice = db.slice(dbIndex, dbIndex + length);
                 return Promise.resolve(dbSlice);
-            } else {
-                throw new Error(
-                    `Db ${dbNr} has length ${db.length} but needed ${
-                        dbIndex + length
-                    }`,
-                );
             }
+            throw new Error(
+                `Db ${dbNr} has length ${db.length} but needed ${
+                    dbIndex + length
+                }`,
+            );
         } catch (e) {
             this._debugRead(`${e}`);
             return Promise.reject(e);
@@ -215,13 +214,12 @@ export class S7LocalEndpoint extends EventEmitter implements S7Endpoint {
                 buf.copy(db, dbIndex, 0);
                 this.setArea(dbNr, db);
                 return Promise.resolve();
-            } else {
-                throw new Error(
-                    `Db ${dbNr} has length ${db.length} but needed ${
-                        dbIndex + buf.length
-                    }`,
-                );
             }
+            throw new Error(
+                `Db ${dbNr} has length ${db.length} but needed ${
+                    dbIndex + buf.length
+                }`,
+            );
         } catch (e) {
             this._debugWrite(`${e}`);
             return Promise.reject(e);

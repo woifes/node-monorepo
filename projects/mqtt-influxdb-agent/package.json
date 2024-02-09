@@ -1,6 +1,6 @@
 {
   "name": "@woifes/mqtt-influxdb-agent",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "files": [
     "dist"
@@ -21,7 +21,7 @@
   "license": "MIT",
   "dependencies": {
     "@influxdata/influxdb-client": "^1.33.2",
-    "@woifes/mqtt-client": "workspace:0.2.2",
+    "@woifes/mqtt-client": "workspace:0.3.0",
     "debug": "^4.3.2",
     "runtypes": "^6.5.1",
     "yaml": "^2.2.1"

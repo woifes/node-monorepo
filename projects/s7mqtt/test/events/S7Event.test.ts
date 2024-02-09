@@ -71,19 +71,18 @@ expect.extend({
                     message: () =>
                         `${received.value} is no array, like ${expected.value}`,
                 };
-            } else {
-                for (let i = 0; i < expected.value.length; i++) {
-                    if (expected.value[i] !== received.value[i]) {
-                        return {
-                            pass: false,
-                            message: () =>
-                                `element ${i} ${
-                                    (received.value as any)[i]
-                                } does not match with ${
-                                    (expected.value as any)[i]
-                                }`,
-                        };
-                    }
+            }
+            for (let i = 0; i < expected.value.length; i++) {
+                if (expected.value[i] !== received.value[i]) {
+                    return {
+                        pass: false,
+                        message: () =>
+                            `element ${i} ${
+                                (received.value as any)[i]
+                            } does not match with ${
+                                (expected.value as any)[i]
+                            }`,
+                    };
                 }
             }
         } else {

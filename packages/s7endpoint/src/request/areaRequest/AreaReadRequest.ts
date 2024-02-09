@@ -73,11 +73,10 @@ export class AreaReadRequest extends AreaRequest {
                     };
                 }
                 return result;
-            } else {
-                throw new Error(
-                    "AreaReadRequest did not read enough bytes for request",
-                );
             }
+            throw new Error(
+                "AreaReadRequest did not read enough bytes for request",
+            );
         } catch (e) {
             throw new Error(`Error occurred during AreaReadRequest: ${e}`);
         }

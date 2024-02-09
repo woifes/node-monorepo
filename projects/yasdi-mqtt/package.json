@@ -1,6 +1,6 @@
 {
   "name": "@woifes/yasdi-mqtt",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
   "files": [
     "dist"
@@ -20,7 +20,7 @@
   "author": "woifes",
   "license": "MIT",
   "dependencies": {
-    "@woifes/mqtt-client": "workspace:0.2.2",
+    "@woifes/mqtt-client": "workspace:0.3.0",
     "@woifes/node-yasdi": "1.0.1",
     "@woifes/util": "workspace:0.1.1",
     "debug": "^4.3.2",

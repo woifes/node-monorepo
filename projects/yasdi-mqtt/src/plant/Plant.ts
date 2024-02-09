@@ -70,16 +70,16 @@ export class Plant {
     }
 
     onNewDevice(serial: number) {
-        this.inverter.forEach((inverter) => {
+        for (const inverter of this.inverter) {
             inverter.onNewDevice(serial);
-        });
+        }
         this.sendDeviceCount();
     }
 
     onDeviceSearchEnd(serials: number[]) {
-        this.inverter.forEach((inverter) => {
+        for (const inverter of this.inverter) {
             inverter.onDeviceSearchEnd(serials);
-        });
+        }
         this.sendDeviceCount();
     }
 
