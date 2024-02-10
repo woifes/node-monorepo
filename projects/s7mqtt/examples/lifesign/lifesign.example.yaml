@@ -1,6 +1,7 @@
 out:
   address: DB1,X0.0 #The address of a life sign from the device (can be anything but a floating point variable)
   timeoutMS: 1500 #The time in which the value has to be changed in order to be seen as "alive"
+  pollIntervalMS: 500 #The interval time on which the output variable is checked
   topic: "a/b/c" #The topic to write the result to
 in:
   address: DB1,W10 #The address of a lif sign to the device. Has to be either a BIT or a UINT16

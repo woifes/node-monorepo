@@ -9,6 +9,7 @@ export const rtLifeSignConfig = rt
         out: rt
             .Record({
                 address: S7AddressString,
+                pollIntervalMS: rt.Number.withConstraint((n) => n > 0),
                 timeoutMS: rt.Number.withConstraint((n) => n > 0),
                 topic: rt.String.optional(),
             })

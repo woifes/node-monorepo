@@ -48,7 +48,7 @@ export class LifeSign {
                     tags: {
                         [`${SRC_LIFE_SIGN_TAG_NAME}`]: this._config.out.address,
                     },
-                    pollIntervalMS: this._config.out.timeoutMS / 2,
+                    pollIntervalMS: this._config.out.pollIntervalMS,
                 },
                 this._s7Endpoint,
                 this._debug,

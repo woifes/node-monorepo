@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import EventEmitter from "events";
-import { Client, Message } from "@woifes/mqtt-client";
+import { Client } from "@woifes/mqtt-client";
 import { S7RemoteEndpoint } from "@woifes/s7endpoint";
 import { TestServer } from "@woifes/s7endpoint/test/TestServer";
 import debug from "debug";
@@ -91,7 +91,14 @@ describe("output tests", () => {
 
     it("should detect the output life sign correctly (BIT)", async () => {
         const LIFE_SIGN = new LifeSign(
-            { out: { address: "DB1,X0.0", timeoutMS: 1000, topic: "a/b/c" } },
+            {
+                out: {
+                    address: "DB1,X0.0",
+                    timeoutMS: 1000,
+                    pollIntervalMS: 500,
+                    topic: "a/b/c",
+                },
+            },
             S7ENDP,
             MQTT as unknown as Client,
             DEBUGGER,
@@ -125,7 +132,13 @@ describe("output tests", () => {
 
     it("should detect the output life sign correctly (INT and not topic)", async () => {
         const LIFE_SIGN = new LifeSign(
-            { out: { address: "DB1,W0", timeoutMS: 1000 } },
+            {
+                out: {
+                    address: "DB1,W0",
+                    timeoutMS: 1000,
+                    pollIntervalMS: 500,
+                },
+            },
             S7ENDP,
             MQTT as unknown as Client,
             DEBUGGER,
