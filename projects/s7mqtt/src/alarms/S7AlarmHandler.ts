@@ -270,7 +270,11 @@ export class S7AlarmHandler {
                 await once(this._s7ep, "connect");
             }
             const writeReq = this._s7ep.createWriteRequest(tags);
-            await writeReq.execute();
+            try {
+                await writeReq.execute();
+            } catch (e) {
+                this._debug(`Error at setting ackIn for the alarms: ${e}`);
+            }
         }
     }
 

@@ -197,7 +197,11 @@ export class LifeSign {
                 value: this._inSignValue,
             },
         ]);
-        await writeReq.execute();
+        try {
+            await writeReq.execute();
+        } catch (e) {
+            this._debug(`Error at writing input life sign: ${e}`);
+        }
     }
 
     /**
