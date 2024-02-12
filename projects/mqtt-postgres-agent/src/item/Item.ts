@@ -63,10 +63,10 @@ export class Item {
      * @param valuesMap the values map to fill
      */
     private fillTimestampValues(valuesMap: Map<string, string>) {
+        const now = `${Date.now() / 1000}`;
         if (this.config.timestampValues !== undefined) {
-            const now = new Date().toUTCString();
             for (const key of this.config.timestampValues) {
-                valuesMap.set(key, String(now));
+                valuesMap.set(key, now);
             }
         }
     }
@@ -118,14 +118,19 @@ export class Item {
 
     @MqttMsgHandler(Item.mqttMsgHandlerConfig)
     onMessage(msg: Message) {
+        const timeStamps = new Map<string, string>();
         const keyValuePairs = this.getConstValuesMap();
         //get timestamp values
-        this.fillTimestampValues(keyValuePairs);
+        this.fillTimestampValues(timeStamps);
         //get topic values
         this.fillTopicValues(keyValuePairs, msg.topic);
         //get payload values
         this.fillPayloadValues(keyValuePairs, msg.body);
-        const [query, values] = createQuery(this.config.table, keyValuePairs);
+        const [query, values] = createQuery(
+            this.config.table,
+            keyValuePairs,
+            timeStamps,
+        );
         this.pool
             .query(query, values)
             .then(() => {

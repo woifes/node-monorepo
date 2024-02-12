@@ -171,14 +171,9 @@ describe("Insert tests", () => {
         const [query, values] = ((POOL as any).query as jest.Mock).mock
             .calls[0];
         expect(query).toBe(
-            "INSERT INTO myTable(value03, value04, value01, value02) VALUES($1, $2, $3, $4);",
+            "INSERT INTO myTable(value03, value01, value02, value04) VALUES($1, $2, $3, to_timestamp($4));",
         );
-        expect(values).toEqual([
-            "foo",
-            "Fri, 01 Dec 2023 23:00:00 GMT",
-            "B",
-            "123",
-        ]);
+        expect(values).toEqual(["foo", "B", "123", "1701471600"]);
         item.destroy();
     });
 });
