@@ -15,6 +15,13 @@ import { Pool } from "pg";
 import { ItemConfig, rtItemConfig } from "./ItemConfig";
 import { createQuery } from "./createQuery";
 
+function getValueFromPayload(searchPath: string, payload: string): string {
+    if (searchPath === "@this") {
+        return payload; //TODO remove when "@woifes/gjson" supports the @this
+    }
+    return String(get(payload, searchPath));
+}
+
 @MqttClient()
 export class Item {
     static mqttMsgHandlerConfig(this: Item): tMqttMsgHandlerConfig {
@@ -26,6 +33,11 @@ export class Item {
     }
 
     private config: ItemConfig;
+    private serialValues: Map<string, string[]> = new Map();
+    private singleValues: Map<string, string> = new Map();
+    private serialConstants: Map<string, string[]> = new Map();
+    private singleConstants: Map<string, string> = new Map();
+    private serialValuesCount = 0;
     private mqtt: Client;
     private pool: Pool;
     private debug: Debugger;
@@ -40,35 +52,53 @@ export class Item {
         this.mqtt = mqtt;
         this.pool = dbPool;
         this.debug = parentDebugger.extend(this.config.table);
+        if (this.config.payloadValues !== undefined) {
+            for (const [valueName, searchPath] of Object.entries(
+                this.config.payloadValues,
+            )) {
+                if (Array.isArray(searchPath)) {
+                    this.serialValues.set(valueName, searchPath);
+                    this.serialValuesCount = searchPath.length; //stupid reassignment because the equality of all arrays is assured by the runtype
+                    continue;
+                }
+                this.singleValues.set(valueName, searchPath);
+            }
+        }
+        if (this.config.constValues !== undefined) {
+            for (const [valueName, value] of Object.entries(
+                this.config.constValues,
+            )) {
+                if (Array.isArray(value)) {
+                    this.serialConstants.set(valueName, value);
+                    this.serialValuesCount = value.length; //stupid reassignment because the equality of all arrays is assured by the runtype
+                    continue;
+                }
+                this.singleConstants.set(valueName, value);
+            }
+        }
     }
 
     /**
-     * Generates the values map filled with the constants values
+     * Generates the values map filled with the single constants values
      * @returns the values map
      */
     private getConstValuesMap(): Map<string, string> {
-        const valuesMap = new Map<string, string>();
-        if (this.config.constValues !== undefined) {
-            for (const [key, value] of Object.entries(
-                this.config.constValues,
-            )) {
-                valuesMap.set(key, value);
-            }
-        }
-        return valuesMap;
+        return new Map<string, string>(this.singleConstants);
     }
 
     /**
-     * Fills the values map with the current timestamp
+     * Fills the timestamp map with the current timestamps
      * @param valuesMap the values map to fill
      */
-    private fillTimestampValues(valuesMap: Map<string, string>) {
+    private getTimeStampMap(): Map<string, string> {
+        const timeStampMap = new Map<string, string>();
         const now = `${Date.now() / 1000}`;
         if (this.config.timestampValues !== undefined) {
             for (const key of this.config.timestampValues) {
-                valuesMap.set(key, now);
+                timeStampMap.set(key, now);
             }
         }
+        return timeStampMap;
     }
 
     /**
@@ -94,51 +124,93 @@ export class Item {
      * @param valuesMap
      * @param payload
      */
-    private fillPayloadValues(valuesMap: Map<string, string>, payload: string) {
+    private fillSinglePayloadValues(
+        valuesMap: Map<string, string>,
+        payload: string,
+    ) {
         try {
-            if (this.config.payloadValues !== undefined) {
-                for (const [key, searchPath] of Object.entries(
-                    this.config.payloadValues,
-                )) {
-                    let value: string;
-                    if (searchPath === "@this") {
-                        value = payload; //TODO remove when "@woifes/gjson" supports the @this
-                    } else {
-                        value = String(get(payload, searchPath));
-                    }
+            if (this.singleValues.size > 0) {
+                for (const [
+                    valueName,
+                    searchPath,
+                ] of this.singleValues.entries()) {
+                    const value = getValueFromPayload(searchPath, payload);
                     //TODO proof type of value
-                    //TODO allow array values for multiple inserts
-                    valuesMap.set(key, value);
+                    valuesMap.set(valueName, value);
                 }
             }
-        } catch {
-            //debug
+            return valuesMap;
+        } catch (e) {
+            this.debug(`Error in fillSinglePayloadValues(): ${e}`);
+        }
+    }
+
+    /**
+     * Iterates over every combination of serial values (payload or constant)
+     * @param valuesMap
+     * @param payload
+     * @returns
+     */
+    private *getSerialInserts(
+        valuesMap: Map<string, string>,
+        payload: string,
+    ): Generator<Map<string, string>> {
+        if (this.serialValuesCount === 0) {
+            yield valuesMap;
+            return;
+        }
+
+        //It is assured that all involved arrays have the same size
+        for (let i = 0; i < this.serialValuesCount; i++) {
+            const valuesMapCopy = new Map(valuesMap);
+            for (const [
+                valueName,
+                searchPaths,
+            ] of this.serialValues.entries()) {
+                valuesMapCopy.set(
+                    valueName,
+                    getValueFromPayload(searchPaths[i], payload),
+                );
+            }
+            for (const [valueName, value] of this.serialConstants.entries()) {
+                valuesMapCopy.set(valueName, value[i]);
+            }
+
+            yield valuesMapCopy;
         }
     }
 
     @MqttMsgHandler(Item.mqttMsgHandlerConfig)
     onMessage(msg: Message) {
-        const timeStamps = new Map<string, string>();
-        const keyValuePairs = this.getConstValuesMap();
         //get timestamp values
-        this.fillTimestampValues(timeStamps);
-        //get topic values
+        const timeStamps = this.getTimeStampMap();
+
+        //get single values
+        //constants
+        const keyValuePairs = this.getConstValuesMap();
+        //topic values
         this.fillTopicValues(keyValuePairs, msg.topic);
-        //get payload values
-        this.fillPayloadValues(keyValuePairs, msg.body);
-        const [query, values] = createQuery(
-            this.config.table,
+        //single payload values
+        this.fillSinglePayloadValues(keyValuePairs, msg.body);
+
+        for (const keyValueCombination of this.getSerialInserts(
             keyValuePairs,
-            timeStamps,
-        );
-        this.pool
-            .query(query, values)
-            .then(() => {
-                this.debug(`Executed query: ${query} | [${values}]`);
-            })
-            .catch((err) => {
-                this.debug(`Query failed: ${err}, ${query} | [${values}]`);
-            });
+            msg.body,
+        )) {
+            const [query, values] = createQuery(
+                this.config.table,
+                keyValueCombination,
+                timeStamps,
+            );
+            this.pool
+                .query(query, values)
+                .then(() => {
+                    this.debug(`Executed query: ${query} | [${values}]`);
+                })
+                .catch((err) => {
+                    this.debug(`Query failed: ${err}, ${query} | [${values}]`);
+                });
+        }
     }
 
     @MqttUnsubHook()

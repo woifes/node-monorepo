@@ -10,7 +10,7 @@ export const rtItemConfig = rt
         table: rt.String.withConstraint((s) => s.length > 0),
         topicValues: rt.String.withConstraint((s) => s.length > 0).optional(), // "_/<columnname>/_/<columnname>"
         constValues: rt
-            .Dictionary(rt.String, rt.String)
+            .Dictionary(rt.String.Or(rt.Array(rt.String)), rt.String)
             .withConstraint((dict) => {
                 return (
                     Object.keys(dict).length > 0 ||
@@ -19,7 +19,7 @@ export const rtItemConfig = rt
             })
             .optional(), //columnname: value
         payloadValues: rt
-            .Dictionary(rt.String, rt.String)
+            .Dictionary(rt.String.Or(rt.Array(rt.String)), rt.String)
             .withConstraint((dict) => {
                 return (
                     Object.keys(dict).length > 0 ||
@@ -65,10 +65,48 @@ export const rtItemConfig = rt
         if (c.timestampValues !== undefined) {
             values = [...values, ...c.timestampValues];
         }
-        if (checkItemUniqueness(values)) {
-            return true;
+        if (!checkItemUniqueness(values)) {
+            return `Values are not unique: [${values}]`;
         }
-        return `Values are not unique: [${values}]`;
+
+        const payloadArrayLengths = Object.entries(c.payloadValues ?? {})
+            .filter(([key, value]) => {
+                return Array.isArray(value);
+            })
+            .map(([key, value]) => {
+                return value.length;
+            });
+
+        if (payloadArrayLengths.length > 0) {
+            const constantArrayLengths = Object.entries(c.constValues ?? {})
+                .filter(([key, value]) => {
+                    return Array.isArray(value);
+                })
+                .map(([key, value]) => {
+                    return value.length;
+                });
+
+            if (payloadArrayLengths[0] !== constantArrayLengths[0]) {
+                return "The constant array value and the payload array value have to be equal";
+            }
+
+            if (
+                !payloadArrayLengths.every((n) => {
+                    return n === payloadArrayLengths[0];
+                }) ||
+                !constantArrayLengths.every((n) => {
+                    return n === constantArrayLengths[0];
+                })
+            ) {
+                return "Every constant array type or payload array type hast o be of the same size";
+            }
+
+            if (payloadArrayLengths[0] === 0) {
+                return "The arrays for serial values may not be empty";
+            }
+        }
+
+        return true;
     });
 
 export type ItemConfig = rt.Static<typeof rtItemConfig>;

@@ -38,9 +38,11 @@ items:
     table: testtable #the table to insert into
     topicValues: _/info/_ #define value keys in the topic tree which get inserted too
     payloadValues:
-      value: "@this" #define search paths and keys for values taken from the message payload
+      value: "@this" #define search paths and keys for values taken from the message payload.
+      # Can be array to create multiple inserts from one message
     constValues:
       name: foo #define constant key value pairs which are inserted along the other values
+      # Can be array to create multiple inserts from one message
     timestampValues:
       - time #define keys which are inserted by the current timestamp
 ```

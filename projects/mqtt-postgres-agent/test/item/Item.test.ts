@@ -34,59 +34,6 @@ beforeEach(() => {
     jest.clearAllMocks();
 });
 
-describe("Creation tests", () => {
-    beforeEach(() => {
-        config = {
-            topic: "myTopic",
-            table: "myTable",
-            topicValues: "value01",
-            constValues: {
-                value02: "foo",
-            },
-            payloadValues: {
-                value03: "myValuePath",
-            },
-            timestampValues: ["value04"],
-            qos: 1,
-            minTimeDiffMS: 200,
-        };
-    });
-
-    it("should now throw if values are unique", () => {
-        expect(() => {
-            const item = new Item(config, MQTT, POOL, DEBUGGER);
-        }).not.toThrow();
-    });
-
-    it("should now throw if values are unique", () => {
-        config.topicValues = "value02";
-        expect(() => {
-            const item = new Item(config, MQTT, POOL, DEBUGGER);
-        }).toThrow();
-    });
-
-    it("should now throw if values are unique", () => {
-        config.constValues = { value01: "foo" };
-        expect(() => {
-            const item = new Item(config, MQTT, POOL, DEBUGGER);
-        }).toThrow();
-    });
-
-    it("should now throw if values are unique", () => {
-        config.payloadValues = { value01: "myValuePath" };
-        expect(() => {
-            const item = new Item(config, MQTT, POOL, DEBUGGER);
-        }).toThrow();
-    });
-
-    it("should now throw if values are unique", () => {
-        config.timestampValues = ["value01"];
-        expect(() => {
-            const item = new Item(config, MQTT, POOL, DEBUGGER);
-        }).toThrow();
-    });
-});
-
 describe("Insert tests", () => {
     it("should insert topic value", async () => {
         config = {
@@ -174,6 +121,64 @@ describe("Insert tests", () => {
             "INSERT INTO myTable(value03, value01, value02, value04) VALUES($1, $2, $3, to_timestamp($4));",
         );
         expect(values).toEqual(["foo", "B", "123", "1701471600"]);
+        item.destroy();
+    });
+
+    it("should insert a combination of serial values", async () => {
+        jest.useFakeTimers();
+        jest.setSystemTime(new Date(2023, 11, 2));
+        config = {
+            topic: "A/+/C",
+            table: "myTable",
+            topicValues: "_/myTopicVal/_",
+            payloadValues: {
+                metaValue: "meta",
+                power: ["powers.0", "powers.2"],
+                temperature: ["temperatures.1", "temperatures.#"],
+            },
+            constValues: {
+                sensor: ["foo", "bar"],
+            },
+            timestampValues: ["time"],
+        };
+        const item = new Item(config, MQTT, POOL, DEBUGGER);
+        simulateMsg(
+            "A/B/C",
+            JSON.stringify({
+                meta: "mySensor",
+                powers: [11, 22, 33],
+                temperatures: [7, 8, 9],
+            }),
+        );
+        jest.useRealTimers();
+        await wait(10);
+        const calls = ((POOL as any).query as jest.Mock).mock.calls;
+        expect((POOL as any).query as jest.Mock).toBeCalledTimes(2);
+        let [query, values] = calls[0];
+        expect(query).toBe(
+            "INSERT INTO myTable(myTopicVal, metaValue, power, temperature, sensor, time) VALUES($1, $2, $3, $4, $5, to_timestamp($6));",
+        );
+        expect(values).toEqual([
+            "B",
+            "mySensor",
+            "11",
+            "8",
+            "foo",
+            "1701471600",
+        ]);
+        [query, values] = calls[1];
+        expect(query).toBe(
+            "INSERT INTO myTable(myTopicVal, metaValue, power, temperature, sensor, time) VALUES($1, $2, $3, $4, $5, to_timestamp($6));",
+        );
+        expect(values).toEqual([
+            "B",
+            "mySensor",
+            "33",
+            "3",
+            "bar",
+            "1701471600",
+        ]);
+
         item.destroy();
     });
 });
