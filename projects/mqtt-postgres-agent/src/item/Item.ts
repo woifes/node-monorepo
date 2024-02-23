@@ -28,7 +28,7 @@ export class Item {
         return {
             topic: this.config.topic,
             qos: this.config.qos as any,
-            throttleMS: this.config.minTimeDiffMS,
+            throttleMS: this.config.messageThrottleMS,
         };
     }
 
@@ -38,6 +38,7 @@ export class Item {
     private serialConstants: Map<string, string[]> = new Map();
     private singleConstants: Map<string, string> = new Map();
     private serialValuesCount = 0;
+    private valueTimes: Map<string, number> = new Map();
     private mqtt: Client;
     private pool: Pool;
     private debug: Debugger;
@@ -180,8 +181,29 @@ export class Item {
         }
     }
 
+    private checkValueTime(topic: string) {
+        if (this.config.minValueTimeDiffMS === undefined) {
+            return true;
+        }
+        const now = Date.now();
+        const old = this.valueTimes.get(topic);
+        this.valueTimes.set(topic, now);
+
+        if (old === undefined) {
+            return true;
+        }
+        if (now - old >= this.config.minValueTimeDiffMS) {
+            return true;
+        }
+        return false;
+    }
+
     @MqttMsgHandler(Item.mqttMsgHandlerConfig)
     onMessage(msg: Message) {
+        if (!this.checkValueTime(msg.topic.join("/"))) {
+            return;
+        }
+
         //get timestamp values
         const timeStamps = this.getTimeStampMap();
 

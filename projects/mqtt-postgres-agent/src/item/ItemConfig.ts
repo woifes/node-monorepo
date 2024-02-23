@@ -44,7 +44,8 @@ export const rtItemConfig = rt
             })
             .optional(),
         qos: rt.Number.withConstraint((n) => n >= 0 && n <= 2).optional(),
-        minTimeDiffMS: rt.Number.withConstraint((n) => n >= 0).optional(),
+        messageThrottleMS: rt.Number.withConstraint((n) => n >= 0).optional(),
+        minValueTimeDiffMS: rt.Number.withConstraint((n) => n >= 0).optional(),
     })
     .withConstraint((c) => {
         let values: string[] = [];

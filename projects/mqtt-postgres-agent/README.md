@@ -31,7 +31,7 @@ auth:
   username: "user01"
   password: "123456"
 
-#postgres: everything set via environment variables
+#postgres: everything set via environment variables (can also be set as yaml)
 
 items:
   - topic: A/+/C #the topic to subscribe to
@@ -45,6 +45,8 @@ items:
       # Can be array to create multiple inserts from one message
     timestampValues:
       - time #define keys which are inserted by the current timestamp
+    messageThrottleMS: 500 #throttles the incoming messages (if you have wildcards in the topic they share the throttle time)
+    minValueTimeDiffMS: 100 #throttles the incoming values (if you have wildcards in the topic, each topic has its individual time)
 ```
 
 ## Running the build

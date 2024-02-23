@@ -16,6 +16,8 @@ items:
       # Can be array to create multiple inserts from one message
     timestampValues:
       - time #define keys which are inserted by the current timestamp
+    messageThrottleMS: 500 #throttles the incoming messages (if you have wildcards in the topic they share the throttle time)
+    minValueTimeDiffMS: 100 #throttles the incoming values (if you have wildcards in the topic, each topic has its individual time)
 
   - topic: C/D/+ #the topic to subscribe to
     table: testtable2 #the table to insert into

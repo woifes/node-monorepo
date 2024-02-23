@@ -1,11 +1,17 @@
 // SPDX-FileCopyrightText: © 2024 woifes <https://github.com/woifes>
 // SPDX-License-Identifier: MIT
 
-import { Client } from "@woifes/mqtt-client";
+import { Client, Message } from "@woifes/mqtt-client";
 import debug from "debug";
 import { Pool } from "pg";
 import { Item } from "../../src/item/Item";
 import { ItemConfig } from "../../src/item/ItemConfig";
+
+function wait(ms: number) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
 
 const DEBUGGER = debug("testdebugger");
 const MQTT = new Client({ clientId: "myClient ", url: "myUrl" });
@@ -31,7 +37,7 @@ describe("Creation tests", () => {
             },
             timestampValues: ["value04"],
             qos: 1,
-            minTimeDiffMS: 200,
+            messageThrottleMS: 200,
         };
     });
 
@@ -88,7 +94,7 @@ describe("Creation tests serial items", () => {
             },
             timestampValues: ["value04"],
             qos: 1,
-            minTimeDiffMS: 200,
+            messageThrottleMS: 200,
         };
     });
 
@@ -128,5 +134,59 @@ describe("Creation tests serial items", () => {
                 const item = new Item(config, MQTT, POOL, DEBUGGER);
             }).toThrow();
         });
+    });
+});
+
+describe("MinValueTimeDiff tests", () => {
+    let item: Item;
+    beforeEach(() => {
+        jest.clearAllMocks();
+        config = {
+            topic: "myTopic/#",
+            table: "myTable",
+            payloadValues: {
+                value: "@this",
+            },
+            minValueTimeDiffMS: 200,
+        };
+    });
+
+    function simulateMsg(topic: string, value: number) {
+        const msg = new Message(topic, undefined, undefined, String(value));
+        (item as any).onMessage(msg);
+    }
+
+    it("should insert normally without minValueTimeStamp", async () => {
+        delete config.minValueTimeDiffMS;
+        item = new Item(config, MQTT, POOL, DEBUGGER);
+        simulateMsg("myTopic", 1);
+        simulateMsg("myTopic", 2);
+        simulateMsg("myTopic", 3);
+        const calls = ((POOL as any).query as jest.Mock).mock.calls;
+        expect(calls.length).toBe(3);
+        let [query, values] = calls[0];
+        expect(query).toBe("INSERT INTO myTable(value) VALUES($1);");
+        expect(values).toEqual(["1"]);
+
+        [query, values] = calls[1];
+        expect(query).toBe("INSERT INTO myTable(value) VALUES($1);");
+        expect(values).toEqual(["2"]);
+
+        [query, values] = calls[2];
+        expect(query).toBe("INSERT INTO myTable(value) VALUES($1);");
+        expect(values).toEqual(["3"]);
+    });
+
+    it("should insert after min time is gone", async () => {
+        item = new Item(config, MQTT, POOL, DEBUGGER);
+        simulateMsg("myTopic/A", 1);
+        simulateMsg("myTopic/A", 2);
+        simulateMsg("myTopic/B", 10);
+        let calls = ((POOL as any).query as jest.Mock).mock.calls;
+        expect(calls.length).toBe(2);
+        await wait(300);
+        simulateMsg("myTopic/A", 3);
+        calls = ((POOL as any).query as jest.Mock).mock.calls;
+        expect(calls.length).toBe(3);
     });
 });
