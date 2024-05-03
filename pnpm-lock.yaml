@@ -274,7 +274,7 @@ importers:
         specifier: workspace:0.1.1
         version: link:../../packages/alarmhandler
       '@woifes/alarmhandlermqtt':
-        specifier: workspace:0.5.2
+        specifier: workspace:0.5.3
         version: link:../../packages/alarmhandlermqtt
       '@woifes/binarytypes':
         specifier: workspace:^1.0.0
