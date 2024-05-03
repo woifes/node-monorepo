@@ -121,9 +121,12 @@ export class Client {
                 this._debugCache(
                     "first message after creation start timeout for checking message cache",
                 );
-                setTimeout(() => {
-                    this.checkCache();
-                }, (this._config.messageCacheTimeS! + 1) * 1000);
+                setTimeout(
+                    () => {
+                        this.checkCache();
+                    },
+                    (this._config.messageCacheTimeS! + 1) * 1000,
+                );
             });
         }
     }
@@ -176,9 +179,8 @@ export class Client {
         }
         if (res) {
             return this.publishMessage(m);
-        } else {
-            return Promise.reject();
         }
+        return Promise.reject();
     }
 
     /**
@@ -206,57 +208,47 @@ export class Client {
      */
     publishMessage(msg: Message): Promise<void> {
         if (this._mqttClient !== undefined) {
-            if (msg.body.length > 0) {
-                const strTopic = msg.topic.join("/");
-                if (
-                    RtMqttTopic.validate(msg.topic).success &&
-                    strTopic.indexOf("+") === -1 &&
-                    strTopic.indexOf("#") === -1
-                ) {
-                    this._debug(
-                        `going to publish message. topic:${msg.topic} | payload:${msg.body}`,
-                    );
-                    return new Promise((resolve, reject) => {
-                        this._mqttClient!.publish(
-                            strTopic,
-                            msg.body,
-                            {
-                                qos: msg.qos,
-                                retain: msg.retain,
-                                cbStorePut: () => {
-                                    this._debug(
-                                        `published message was put into store. topic:${msg.topic} | payload:${msg.body}`,
-                                    );
-                                },
-                            },
-                            (error) => {
-                                if (error != null) {
-                                    this._debug(
-                                        `message not published. topic:${msg.topic} | payload:${msg.body} | error: ${error}`,
-                                    );
-                                    reject(error);
-                                } else {
-                                    this._debug(
-                                        `message successfully published. topic:${msg.topic} | payload:${msg.body}`,
-                                    );
-                                    resolve();
-                                }
-                            },
-                        );
-                    });
-                } else {
-                    return Promise.reject(
-                        new Error("Topic on message not correct"),
-                    );
-                }
-            } else {
-                return Promise.reject(
-                    new Error("can not publish empty message"),
+            const strTopic = msg.topic.join("/");
+            if (
+                RtMqttTopic.validate(msg.topic).success &&
+                strTopic.indexOf("+") === -1 &&
+                strTopic.indexOf("#") === -1
+            ) {
+                this._debug(
+                    `going to publish message. topic:${msg.topic} | payload:${msg.body}`,
                 );
+                return new Promise((resolve, reject) => {
+                    this._mqttClient!.publish(
+                        strTopic,
+                        msg.body,
+                        {
+                            qos: msg.qos,
+                            retain: msg.retain,
+                            cbStorePut: () => {
+                                this._debug(
+                                    `published message was put into store. topic:${msg.topic} | payload:${msg.body}`,
+                                );
+                            },
+                        },
+                        (error) => {
+                            if (error !== undefined) {
+                                this._debug(
+                                    `message not published. topic:${msg.topic} | payload:${msg.body} | error: ${error}`,
+                                );
+                                reject(error);
+                            } else {
+                                this._debug(
+                                    `message successfully published. topic:${msg.topic} | payload:${msg.body}`,
+                                );
+                                resolve();
+                            }
+                        },
+                    );
+                });
             }
-        } else {
-            return Promise.reject(new Error("no mqtt client instanstanciated"));
+            return Promise.reject(new Error("Topic on message not correct"));
         }
+        return Promise.reject(new Error("no mqtt client instanstanciated"));
     }
 
     /**
@@ -378,7 +370,12 @@ export class Client {
             this._debug(`send presence message to: ${topic}`);
             const msg = new Message(topic, 2, true);
             msg.writeValue(1, "UINT8");
-            this.publishMessage(msg);
+            this.publishMessage(msg).catch((error) => {
+                this._debug(
+                    `Could not publish notification message. Error: ${error}`,
+                );
+                process.exit();
+            });
         }
 
         for (let i = 0; i < this._extOnConnectionHandler.length; i++) {
@@ -510,18 +507,24 @@ export class Client {
                 this._debugCache(
                     "new message during empty cache set timeout for check",
                 );
-                setTimeout(() => {
-                    this.checkCache();
-                }, (this._config.messageCacheTimeS! + 1) * 1000);
+                setTimeout(
+                    () => {
+                        this.checkCache();
+                    },
+                    (this._config.messageCacheTimeS! + 1) * 1000,
+                );
             });
         } else {
             const diff = now - oldest;
             this._debugCache(
                 `oldest msg timestamp: ${oldest} set next timeout`,
             );
-            setTimeout(() => {
-                this.checkCache();
-            }, (this._config.messageCacheTimeS! + 1) * 1000 - diff);
+            setTimeout(
+                () => {
+                    this.checkCache();
+                },
+                (this._config.messageCacheTimeS! + 1) * 1000 - diff,
+            );
         }
     }
 

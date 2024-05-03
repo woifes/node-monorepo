@@ -76,7 +76,7 @@ importers:
         specifier: workspace:0.1.1
         version: link:../alarmhandler
       '@woifes/mqtt-client':
-        specifier: workspace:0.3.0
+        specifier: workspace:0.3.1
         version: link:../mqtt-client
       '@woifes/util':
         specifier: workspace:0.1.1
@@ -193,7 +193,7 @@ importers:
   projects/matrix-mqtt-bridge:
     dependencies:
       '@woifes/mqtt-client':
-        specifier: workspace:0.3.0
+        specifier: workspace:0.3.1
         version: link:../../packages/mqtt-client
       commander:
         specifier: ^8.3.0
@@ -221,7 +221,7 @@ importers:
         specifier: ^1.33.2
         version: 1.33.2
       '@woifes/mqtt-client':
-        specifier: workspace:0.3.0
+        specifier: workspace:0.3.1
         version: link:../../packages/mqtt-client
       debug:
         specifier: ^4.3.2
@@ -243,7 +243,7 @@ importers:
         specifier: workspace:0.1.0
         version: link:../../packages/gjson
       '@woifes/mqtt-client':
-        specifier: workspace:0.3.0
+        specifier: workspace:0.3.1
         version: link:../../packages/mqtt-client
       '@woifes/util':
         specifier: workspace:0.1.1
@@ -280,7 +280,7 @@ importers:
         specifier: workspace:^1.0.0
         version: link:../../packages/binarytypes
       '@woifes/mqtt-client':
-        specifier: workspace:0.3.0
+        specifier: workspace:0.3.1
         version: link:../../packages/mqtt-client
       '@woifes/s7endpoint':
         specifier: workspace:0.2.3
@@ -317,7 +317,7 @@ importers:
   projects/yasdi-mqtt:
     dependencies:
       '@woifes/mqtt-client':
-        specifier: workspace:0.3.0
+        specifier: workspace:0.3.1
         version: link:../../packages/mqtt-client
       '@woifes/node-yasdi':
         specifier: 1.0.1

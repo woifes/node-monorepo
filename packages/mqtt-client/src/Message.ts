@@ -132,9 +132,8 @@ export class Message {
         } catch (e) {
             if (fallBackVal !== undefined) {
                 return fallBackVal;
-            } else {
-                throw e;
             }
+            throw e;
         }
     }
 
@@ -154,9 +153,8 @@ export class Message {
         } catch (e) {
             if (fallBackVal !== undefined) {
                 return fallBackVal;
-            } else {
-                throw e;
             }
+            throw e;
         }
     }
 
@@ -174,28 +172,26 @@ export class Message {
                 for (let i = 0; i < parsed.length; i++) {
                     if (expected[i] === undefined) {
                         break;
+                    }
+                    if (expected[i] === "STRING") {
+                        try {
+                            res[i] = <string>rtString.check(parsed[i]); //No Buffer can occur here
+                        } catch {
+                            break;
+                        }
                     } else {
-                        if (expected[i] === "STRING") {
-                            try {
-                                res[i] = <string>rtString.check(parsed[i]); //No Buffer can occur here
-                            } catch {
-                                break;
-                            }
-                        } else {
-                            try {
-                                res[i] = DataTypes[
-                                    expected[i] as TypeName
-                                ].check(parsed[i]);
-                            } catch {
-                                break;
-                            }
+                        try {
+                            res[i] = DataTypes[expected[i] as TypeName].check(
+                                parsed[i],
+                            );
+                        } catch {
+                            break;
                         }
                     }
                 }
                 return res;
-            } else {
-                throw new Error("parsed set is not an array");
             }
+            throw new Error("parsed set is not an array");
         } catch {
             return [];
         }
@@ -212,17 +208,15 @@ export class Message {
             if (type !== "STRING") {
                 this._body = DataTypes[type].toString(value);
                 return true;
-            } else {
-                const str = String(value);
-                if (typeof str === "string" && str.length > 0) {
-                    this._body = str;
-                    return true;
-                } else {
-                    throw new Error(
-                        "value to write as string could not be converted to string",
-                    );
-                }
             }
+            const str = String(value);
+            if (typeof str === "string" && str.length > 0) {
+                this._body = str;
+                return true;
+            }
+            throw new Error(
+                "value to write as string could not be converted to string",
+            );
         } catch {
             return false;
         }
@@ -256,14 +250,13 @@ export class Message {
     send() {
         if (this._client !== undefined) {
             return this._client.publishMessage(this);
-        } else {
-            return Promise.reject(
-                new Error(
-                    `tried to send message without set client. Topic:${this.topic.join(
-                        "/",
-                    )}. Payload: ${this.body}`,
-                ),
-            );
         }
+        return Promise.reject(
+            new Error(
+                `tried to send message without set client. Topic:${this.topic.join(
+                    "/",
+                )}. Payload: ${this.body}`,
+            ),
+        );
     }
 }

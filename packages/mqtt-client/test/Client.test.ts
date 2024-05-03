@@ -189,10 +189,10 @@ describe("publish message tests", () => {
     const c = new Client(config);
     const mqttClient = (c as any)._mqttClient as MqttClientMock;
 
-    it("should publish valid message", () => {
+    it("should publish valid message", async () => {
         const m = new Message("A/B/C", 1, false, "Hello World");
 
-        expect(c.publishMessage(m)).resolves.toBeUndefined();
+        await expect(c.publishMessage(m)).resolves.toBeUndefined();
 
         expect(mqttClient.publish).toBeCalledTimes(1);
         const [topic, payload, publishOpts, cb] =
@@ -203,16 +203,7 @@ describe("publish message tests", () => {
         expect(publishOpts.retain).toBe(false);
     });
 
-    it("should not publish empty message", () => {
-        const m = new Message("A/B/C", 2, true);
-
-        expect(c.publishMessage(m)).rejects.toBeTruthy();
-
-        expect(mqttClient.publish).toBeCalledTimes(0);
-    });
-
-    it("should not publish message with wrong topic", () => {
-        const m1 = new Message("A/B/C", 0, false);
+    it("should not publish message with wrong topic", async () => {
         const m2 = new Message("A/+/C", 1, false);
         const m3 = new Message("A/+abc/C", 1, false);
         const m4 = new Message("A/B/#", 2, false);
@@ -221,19 +212,18 @@ describe("publish message tests", () => {
         const m7 = new Message("/A/B/C", 1, false);
         const m8 = new Message("A//C", 2, false);
 
-        expect(c.publishMessage(m1)).rejects.toBeTruthy();
-        expect(c.publishMessage(m2)).rejects.toBeTruthy();
-        expect(c.publishMessage(m3)).rejects.toBeTruthy();
-        expect(c.publishMessage(m4)).rejects.toBeTruthy();
-        expect(c.publishMessage(m5)).rejects.toBeTruthy();
-        expect(c.publishMessage(m6)).rejects.toBeTruthy();
-        expect(c.publishMessage(m7)).rejects.toBeTruthy();
-        expect(c.publishMessage(m8)).rejects.toBeTruthy();
+        await expect(c.publishMessage(m2)).rejects.toBeTruthy();
+        await expect(c.publishMessage(m3)).rejects.toBeTruthy();
+        await expect(c.publishMessage(m4)).rejects.toBeTruthy();
+        await expect(c.publishMessage(m5)).rejects.toBeTruthy();
+        await expect(c.publishMessage(m6)).rejects.toBeTruthy();
+        await expect(c.publishMessage(m7)).rejects.toBeTruthy();
+        await expect(c.publishMessage(m8)).rejects.toBeTruthy();
 
         expect(mqttClient.publish).toBeCalledTimes(0);
     });
 
-    it("should hand over mqtt publish error", () => {
+    it("should hand over mqtt publish error", async () => {
         const m = new Message("A/B/C", 2, true, "Hello World");
 
         mqttClient.publish.mockImplementationOnce(
@@ -246,7 +236,7 @@ describe("publish message tests", () => {
             ) => cb(new Error("MQTT error")),
         );
 
-        expect(c.publishMessage(m)).rejects.toBeTruthy();
+        await expect(c.publishMessage(m)).rejects.toBeTruthy();
 
         expect(mqttClient.publish).toBeCalledTimes(1);
         const [topic, payload, publishOpts, cb] =

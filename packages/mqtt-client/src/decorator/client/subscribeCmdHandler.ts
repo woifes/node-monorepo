@@ -18,48 +18,47 @@ export function subscribeCmdHandler(this: any, client: Client) {
         this[CMD_HANDLER_LIST_KEY].size === 0
     ) {
         return;
-    } else {
-        const list = this[CMD_HANDLER_LIST_KEY] as Map<
-            (msg: Message, res: Message) => void,
-            () => tMqttCmdHandlerConfig
-        >;
-        const unsubList = this[SUBSCRIPTION_LIST_KEY];
-        for (let [fn, configFactory] of list) {
-            const config = configFactory.call(this);
-            if (config.topic.length > 0) {
-                fn = fn.bind(this);
-                let obsr = client.mqttSubscribe(config.topic, config.qos ?? 0);
-                obsr = obsr.pipe(MsgOperatorFactory(config));
-                const topicTransform =
-                    config.topicTransform ??
-                    ((topic: string[]) => {
-                        topic = [...topic];
-                        if (topic.length === 4 && topic[0] === "cmd") {
-                            topic[0] = "cmdRes";
-                            const sender = topic[2];
-                            topic[2] = topic[1];
-                            topic[1] = sender;
-                        }
-                        return topic;
-                    });
-                unsubList.push(
-                    obsr.subscribe((msg: Message) => {
-                        const resTopic =
-                            msg.properties?.responseTopic ?? //either use the MQTT v5 response topic
-                            topicTransform(msg.topic).join("/"); //or the given transform function
-                        if (resTopic.length > 0) {
-                            const res = new Message(
-                                resTopic,
-                                msg.qos,
-                                msg.retain,
-                                undefined,
-                                msg.client,
-                            );
-                            fn(msg, res);
-                        }
-                    }),
-                );
-            }
+    }
+    const list = this[CMD_HANDLER_LIST_KEY] as Map<
+        (msg: Message, res: Message) => void,
+        () => tMqttCmdHandlerConfig
+    >;
+    const unsubList = this[SUBSCRIPTION_LIST_KEY];
+    for (let [fn, configFactory] of list) {
+        const config = configFactory.call(this);
+        if (config.topic.length > 0) {
+            fn = fn.bind(this);
+            let obsr = client.mqttSubscribe(config.topic, config.qos ?? 0);
+            obsr = obsr.pipe(MsgOperatorFactory(config));
+            const topicTransform =
+                config.topicTransform ??
+                ((topic: string[]) => {
+                    topic = [...topic];
+                    if (topic.length === 4 && topic[0] === "cmd") {
+                        topic[0] = "cmdRes";
+                        const sender = topic[2];
+                        topic[2] = topic[1];
+                        topic[1] = sender;
+                    }
+                    return topic;
+                });
+            unsubList.push(
+                obsr.subscribe((msg: Message) => {
+                    const resTopic =
+                        msg.properties?.responseTopic ?? //either use the MQTT v5 response topic
+                        topicTransform(msg.topic).join("/"); //or the given transform function
+                    if (resTopic.length > 0) {
+                        const res = new Message(
+                            resTopic,
+                            msg.qos,
+                            msg.retain,
+                            undefined,
+                            msg.client,
+                        );
+                        fn(msg, res);
+                    }
+                }),
+            );
         }
     }
 }

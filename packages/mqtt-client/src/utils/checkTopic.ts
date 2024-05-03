@@ -6,10 +6,7 @@
  * @param topic The topic to check
  * @param subscribe The subscribe the client has made
  */
-export const checkTopic = function (
-    topic: string[],
-    subscribe: string[],
-): boolean {
+export const checkTopic = (topic: string[], subscribe: string[]): boolean => {
     if (topic.length < subscribe.length) {
         return false;
     }

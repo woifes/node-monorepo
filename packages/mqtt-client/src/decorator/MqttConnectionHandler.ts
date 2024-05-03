@@ -8,11 +8,11 @@ import { CONNECTION_HANDLER_LIST_KEY } from "./constants";
  * Receives a single boolean indication if the client is now ONLINE
  */
 export function MqttConnectionHandler() {
-    return function (
+    return (
         target: any,
         propertyKey: string | symbol,
         descriptor: PropertyDescriptor,
-    ) {
+    ) => {
         if (typeof propertyKey === "string") {
             if (target[CONNECTION_HANDLER_LIST_KEY] === undefined) {
                 target[CONNECTION_HANDLER_LIST_KEY] = [];

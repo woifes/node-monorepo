@@ -17,11 +17,11 @@ import { tMqttMsgHandlerConfig } from "../types/MqttMsgHandlerConfig";
 export function MqttMsgHandler(
     config: tMqttMsgHandlerConfig | (() => tMqttMsgHandlerConfig),
 ): MethodDecorator {
-    return function (
+    return (
         target: any,
         propertyKey: string | symbol,
         descriptor: PropertyDescriptor,
-    ) {
+    ) => {
         if (typeof propertyKey === "string") {
             if (target[MSG_HANDLER_LIST_KEY] === undefined) {
                 target[MSG_HANDLER_LIST_KEY] = new Map<

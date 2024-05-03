@@ -8,11 +8,11 @@ import { CONNECTION_TO_USE_INFO } from "./constants";
  * Defines which underlying client object to use of that class. Can be either set on a property or getter of type Client, or on a constructor parameter
  */
 export function MqttConnection() {
-    return function (
+    return (
         target: any,
         propertyKey: string | symbol | undefined, //The undefined is a "workaroundish" way to handle parameter decorators in the constructor
         descriptor?: PropertyDescriptor | number,
-    ) {
+    ) => {
         if (propertyKey !== undefined && typeof propertyKey === "symbol") {
             throw new Error(
                 "MqttConnection can not be set on symbol key property",

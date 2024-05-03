@@ -20,11 +20,11 @@ import { tMqttCmdHandlerConfig } from "../types/MqttCmdHandlerConfig";
 export function MqttCmdHandler(
     config: tMqttCmdHandlerConfig | (() => tMqttCmdHandlerConfig),
 ): MethodDecorator {
-    return function (
+    return (
         target: any,
         propertyKey: string | symbol,
         descriptor: PropertyDescriptor,
-    ) {
+    ) => {
         if (typeof propertyKey === "string") {
             if (target[CMD_HANDLER_LIST_KEY] === undefined) {
                 target[CMD_HANDLER_LIST_KEY] = new Map<

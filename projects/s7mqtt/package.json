@@ -1,6 +1,6 @@
 {
   "name": "@woifes/s7mqtt",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "",
   "files": [
     "dist"
@@ -27,7 +27,7 @@
     "@woifes/alarmhandler": "workspace:0.1.1",
     "@woifes/alarmhandlermqtt": "workspace:0.5.2",
     "@woifes/binarytypes": "workspace:^1.0.0",
-    "@woifes/mqtt-client": "workspace:0.3.0",
+    "@woifes/mqtt-client": "workspace:0.3.1",
     "@woifes/s7endpoint": "workspace:0.2.3",
     "@woifes/util": "workspace:0.1.1",
     "debug": "^4.3.2",

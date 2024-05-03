@@ -1,6 +1,6 @@
 {
   "name": "@woifes/matrix-mqtt-bridge",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "files": [
     "dist"
@@ -20,7 +20,7 @@
   "author": "woifes",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "@woifes/mqtt-client": "workspace:0.3.0",
+    "@woifes/mqtt-client": "workspace:0.3.1",
     "commander": "^8.3.0",
     "debug": "^4.3.2",
     "matrix-js-sdk": "^24.0.0",

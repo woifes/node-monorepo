@@ -20,11 +20,11 @@ import { tMqttValueConfig } from "../types/MqttValueConfig";
  * @param config.runtype optional - used to check if the type is 'JSON'
  */
 export function MqttValue(config: tMqttValueConfig | (() => tMqttValueConfig)) {
-    return function (
+    return (
         target: any,
         propertyKey: string,
         descriptor?: PropertyDescriptor,
-    ) {
+    ) => {
         if (target[VALUE_LIST_KEY] === undefined) {
             target[VALUE_LIST_KEY] = new Map<
                 (msg: Message) => void,

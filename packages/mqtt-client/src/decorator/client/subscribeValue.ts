@@ -15,23 +15,19 @@ export function subscribeValue(this: any, client: Client) {
 
     if (this[VALUE_LIST_KEY] === undefined || this[VALUE_LIST_KEY].size === 0) {
         return;
-    } else {
-        const list = this[VALUE_LIST_KEY] as Map<
-            (msg: tJsVal) => void,
-            () => tMqttValueConfig
-        >;
-        const unsubList = this[SUBSCRIPTION_LIST_KEY];
-        for (let [fn, configFactory] of list) {
-            const config = configFactory.call(this);
-            if (config.topic.length > 0) {
-                const obsr = client.mqttSubscribe(
-                    config.topic,
-                    config.qos ?? 0,
-                );
-                const valObsrv = obsr.pipe(ValueOperatorFactory(config));
-                fn = fn.bind(this);
-                unsubList.push(valObsrv.subscribe(fn));
-            }
+    }
+    const list = this[VALUE_LIST_KEY] as Map<
+        (msg: tJsVal) => void,
+        () => tMqttValueConfig
+    >;
+    const unsubList = this[SUBSCRIPTION_LIST_KEY];
+    for (let [fn, configFactory] of list) {
+        const config = configFactory.call(this);
+        if (config.topic.length > 0) {
+            const obsr = client.mqttSubscribe(config.topic, config.qos ?? 0);
+            const valObsrv = obsr.pipe(ValueOperatorFactory(config));
+            fn = fn.bind(this);
+            unsubList.push(valObsrv.subscribe(fn));
         }
     }
 }

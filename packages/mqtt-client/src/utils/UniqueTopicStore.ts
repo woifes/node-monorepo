@@ -75,9 +75,9 @@ export class UniqueTopicStore implements IStore {
         const values: Packet[] = [];
         let i = 0;
 
-        this._inflights.forEach(function (value) {
-            values.push(value);
-        });
+        for (const value of this._inflights.values()) {
+            values.push(value as any);
+        }
 
         stream._read = function () {
             if (!destroyed && i < values.length) {

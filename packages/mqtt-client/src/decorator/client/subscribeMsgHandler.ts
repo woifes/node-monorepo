@@ -18,20 +18,19 @@ export function subscribeMsgHandler(this: any, client: Client) {
         this[MSG_HANDLER_LIST_KEY].size === 0
     ) {
         return;
-    } else {
-        const list = this[MSG_HANDLER_LIST_KEY] as Map<
-            (msg: Message) => void,
-            () => tMqttMsgHandlerConfig
-        >;
-        const unsubList = this[SUBSCRIPTION_LIST_KEY];
-        for (let [fn, configFactory] of list) {
-            const config = configFactory.call(this);
-            if (config.topic.length > 0) {
-                let obsr = client.mqttSubscribe(config.topic, config.qos ?? 0);
-                obsr = obsr.pipe(MsgOperatorFactory(config));
-                fn = fn.bind(this);
-                unsubList.push(obsr.subscribe(fn));
-            }
+    }
+    const list = this[MSG_HANDLER_LIST_KEY] as Map<
+        (msg: Message) => void,
+        () => tMqttMsgHandlerConfig
+    >;
+    const unsubList = this[SUBSCRIPTION_LIST_KEY];
+    for (let [fn, configFactory] of list) {
+        const config = configFactory.call(this);
+        if (config.topic.length > 0) {
+            let obsr = client.mqttSubscribe(config.topic, config.qos ?? 0);
+            obsr = obsr.pipe(MsgOperatorFactory(config));
+            fn = fn.bind(this);
+            unsubList.push(obsr.subscribe(fn));
         }
     }
 }

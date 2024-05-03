@@ -10,7 +10,7 @@ import { tMqttMsgHandlerConfig } from "../types/MqttMsgHandlerConfig";
 export type tMsgOperator = (source: Observable<Message>) => Observable<Message>;
 
 export function MsgOperatorFactory(config: tMqttMsgHandlerConfig) {
-    return function (obsrv: Observable<Message>): Observable<Message> {
+    return (obsrv: Observable<Message>): Observable<Message> => {
         if (config.throttleMS !== undefined) {
             obsrv = obsrv.pipe(throttleTime(config.throttleMS));
         }

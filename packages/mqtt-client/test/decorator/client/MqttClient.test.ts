@@ -35,7 +35,11 @@ async function promiseTimeout(ms: number) {
 it("should delegate constructor args correctly", () => {
     @MqttClient()
     class TestClass {
-        constructor(public a: number, public b: string, public c: Client) {}
+        constructor(
+            public a: number,
+            public b: string,
+            public c: Client,
+        ) {}
     }
     const c = new Client(config);
     const t = new TestClass(123, "abc", c);

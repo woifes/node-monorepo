@@ -15,7 +15,7 @@ export type tValueOperator = (
 export function ValueOperatorFactory(
     config: tMqttValueConfig,
 ): (source: Observable<Message>) => Observable<tJsVal> {
-    return function (source: Observable<Message>) {
+    return (source: Observable<Message>) => {
         source = source.pipe(MsgOperatorFactory(config));
         const anyTarget = source.pipe(
             map((value: Message) => {
