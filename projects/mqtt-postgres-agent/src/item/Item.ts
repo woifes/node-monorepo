@@ -187,22 +187,22 @@ export class Item {
         }
         const now = Date.now();
         const old = this.valueTimes.get(topic);
-        this.valueTimes.set(topic, now);
 
-        if (old === undefined) {
+        if (old === undefined || now - old >= this.config.minValueTimeDiffMS) {
+            this.valueTimes.set(topic, now);
             return true;
         }
-        if (now - old >= this.config.minValueTimeDiffMS) {
-            return true;
-        }
+
         return false;
     }
 
     @MqttMsgHandler(Item.mqttMsgHandlerConfig)
     onMessage(msg: Message) {
         if (!this.checkValueTime(msg.topic.join("/"))) {
+            this.debug(`Skipped message for ${msg.topic}`);
             return;
         }
+        this.debug("Not skipped");
 
         //get timestamp values
         const timeStamps = this.getTimeStampMap();

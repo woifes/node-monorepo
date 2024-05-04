@@ -182,3 +182,38 @@ describe("Insert tests", () => {
         item.destroy();
     });
 });
+
+describe("Timing tests", () => {
+    it("should ignore when no min value is set", async () => {
+        config = {
+            topic: "A/+/C",
+            table: "myTable",
+            topicValues: "_/value01/_",
+        };
+        const item = new Item(config, MQTT, POOL, DEBUGGER);
+        simulateMsg("A/B/C", "123");
+        await wait(1);
+        simulateMsg("A/B/C", "345");
+        expect((POOL as any).query as jest.Mock).toBeCalledTimes(2);
+        item.destroy();
+    });
+
+    it("should insert for the correct min time value", async () => {
+        config = {
+            topic: "A/+/C",
+            table: "myTable",
+            topicValues: "_/value01/_",
+            minValueTimeDiffMS: 100,
+        };
+        const item = new Item(config, MQTT, POOL, DEBUGGER);
+        simulateMsg("A/B/C", "123");
+        await wait(50);
+        simulateMsg("A/B/C", "345");
+        await wait(1);
+        simulateMsg("A/B/C", "678");
+        await wait(51);
+        simulateMsg("A/B/C", "9AB");
+        expect((POOL as any).query as jest.Mock).toBeCalledTimes(2);
+        item.destroy();
+    });
+});
