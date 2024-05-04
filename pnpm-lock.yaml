@@ -283,7 +283,7 @@ importers:
         specifier: workspace:0.3.1
         version: link:../../packages/mqtt-client
       '@woifes/s7endpoint':
-        specifier: workspace:0.2.3
+        specifier: workspace:0.2.4
         version: link:../../packages/s7endpoint
       '@woifes/util':
         specifier: workspace:0.1.1

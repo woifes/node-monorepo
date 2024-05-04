@@ -21,16 +21,16 @@ export const S7RemoteEndpointConfig = rt.Record({
         (s) => s.length > 0 || "endPointIp shall not be empty string",
     ),
     rack: rt.Number.withConstraint(
-        (n) => n > 0 || "rack shall be greater than 0",
+        (n) => n >= 0 || "rack shall be greater or equal to 0",
     ),
     slot: rt.Number.withConstraint(
-        (n) => n > 0 || "slot shall be greater than 0",
+        (n) => n >= 0 || "slot shall be greater or equal to 0",
     ),
     selfRack: rt.Number.withConstraint(
-        (n) => n > 0 || "selfRack shall be greater then 0",
+        (n) => n >= 0 || "selfRack shall be greater or equal to 0",
     ),
     selfSlot: rt.Number.withConstraint(
-        (n) => n > 0 || "selfSlot shall be greater then 0",
+        (n) => n >= 0 || "selfSlot shall be greater or equal to 0",
     ),
     name: rt.String.withConstraint(
         (s) => s.length > 0 || "name shall not be empty string",
