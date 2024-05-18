@@ -1,6 +1,6 @@
 {
   "name": "@woifes/mqtt-postgres-agent",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "",
   "files": [
     "dist"
@@ -15,6 +15,7 @@
     "format": "biome format --write .",
     "lint": "biome check --apply-unsafe .",
     "prepare": "pnpm compile",
+    "validate": "pnpm format && pnpm lint && pnpm compile && pnpm test && pnpm licenseReport",
     "docker:build": "cd ../../ && ver && docker build -t mqtt-postgres-agent:%npm_package_version% -f projects/mqtt-postgres-agent/Dockerfile . || docker build -t mqtt-postgres-agent:$npm_package_version -f projects/mqtt-postgres-agent/Dockerfile .",
     "docker:publish": "cd ../../ && ver && docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t woifes/mqtt-postgres-agent:%npm_package_version% -f projects/mqtt-postgres-agent/Dockerfile . || docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t woifes/mqtt-postgres-agent:$npm_package_version -f projects/mqtt-postgres-agent/Dockerfile .",
     "integrationTests": "cd integrationTests && (docker compose build && docker compose up --exit-code-from test || true) && docker compose rm -fsv",
@@ -24,7 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "@woifes/gjson": "workspace:0.1.0",
-    "@woifes/mqtt-client": "workspace:0.3.1",
+    "@woifes/mqtt-client": "workspace:0.3.2",
     "@woifes/util": "workspace:0.1.1",
     "debug": "^4.3.2",
     "pg": "^8.11.3",

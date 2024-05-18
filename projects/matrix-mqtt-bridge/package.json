@@ -1,6 +1,6 @@
 {
   "name": "@woifes/matrix-mqtt-bridge",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "files": [
     "dist"
@@ -14,13 +14,14 @@
     "format": "biome format --write .",
     "lint": "biome check --apply-unsafe .",
     "prepare": "pnpm compile",
+    "validate": "pnpm format && pnpm lint && pnpm compile && pnpm test && pnpm licenseReport",
     "docker:build": "docker build -t monorepo ../../ && ver && docker build -t matrix-mqtt-bridge:%npm_package_version% . || docker build -t matrix-mqtt-bridge:$npm_package_version .",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "author": "woifes",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
-    "@woifes/mqtt-client": "workspace:0.3.1",
+    "@woifes/mqtt-client": "workspace:0.3.2",
     "commander": "^8.3.0",
     "debug": "^4.3.2",
     "matrix-js-sdk": "^24.0.0",

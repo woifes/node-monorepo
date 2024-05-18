@@ -1,6 +1,6 @@
 {
   "name": "@woifes/yasdi-mqtt",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "",
   "files": [
     "dist"
@@ -14,13 +14,14 @@
     "format": "biome format --write .",
     "lint": "biome check --apply-unsafe .",
     "prepare": "pnpm compile",
+    "validate": "pnpm format && pnpm lint && pnpm compile && pnpm test && pnpm licenseReport",
     "docker:build": "docker build -t monorepo ../../ && ver && docker build -t yasdi-mqtt:%npm_package_version% . || docker build -t yasdi-mqtt:$npm_package_version .",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "author": "woifes",
   "license": "MIT",
   "dependencies": {
-    "@woifes/mqtt-client": "workspace:0.3.1",
+    "@woifes/mqtt-client": "workspace:0.3.2",
     "@woifes/node-yasdi": "1.0.1",
     "@woifes/util": "workspace:0.1.1",
     "debug": "^4.3.2",

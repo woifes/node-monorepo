@@ -64,9 +64,8 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                     ];
                 },
             };
-        } else {
-            return { topic: "" };
         }
+        return { topic: "" };
     }
 
     protected _config: tAlarmHandlerMqttConfig;
@@ -174,12 +173,10 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                         const occurredTimeStamp = Date.parse(occurred);
                         if (params.length === 2) {
                             return occurredTimeStamp >= from;
-                        } else {
-                            return (
-                                occurredTimeStamp >= from &&
-                                occurredTimeStamp <= to
-                            );
                         }
+                        return (
+                            occurredTimeStamp >= from && occurredTimeStamp <= to
+                        );
                     })
                     .then((lines: string[]) => {
                         result[1] = 1;
@@ -232,7 +229,7 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                 )
                 .action((alNum?: any) => {
                     const ackNum = alNum ?? 0;
-                    if (isFinite(ackNum) && ackNum >= 0) {
+                    if (Number.isFinite(ackNum) && ackNum >= 0) {
                         const res = this.acknowledgeAlarm(ackNum);
                         if (res) {
                             sendResponse(`Alarm ${ackNum} was acknowledged`);
@@ -342,9 +339,8 @@ export class AlarmHandlerMqtt extends AlarmHandler {
                 response += `${"_".repeat(30)}\n`;
             }
             return response;
-        } else {
-            response = `No alarms for ${this.name}`;
         }
+        response = `No alarms for ${this.name}`;
         return response;
     }
 }

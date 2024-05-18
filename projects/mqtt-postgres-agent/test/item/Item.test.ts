@@ -51,6 +51,26 @@ describe("Insert tests", () => {
         item.destroy();
     });
 
+    it("should handle topic variants", async () => {
+        config = {
+            topic: "A/1+2/C",
+            table: "myTable",
+            topicValues: "_/value01/_",
+        };
+        const item = new Item(config, MQTT, POOL, DEBUGGER);
+        simulateMsg("A/1/C", "123");
+        await wait(10);
+        simulateMsg("A/2/C", "123");
+        await wait(10);
+        let [query, values] = ((POOL as any).query as jest.Mock).mock.calls[0];
+        expect(query).toBe("INSERT INTO myTable(value01) VALUES($1);");
+        expect(values).toEqual(["1"]);
+        [query, values] = ((POOL as any).query as jest.Mock).mock.calls[1];
+        expect(query).toBe("INSERT INTO myTable(value01) VALUES($1);");
+        expect(values).toEqual(["2"]);
+        item.destroy();
+    });
+
     it("should insert payload value", async () => {
         config = {
             topic: "A/+/C",

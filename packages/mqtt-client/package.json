@@ -1,6 +1,6 @@
 {
   "name": "@woifes/mqtt-client",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "",
   "exports": {
     ".": {
@@ -34,6 +34,7 @@
     "lint": "biome check --apply-unsafe .",
     "compile": "tsc -p tsconfig.build.json",
     "prepare": "pnpm compile",
+    "validate": "pnpm format && pnpm lint && pnpm compile && pnpm test && pnpm licenseReport",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "keywords": [],

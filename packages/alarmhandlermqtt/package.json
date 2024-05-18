@@ -1,6 +1,6 @@
 {
   "name": "@woifes/alarmhandlermqtt",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "",
   "main": "dist/index",
   "types": "dist/index",
@@ -14,13 +14,14 @@
     "lint": "biome check --apply-unsafe .",
     "compile": "tsc -p tsconfig.build.json",
     "prepare": "pnpm compile",
+    "validate": "pnpm format && pnpm lint && pnpm compile && pnpm test && pnpm licenseReport",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "author": "woifes",
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@woifes/alarmhandler": "workspace:0.1.1",
-    "@woifes/mqtt-client": "workspace:0.3.1",
+    "@woifes/mqtt-client": "workspace:0.3.2",
     "@woifes/util": "workspace:0.1.1",
     "commander": "^8.3.0",
     "runtypes": "^6.5.1"

@@ -35,6 +35,8 @@ auth:
 
 items:
   - topic: A/+/C #the topic to subscribe to
+    # NOTE: You can have multiple variants in one level, when "+" is to much to subscribe to.
+    # Split the variants by a "+" e. g. A/aa+bb/C
     table: testtable #the table to insert into
     topicValues: _/info/_ #define value keys in the topic tree which get inserted too
     payloadValues:

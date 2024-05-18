@@ -1,6 +1,6 @@
 {
   "name": "@woifes/mqtt-influxdb-agent",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "",
   "files": [
     "dist"
@@ -14,6 +14,7 @@
     "format": "biome format --write .",
     "lint": "biome check --apply-unsafe .",
     "prepare": "pnpm compile",
+    "validate": "pnpm format && pnpm lint && pnpm compile && pnpm test && pnpm licenseReport",
     "docker:build": "cd ../../ && ver && docker build -t mqtt-influxdb-agent:%npm_package_version% -f projects/mqtt-influxdb-agent/Dockerfile . || docker build -t mqtt-influxdb-agent:$npm_package_version -f projects/mqtt-influxdb-agent/Dockerfile .",
     "docker:publish": "cd ../../ && ver && docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t woifes/mqtt-influxdb-agent:%npm_package_version% -f projects/mqtt-influxdb-agent/Dockerfile . || docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t woifes/mqtt-influxdb-agent:$npm_package_version -f projects/mqtt-influxdb-agent/Dockerfile .",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
@@ -22,7 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "@influxdata/influxdb-client": "^1.33.2",
-    "@woifes/mqtt-client": "workspace:0.3.1",
+    "@woifes/mqtt-client": "workspace:0.3.2",
     "debug": "^4.3.2",
     "runtypes": "^6.5.1",
     "yaml": "^2.2.1"

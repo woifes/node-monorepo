@@ -2,18 +2,17 @@
 // SPDX-License-Identifier: MIT
 
 import { get } from "@woifes/gjson";
-import { Client, Message } from "@woifes/mqtt-client";
+import { Client, Message, Subscription } from "@woifes/mqtt-client";
 import {
     MqttClient,
     MqttConnection,
-    MqttMsgHandler,
     MqttUnsubHook,
-    tMqttMsgHandlerConfig,
 } from "@woifes/mqtt-client/decorator";
 import { Debugger } from "debug";
 import { Pool } from "pg";
 import { ItemConfig, rtItemConfig } from "./ItemConfig";
 import { createQuery } from "./createQuery";
+import { generateTopicVariants } from "./generateTopicVariants";
 
 function getValueFromPayload(searchPath: string, payload: string): string {
     if (searchPath === "@this") {
@@ -24,14 +23,6 @@ function getValueFromPayload(searchPath: string, payload: string): string {
 
 @MqttClient()
 export class Item {
-    static mqttMsgHandlerConfig(this: Item): tMqttMsgHandlerConfig {
-        return {
-            topic: this.config.topic,
-            qos: this.config.qos as any,
-            throttleMS: this.config.messageThrottleMS,
-        };
-    }
-
     private config: ItemConfig;
     private serialValues: Map<string, string[]> = new Map();
     private singleValues: Map<string, string> = new Map();
@@ -40,6 +31,7 @@ export class Item {
     private serialValuesCount = 0;
     private valueTimes: Map<string, number> = new Map();
     private mqtt: Client;
+    private subscriptions: Subscription[] = [];
     private pool: Pool;
     private debug: Debugger;
 
@@ -76,6 +68,16 @@ export class Item {
                 }
                 this.singleConstants.set(valueName, value);
             }
+        }
+
+        //subscribe variants
+        const topicVariants = generateTopicVariants(this.config.topic);
+        for (const topic of topicVariants) {
+            this.subscriptions.push(
+                this.mqtt
+                    .mqttSubscribe(topic, this.config.qos as any)
+                    .subscribe(this.onMessage.bind(this)),
+            );
         }
     }
 
@@ -196,7 +198,6 @@ export class Item {
         return false;
     }
 
-    @MqttMsgHandler(Item.mqttMsgHandlerConfig)
     onMessage(msg: Message) {
         if (!this.checkValueTime(msg.topic.join("/"))) {
             this.debug(`Skipped message for ${msg.topic}`);
@@ -236,5 +237,9 @@ export class Item {
     }
 
     @MqttUnsubHook()
-    destroy() {}
+    destroy() {
+        for (const sub of this.subscriptions) {
+            sub.unsubscribe();
+        }
+    }
 }
