@@ -24,12 +24,16 @@ function getValueFromPayload(searchPath: string, payload: string): string {
 @MqttClient()
 export class Item {
     private config: ItemConfig;
+
     private serialValues: Map<string, string[]> = new Map();
     private singleValues: Map<string, string> = new Map();
     private serialConstants: Map<string, string[]> = new Map();
     private singleConstants: Map<string, string> = new Map();
     private serialValuesCount = 0;
+
     private valueTimes: Map<string, number> = new Map();
+    private oldValues: Map<string, string> = new Map();
+
     private mqtt: Client;
     private subscriptions: Subscription[] = [];
     private pool: Pool;
@@ -105,47 +109,61 @@ export class Item {
     }
 
     /**
-     * Fills the values map with the values defined from the mqtt topic
-     * @param valuesMap the values map to fill
-     * @param topic the topic to evaluate
+     * Creates a map of the topic values for the given topic
      */
-    private fillTopicValues(valuesMap: Map<string, string>, topic: string[]) {
+    private getTopicValues(topic: string[]): Map<string, string> {
+        const topicValuesMap = new Map<string, string>();
         if (this.config.topicValues !== undefined) {
             const keys = this.config.topicValues.split("/");
             for (let i = 0; i <= topic.length && i <= keys.length; i++) {
                 const value = topic[i];
                 const key = keys[i];
                 if (value !== undefined && key.length > 0 && key !== "_") {
-                    valuesMap.set(key, value);
+                    topicValuesMap.set(key, value);
                 }
             }
         }
+        return topicValuesMap;
     }
 
     /**
-     * Fills the values map with the values delivered from the payload
-     * @param valuesMap
+     * Creates a map of the single payload values for the given payload
      * @param payload
+     * @returns
      */
-    private fillSinglePayloadValues(
-        valuesMap: Map<string, string>,
-        payload: string,
-    ) {
-        try {
-            if (this.singleValues.size > 0) {
-                for (const [
-                    valueName,
-                    searchPath,
-                ] of this.singleValues.entries()) {
-                    const value = getValueFromPayload(searchPath, payload);
-                    //TODO proof type of value
-                    valuesMap.set(valueName, value);
-                }
+    private getSinglePayloadValuesMap(payload: string): Map<string, string> {
+        const valuesMap = new Map<string, string>();
+
+        if (this.singleValues.size > 0) {
+            for (const [valueName, searchPath] of this.singleValues.entries()) {
+                const value = getValueFromPayload(searchPath, payload);
+                //TODO proof type of value
+                valuesMap.set(valueName, value);
             }
-            return valuesMap;
-        } catch (e) {
-            this.debug(`Error in fillSinglePayloadValues(): ${e}`);
         }
+        return valuesMap;
+    }
+
+    /**
+     * Creates a map of the serial values for the given payload
+     * @param payload
+     * @returns
+     */
+    private getSerialValuesMap(payload: string): Map<string, string[]> {
+        const serialValuesMap = new Map<string, string[]>();
+        for (let i = 0; i < this.serialValuesCount; i++) {
+            for (const [
+                valueName,
+                searchPaths,
+            ] of this.serialValues.entries()) {
+                const values: string[] = [];
+                for (const searchPath of searchPaths) {
+                    values.push(getValueFromPayload(searchPath, payload));
+                }
+                serialValuesMap.set(valueName, values);
+            }
+        }
+        return serialValuesMap;
     }
 
     /**
@@ -156,9 +174,9 @@ export class Item {
      */
     private *getSerialInserts(
         valuesMap: Map<string, string>,
-        payload: string,
+        serialValuesMap: Map<string, string[]>,
     ): Generator<Map<string, string>> {
-        if (this.serialValuesCount === 0) {
+        if (serialValuesMap.size === 0) {
             yield valuesMap;
             return;
         }
@@ -166,23 +184,53 @@ export class Item {
         //It is assured that all involved arrays have the same size
         for (let i = 0; i < this.serialValuesCount; i++) {
             const valuesMapCopy = new Map(valuesMap);
-            for (const [
-                valueName,
-                searchPaths,
-            ] of this.serialValues.entries()) {
-                valuesMapCopy.set(
-                    valueName,
-                    getValueFromPayload(searchPaths[i], payload),
-                );
+            for (const [valueName, values] of serialValuesMap.entries()) {
+                valuesMapCopy.set(valueName, values[i]);
             }
-            for (const [valueName, value] of this.serialConstants.entries()) {
-                valuesMapCopy.set(valueName, value[i]);
+            for (const [valueName, values] of this.serialConstants.entries()) {
+                valuesMapCopy.set(valueName, values[i]);
             }
 
             yield valuesMapCopy;
         }
     }
 
+    /**
+     * Checks the given values for a change
+     * @param topic
+     * @param newSingleValues
+     * @param newSerialValues
+     * @returns
+     */
+    private checkValueChange(
+        topic: string,
+        newSingleValues: Map<string, string>,
+        newSerialValues: Map<string, string[]>,
+    ): boolean {
+        if (this.config.writeOnlyOnChange !== true) {
+            return true;
+        }
+        const newValueString = JSON.stringify(
+            Array.from(
+                new Map<string, any>([
+                    ...newSingleValues,
+                    ...newSerialValues,
+                ]).entries(),
+            ),
+        );
+        const oldValueString = this.oldValues.get(topic);
+        if (oldValueString !== newValueString) {
+            this.oldValues.set(topic, newValueString);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks the value age
+     * @param topic
+     * @returns
+     */
     private checkValueTime(topic: string) {
         if (this.config.minValueTimeDiffMS === undefined) {
             return true;
@@ -200,25 +248,42 @@ export class Item {
 
     onMessage(msg: Message) {
         if (!this.checkValueTime(msg.topic.join("/"))) {
-            this.debug(`Skipped message for ${msg.topic}`);
+            this.debug(
+                `Skipped message for ${msg.topic}, because the value is too new`,
+            );
             return;
         }
-        this.debug("Not skipped");
 
-        //get timestamp values
+        const singlePayloadValuesMap = this.getSinglePayloadValuesMap(msg.body);
+        const serialValuesMap = this.getSerialValuesMap(msg.body);
+        if (
+            !this.checkValueChange(
+                msg.topic.join("/"),
+                singlePayloadValuesMap,
+                serialValuesMap,
+            )
+        ) {
+            this.debug(
+                `Skipped message for ${msg.topic}, because no change in the values`,
+            );
+            return;
+        }
+
         const timeStamps = this.getTimeStampMap();
 
-        //get single values
-        //constants
-        const keyValuePairs = this.getConstValuesMap();
-        //topic values
-        this.fillTopicValues(keyValuePairs, msg.topic);
-        //single payload values
-        this.fillSinglePayloadValues(keyValuePairs, msg.body);
+        const constValuesMap = this.getConstValuesMap();
+
+        const topicValuesMap = this.getTopicValues(msg.topic); //this.fillTopicValues(keyValuePairs, msg.topic);
+
+        const keyValuePairs = new Map([
+            ...constValuesMap,
+            ...topicValuesMap,
+            ...singlePayloadValuesMap,
+        ]);
 
         for (const keyValueCombination of this.getSerialInserts(
             keyValuePairs,
-            msg.body,
+            serialValuesMap,
         )) {
             const [query, values] = createQuery(
                 this.config.table,

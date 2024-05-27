@@ -46,8 +46,12 @@ export const rtItemConfig = rt
         qos: rt.Number.withConstraint((n) => n >= 0 && n <= 2).optional(),
         messageThrottleMS: rt.Number.withConstraint((n) => n >= 0).optional(),
         minValueTimeDiffMS: rt.Number.withConstraint((n) => n >= 0).optional(),
+        writeOnlyOnChange: rt.Boolean.optional(),
     })
     .withConstraint((c) => {
+        if (c.payloadValues === undefined && c.writeOnlyOnChange === true) {
+            return "Write only on change is only valid, if a payload value is set";
+        }
         let values: string[] = [];
         if (c.topicValues !== undefined) {
             const topicValues = c.topicValues.split("/").filter((item) => {

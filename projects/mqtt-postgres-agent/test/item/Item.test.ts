@@ -201,6 +201,64 @@ describe("Insert tests", () => {
 
         item.destroy();
     });
+
+    it("should only insert when a value has changed when configured", async () => {
+        config = {
+            topic: "A/+/C",
+            table: "myTable",
+            topicValues: "_/myTopicVal/_",
+            payloadValues: {
+                metaValue: "meta",
+                power: ["powers.0", "powers.2"],
+                temperature: ["temperatures.1", "temperatures.#"],
+            },
+            constValues: {
+                sensor: ["foo", "bar"],
+            },
+            timestampValues: ["time"],
+            writeOnlyOnChange: true,
+        };
+        const item = new Item(config, MQTT, POOL, DEBUGGER);
+        simulateMsg(
+            "A/B/C",
+            JSON.stringify({
+                meta: "mySensor",
+                powers: [11, 22, 33],
+                temperatures: [7, 8, 9],
+            }),
+        );
+        await wait(10);
+        simulateMsg(
+            "A/B/C",
+            JSON.stringify({
+                meta: "mySensor",
+                powers: [11, 22, 33],
+                temperatures: [7, 8, 9],
+            }),
+        ); //same payload should not insert
+        await wait(10);
+        expect((POOL as any).query as jest.Mock).toBeCalledTimes(2);
+        simulateMsg(
+            "A/B/C",
+            JSON.stringify({
+                meta: "mySensor01",
+                powers: [11, 22, 33],
+                temperatures: [7, 8, 9],
+            }),
+        );
+        await wait(10);
+        simulateMsg(
+            "A/B/C",
+            JSON.stringify({
+                meta: "mySensor01",
+                powers: [11, 22, 99],
+                temperatures: [7, 8, 9],
+            }),
+        );
+        await wait(10);
+        expect((POOL as any).query as jest.Mock).toBeCalledTimes(6);
+        item.destroy();
+    });
 });
 
 describe("Timing tests", () => {
@@ -233,6 +291,27 @@ describe("Timing tests", () => {
         simulateMsg("A/B/C", "678");
         await wait(51);
         simulateMsg("A/B/C", "9AB");
+        expect((POOL as any).query as jest.Mock).toBeCalledTimes(2);
+        item.destroy();
+    });
+
+    it("should insert with min time diff and value change", async () => {
+        config = {
+            topic: "A/+/C",
+            table: "myTable",
+            payloadValues: {
+                val01: "@this",
+            },
+            minValueTimeDiffMS: 100,
+            writeOnlyOnChange: true,
+        };
+        const item = new Item(config, MQTT, POOL, DEBUGGER);
+        simulateMsg("A/B/C", "123");
+        await wait(50);
+        simulateMsg("A/B/C", "345"); // value change but not enough time
+        await wait(60);
+        simulateMsg("A/B/C", "345"); // should be inserted
+        await wait(1);
         expect((POOL as any).query as jest.Mock).toBeCalledTimes(2);
         item.destroy();
     });
