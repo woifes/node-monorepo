@@ -19,7 +19,7 @@ const DEBUG = (process.env.YASDI_REST_DEBUG ?? "").toUpperCase();
 if (ID === undefined) {
     throw new Error("YASDI_REST_ID not defined");
 }
-if (!isFinite(DEVICE_COUNT)) {
+if (!Number.isFinite(DEVICE_COUNT)) {
     throw new Error("YASDI_REST_DEVICE_COUNT not defined");
 }
 

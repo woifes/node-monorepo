@@ -8,7 +8,7 @@ const inverter01 = {
     name: "inv01",
     type: "MyInverterType",
 
-    getData: async function (): Promise<inverterValues> {
+    getData: async (): Promise<inverterValues> => {
         const valueMap: inverterValues = new Map();
         valueMap.set("val01", {
             value: 1,
@@ -37,7 +37,7 @@ const inverter02 = {
     name: "inv02",
     type: "MyInverterType",
 
-    getData: async function (): Promise<inverterValues> {
+    getData: async (): Promise<inverterValues> => {
         const valueMap: inverterValues = new Map();
         return Promise.reject("Mock Error");
     },
@@ -49,7 +49,8 @@ export class NodeYasdi {
     getInverterBySerial(serial: number) {
         if (serial === 123) {
             return inverter01;
-        } else if (serial === 456) {
+        }
+        if (serial === 456) {
             return inverter02;
         }
         return undefined;

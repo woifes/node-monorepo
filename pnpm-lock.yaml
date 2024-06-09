@@ -314,42 +314,11 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6
 
-  projects/yasdi-mqtt:
-    dependencies:
-      '@woifes/mqtt-client':
-        specifier: workspace:0.3.2
-        version: link:../../packages/mqtt-client
-      '@woifes/node-yasdi':
-        specifier: 1.0.1
-        version: 1.0.1
-      '@woifes/util':
-        specifier: workspace:0.1.1
-        version: link:../../packages/util
-      debug:
-        specifier: ^4.3.2
-        version: 4.3.2
-      runtypes:
-        specifier: ^6.5.1
-        version: 6.5.1
-      suncalc:
-        specifier: ^1.9.0
-        version: 1.9.0
-      yaml:
-        specifier: ^2.2.1
-        version: 2.2.1
-    devDependencies:
-      '@types/debug':
-        specifier: ^4.1.7
-        version: 4.1.7
-      '@types/suncalc':
-        specifier: ^1.9.0
-        version: 1.9.0
-
   projects/yasdi-rest:
     dependencies:
       '@woifes/node-yasdi':
-        specifier: 1.0.1
-        version: 1.0.1
+        specifier: 1.0.2
+        version: 1.0.2
       debug:
         specifier: ^4.3.2
         version: 4.3.2
@@ -1390,8 +1359,8 @@ packages:
       '@types/yargs-parser': 21.0.0
     dev: true
 
-  /@woifes/node-yasdi@1.0.1:
-    resolution: {integrity: sha512-/opxvZe5pfjqB4JXTSERP6BY2DIz/kwIYlO6vrQxRP3zuzk+/5vRdsgaoRVShG/ZvWUH+ZrnoWILkhITCqSObw==}
+  /@woifes/node-yasdi@1.0.2:
+    resolution: {integrity: sha512-K1eP8VyjpKKasU/LipbdYRB7WEv+pPWZyFWexXIWwSLS1YGCywAZ2RtUcbR7kIcRYR7F3IVjcuWfQfkG1lHdnw==}
     hasBin: true
     requiresBuild: true
     dependencies:
