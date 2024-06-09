@@ -16,7 +16,7 @@
     "prepare": "pnpm compile",
     "validate": "pnpm format && pnpm lint && pnpm compile && pnpm test && pnpm licenseReport",
     "docker:build": "cd ../../ && ver && docker build -t yasdi-rest:%npm_package_version% -f projects/yasdi-rest/Dockerfile . || docker build -t yasdi-rest:$npm_package_version -f projects/yasdi-rest/Dockerfile .",
-    "docker:publish": "cd ../../ && ver && docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t woifes/yasdi-rest:%npm_package_version% -f projects/s7mqtt/Dockerfile . || docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t woifes/yasdi-rest:$npm_package_version -f projects/s7mqtt/Dockerfile .",
+    "docker:publish": "cd ../../ && ver && docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t woifes/yasdi-rest:%npm_package_version% -f projects/yasdi-rest/Dockerfile . || docker buildx build --push --platform linux/arm/v7,linux/arm64/v8,linux/amd64 -t woifes/yasdi-rest:$npm_package_version -f projects/yasdi-rest/Dockerfile .",
     "licenseReport": "node ../../node_modules/@woifes/license-report/dist/index.js"
   },
   "author": "woifes",
