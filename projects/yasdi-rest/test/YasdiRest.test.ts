@@ -88,3 +88,57 @@ describe("inverter meta data tests", () => {
         await REQUEST.get("/9999/data").expect(404);
     });
 });
+
+describe("values tests", () => {
+    beforeEach(() => {
+        NODE_YASDI.serials = [123, 789];
+        NODE_YASDI.deviceSearchFinished = true;
+    });
+
+    it("should send all values", async () => {
+        const response = await REQUEST.get("/values").expect(200);
+        console.log(response.body);
+        expect(response.body).toEqual({
+            "123": {
+                val01: {
+                    statusText: "statusText01",
+                    timeStamp: "timestamp01",
+                    unit: "unit01",
+                    value: 1,
+                },
+                val02: {
+                    statusText: "statusText02",
+                    timeStamp: "timestamp02",
+                    unit: "unit02",
+                    value: 2,
+                },
+                val03: {
+                    statusText: "statusText03",
+                    timeStamp: "timestamp03",
+                    unit: "unit03",
+                    value: 3,
+                },
+            },
+            "789": {
+                val01: {
+                    statusText: "statusText01",
+                    timeStamp: "timestamp01",
+                    unit: "unit01",
+                    value: 11,
+                },
+                val02: {
+                    statusText: "statusText02",
+                    timeStamp: "timestamp02",
+                    unit: "unit02",
+                    value: 22,
+                },
+                val03: {
+                    statusText: "statusText03",
+                    timeStamp: "timestamp03",
+                    unit: "unit03",
+                    value: 33,
+                },
+            },
+        });
+    });
+});

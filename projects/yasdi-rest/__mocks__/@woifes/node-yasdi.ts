@@ -43,6 +43,35 @@ const inverter02 = {
     },
 };
 
+const inverter03 = {
+    serial: 789,
+    name: "inv03",
+    type: "MyInverterType",
+
+    getData: async (): Promise<inverterValues> => {
+        const valueMap: inverterValues = new Map();
+        valueMap.set("val01", {
+            value: 11,
+            unit: "unit01",
+            statusText: "statusText01",
+            timeStamp: "timestamp01",
+        });
+        valueMap.set("val02", {
+            value: 22,
+            unit: "unit02",
+            statusText: "statusText02",
+            timeStamp: "timestamp02",
+        });
+        valueMap.set("val03", {
+            value: 33,
+            unit: "unit03",
+            statusText: "statusText03",
+            timeStamp: "timestamp03",
+        });
+        return Promise.resolve(valueMap);
+    },
+};
+
 export class NodeYasdi {
     deviceSearchFinished = false;
     serials = [];
@@ -52,6 +81,9 @@ export class NodeYasdi {
         }
         if (serial === 456) {
             return inverter02;
+        }
+        if (serial === 789) {
+            return inverter03;
         }
         return undefined;
     }

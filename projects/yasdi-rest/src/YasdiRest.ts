@@ -53,6 +53,7 @@ export class YasdiRest {
             "/device/:serial/data",
             this.getDeviceMetadata.bind(this),
         );
+        this.express.get("/values", this.getAllValues.bind(this));
     }
 
     private getYasdiRestStatus(req: Request, res: Response) {
@@ -123,5 +124,21 @@ export class YasdiRest {
             type: inverter.type,
         };
         res.status(200).json(metaData);
+    }
+
+    private async getAllValues(req: Request, res: Response) {
+        const serials = this.nodeYasdi.serials;
+        const resultData: Map<number, any> = new Map();
+        for (const serial of serials) {
+            try {
+                const inverter = this.nodeYasdi.getInverterBySerial(serial)!;
+                const values = await inverter.getData(0);
+                values.entries();
+                resultData.set(serial, Object.fromEntries(values.entries()));
+            } catch {
+                break;
+            }
+        }
+        res.status(200).json(Object.fromEntries(resultData.entries()));
     }
 }
