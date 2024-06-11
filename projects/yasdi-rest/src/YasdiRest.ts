@@ -60,7 +60,7 @@ export class YasdiRest {
         const statusInfo = {
             id: this.id,
             deviceCount: this.deviceCount,
-            deviceFound: this.nodeYasdi.serials.length,
+            deviceFound: this.nodeYasdi.deviceCount,
             deviceSerials: this.nodeYasdi.serials,
             serialDevice: this.serialDevice,
             startupTime: this.startupTime,
