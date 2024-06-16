@@ -317,8 +317,8 @@ importers:
   projects/yasdi-rest:
     dependencies:
       '@woifes/node-yasdi':
-        specifier: 1.0.2
-        version: 1.0.2
+        specifier: 1.1.0
+        version: 1.1.0
       debug:
         specifier: ^4.3.2
         version: 4.3.2
@@ -1359,8 +1359,8 @@ packages:
       '@types/yargs-parser': 21.0.0
     dev: true
 
-  /@woifes/node-yasdi@1.0.2:
-    resolution: {integrity: sha512-K1eP8VyjpKKasU/LipbdYRB7WEv+pPWZyFWexXIWwSLS1YGCywAZ2RtUcbR7kIcRYR7F3IVjcuWfQfkG1lHdnw==}
+  /@woifes/node-yasdi@1.1.0:
+    resolution: {integrity: sha512-ftNVHB9I2iNnOA9ZXW+sktyUrmZlvKXCLB11f9ZGEqKlWwwaaf2ZetT5FEVqSUiKGVUJ6FgzzSvKG4KRJBViWw==}
     hasBin: true
     requiresBuild: true
     dependencies:

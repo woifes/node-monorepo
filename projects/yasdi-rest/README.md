@@ -24,13 +24,17 @@ Check [index.ts](./index.ts). There are a view ENV variables for configuration:
 - `YASDI_REST_INI_TMP_DIR` The directory where the ini file for node-yasdi is
   created
 - `YASDI_REST_DEBUG` Activates the debug logging of the yasdi library Paths:
-  `/` - Returns a simple status info object `/serials` - Returns an array of
-  serial number from the found devices (only when device search is finished)
-  `/device/:serial/values` - Returns the spot values of the device with the
-  given serial `/device/:serial/data` - Returns metadata for the given device
-  serial `/values` - Returns a dictionary where the keys are the device serials
-  and the values are a set of inverter values (use this when you have more than
-  4 devices) Docker compose example:
+  - `/` - Returns a simple status info object
+  - `/serials` - Returns an array of serial number from the found devices (only
+    when device search is finished)
+  - `/device/:serial/values` - Returns the spot values of the device with the
+    given serial
+  - `/device/:serial/data` - Returns metadata for the given device serial
+  - `/values` - Returns a dictionary where the keys are the device serials and
+    the values are a set of inverter values (use this when you have more than 4
+    devices) Docker compose example:
+  - `/reset` - Triggers a reset of the yasdi library (device search will be
+    repeated)
 
 ```yaml
 version: '3.8'

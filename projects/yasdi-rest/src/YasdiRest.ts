@@ -54,6 +54,7 @@ export class YasdiRest {
             this.getDeviceMetadata.bind(this),
         );
         this.express.get("/values", this.getAllValues.bind(this));
+        this.express.get("/reset", this.resetYasdi.bind(this));
     }
 
     private getYasdiRestStatus(req: Request, res: Response) {
@@ -140,5 +141,14 @@ export class YasdiRest {
             }
         }
         res.status(200).json(Object.fromEntries(resultData.entries()));
+    }
+
+    private async resetYasdi(req: Request, res: Response) {
+        try {
+            await this.nodeYasdi.reset();
+            res.status(200).end();
+        } catch {
+            res.status(500).end();
+        }
     }
 }
