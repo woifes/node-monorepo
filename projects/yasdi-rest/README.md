@@ -33,8 +33,8 @@ Check [index.ts](./index.ts). There are a view ENV variables for configuration:
   - `/values` - Returns a dictionary where the keys are the device serials and
     the values are a set of inverter values (use this when you have more than 4
     devices) Docker compose example:
-  - `/reset` - Triggers a reset of the yasdi library (device search will be
-    repeated)
+  - `/stopProcess` - Ends the process gracefully but with an error exit code (In
+    order to restart via docker)
 
 ```yaml
 version: '3.8'

@@ -38,6 +38,8 @@ export class YasdiRest {
         this.express = express();
         this.express.listen(port);
         this.express.get("/", this.getYasdiRestStatus.bind(this));
+        this.express.get("/stopProcess", this.stopProcess.bind(this));
+
         this.express.use(this.yasdiSearchNotFinishedMiddleware.bind(this));
         this.express.get("/serials", this.getDeviceSerials.bind(this));
 
@@ -54,7 +56,6 @@ export class YasdiRest {
             this.getDeviceMetadata.bind(this),
         );
         this.express.get("/values", this.getAllValues.bind(this));
-        this.express.get("/reset", this.resetYasdi.bind(this));
     }
 
     private getYasdiRestStatus(req: Request, res: Response) {
@@ -143,13 +144,12 @@ export class YasdiRest {
         res.status(200).json(Object.fromEntries(resultData.entries()));
     }
 
-    private async resetYasdi(req: Request, res: Response) {
-        try {
-            await this.nodeYasdi.shutdown();
-            await this.nodeYasdi.reset();
-            res.status(200).end();
-        } catch {
-            res.status(500).end();
-        }
+    private async stopProcess(req: Request, res: Response) {
+        const END_DELAY = 1000;
+        this.nodeYasdi.shutdown();
+        setTimeout(() => {
+            process.exit(1);
+        }, END_DELAY);
+        res.status(200).end(`Process ends in ${END_DELAY}ms`);
     }
 }
