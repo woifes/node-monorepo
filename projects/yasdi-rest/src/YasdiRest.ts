@@ -145,6 +145,7 @@ export class YasdiRest {
 
     private async resetYasdi(req: Request, res: Response) {
         try {
+            await this.nodeYasdi.shutdown();
             await this.nodeYasdi.reset();
             res.status(200).end();
         } catch {
